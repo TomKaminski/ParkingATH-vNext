@@ -1,0 +1,17 @@
+{
+  "version": "1.0.0-*",
+  "description": "ParkingATHWeb.Contracts Class Library",
+  "authors": [ "Tomek" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+  "frameworks": {
+    "dnx451": {
+
+    }
+    
+  },
+  "dependencies": {
+    "ParkingATHWeb.Shared": "1.0.0-*"
+  }
+}

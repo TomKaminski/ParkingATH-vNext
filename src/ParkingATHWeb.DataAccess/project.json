@@ -1,0 +1,20 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "ParkinATHWeb.DataAccess Class Library",
+  "authors": [ "Tomek" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "frameworks": {
+    "dnx451": {
+    }
+  },
+  "dependencies": {
+    "EntityFramework.Core": "7.0.0-rc1-final",
+    "EntityFramework.InMemory": "7.0.0-rc1-final",
+    "EntityFramework.MicrosoftSqlServer": "7.0.0-rc1-final",
+    "ParkingATHWeb.Model": "1.0.0-*",
+    "ParkingATHWeb.Shared": "1.0.0-*"
+  }
+}

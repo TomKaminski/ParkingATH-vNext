@@ -1,0 +1,21 @@
+{
+  "version": "1.0.0-*",
+  "description": "ParkingATHWeb.Model Class Library",
+  "authors": [ "Tomek" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+  "frameworks": {
+    "dnx451": {
+      "frameworkAssemblies": {
+        "System.Runtime": "4.0.10.0"
+      }      
+    }
+  },
+  "dependencies": {
+    "EntityFramework.Core": "7.0.0-rc1-final",
+    "EntityFramework.InMemory": "7.0.0-rc1-final",
+    "EntityFramework.MicrosoftSqlServer": "7.0.0-rc1-final",
+    "ParkingATHWeb.Shared": "1.0.0-*"
+  }
+}
