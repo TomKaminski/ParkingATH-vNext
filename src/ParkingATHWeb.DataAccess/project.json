@@ -14,7 +14,6 @@
     "EntityFramework.Core": "7.0.0-rc1-final",
     "EntityFramework.InMemory": "7.0.0-rc1-final",
     "EntityFramework.MicrosoftSqlServer": "7.0.0-rc1-final",
-    "ParkingATHWeb.Model": "1.0.0-*",
-    "ParkingATHWeb.Shared": "1.0.0-*"
+    "ParkingATHWeb.Model": "1.0.0-*"
   }
 }

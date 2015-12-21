@@ -1,15 +1,16 @@
 ﻿{
   "version": "1.0.0-*",
-  "description": "ParkingATHWeb.Shared Class Library",
+  "description": "ParkingATHWeb.Business Class Library",
   "authors": [ "Tomek" ],
   "tags": [ "" ],
   "projectUrl": "",
   "licenseUrl": "",
+
   "frameworks": {
-    "dnx451": {
-    }
+    "dnx451": { }
   },
   "dependencies": {
-    "AutoMapper": "4.1.1"
+    "ParkingATHWeb.DataAccess": "1.0.0-*",
+    "ParkingATHWeb.Contracts": "1.0.0-*"
   }
 }
