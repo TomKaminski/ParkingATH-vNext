@@ -9,7 +9,7 @@ namespace ParkingATHWeb.Shared.Helpers
         private const int HashByteSize = 24;
         private const int Pbkdf2Iterations = 1000;
 
-        public static string CreateHash(string password)
+        public string CreateHash(string password)
         {
             // Generate a random salt
             var csprng = new RNGCryptoServiceProvider();
@@ -21,7 +21,7 @@ namespace ParkingATHWeb.Shared.Helpers
             return Convert.ToBase64String(salt) + ":" + Convert.ToBase64String(hash);
         }
 
-        public static bool ValidatePassword(string password, string correctHash, string correctSalt)
+        public bool ValidatePassword(string password, string correctHash, string correctSalt)
         {
             var salt = Convert.FromBase64String(correctSalt);
             var hash = Convert.FromBase64String(correctHash);
