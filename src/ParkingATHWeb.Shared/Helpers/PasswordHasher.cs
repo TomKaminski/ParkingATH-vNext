@@ -11,8 +11,8 @@ namespace ParkingATHWeb.Shared.Helpers
 
     public class PasswordHasher : IPasswordHasher
     {
-        private const int SaltByteSize = 24;
-        private const int HashByteSize = 24;
+        private const int SaltByteSize = 48;
+        private const int HashByteSize = 48;
         private const int Pbkdf2Iterations = 1000;
 
         public string CreateHash(string password)
