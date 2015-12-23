@@ -5,7 +5,7 @@ using ParkingATHWeb.Model.Concrete;
 
 namespace ParkingATHWeb.DataAccess.Repositories
 {
-    public class PriceTresholdRepository:GenericRepository<PriceTreshold>,IPriceTresholdRepository
+    public class PriceTresholdRepository:GenericRepository<PriceTreshold, int>,IPriceTresholdRepository
     {
         private readonly DbSet<PriceTreshold> _dbSet;
 

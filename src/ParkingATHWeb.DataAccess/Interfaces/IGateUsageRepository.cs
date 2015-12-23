@@ -1,9 +1,10 @@
-﻿using ParkingATHWeb.DataAccess.Common;
+﻿using System;
+using ParkingATHWeb.DataAccess.Common;
 using ParkingATHWeb.Model.Concrete;
 
 namespace ParkingATHWeb.DataAccess.Interfaces
 {
-    public interface IGateUsageRepository:IGenericRepository<GateUsage>, IDependencyRepository
+    public interface IGateUsageRepository:IGenericRepository<GateUsage,Guid>, IDependencyRepository
     {
     }
 }

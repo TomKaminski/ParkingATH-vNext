@@ -2,7 +2,7 @@
 
 namespace ParkingATHWeb.Model.Common
 {
-    public abstract class Entity<T> : BaseEntity, IEntity<T>
+    public abstract class Entity<T> : IEntity<T>
         where T: struct
     {
         [Key]

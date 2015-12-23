@@ -9,7 +9,6 @@ namespace ParkingATHWeb.Model.Concrete
         {
             Orders = new HashSet<Order>();
         }
-
         public int MinCharges { get; set; }
         public decimal PricePerCharge { get; set; }
 

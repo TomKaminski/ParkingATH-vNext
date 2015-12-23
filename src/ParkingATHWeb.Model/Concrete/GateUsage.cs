@@ -7,7 +7,7 @@ namespace ParkingATHWeb.Model.Concrete
     {
         public DateTime DateOfUse { get; set; }
 
-        public int UserProfileId { get; set; }
+        public int UserId { get; set; }
 
         public virtual User User { get; set; }
     }

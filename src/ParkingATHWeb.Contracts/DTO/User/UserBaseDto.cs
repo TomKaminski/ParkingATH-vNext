@@ -1,11 +1,10 @@
 ﻿using System;
 using ParkingATHWeb.Contracts.Common;
 
-namespace ParkingATHWeb.Contracts.DTO.UserProfile
+namespace ParkingATHWeb.Contracts.DTO.User
 {
-    public class UserDto : BaseDto
+    public class UserBaseDto : BaseDto<int>
     {
-        public int Id { get; set; }
         public string Email { get; set; }
         public int Charges { get; set; }
         public string Name { get; set; }

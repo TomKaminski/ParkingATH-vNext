@@ -13,7 +13,7 @@ namespace ParkingATHWeb.Model.Concrete
         public DateTime Date { get; set; }
         public OrderStatus OrderState { get; set; }
 
-        public int UserProfileId { get; set; }
+        public int UserId { get; set; }
         public int PriceTresholdId { get; set; }
 
         public virtual PriceTreshold PriceTreshold {get; set; }

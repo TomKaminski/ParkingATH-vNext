@@ -9,14 +9,14 @@ using ParkingATHWeb.Shared.Enums;
 
 namespace ParkingATHWeb.Contracts.Services
 {
-    public interface IOrderService : IEntityService<OrderBaseDto>, IDependencyService
+    public interface IOrderService : IEntityService<OrderBaseDto,long>, IDependencyService
     {
-        Task<ServiceResult<string>> GenerateExternalOrderIdAsync();
-        Task<ServiceResult<OrderBaseDto>> GetAsync(string externalorderId);
+        Task<ServiceResult<Guid>> GenerateExternalOrderIdAsync();
+        Task<ServiceResult<OrderBaseDto>> GetAsync(Guid externalorderId);
 
         ServiceResult<IEnumerable<OrderAdminDto>> GetAllAdmin();
         ServiceResult<IEnumerable<OrderAdminDto>> GetAllAdmin(Expression<Func<OrderAdminDto, bool>> predicate);
 
-        Task<ServiceResult<OrderStatus>> UpdateOrderState(string status, string extOrderId);
+        Task<ServiceResult<OrderStatus>> UpdateOrderState(string status, Guid extOrderId);
     }
 }

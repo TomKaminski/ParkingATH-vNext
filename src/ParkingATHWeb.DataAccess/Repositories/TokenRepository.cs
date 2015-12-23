@@ -5,14 +5,14 @@ using ParkingATHWeb.Model.Concrete;
 
 namespace ParkingATHWeb.DataAccess.Repositories
 {
-    public class UserMembershipRepository : GenericRepository<User>, IUserRepository
+    public class TokenRepository : GenericRepository<Token, long>, ITokenRepository
     {
-        private readonly DbSet<User> _dbSet;
+        private readonly DbSet<Token> _dbset;
 
-        public UserMembershipRepository(IDatabaseFactory factory)
+        public TokenRepository(IDatabaseFactory factory)
             : base(factory)
         {
-            _dbSet = factory.Get().Set<User>();
+            _dbset = factory.Get().Set<Token>();
         }
     }
 }

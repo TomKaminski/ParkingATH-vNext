@@ -3,7 +3,13 @@ using System.Security.Cryptography;
 
 namespace ParkingATHWeb.Shared.Helpers
 {
-    public class PasswordHasher
+    public interface IPasswordHasher
+    {
+        string CreateHash(string password);
+        bool ValidatePassword(string password, string correctHash, string correctSalt);
+    }
+
+    public class PasswordHasher : IPasswordHasher
     {
         private const int SaltByteSize = 24;
         private const int HashByteSize = 24;

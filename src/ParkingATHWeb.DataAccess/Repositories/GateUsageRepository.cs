@@ -1,11 +1,12 @@
-﻿using Microsoft.Data.Entity;
+﻿using System;
+using Microsoft.Data.Entity;
 using ParkingATHWeb.DataAccess.Common;
 using ParkingATHWeb.DataAccess.Interfaces;
 using ParkingATHWeb.Model.Concrete;
 
 namespace ParkingATHWeb.DataAccess.Repositories
 {
-    public class GateUsageRepository : GenericRepository<GateUsage>, IGateUsageRepository
+    public class GateUsageRepository : GenericRepository<GateUsage, Guid>, IGateUsageRepository
     {
         private readonly DbSet<GateUsage> _dbset;
 

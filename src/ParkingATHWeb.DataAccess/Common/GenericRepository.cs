@@ -9,7 +9,9 @@ using ParkingATHWeb.Model.Common;
 
 namespace ParkingATHWeb.DataAccess.Common
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
+    public class GenericRepository<T,TType> : IGenericRepository<T, TType> 
+        where T : Entity<TType>
+        where TType : struct 
     {
         private readonly DbContext _entities;
         private readonly DbSet<T> _dbset;
@@ -44,7 +46,7 @@ namespace ParkingATHWeb.DataAccess.Common
 
 
         //Sync
-        public T Find(object id)
+        public T Find(TType id)
         {
             return _dbset.Find(id);
         }
@@ -80,7 +82,7 @@ namespace ParkingATHWeb.DataAccess.Common
             return await _dbset.Where(expression).ToListAsync();
         }
 
-        public async Task<T> FindAsync(object id)
+        public async Task<T> FindAsync(TType id)
         {
             return await _dbset.FindAsync(id);
         }

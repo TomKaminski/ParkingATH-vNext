@@ -7,7 +7,7 @@ using ParkingATHWeb.Contracts.Services.Base;
 
 namespace ParkingATHWeb.Contracts.Services
 {
-    public interface IPriceTresholdService:IEntityService<PriceTresholdBaseDto>, IDependencyService
+    public interface IPriceTresholdService:IEntityService<PriceTresholdBaseDto,int>, IDependencyService
     {
         ServiceResult<IEnumerable<PriceTresholdAdminDto>> GetAllAdmin();
         ServiceResult<IEnumerable<PriceTresholdAdminDto>> GetAllAdmin(Expression<Func<PriceTresholdAdminDto, bool>> predicate);

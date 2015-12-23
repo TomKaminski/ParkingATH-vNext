@@ -1,7 +1,10 @@
-﻿namespace ParkingATHWeb.Contracts.DTO.PriceTreshold
+﻿using ParkingATHWeb.Contracts.Common;
+
+namespace ParkingATHWeb.Contracts.DTO.PriceTreshold
 {
-    public class PriceTresholdAdminDto: PriceTresholdBaseDto
+    public class PriceTresholdBaseDto:BaseDto<int>
     {
-        public int NumOfOrders { get; set; }
+        public int MinCharges { get; set; }
+        public decimal PricePerCharge { get; set; }
     }
 }

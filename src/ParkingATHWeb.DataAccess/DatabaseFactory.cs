@@ -8,10 +8,6 @@ namespace ParkingATHWeb.DataAccess
         private ParkingAthContext _context;
         private bool _disposed;
 
-        public DatabaseFactory(ParkingAthContext context)
-        {
-            _context = context;
-        }
         public DbContext Get()
         {
             return _context ?? (_context = new ParkingAthContext());

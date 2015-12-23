@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using ParkingATHWeb.Model.Common;
 
 namespace ParkingATHWeb.DataAccess.Common
 {
-    public interface IGenericRepository<T>
+    public interface IGenericRepository<T, TType>
+        where TType : struct
+        where T : Entity<TType>
     {
         //Basic methods
         T Add(T entity);
@@ -20,8 +23,8 @@ namespace ParkingATHWeb.DataAccess.Common
 
         IQueryable<T> GetAll(Expression<Func<T, bool>> expression);
 
-        T Find(object id);
-            
+        T Find(TType id);
+
         T First(Expression<Func<T, bool>> expression);
 
         T FirstOrDefault(Expression<Func<T, bool>> expression);
@@ -32,7 +35,7 @@ namespace ParkingATHWeb.DataAccess.Common
 
         Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> expression);
 
-        Task<T> FindAsync(object id);
+        Task<T> FindAsync(TType id);
 
         Task<T> FirstAsync(Expression<Func<T, bool>> expression);
 

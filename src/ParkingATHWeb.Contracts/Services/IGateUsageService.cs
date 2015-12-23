@@ -7,7 +7,7 @@ using ParkingATHWeb.Contracts.Services.Base;
 
 namespace ParkingATHWeb.Contracts.Services
 {
-    public interface IGateUsageService:IEntityService<GateUsageBaseDto>, IDependencyService
+    public interface IGateUsageService:IEntityService<GateUsageBaseDto,Guid>, IDependencyService
     {
         ServiceResult<IEnumerable<GateUsageAdminDto>> GetAllAdmin();
         ServiceResult<IEnumerable<GateUsageAdminDto>> GetAllAdmin(Expression<Func<GateUsageBaseDto, bool>> predicate);

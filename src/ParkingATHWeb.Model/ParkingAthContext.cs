@@ -18,6 +18,7 @@ namespace ParkingATHWeb.Model
         public virtual DbSet<Order> Order { get; set; }
         public virtual DbSet<GateUsage> GateUsage { get; set; }
         public virtual DbSet<PriceTreshold> PriceTreshold { get; set; }
+        public virtual DbSet<Token> Token { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -27,7 +28,7 @@ namespace ParkingATHWeb.Model
             }
             else
             {
-                optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ParkingATHWeb.Db;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ParkingATHWeb.Data;Trusted_Connection=True;MultipleActiveResultSets=true");
             }
         }
 
@@ -36,26 +37,31 @@ namespace ParkingATHWeb.Model
             modelBuilder.Entity<User>()
                 .HasMany(x => x.Orders)
                 .WithOne(x => x.User)
-                .HasForeignKey(x => x.UserProfileId);
+                .HasForeignKey(x => x.UserId);
 
             modelBuilder.Entity<User>()
                 .HasMany(x => x.GateUsages)
                 .WithOne(x => x.User)
-                .HasForeignKey(x => x.UserProfileId);
+                .HasForeignKey(x => x.UserId);
 
             modelBuilder.Entity<PriceTreshold>()
                 .HasMany(x => x.Orders)
                 .WithOne(x => x.PriceTreshold)
                 .HasForeignKey(x => x.PriceTresholdId);
 
+            modelBuilder.Entity<Order>()
+                .HasOne(x => x.PriceTreshold)
+                .WithMany(x => x.Orders)
+                .HasPrincipalKey(x => x.Id);
+
             modelBuilder.Entity<User>()
                 .HasOne(x => x.PasswordChangeToken)
-                .WithMany(x => x.UserPasswordChangeTokens)
+                .WithOne(x => x.User)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<User>()
                 .HasOne(x => x.EmailChangeToken)
-                .WithMany(x => x.UserEmailChangeTokens)
+                .WithOne(x => x.User)
                 .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(modelBuilder);

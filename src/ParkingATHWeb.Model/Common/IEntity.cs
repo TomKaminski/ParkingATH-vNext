@@ -1,6 +1,6 @@
 ﻿namespace ParkingATHWeb.Model.Common
 {
-    interface IEntity<T>
+    internal interface IEntity<T>
     {
         T Id { get; set; }
     }

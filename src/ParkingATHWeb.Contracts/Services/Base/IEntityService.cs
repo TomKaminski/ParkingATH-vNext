@@ -6,11 +6,12 @@ using ParkingATHWeb.Contracts.Common;
 
 namespace ParkingATHWeb.Contracts.Services.Base
 {
-    public interface IEntityService<TDto>
-        where TDto : BaseDto
+    public interface IEntityService<TDto, T>
+        where TDto : BaseDto<T>
+        where T : struct
     {
         //sync methods
-        ServiceResult<TDto> Get(object id);
+        ServiceResult<TDto> Get(T id);
         ServiceResult<TDto> Get(Expression<Func<TDto, bool>> predicate);
 
         ServiceResult<TDto> Create(TDto entity);
@@ -21,23 +22,27 @@ namespace ParkingATHWeb.Contracts.Services.Base
 
         ServiceResult Delete(TDto entity);
         ServiceResult DeleteMany(IEnumerable<TDto> entities);
+        ServiceResult Delete(T id);
+        ServiceResult DeleteMany(IEnumerable<T> ids);
 
         ServiceResult<IEnumerable<TDto>> GetAll();
         ServiceResult<IEnumerable<TDto>> GetAll(Expression<Func<TDto, bool>> predicate);
 
 
         //async methods
-        Task<ServiceResult<TDto>> GetAsync(object id);
+        Task<ServiceResult<TDto>> GetAsync(T id);
         Task<ServiceResult<TDto>> GetAsync(Expression<Func<TDto, bool>> predicate);
 
         Task<ServiceResult<TDto>> CreateAsync(TDto entity);
         Task<ServiceResult> CreateManyAsync(IEnumerable<TDto> entities);
 
         Task<ServiceResult> EditAsync(TDto entity);
-        Task<ServiceResult> EditManyAsync(IEnumerable<TDto> entities);
+        Task<ServiceResult> EditManyAsync(IList<TDto> entities);
 
         Task<ServiceResult> DeleteAsync(TDto entity);
         Task<ServiceResult> DeleteManyAsync(IEnumerable<TDto> entities);
+        Task<ServiceResult> DeleteAsync(T id);
+        Task<ServiceResult> DeleteManyAsync(IEnumerable<T> ids);
 
         Task<ServiceResult<IEnumerable<TDto>>> GetAllAsync();
         Task<ServiceResult<IEnumerable<TDto>>> GetAllAsync(Expression<Func<TDto, bool>> predicate);

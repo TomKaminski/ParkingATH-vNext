@@ -2,7 +2,7 @@
 
 namespace ParkingATHWeb.Shared.Helpers
 {
-    public class CustomExpressionVisitor<T> : ExpressionVisitor
+    public class CustomExpressionVisitor<T> : ExpressionVisitor, ICustomExpressionVisitor<T>
     {
         readonly ParameterExpression _parameter;
 
@@ -27,5 +27,10 @@ namespace ParkingATHWeb.Shared.Helpers
             }
             return base.VisitMember(node);
         }
+    }
+
+
+    public interface ICustomExpressionVisitor<T>
+    {
     }
 }

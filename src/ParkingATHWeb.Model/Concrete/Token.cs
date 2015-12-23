@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using ParkingATHWeb.Model.Common;
 
 namespace ParkingATHWeb.Model.Concrete
@@ -8,7 +7,8 @@ namespace ParkingATHWeb.Model.Concrete
     {
         public string EncryptedToken { get; set; }
         public DateTime ValidTo { get; set; }
-        public virtual ICollection<User> UserPasswordChangeTokens { get; set; }
-        public virtual ICollection<User> UserEmailChangeTokens { get; set; }
+
+        public int UserId { get; set; }
+        public virtual User User { get; set; }
     }
 }

@@ -1,0 +1,23 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "ParkingATHWeb.Resolver Class Library",
+  "authors": [ "Tomek" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+  "dependencies": {
+    "Autofac": "4.0.0-rc1-177",
+    "AutoMapper": "4.1.1",
+    "ParkingATHWeb.Business": "1.0.0-*",
+    "ParkingATHWeb.Contracts": "1.0.0-*",
+    "ParkingATHWeb.DataAccess": "1.0.0-*",
+    "ParkingATHWeb.Model": "1.0.0-*",
+    "ParkingATHWeb.Shared": "1.0.0-*"
+  },
+  
+  "frameworks": {
+    "dnx451": {
+
+    }
+  }
+}
