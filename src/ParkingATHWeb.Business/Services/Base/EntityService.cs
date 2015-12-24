@@ -26,26 +26,26 @@ namespace ParkingATHWeb.Business.Services.Base
             _unitOfWork = unitOfWork;
         }
 
-        public ServiceResult<TDto> Get(T id)
+        public virtual ServiceResult<TDto> Get(T id)
         {
             var result = Mapper.Map<TDto>(_repository.Find(id));
             return ServiceResult<TDto>.Success(result);
         }
 
-        public ServiceResult<TDto> Get(Expression<Func<TDto, bool>> predicate)
+        public virtual ServiceResult<TDto> Get(Expression<Func<TDto, bool>> predicate)
         {
             var result = Mapper.Map<TDto>(_repository.FirstOrDefault(MapExpressionToEntity(predicate)));
             return ServiceResult<TDto>.Success(result);
         }
 
-        public ServiceResult<TDto> Create(TDto entity)
+        public virtual ServiceResult<TDto> Create(TDto entity)
         {
             var result = Mapper.Map<TDto>(_repository.Add(Mapper.Map<TEntity>(entity)));
             _unitOfWork.Commit();
             return ServiceResult<TDto>.Success(result);
         }
 
-        public ServiceResult CreateMany(IEnumerable<TDto> entities)
+        public virtual ServiceResult CreateMany(IEnumerable<TDto> entities)
         {
             foreach (var entity in entities)
             {
@@ -55,7 +55,7 @@ namespace ParkingATHWeb.Business.Services.Base
             return ServiceResult.Success();
         }
 
-        public ServiceResult Edit(TDto entity)
+        public virtual ServiceResult Edit(TDto entity)
         {
             var obj = _repository.Find(entity.Id);
             if (obj == null)
@@ -69,7 +69,7 @@ namespace ParkingATHWeb.Business.Services.Base
             return ServiceResult.Success();
         }
 
-        public ServiceResult EditMany(IList<TDto> entities)
+        public virtual ServiceResult EditMany(IList<TDto> entities)
         {
             var ids = entities.Select(k => k.Id).ToList();
             var dbEntities = _repository.GetAll(x => ids.Contains(x.Id)).ToList();
@@ -84,14 +84,14 @@ namespace ParkingATHWeb.Business.Services.Base
             return ServiceResult.Success();
         }
 
-        public ServiceResult Delete(TDto entity)
+        public virtual ServiceResult Delete(TDto entity)
         {
             _repository.Delete(Mapper.Map<TEntity>(entity));
             _unitOfWork.Commit();
             return ServiceResult.Success();
         }
 
-        public ServiceResult DeleteMany(IEnumerable<TDto> entities)
+        public virtual ServiceResult DeleteMany(IEnumerable<TDto> entities)
         {
             foreach (var entity in entities)
             {
@@ -101,7 +101,7 @@ namespace ParkingATHWeb.Business.Services.Base
             return ServiceResult.Success();
         }
 
-        public ServiceResult Delete(T id)
+        public virtual ServiceResult Delete(T id)
         {
             var obj = _repository.Find(id);
             _repository.Delete(obj);
@@ -109,7 +109,7 @@ namespace ParkingATHWeb.Business.Services.Base
             return ServiceResult.Success();
         }
 
-        public ServiceResult DeleteMany(IEnumerable<T> ids)
+        public virtual ServiceResult DeleteMany(IEnumerable<T> ids)
         {
             var dbEntities = _repository.GetAll(x => ids.Contains(x.Id)).ToList();
 
@@ -121,39 +121,39 @@ namespace ParkingATHWeb.Business.Services.Base
             return ServiceResult.Success();
         }
 
-        public ServiceResult<IEnumerable<TDto>> GetAll()
+        public virtual ServiceResult<IEnumerable<TDto>> GetAll()
         {
             return ServiceResult<IEnumerable<TDto>>
                 .Success(_repository.GetAll()
                 .Select(Mapper.Map<TDto>).ToList());
         }
 
-        public ServiceResult<IEnumerable<TDto>> GetAll(Expression<Func<TDto, bool>> predicate)
+        public virtual ServiceResult<IEnumerable<TDto>> GetAll(Expression<Func<TDto, bool>> predicate)
         {
             return ServiceResult<IEnumerable<TDto>>
                 .Success(_repository.GetAll(MapExpressionToEntity(predicate))
                 .Select(Mapper.Map<TDto>).ToList());
         }
 
-        public async Task<ServiceResult<TDto>> GetAsync(T id)
+        public virtual async Task<ServiceResult<TDto>> GetAsync(T id)
         {
             return ServiceResult<TDto>.Success(Mapper.Map<TDto>(await _repository.FindAsync(id)));
         }
 
-        public async Task<ServiceResult<TDto>> GetAsync(Expression<Func<TDto, bool>> predicate)
+        public virtual async Task<ServiceResult<TDto>> GetAsync(Expression<Func<TDto, bool>> predicate)
         {
             return ServiceResult<TDto>
                 .Success(Mapper.Map<TDto>(await _repository.FirstOrDefaultAsync(MapExpressionToEntity(predicate))));
         }
 
-        public async Task<ServiceResult<TDto>> CreateAsync(TDto entity)
+        public virtual async Task<ServiceResult<TDto>> CreateAsync(TDto entity)
         {
             var item = _repository.Add(Mapper.Map<TEntity>(entity));
             await _unitOfWork.CommitAsync();
             return ServiceResult<TDto>.Success(Mapper.Map<TDto>(item));
         }
 
-        public async Task<ServiceResult> CreateManyAsync(IEnumerable<TDto> entities)
+        public virtual async Task<ServiceResult> CreateManyAsync(IEnumerable<TDto> entities)
         {
             foreach (var entity in entities)
             {
@@ -163,7 +163,7 @@ namespace ParkingATHWeb.Business.Services.Base
             return ServiceResult.Success();
         }
 
-        public async Task<ServiceResult> EditAsync(TDto entity)
+        public virtual async Task<ServiceResult> EditAsync(TDto entity)
         {
             var obj = await _repository.FindAsync(entity.Id);
             if (obj == null)
@@ -177,7 +177,7 @@ namespace ParkingATHWeb.Business.Services.Base
             return ServiceResult.Success();
         }
 
-        public async Task<ServiceResult> EditManyAsync(IList<TDto> entities)
+        public virtual async Task<ServiceResult> EditManyAsync(IList<TDto> entities)
         {
             var ids = entities.Select(k => k.Id).ToList();
             var dbEntities = _repository.GetAll(x => ids.Contains(x.Id)).ToList();
@@ -192,14 +192,14 @@ namespace ParkingATHWeb.Business.Services.Base
             return ServiceResult.Success();
         }
 
-        public async Task<ServiceResult> DeleteAsync(TDto entity)
+        public virtual async Task<ServiceResult> DeleteAsync(TDto entity)
         {
             _repository.Delete(Mapper.Map<TEntity>(entity));
             await _unitOfWork.CommitAsync();
             return ServiceResult.Success();
         }
 
-        public async Task<ServiceResult> DeleteManyAsync(IEnumerable<TDto> entities)
+        public virtual async Task<ServiceResult> DeleteManyAsync(IEnumerable<TDto> entities)
         {
             foreach (var entity in entities)
             {
@@ -209,7 +209,7 @@ namespace ParkingATHWeb.Business.Services.Base
             return ServiceResult.Success();
         }
 
-        public async Task<ServiceResult> DeleteAsync(T id)
+        public virtual async Task<ServiceResult> DeleteAsync(T id)
         {
             var obj = await _repository.FindAsync(id);
             _repository.Delete(obj);
@@ -217,7 +217,7 @@ namespace ParkingATHWeb.Business.Services.Base
             return ServiceResult.Success();
         }
 
-        public async Task<ServiceResult> DeleteManyAsync(IEnumerable<T> ids)
+        public virtual async Task<ServiceResult> DeleteManyAsync(IEnumerable<T> ids)
         {
             var dbEntities = (await _repository.GetAllAsync(x => ids.Contains(x.Id))).ToList();
 
@@ -229,14 +229,14 @@ namespace ParkingATHWeb.Business.Services.Base
             return ServiceResult.Success();
         }
 
-        public async Task<ServiceResult<IEnumerable<TDto>>> GetAllAsync()
+        public virtual async Task<ServiceResult<IEnumerable<TDto>>> GetAllAsync()
         {
             return ServiceResult<IEnumerable<TDto>>
                 .Success((await _repository.GetAllAsync())
                 .Select(Mapper.Map<TDto>).ToList());
         }
 
-        public async Task<ServiceResult<IEnumerable<TDto>>> GetAllAsync(Expression<Func<TDto, bool>> predicate)
+        public virtual async Task<ServiceResult<IEnumerable<TDto>>> GetAllAsync(Expression<Func<TDto, bool>> predicate)
         {
             return ServiceResult<IEnumerable<TDto>>
                 .Success((await _repository.GetAllAsync(MapExpressionToEntity(predicate)))

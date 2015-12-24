@@ -5,11 +5,9 @@ using Microsoft.AspNet.Authentication.Cookies;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
-using Microsoft.Data.Entity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using ParkingATHWeb.Model;
 using ParkingATHWeb.Resolver.Mappings;
 using ParkingATHWeb.Resolver.Modules;
 
