@@ -1,4 +1,5 @@
 ﻿using System;
+using ParkingATHWeb.Business.Providers;
 using ParkingATHWeb.Business.Services.Base;
 using ParkingATHWeb.Contracts.Common;
 using ParkingATHWeb.Contracts.DTO.Token;
@@ -6,6 +7,7 @@ using ParkingATHWeb.Contracts.Services;
 using ParkingATHWeb.DataAccess.Common;
 using ParkingATHWeb.DataAccess.Interfaces;
 using ParkingATHWeb.Model.Concrete;
+using ParkingATHWeb.Shared.Enums;
 using ParkingATHWeb.Shared.Helpers;
 
 namespace ParkingATHWeb.Business.Services
@@ -15,6 +17,10 @@ namespace ParkingATHWeb.Business.Services
         private readonly ITokenRepository _repository;
         private const char DefaultSplitCharacter = '&';
 
+        private const int UserEmailPosition = 0;
+        private const int TokenTypePosition = 1;
+        private const int SecureTokenPosition = 2;
+
         public TokenService(IUnitOfWork unitOfWork, ITokenRepository repository)
             : base(repository, unitOfWork)
         {
@@ -22,29 +28,20 @@ namespace ParkingATHWeb.Business.Services
         }
 
 
-        public ServiceResult<TokenBaseDto> Create(string dataToEncrypt, int daysValid = 7)
+        public ServiceResult<TokenBaseDto> Create(TokenType tokenType)
         {
-            var encryptedData = EncryptHelper.Encrypt(dataToEncrypt);
             return base.Create(new TokenBaseDto
             {
-                EncryptedToken = encryptedData,
-                ValidTo = DateTime.Now.AddDays(daysValid)
+                TokenType = tokenType,
+                ValidTo = TokenValidityTimeProvider.GetValidToDate(tokenType),
+                SecureToken = Guid.NewGuid()
             });
-            
         }
 
-        public ServiceResult<string[]> GetDecryptedData(long id, char splitCharacter = DefaultSplitCharacter)
-        {
-            var tokenFromId = _repository.Find(id);
-            var decryptedData = EncryptHelper.Decrypt(tokenFromId.EncryptedToken);
-            var splitted = decryptedData.Split(new[] { splitCharacter }, StringSplitOptions.RemoveEmptyEntries);
-            return ServiceResult<string[]>.Success(splitted);
-        }
-
-        public ServiceResult<string[]> GetDecryptedData(string encryptedData, char splitCharacter = DefaultSplitCharacter)
+        public ServiceResult<string[]> GetDecryptedData(string encryptedData)
         {
             var decryptedData = EncryptHelper.Decrypt(encryptedData);
-            var splitted = decryptedData.Split(new[] {splitCharacter}, StringSplitOptions.RemoveEmptyEntries);
+            var splitted = decryptedData.Split(new[] {DefaultSplitCharacter}, StringSplitOptions.RemoveEmptyEntries);
             return ServiceResult<string[]>.Success(splitted);
         }
     }
