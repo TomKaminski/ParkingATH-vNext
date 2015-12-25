@@ -1,3 +1,36 @@
 ﻿@{
+    ViewData["Title"] = "Rejestracja";
 }
-Rejestracja
+@model ParkingATHWeb.Areas.Portal.ViewModels.Account.RegisterViewModel
+<div class="row">
+    <div class="col-xs-12 col-md-8 col-md-offset-2">
+        <h2>Rejestracja</h2>
+        <form asp-action="Register" asp-controller="Account" asp-antiforgery="true">
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input type="text" asp-for="Email" class="form-control"/>
+                <span asp-validation-for="Email"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input type="password" asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RepeatPassword"></label>
+                <input type="password" asp-for="RepeatPassword" class="form-control" />
+                <span asp-validation-for="RepeatPassword"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input type="text" asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName"></label>
+                <input type="text" asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName"></span>
+            </div>
+        </form>
+    </div>
+</div>

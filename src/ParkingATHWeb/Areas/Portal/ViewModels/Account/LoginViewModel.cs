@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using ParkingATHWeb.ViewModels.Base;
 
 namespace ParkingATHWeb.Areas.Portal.ViewModels.Account
 {
-    public class LoginViewModel
+    public class LoginViewModel : ParkingAthBaseViewModel
     {
         [EmailAddress]
         [Required]

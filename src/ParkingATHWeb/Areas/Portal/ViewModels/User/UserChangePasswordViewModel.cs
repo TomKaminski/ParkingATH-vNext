@@ -1,8 +1,9 @@
+using ParkingATHWeb.ViewModels.Base;
 using System.ComponentModel.DataAnnotations;
 
 namespace ParkingATHWeb.Areas.Portal.ViewModels.User
 {
-    public class UserChangePasswordViewModel
+    public class UserChangePasswordViewModel : ParkingAthBaseViewModel
     {
         [Display(Name = "Has³o")]
         [Required(ErrorMessage = "Pole {0} jest wymagane")]

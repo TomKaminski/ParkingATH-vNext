@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ParkingATHWeb.Resolver.Mappings;
 using ParkingATHWeb.Resolver.Modules;
+using ParkingATHWeb.Mappings;
 
 namespace ParkingATHWeb
 {
@@ -54,7 +55,7 @@ namespace ParkingATHWeb
                 opt.LoginPath = new PathString("/Portal/Konto/Logowanie");
                 opt.LogoutPath = new PathString("/Portal/Konto/Wyloguj");
                 opt.ExpireTimeSpan = new TimeSpan(4, 0, 0, 0);
-                opt.AuthenticationScheme = CookieAuthenticationDefaults.LoginPath;
+                opt.AuthenticationScheme = "password";
             });
 
             //TODO
@@ -89,6 +90,7 @@ namespace ParkingATHWeb
         public static void Main(string[] args)
         {
             WebApplication.Run<Startup>(args);
+            FrontendMappingsProvider.InitMappings();
             BackendMappingProvider.InitMappings();
         }
     }

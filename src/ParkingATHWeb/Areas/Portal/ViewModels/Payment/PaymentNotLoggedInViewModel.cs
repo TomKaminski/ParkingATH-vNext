@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using ParkingATHWeb.ViewModels.Base;
 
 namespace ParkingATHWeb.Areas.Portal.ViewModels.Payment
 {
-    public class PaymentNotLoggedInViewModel
+    public class PaymentNotLoggedInViewModel : ParkingAthBaseViewModel
     {
         [Required]
         public string Name { get; set; }

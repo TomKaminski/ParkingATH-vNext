@@ -36,14 +36,14 @@ namespace ParkingATHWeb.Business.Services
             var saltHash = _passwordHasher.CreateHash(code);
             char[] delimiter = { ':' };
             var split = saltHash.Split(delimiter);
-            var salt = split[0];
-            var hash = split[1];
+            entity.PasswordSalt = split[0];
+            entity.PasswordHash = split[1];
             _repository.Add(new User
             {
                 Email = entity.Email,
                 Charges = entity.Charges,
-                PasswordHash = hash,
-                PasswordSalt = salt,
+                PasswordHash = entity.PasswordHash,
+                PasswordSalt = entity.PasswordSalt,
                 Name = entity.Name,
                 LastName = entity.LastName,
                 LockedOut = false
@@ -57,14 +57,14 @@ namespace ParkingATHWeb.Business.Services
             var saltHash = _passwordHasher.CreateHash(password);
             char[] delimiter = { ':' };
             var split = saltHash.Split(delimiter);
-            var salt = split[0];
-            var hash = split[1];
+            entity.PasswordSalt = split[0];
+            entity.PasswordHash = split[1];
             _repository.Add(new User
             {
                 Email = entity.Email,
                 Charges = entity.Charges,
-                PasswordHash = hash,
-                PasswordSalt = salt,
+                PasswordHash = entity.PasswordHash,
+                PasswordSalt = entity.PasswordSalt,
                 Name = entity.Name,
                 LastName = entity.LastName,
                 LockedOut = false
@@ -79,14 +79,14 @@ namespace ParkingATHWeb.Business.Services
             var saltHash = _passwordHasher.CreateHash(code);
             char[] delimiter = { ':' };
             var split = saltHash.Split(delimiter);
-            var salt = split[0];
-            var hash = split[1];
+            entity.PasswordSalt = split[0];
+            entity.PasswordHash = split[1];
             _repository.Add(new User
             {
                 Email = entity.Email,
                 Charges = entity.Charges,
-                PasswordHash = hash,
-                PasswordSalt = salt,
+                PasswordHash = entity.PasswordHash,
+                PasswordSalt = entity.PasswordSalt,
                 Name = entity.Name,
                 LastName = entity.LastName,
                 LockedOut = false
@@ -100,14 +100,14 @@ namespace ParkingATHWeb.Business.Services
             var saltHash = _passwordHasher.CreateHash(password);
             char[] delimiter = { ':' };
             var split = saltHash.Split(delimiter);
-            var salt = split[0];
-            var hash = split[1];
+            entity.PasswordSalt = split[0];
+            entity.PasswordHash = split[1];
             _repository.Add(new User
             {
                 Email = entity.Email,
                 Charges = entity.Charges,
-                PasswordHash = hash,
-                PasswordSalt = salt,
+                PasswordHash = entity.PasswordHash,
+                PasswordSalt = entity.PasswordSalt,
                 Name = entity.Name,
                 LastName = entity.LastName,
                 LockedOut = false

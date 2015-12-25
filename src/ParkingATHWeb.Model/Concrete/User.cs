@@ -25,7 +25,7 @@ namespace ParkingATHWeb.Model.Concrete
         public string PasswordSalt { get; set; }
         public bool LockedOut { get; set; }
         public int UnsuccessfulLoginAttempts { get; set; }
-        public DateTime LockedTo { get; set; }
+        public DateTime? LockedTo { get; set; }
 
 
 

@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ParkingATHWeb.ViewModels.Base;
+using System.ComponentModel.DataAnnotations;
 
 namespace ParkingATHWeb.Areas.Portal.ViewModels.User
 {
-    public class UserChangeEmail
+    public class UserChangeEmail : ParkingAthBaseViewModel
     {
         [Required]
         [EmailAddress]

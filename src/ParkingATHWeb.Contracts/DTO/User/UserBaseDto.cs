@@ -16,7 +16,7 @@ namespace ParkingATHWeb.Contracts.DTO.User
         public string PasswordSalt { get; set; }
         public bool LockedOut { get; set; }
         public int UnsuccessfulLoginAttempts { get; set; }
-        public DateTime LockedTo { get; set; }
+        public DateTime? LockedTo { get; set; }
 
 
         public long PasswordChangeTokenId { get; set; }
