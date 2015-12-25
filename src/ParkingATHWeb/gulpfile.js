@@ -5,6 +5,7 @@ var gulp = require("gulp"),
     rimraf = require("rimraf"),
     concat = require("gulp-concat"),
     cssmin = require("gulp-cssmin"),
+    gulpsass = require("gulp-sass"),
     uglify = require("gulp-uglify");
 
 var paths = {
