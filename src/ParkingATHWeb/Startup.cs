@@ -23,6 +23,9 @@ namespace ParkingATHWeb
                 .AddJsonFile("appsettings.json")
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+
+            FrontendMappingsProvider.InitMappings();
+            BackendMappingProvider.InitMappings();
         }
 
         public IConfigurationRoot Configuration { get; set; }
@@ -89,9 +92,9 @@ namespace ParkingATHWeb
         // Entry point for the application.
         public static void Main(string[] args)
         {
+
             WebApplication.Run<Startup>(args);
-            FrontendMappingsProvider.InitMappings();
-            BackendMappingProvider.InitMappings();
+
         }
     }
 }

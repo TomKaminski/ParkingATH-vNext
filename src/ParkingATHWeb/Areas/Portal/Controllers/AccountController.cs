@@ -39,6 +39,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
 
         [HttpPost]
         [Route("~/[area]/Logowanie")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
@@ -46,6 +47,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                 var userLoginResult = await _userService.LoginFirstTimeMvcAsync(model.Email, model.Password);
                 if (userLoginResult.IsValid)
                 {
+                    await IdentitySignin(userLoginResult.Result, model.RemeberMe);
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -68,6 +70,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
 
         [HttpPost]
         [Route("~/[area]/Rejestracja")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -91,10 +94,9 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         }
 
 
-        private async Task IdentitySignin(string email, bool isPersistent = false)
+        private async Task IdentitySignin(UserBaseDto user, bool isPersistent = false)
         {
-            var x = await _userService.GetByEmailAsync(email);
-            var userState = Mapper.Map<AppUserState>(x.Result);
+            var userState = Mapper.Map<AppUserState>(user);
 
             var claims = new List<Claim>
             {

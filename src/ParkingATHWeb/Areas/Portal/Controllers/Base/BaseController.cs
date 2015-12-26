@@ -52,7 +52,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers.Base
 
         protected async void IdentitySignout()
         {
-            await HttpContext.Authentication.SignOutAsync(CookieAuthenticationDefaults.LoginPath);
+            await HttpContext.Authentication.SignOutAsync("password");
         }
 
         protected async void IdentityReSignin(string name, string lastName, bool isPersistent = false)

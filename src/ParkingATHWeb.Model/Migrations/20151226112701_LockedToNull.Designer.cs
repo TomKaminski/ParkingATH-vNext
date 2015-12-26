@@ -8,9 +8,10 @@ using ParkingATHWeb.Model;
 namespace ParkingATHWeb.Model.Migrations
 {
     [DbContext(typeof(ParkingAthContext))]
-    partial class ParkingAthContextModelSnapshot : ModelSnapshot
+    [Migration("20151226112701_LockedToNull")]
+    partial class LockedToNull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
@@ -89,7 +90,7 @@ namespace ParkingATHWeb.Model.Migrations
 
                     b.Property<string>("Email");
 
-                    b.Property<long?>("EmailChangeTokenId");
+                    b.Property<long>("EmailChangeTokenId");
 
                     b.Property<bool>("IsAdmin");
 
@@ -101,7 +102,7 @@ namespace ParkingATHWeb.Model.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<long?>("PasswordChangeTokenId");
+                    b.Property<long>("PasswordChangeTokenId");
 
                     b.Property<string>("PasswordHash");
 

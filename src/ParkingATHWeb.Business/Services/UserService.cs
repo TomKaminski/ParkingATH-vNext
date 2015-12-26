@@ -38,16 +38,8 @@ namespace ParkingATHWeb.Business.Services
             var split = saltHash.Split(delimiter);
             entity.PasswordSalt = split[0];
             entity.PasswordHash = split[1];
-            _repository.Add(new User
-            {
-                Email = entity.Email,
-                Charges = entity.Charges,
-                PasswordHash = entity.PasswordHash,
-                PasswordSalt = entity.PasswordSalt,
-                Name = entity.Name,
-                LastName = entity.LastName,
-                LockedOut = false
-            });
+            _repository.Add(Mapper.Map<User>(entity));
+
             _unitOfWork.Commit();
             return ServiceResult<string>.Success(code);
         }
@@ -59,16 +51,8 @@ namespace ParkingATHWeb.Business.Services
             var split = saltHash.Split(delimiter);
             entity.PasswordSalt = split[0];
             entity.PasswordHash = split[1];
-            _repository.Add(new User
-            {
-                Email = entity.Email,
-                Charges = entity.Charges,
-                PasswordHash = entity.PasswordHash,
-                PasswordSalt = entity.PasswordSalt,
-                Name = entity.Name,
-                LastName = entity.LastName,
-                LockedOut = false
-            });
+            _repository.Add(Mapper.Map<User>(entity));
+
             _unitOfWork.Commit();
             return ServiceResult<string>.Success(password);
         }
@@ -81,16 +65,8 @@ namespace ParkingATHWeb.Business.Services
             var split = saltHash.Split(delimiter);
             entity.PasswordSalt = split[0];
             entity.PasswordHash = split[1];
-            _repository.Add(new User
-            {
-                Email = entity.Email,
-                Charges = entity.Charges,
-                PasswordHash = entity.PasswordHash,
-                PasswordSalt = entity.PasswordSalt,
-                Name = entity.Name,
-                LastName = entity.LastName,
-                LockedOut = false
-            });
+            _repository.Add(Mapper.Map<User>(entity));
+
             await _unitOfWork.CommitAsync();
             return ServiceResult<string>.Success(code);
         }
@@ -102,16 +78,7 @@ namespace ParkingATHWeb.Business.Services
             var split = saltHash.Split(delimiter);
             entity.PasswordSalt = split[0];
             entity.PasswordHash = split[1];
-            _repository.Add(new User
-            {
-                Email = entity.Email,
-                Charges = entity.Charges,
-                PasswordHash = entity.PasswordHash,
-                PasswordSalt = entity.PasswordSalt,
-                Name = entity.Name,
-                LastName = entity.LastName,
-                LockedOut = false
-            });
+            _repository.Add(Mapper.Map<User>(entity));
             await _unitOfWork.CommitAsync();
             return ServiceResult<string>.Success(password);
         }
@@ -179,14 +146,14 @@ namespace ParkingATHWeb.Business.Services
             return ServiceResult<int>.Success(entity.Id);
         }
 
-        public async Task<ServiceResult<bool>> LoginFirstTimeMvcAsync(string email, string password)
+        public async Task<ServiceResult<UserBaseDto>> LoginFirstTimeMvcAsync(string email, string password)
         {
             var stud = await _repository.FirstOrDefaultAsync(x => x.Email == email);
             if (stud != null && _passwordHasher.ValidatePassword(password, stud.PasswordHash, stud.PasswordSalt) && !stud.LockedOut)
             {
-                return ServiceResult<bool>.Success(true);
+                return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(stud));
             }
-            return ServiceResult<bool>.Failure("Niepoprawny login lub hasło");
+            return ServiceResult<UserBaseDto>.Failure("Niepoprawny login lub hasło");
         }
 
         //TODO: Token based authentication

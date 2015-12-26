@@ -17,7 +17,7 @@ namespace ParkingATHWeb.Contracts.Services
         Task<ServiceResult<int>> GetChargesAsync(string email);
         Task<ServiceResult<int>> AddChargesAsync(string email, int charges);
 
-        Task<ServiceResult<bool>> LoginFirstTimeMvcAsync(string email, string password);
+        Task<ServiceResult<UserBaseDto>> LoginFirstTimeMvcAsync(string email, string password);
 
         Task<ServiceResult<string>> LoginFirstTimeAsync(string email, string password);
         Task<ServiceResult<string>> CheckLogin(string email, string token);

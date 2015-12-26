@@ -29,8 +29,8 @@ namespace ParkingATHWeb.Model.Concrete
 
 
 
-        public long PasswordChangeTokenId { get; set; }
-        public long EmailChangeTokenId { get; set; }
+        public long? PasswordChangeTokenId { get; set; }
+        public long? EmailChangeTokenId { get; set; }
 
         public virtual Token PasswordChangeToken { get; set; }
         public virtual Token EmailChangeToken { get; set; }

@@ -19,7 +19,7 @@ namespace ParkingATHWeb.Contracts.DTO.User
         public DateTime? LockedTo { get; set; }
 
 
-        public long PasswordChangeTokenId { get; set; }
-        public long EmailChangeTokenId { get; set; }
+        public long? PasswordChangeTokenId { get; set; }
+        public long? EmailChangeTokenId { get; set; }
     }
 }

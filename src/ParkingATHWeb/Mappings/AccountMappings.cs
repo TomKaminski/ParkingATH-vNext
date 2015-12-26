@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ParkingATHWeb.Areas.Portal.ViewModels.Account;
 using ParkingATHWeb.Contracts.DTO.User;
+using ParkingATHWeb.Models;
 using ParkingATHWeb.Shared.Helpers;
 
 namespace ParkingATHWeb.Mappings
@@ -17,6 +18,8 @@ namespace ParkingATHWeb.Mappings
                 .IgnoreNotExistingProperties();
 
             Mapper.CreateMap<LoginViewModel, UserBaseDto>().IgnoreNotExistingProperties();
+
+            Mapper.CreateMap<UserBaseDto, AppUserState>().IgnoreNotExistingProperties();
         }
     }
 }
