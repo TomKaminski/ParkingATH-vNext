@@ -7,10 +7,14 @@
   "licenseUrl": "",
 
   "frameworks": {
-    "dnx451": { }
+    "dnx451": {
+      "dependencies": {
+      }
+    }
   },
   "dependencies": {
     "ParkingATHWeb.DataAccess": "1.0.0-*",
-    "ParkingATHWeb.Contracts": "1.0.0-*"
+    "ParkingATHWeb.Contracts": "1.0.0-*",
+    "System.Net.Mail.Abstractions": "1.0.8"
   }
 }

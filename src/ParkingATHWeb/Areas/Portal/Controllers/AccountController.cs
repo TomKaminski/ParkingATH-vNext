@@ -12,6 +12,7 @@ using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Http.Authentication;
 using ParkingATHWeb.Models;
 using ParkingATHWeb.Areas.Portal.Controllers.Base;
+using ParkingATHWeb.Contracts.DTO;
 
 namespace ParkingATHWeb.Areas.Portal.Controllers
 {
@@ -21,10 +22,12 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
     public class AccountController : BaseController
     {
         private readonly IUserService _userService;
+        private readonly IMessageService _messageService;
 
-        public AccountController(IUserService userService)
+        public AccountController(IUserService userService, IMessageService messageService)
         {
             _userService = userService;
+            _messageService = messageService;
         }
 
         [Route("Wyloguj")]
@@ -77,7 +80,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Home", new {area = "Portal"});
+                return RedirectToAction("Index", "Home", new { area = "Portal" });
             }
             return View();
         }
@@ -93,7 +96,9 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                 var userCreateResult = await _userService.CreateAsync(Mapper.Map<UserBaseDto>(model), model.Password);
                 if (userCreateResult.IsValid)
                 {
+                    
                     //TODO: Sent welcome email
+                    //_messageService.SendMessage(new MessageDto());
                     return RedirectToAction("Login");
                 }
                 else

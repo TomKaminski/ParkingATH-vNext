@@ -12,6 +12,7 @@
     
   },
   "dependencies": {
-    "ParkingATHWeb.Shared": "1.0.0-*"
+    "ParkingATHWeb.Shared": "1.0.0-*",
+    "System.Net.Mail.Abstractions": "1.0.8"
   }
 }

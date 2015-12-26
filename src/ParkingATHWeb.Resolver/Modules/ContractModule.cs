@@ -1,9 +1,11 @@
 ﻿using System.Linq;
+using System.Net.Mail.Abstractions;
 using Autofac;
 using ParkingATHWeb.Business.Services;
 using ParkingATHWeb.Business.Services.Base;
 using ParkingATHWeb.Contracts.Services.Base;
 using ParkingATHWeb.Shared.Helpers;
+using SmtpClient = System.Net.Mail.Abstractions.SmtpClient;
 
 namespace ParkingATHWeb.Resolver.Modules
 {
@@ -26,6 +28,8 @@ namespace ParkingATHWeb.Resolver.Modules
             builder.RegisterGeneric(typeof (CustomExpressionVisitor<>))
                 .As(typeof (ICustomExpressionVisitor<>))
                 .InstancePerLifetimeScope();
+
+            builder.RegisterType<SmtpClient>().As<ISmtpClient>().InstancePerLifetimeScope();
         }
     }
 }
