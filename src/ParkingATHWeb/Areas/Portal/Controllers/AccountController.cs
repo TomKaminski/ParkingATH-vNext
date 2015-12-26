@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -9,14 +8,17 @@ using ParkingATHWeb.Contracts.DTO.User;
 using ParkingATHWeb.Contracts.Services;
 using AutoMapper;
 using Microsoft.AspNet.Authentication.Cookies;
+using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Http.Authentication;
 using ParkingATHWeb.Models;
+using ParkingATHWeb.Areas.Portal.Controllers.Base;
 
 namespace ParkingATHWeb.Areas.Portal.Controllers
 {
     [Area("Portal")]
     [Route("[area]/[controller]")]
-    public class AccountController : Controller
+    [Authorize]
+    public class AccountController : BaseController
     {
         private readonly IUserService _userService;
 
@@ -28,18 +30,25 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         [Route("Wyloguj")]
         public IActionResult Logout()
         {
+            IdentitySignout();
             return RedirectToAction("Index", "Home");
         }
 
         [Route("~/[area]/Logowanie")]
+        [AllowAnonymous]
         public IActionResult Login()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home", new { area = "Portal" });
+            }
             return View();
         }
 
         [HttpPost]
         [Route("~/[area]/Logowanie")]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
@@ -63,14 +72,20 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         }
 
         [Route("~/[area]/Rejestracja")]
+        [AllowAnonymous]
         public IActionResult Register()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home", new {area = "Portal"});
+            }
             return View();
         }
 
         [HttpPost]
         [Route("~/[area]/Rejestracja")]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -106,9 +121,8 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                 new Claim("LastName",userState.LastName)
             };
 
-            var identity = new ClaimsIdentity(claims, "password");
-
-            await HttpContext.Authentication.SignInAsync("password", new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = isPersistent });
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.Authentication.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = isPersistent });
         }
     }
 }

@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using System.Threading.Tasks
+@using ParkingATHWeb.Models
+@{
+    var userState = (AppUserState)ViewContext.RouteData.Values["appUserState"];
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -31,8 +37,19 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
+                </ul>
+                <ul class="nav navbar-right navbar-nav">
+                    @if (userState.IsEmpty())
+                    {
+                        <li><a asp-controller="Account" asp-action="Login">Logowanie</a></li>
+                            <li><a asp-controller="Account" asp-action="Register">Rejestracja</a></li>
+                    }
+                    else
+                    {
+                        <li class="navbar-text">Zalogowany jako @userState.ToString()</li>
+                        <li><a asp-controller="Account" asp-action="Manage">Zarządzaj kontem</a></li>
+                        <li><a asp-controller="Account" asp-action="Logout">Wyloguj</a></li>
+                    }
                 </ul>
             </div>
         </div>

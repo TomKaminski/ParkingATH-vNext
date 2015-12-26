@@ -58,7 +58,7 @@ namespace ParkingATHWeb
                 opt.LoginPath = new PathString("/Portal/Konto/Logowanie");
                 opt.LogoutPath = new PathString("/Portal/Konto/Wyloguj");
                 opt.ExpireTimeSpan = new TimeSpan(4, 0, 0, 0);
-                opt.AuthenticationScheme = "password";
+                opt.AutomaticAuthenticate = true;
             });
 
             //TODO
