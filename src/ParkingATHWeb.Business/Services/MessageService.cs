@@ -1,15 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mail.Abstractions;
+using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.PlatformAbstractions;
+using Newtonsoft.Json;
+using ParkingATHWeb.Business.Providers.Email;
 using ParkingATHWeb.Business.Services.Base;
 using ParkingATHWeb.Contracts.DTO;
+using ParkingATHWeb.Contracts.DTO.User;
 using ParkingATHWeb.Contracts.Services;
 using ParkingATHWeb.DataAccess.Common;
+using ParkingATHWeb.DataAccess.Interfaces;
 using ParkingATHWeb.Model.Concrete;
 using ParkingATHWeb.Shared.Enums;
 
@@ -19,19 +23,22 @@ namespace ParkingATHWeb.Business.Services
     {
         private readonly ISmtpClient _smtpClient;
         private readonly IConfigurationRoot _configuration;
-        private readonly IApplicationEnvironment _appEnv;
+        private readonly IEmailBodyProvider _emailBodyProvider;
+        private readonly IMessageRepository _messageRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        private const string BodyMarker = "{{BodyHtml}}";
-
-        public MessageService(IGenericRepository<Message, Guid> repository, IUnitOfWork unitOfWork,
-            ISmtpClient smtpClient, IApplicationEnvironment appEnv) : base(repository, unitOfWork)
+        public MessageService(IUnitOfWork unitOfWork,
+            ISmtpClient smtpClient, IApplicationEnvironment appEnv, IEmailBodyProvider emailBodyProvider, IMessageRepository messageRepository) : base(messageRepository, unitOfWork)
         {
             _smtpClient = smtpClient;
-            _appEnv = appEnv;
+            _emailBodyProvider = emailBodyProvider;
+            _messageRepository = messageRepository;
+            _unitOfWork = unitOfWork;
 
             var builder = new ConfigurationBuilder()
                 .SetBasePath(appEnv.ApplicationBasePath)
-                .AddJsonFile("appsettings.json");
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile("Resources.json");
 
             _configuration = builder.Build();
         }
@@ -49,56 +56,42 @@ namespace ParkingATHWeb.Business.Services
                 _configuration["Settings:SmtpConfiguration:password"]);
         }
 
-        public void SendMessage(MessageDto message, Dictionary<string, string> parameters)
+        public async Task SendMessageAsync(MessageDto message, UserBaseDto userData)
         {
             ConfigureSmtpSettings();
-            var templateHtml = GetValidTemplateString(message.Type);
-            templateHtml = PrepareEmailBody(templateHtml, parameters);
-            var emailBody = InsertBodyIntoLayout(templateHtml);
+            var emailParameters = EmailParametersProvider.GetBaseParametersForEmail(userData);
+            var emailBody = _emailBodyProvider.GetEmailBody(message.Type, userData, emailParameters);
 
-            var mailMessage = new MailMessage(_configuration["Settings:SmtpConfiguration:from"], "tkaminski93@gmail.com",
-                "Rejestracja w systemie Parking ATH", emailBody)
+            message.To = userData.Email;
+            message.DisplayFrom = "Parking ATH";
+            message.Title = GetEmailTitle(message.Type);
+            message.MessageParameters = JsonConvert.SerializeObject(emailParameters);
+            message.UserId = userData.Id;
+            message.From = _configuration["Settings:SmtpConfiguration:from"];
+
+            _messageRepository.Add(Mapper.Map<Message>(message));
+            await _unitOfWork.CommitAsync();
+
+            var mailMessage = new MailMessage(message.From, userData.Email, message.Title, emailBody)
             {
                 IsBodyHtml = true
             };
-            _smtpClient.Send(mailMessage);
+            await _smtpClient.SendMailAsync(mailMessage);
         }
 
 
-        private string GetLayoutTemplate()
-        {
-            return File.ReadAllText(_appEnv.ApplicationBasePath + "/Content/Emails/_EmailLayout.html");
-        }
-
-        private string GetValidTemplateString(EmailType type)
+        private string GetEmailTitle(EmailType type)
         {
             switch (type)
             {
                 case EmailType.Register:
-                    return File.ReadAllText(_appEnv.ApplicationBasePath + "/Content/Emails/Register.html");
+                    return _configuration["EmailResources:RegisterEmail_Title"];
                 case EmailType.ResetPassword:
-                    break;
-                case EmailType.ForgotPassword:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+                    return _configuration["EmailResources:ChangePassword_Title"];
+                case EmailType.ChangePassword:
+                    return _configuration["EmailResources:ResetPassword_Title"];
             }
-            return string.Empty;
-        }
-
-        private string PrepareEmailBody(string template, Dictionary<string, string> parameters)
-        {
-            var localTemplate = template;
-            foreach (var parameter in parameters)
-            {
-                localTemplate = template.Replace("{{" + parameter.Key + "}}", parameter.Value);
-            }
-            return localTemplate;
-        }
-
-        private string InsertBodyIntoLayout(string bodyHtml)
-        {
-            return GetLayoutTemplate().Replace(BodyMarker, bodyHtml);
+            throw new ArgumentOutOfRangeException(nameof(type), type, null);
         }
     }
 }

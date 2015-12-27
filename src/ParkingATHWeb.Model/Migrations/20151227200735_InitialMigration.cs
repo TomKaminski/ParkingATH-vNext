@@ -28,7 +28,8 @@ namespace ParkingATHWeb.Model.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    EncryptedToken = table.Column<string>(nullable: true),
+                    SecureToken = table.Column<Guid>(nullable: false),
+                    TokenType = table.Column<int>(nullable: false),
                     UserId = table.Column<int>(nullable: false),
                     ValidTo = table.Column<DateTime>(nullable: false)
                 },
@@ -44,13 +45,13 @@ namespace ParkingATHWeb.Model.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Charges = table.Column<int>(nullable: false),
                     Email = table.Column<string>(nullable: true),
-                    EmailChangeTokenId = table.Column<long>(nullable: false),
+                    EmailChangeTokenId = table.Column<long>(nullable: true),
                     IsAdmin = table.Column<bool>(nullable: false),
                     LastName = table.Column<string>(nullable: true),
                     LockedOut = table.Column<bool>(nullable: false),
-                    LockedTo = table.Column<DateTime>(nullable: false),
+                    LockedTo = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(nullable: true),
-                    PasswordChangeTokenId = table.Column<long>(nullable: false),
+                    PasswordChangeTokenId = table.Column<long>(nullable: true),
                     PasswordHash = table.Column<string>(nullable: true),
                     PasswordSalt = table.Column<string>(nullable: true),
                     UnsuccessfulLoginAttempts = table.Column<int>(nullable: false)
@@ -69,7 +70,7 @@ namespace ParkingATHWeb.Model.Migrations
                         column: x => x.PasswordChangeTokenId,
                         principalTable: "Token",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
             migrationBuilder.CreateTable(
                 name: "GateUsage",
@@ -84,6 +85,31 @@ namespace ParkingATHWeb.Model.Migrations
                     table.PrimaryKey("PK_GateUsage", x => x.Id);
                     table.ForeignKey(
                         name: "FK_GateUsage_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+            migrationBuilder.CreateTable(
+                name: "Message",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    BCC = table.Column<string>(nullable: true),
+                    CC = table.Column<string>(nullable: true),
+                    DisplayFrom = table.Column<string>(nullable: true),
+                    From = table.Column<string>(nullable: true),
+                    MessageParameters = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: true),
+                    To = table.Column<string>(nullable: true),
+                    Type = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Message", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Message_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
@@ -125,6 +151,7 @@ namespace ParkingATHWeb.Model.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable("GateUsage");
+            migrationBuilder.DropTable("Message");
             migrationBuilder.DropTable("Order");
             migrationBuilder.DropTable("PriceTreshold");
             migrationBuilder.DropTable("User");

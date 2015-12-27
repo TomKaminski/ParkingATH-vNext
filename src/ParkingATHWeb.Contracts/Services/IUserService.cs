@@ -23,10 +23,10 @@ namespace ParkingATHWeb.Contracts.Services
         Task<ServiceResult<string>> CheckLogin(string email, string token);
         Task<ServiceResult<bool>> CheckHash(string email, string token);
 
-        new ServiceResult<string> Create(UserBaseDto entity);
-        ServiceResult<string> Create(UserBaseDto entity, string password);
-        new Task<ServiceResult<string>> CreateAsync(UserBaseDto entity);
-        Task<ServiceResult<string>> CreateAsync(UserBaseDto entity, string password);
+        new ServiceResult<UserBaseDto> Create(UserBaseDto entity);
+        ServiceResult<UserBaseDto> Create(UserBaseDto entity, string password);
+        new Task<ServiceResult<UserBaseDto>> CreateAsync(UserBaseDto entity);
+        Task<ServiceResult<UserBaseDto>> CreateAsync(UserBaseDto entity, string password);
 
         ServiceResult<UserBaseDto> GetByEmail(string email);
 

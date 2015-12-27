@@ -44,20 +44,20 @@ namespace ParkingATHWeb.Business.Services
             return ServiceResult<string>.Success(code);
         }
 
-        public ServiceResult<string> Create(UserBaseDto entity, string password)
+        public ServiceResult<UserBaseDto> Create(UserBaseDto entity, string password)
         {
             var saltHash = _passwordHasher.CreateHash(password);
             char[] delimiter = { ':' };
             var split = saltHash.Split(delimiter);
             entity.PasswordSalt = split[0];
             entity.PasswordHash = split[1];
-            _repository.Add(Mapper.Map<User>(entity));
+            var user = _repository.Add(Mapper.Map<User>(entity));
 
             _unitOfWork.Commit();
-            return ServiceResult<string>.Success(password);
+            return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(user));
         }
 
-        public new async Task<ServiceResult<string>> CreateAsync(UserBaseDto entity)
+        public new async Task<ServiceResult<UserBaseDto>> CreateAsync(UserBaseDto entity)
         {
             var code = GetUniqueKey();
             var saltHash = _passwordHasher.CreateHash(code);
@@ -65,22 +65,21 @@ namespace ParkingATHWeb.Business.Services
             var split = saltHash.Split(delimiter);
             entity.PasswordSalt = split[0];
             entity.PasswordHash = split[1];
-            _repository.Add(Mapper.Map<User>(entity));
-
+            var user = _repository.Add(Mapper.Map<User>(entity));
             await _unitOfWork.CommitAsync();
-            return ServiceResult<string>.Success(code);
+            return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(user));
         }
 
-        public async Task<ServiceResult<string>> CreateAsync(UserBaseDto entity, string password)
+        public async Task<ServiceResult<UserBaseDto>> CreateAsync(UserBaseDto entity, string password)
         {
             var saltHash = _passwordHasher.CreateHash(password);
             char[] delimiter = { ':' };
             var split = saltHash.Split(delimiter);
             entity.PasswordSalt = split[0];
             entity.PasswordHash = split[1];
-            _repository.Add(Mapper.Map<User>(entity));
+            var userDto = _repository.Add(Mapper.Map<User>(entity));
             await _unitOfWork.CommitAsync();
-            return ServiceResult<string>.Success(password);
+            return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(userDto));
         }
 
         public ServiceResult<UserBaseDto> GetByEmail(string email)

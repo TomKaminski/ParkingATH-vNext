@@ -4,6 +4,6 @@
     {
         Register = 0,
         ResetPassword = 1,
-        ForgotPassword = 2
+        ChangePassword = 2
     }
 }

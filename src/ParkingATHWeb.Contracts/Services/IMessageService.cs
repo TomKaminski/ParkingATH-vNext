@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 using ParkingATHWeb.Contracts.DTO;
+using ParkingATHWeb.Contracts.DTO.User;
 using ParkingATHWeb.Contracts.Services.Base;
 
 namespace ParkingATHWeb.Contracts.Services
 {
     public interface IMessageService: IEntityService<MessageDto, Guid>,IDependencyService
     {
-        void SendMessage(MessageDto message, Dictionary<string, string> parameters);
+        Task SendMessageAsync(MessageDto message, UserBaseDto userData);
     }
 }

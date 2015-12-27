@@ -55,13 +55,6 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            _messageService.SendMessage(new MessageDto
-            {
-                Type = EmailType.Register
-            }, new Dictionary<string, string>
-            {
-                {"Name","Tomasz"}
-            });
             if (ModelState.IsValid)
             {
                 var userLoginResult = await _userService.LoginFirstTimeMvcAsync(model.Email, model.Password);
@@ -104,9 +97,11 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                 var userCreateResult = await _userService.CreateAsync(Mapper.Map<UserBaseDto>(model), model.Password);
                 if (userCreateResult.IsValid)
                 {
-
+                    await _messageService.SendMessageAsync(new MessageDto
+                    {
+                        Type = EmailType.Register
+                    }, userCreateResult.Result);
                     //TODO: Sent welcome email
-                    //_messageService.SendMessage(new MessageDto());
                     return RedirectToAction("Login");
                 }
                 else

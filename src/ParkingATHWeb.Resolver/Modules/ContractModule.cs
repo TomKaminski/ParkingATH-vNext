@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Net.Mail.Abstractions;
 using Autofac;
+using ParkingATHWeb.Business.Providers.Email;
 using ParkingATHWeb.Business.Services;
 using ParkingATHWeb.Business.Services.Base;
 using ParkingATHWeb.Contracts.Services.Base;

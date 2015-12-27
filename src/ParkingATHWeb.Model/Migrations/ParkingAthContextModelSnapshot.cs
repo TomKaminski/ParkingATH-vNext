@@ -41,7 +41,7 @@ namespace ParkingATHWeb.Model.Migrations
 
                     b.Property<string>("From");
 
-                    b.Property<string>("HtmlBody");
+                    b.Property<string>("MessageParameters");
 
                     b.Property<string>("Title");
 

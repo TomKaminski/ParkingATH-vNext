@@ -8,8 +8,8 @@ using ParkingATHWeb.Model;
 namespace ParkingATHWeb.Model.Migrations
 {
     [DbContext(typeof(ParkingAthContext))]
-    [Migration("20151227110110_Messages")]
-    partial class Messages
+    [Migration("20151227200735_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -42,7 +42,7 @@ namespace ParkingATHWeb.Model.Migrations
 
                     b.Property<string>("From");
 
-                    b.Property<string>("HtmlBody");
+                    b.Property<string>("MessageParameters");
 
                     b.Property<string>("Title");
 
