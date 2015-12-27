@@ -54,6 +54,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
+            _messageService.SendMessage(new MessageDto());
             if (ModelState.IsValid)
             {
                 var userLoginResult = await _userService.LoginFirstTimeMvcAsync(model.Email, model.Password);

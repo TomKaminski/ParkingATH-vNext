@@ -19,6 +19,7 @@ namespace ParkingATHWeb.Model
         public virtual DbSet<GateUsage> GateUsage { get; set; }
         public virtual DbSet<PriceTreshold> PriceTreshold { get; set; }
         public virtual DbSet<Token> Token { get; set; }
+        public virtual DbSet<Message> Message { get; set; } 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -63,6 +64,9 @@ namespace ParkingATHWeb.Model
                 .HasOne(x => x.EmailChangeToken)
                 .WithOne(x => x.User)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Message>()
+                .HasOne(x => x.User);
 
             base.OnModelCreating(modelBuilder);
         }

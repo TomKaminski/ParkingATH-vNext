@@ -1,10 +1,10 @@
 ﻿using System;
-using ParkingATHWeb.Contracts.Common;
+using ParkingATHWeb.Model.Common;
 using ParkingATHWeb.Shared.Enums;
 
-namespace ParkingATHWeb.Contracts.DTO
+namespace ParkingATHWeb.Model.Concrete
 {
-    public class MessageDto : BaseDto<Guid>
+    public class Message:Entity<Guid>
     {
         public string To { get; set; }
         public string CC { get; set; }
@@ -16,5 +16,6 @@ namespace ParkingATHWeb.Contracts.DTO
         public string From { get; set; }
 
         public int UserId { get; set; }
+        public virtual User User { get; set; }
     }
 }
