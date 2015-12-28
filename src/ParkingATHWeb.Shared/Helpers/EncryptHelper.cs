@@ -46,7 +46,8 @@ namespace ParkingATHWeb.Shared.Helpers
                                 cipherTextBytes = cipherTextBytes.Concat(memoryStream.ToArray()).ToArray();
                                 memoryStream.Close();
                                 cryptoStream.Close();
-                                return Convert.ToBase64String(cipherTextBytes);
+                                var cipherText = Convert.ToBase64String(cipherTextBytes);
+                                return System.Net.WebUtility.UrlEncode(cipherText);
                             }
                         }
                     }

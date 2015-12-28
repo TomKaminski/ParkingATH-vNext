@@ -5,7 +5,7 @@ namespace ParkingATHWeb.Business.Providers
 {
     public static class TokenValidityTimeProvider
     {
-        public static DateTime GetValidToDate(TokenType tokenType)
+        public static DateTime? GetValidToDate(TokenType tokenType)
         {
             switch (tokenType)
             {
@@ -13,6 +13,8 @@ namespace ParkingATHWeb.Business.Providers
                     return DateTime.Now.AddDays(3);
                 case TokenType.PasswordChangeResetToken:
                     return DateTime.Now.AddDays(3);
+                case TokenType.ViewInBrowserToken:
+                    return null;
                 default:
                     return DateTime.Now;
             }

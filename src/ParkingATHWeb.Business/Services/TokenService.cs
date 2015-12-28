@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
+using AutoMapper;
+using Newtonsoft.Json;
 using ParkingATHWeb.Business.Providers;
 using ParkingATHWeb.Business.Services.Base;
 using ParkingATHWeb.Contracts.Common;
@@ -15,16 +18,13 @@ namespace ParkingATHWeb.Business.Services
     public class TokenService : EntityService<TokenBaseDto, Token, long>, ITokenService
     {
         private readonly ITokenRepository _repository;
-        private const char DefaultSplitCharacter = '&';
-
-        private const int UserEmailPosition = 0;
-        private const int TokenTypePosition = 1;
-        private const int SecureTokenPosition = 2;
+        private readonly IUnitOfWork _unitOfWork;
 
         public TokenService(IUnitOfWork unitOfWork, ITokenRepository repository)
             : base(repository, unitOfWork)
         {
             _repository = repository;
+            _unitOfWork = unitOfWork;
         }
 
 
@@ -38,11 +38,38 @@ namespace ParkingATHWeb.Business.Services
             });
         }
 
-        public ServiceResult<string[]> GetDecryptedData(string encryptedData)
+        public async Task<ServiceResult<TokenBaseDto>> CreateAsync(TokenType tokenType)
+        {
+            return await base.CreateAsync(new TokenBaseDto
+            {
+                TokenType = tokenType,
+                ValidTo = TokenValidityTimeProvider.GetValidToDate(tokenType),
+                SecureToken = Guid.NewGuid()
+            });
+        }
+
+        public ServiceResult<SplittedTokenData> GetDecryptedData(string encryptedData)
         {
             var decryptedData = EncryptHelper.Decrypt(encryptedData);
-            var splitted = decryptedData.Split(new[] {DefaultSplitCharacter}, StringSplitOptions.RemoveEmptyEntries);
-            return ServiceResult<string[]>.Success(splitted);
+            var tokenDto = JsonConvert.DeserializeObject<TokenBaseDto>(decryptedData);
+            //var splitted = decryptedData.Split(new[] {DefaultSplitCharacter}, StringSplitOptions.RemoveEmptyEntries);
+            return ServiceResult<SplittedTokenData>.Success(Mapper.Map<SplittedTokenData>(tokenDto));
+        }
+
+        public async Task<ServiceResult<TokenBaseDto>> GetTokenBySecureTokenAndTypeAsync(Guid secureToken, TokenType type)
+        {
+            var token = Mapper.Map<TokenBaseDto>(await _repository.FirstOrDefaultAsync(x => x.TokenType == type && x.SecureToken == secureToken));
+            return token.NotExpired()
+                ? ServiceResult<TokenBaseDto>.Success(token)
+                : ServiceResult<TokenBaseDto>.Failure("Expired");
+        }
+
+        public async Task<ServiceResult> DeleteTokenBySecureTokenAndTypeAsync(Guid secureToken, TokenType type)
+        {
+            var token = await _repository.FirstOrDefaultAsync(x => x.TokenType == type && x.SecureToken == secureToken);
+            _repository.Delete(token);
+            await _unitOfWork.CommitAsync();
+            return ServiceResult.Success();
         }
     }
 }

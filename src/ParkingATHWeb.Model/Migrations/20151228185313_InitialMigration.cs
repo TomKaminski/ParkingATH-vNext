@@ -31,7 +31,7 @@ namespace ParkingATHWeb.Model.Migrations
                     SecureToken = table.Column<Guid>(nullable: false),
                     TokenType = table.Column<int>(nullable: false),
                     UserId = table.Column<int>(nullable: false),
-                    ValidTo = table.Column<DateTime>(nullable: false)
+                    ValidTo = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -103,7 +103,8 @@ namespace ParkingATHWeb.Model.Migrations
                     Title = table.Column<string>(nullable: true),
                     To = table.Column<string>(nullable: true),
                     Type = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false)
+                    UserId = table.Column<int>(nullable: false),
+                    ViewInBrowserTokenId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -112,6 +113,12 @@ namespace ParkingATHWeb.Model.Migrations
                         name: "FK_Message_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Message_Token_ViewInBrowserTokenId",
+                        column: x => x.ViewInBrowserTokenId,
+                        principalTable: "Token",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });

@@ -13,6 +13,7 @@ namespace ParkingATHWeb.Mappings
 
             Mapper.CreateMap<ParkingAthMessage, MessageDto>().IgnoreNotExistingProperties();
             Mapper.CreateMap<MessageDto, ParkingAthMessage>().IgnoreNotExistingProperties();
+
         }
     }
 

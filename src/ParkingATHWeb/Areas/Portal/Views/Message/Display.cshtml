@@ -1,0 +1,12 @@
+﻿@{
+    ViewData["Title"] = "Podgląd wiadomości";
+}
+@model ParkingATHWeb.Areas.Portal.ViewModels.Message.DisplayMessageViewModel
+
+<h1>@Model.Title</h1>
+<br/>
+<br/>
+
+<div>
+    @Html.Raw(Model.EmailHtml)
+</div>

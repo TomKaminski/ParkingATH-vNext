@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mail.Abstractions;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.PlatformAbstractions;
 using Newtonsoft.Json;
 using ParkingATHWeb.Business.Providers.Email;
 using ParkingATHWeb.Business.Services.Base;
+using ParkingATHWeb.Contracts.Common;
 using ParkingATHWeb.Contracts.DTO;
 using ParkingATHWeb.Contracts.DTO.User;
 using ParkingATHWeb.Contracts.Services;
@@ -26,13 +28,17 @@ namespace ParkingATHWeb.Business.Services
         private readonly IEmailBodyProvider _emailBodyProvider;
         private readonly IMessageRepository _messageRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ITokenService _tokenService;
+
+        private const string TokenRedirectFormat = "/Redirect?id={0}";
 
         public MessageService(IUnitOfWork unitOfWork,
-            ISmtpClient smtpClient, IApplicationEnvironment appEnv, IEmailBodyProvider emailBodyProvider, IMessageRepository messageRepository) : base(messageRepository, unitOfWork)
+            ISmtpClient smtpClient, IApplicationEnvironment appEnv, IEmailBodyProvider emailBodyProvider, IMessageRepository messageRepository, ITokenService tokenService) : base(messageRepository, unitOfWork)
         {
             _smtpClient = smtpClient;
             _emailBodyProvider = emailBodyProvider;
             _messageRepository = messageRepository;
+            _tokenService = tokenService;
             _unitOfWork = unitOfWork;
 
             var builder = new ConfigurationBuilder()
@@ -56,18 +62,22 @@ namespace ParkingATHWeb.Business.Services
                 _configuration["Settings:SmtpConfiguration:password"]);
         }
 
-        public async Task SendMessageAsync(MessageDto message, UserBaseDto userData)
+        public async Task<ServiceResult> SendMessageAsync(MessageDto message, UserBaseDto userData, string appBasePath)
         {
             ConfigureSmtpSettings();
-            var emailParameters = EmailParametersProvider.GetBaseParametersForEmail(userData);
-            var emailBody = _emailBodyProvider.GetEmailBody(message.Type, userData, emailParameters);
+            var tokenCreateResult = await _tokenService.CreateAsync(TokenType.ViewInBrowserToken);
 
+            var emailParameters = EmailParametersProvider.GetBaseParametersForEmail(userData);
+            emailParameters.Add("ViewInBrowserLink", string.Format(appBasePath + TokenRedirectFormat, tokenCreateResult.Result.BuildEncryptedToken()));
+
+            var emailBody = _emailBodyProvider.GetEmailBody(message.Type, emailParameters);
             message.To = userData.Email;
             message.DisplayFrom = "Parking ATH";
             message.Title = GetEmailTitle(message.Type);
             message.MessageParameters = JsonConvert.SerializeObject(emailParameters);
             message.UserId = userData.Id;
             message.From = _configuration["Settings:SmtpConfiguration:from"];
+            message.ViewInBrowserTokenId = tokenCreateResult.Result.Id;
 
             _messageRepository.Add(Mapper.Map<Message>(message));
             await _unitOfWork.CommitAsync();
@@ -77,6 +87,17 @@ namespace ParkingATHWeb.Business.Services
                 IsBodyHtml = true
             };
             await _smtpClient.SendMailAsync(mailMessage);
+            return ServiceResult.Success();
+        }
+
+        public ServiceResult<string> GetMessageBody(MessageDto message)
+        {
+            return ServiceResult<string>.Success(_emailBodyProvider.GetEmailBody(message.Type, JsonConvert.DeserializeObject<Dictionary<string, string>>(message.MessageParameters)));
+        }
+
+        public async Task<MessageDto> GetMessageByTokenId(long id)
+        {
+            return Mapper.Map<MessageDto>(await _messageRepository.GetMessageByTokenId(id));
         }
 
 

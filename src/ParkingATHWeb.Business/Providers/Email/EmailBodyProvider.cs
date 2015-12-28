@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Microsoft.Extensions.PlatformAbstractions;
-using ParkingATHWeb.Contracts.DTO.User;
 using ParkingATHWeb.Contracts.Services;
 using ParkingATHWeb.Shared.Enums;
 
@@ -18,10 +17,11 @@ namespace ParkingATHWeb.Business.Providers.Email
             _appEnv = appEnv;
         }
 
-        public string GetEmailBody(EmailType type, UserBaseDto userData, Dictionary<string,string> parameters)
+        public string GetEmailBody(EmailType type, Dictionary<string,string> parameters)
         {
-            var template = PrepareEmailBody(GetValidTemplateString(type), parameters);
-            return InsertBodyIntoLayout(template);
+            var validTemplate = GetValidTemplateString(type);
+            var templateWithLayout = InsertBodyIntoLayout(validTemplate);
+            return PrepareEmailBody(templateWithLayout, parameters);
         }
 
         private string PrepareEmailBody(string template, Dictionary<string, string> parameters)

@@ -42,5 +42,10 @@ namespace ParkingATHWeb.Areas.Portal.Controllers.Base
 
             await HttpContext.Authentication.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = isPersistent });
         }
+
+        protected string GetAppBaseUrl()
+        {
+            return Url.Action("Index","Home", new {area="Portal"},"http");
+        }
     }
 }

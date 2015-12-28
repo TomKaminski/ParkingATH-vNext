@@ -16,5 +16,6 @@ namespace ParkingATHWeb.Contracts.DTO
         public string From { get; set; }
 
         public int UserId { get; set; }
+        public long ViewInBrowserTokenId { get; set; }
     }
 }

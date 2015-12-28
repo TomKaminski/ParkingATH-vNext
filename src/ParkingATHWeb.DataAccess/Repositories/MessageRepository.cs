@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.Data.Entity;
 using ParkingATHWeb.DataAccess.Common;
 using ParkingATHWeb.DataAccess.Interfaces;
@@ -14,6 +15,11 @@ namespace ParkingATHWeb.DataAccess.Repositories
             : base(factory)
         {
             _dbset = factory.Get().Set<Message>();
+        }
+
+        public async Task<Message> GetMessageByTokenId(long id)
+        {
+            return await _dbset.Include(x => x.ViewInBrowserToken).FirstAsync(x => x.ViewInBrowserToken.Id == id);
         }
     }
 }

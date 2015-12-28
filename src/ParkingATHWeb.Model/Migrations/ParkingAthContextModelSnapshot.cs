@@ -51,6 +51,8 @@ namespace ParkingATHWeb.Model.Migrations
 
                     b.Property<int>("UserId");
 
+                    b.Property<long>("ViewInBrowserTokenId");
+
                     b.HasKey("Id");
                 });
 
@@ -101,7 +103,7 @@ namespace ParkingATHWeb.Model.Migrations
 
                     b.Property<int>("UserId");
 
-                    b.Property<DateTime>("ValidTo");
+                    b.Property<DateTime?>("ValidTo");
 
                     b.HasKey("Id");
                 });
@@ -150,6 +152,10 @@ namespace ParkingATHWeb.Model.Migrations
                     b.HasOne("ParkingATHWeb.Model.Concrete.User")
                         .WithMany()
                         .HasForeignKey("UserId");
+
+                    b.HasOne("ParkingATHWeb.Model.Concrete.Token")
+                        .WithMany()
+                        .HasForeignKey("ViewInBrowserTokenId");
                 });
 
             modelBuilder.Entity("ParkingATHWeb.Model.Concrete.Order", b =>

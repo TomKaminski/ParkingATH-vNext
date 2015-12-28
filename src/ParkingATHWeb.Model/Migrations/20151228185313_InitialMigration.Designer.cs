@@ -8,7 +8,7 @@ using ParkingATHWeb.Model;
 namespace ParkingATHWeb.Model.Migrations
 {
     [DbContext(typeof(ParkingAthContext))]
-    [Migration("20151227200735_InitialMigration")]
+    [Migration("20151228185313_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,6 +51,8 @@ namespace ParkingATHWeb.Model.Migrations
                     b.Property<int>("Type");
 
                     b.Property<int>("UserId");
+
+                    b.Property<long>("ViewInBrowserTokenId");
 
                     b.HasKey("Id");
                 });
@@ -102,7 +104,7 @@ namespace ParkingATHWeb.Model.Migrations
 
                     b.Property<int>("UserId");
 
-                    b.Property<DateTime>("ValidTo");
+                    b.Property<DateTime?>("ValidTo");
 
                     b.HasKey("Id");
                 });
@@ -151,6 +153,10 @@ namespace ParkingATHWeb.Model.Migrations
                     b.HasOne("ParkingATHWeb.Model.Concrete.User")
                         .WithMany()
                         .HasForeignKey("UserId");
+
+                    b.HasOne("ParkingATHWeb.Model.Concrete.Token")
+                        .WithMany()
+                        .HasForeignKey("ViewInBrowserTokenId");
                 });
 
             modelBuilder.Entity("ParkingATHWeb.Model.Concrete.Order", b =>

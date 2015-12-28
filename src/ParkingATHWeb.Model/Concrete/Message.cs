@@ -17,5 +17,8 @@ namespace ParkingATHWeb.Model.Concrete
 
         public int UserId { get; set; }
         public virtual User User { get; set; }
+
+        public long ViewInBrowserTokenId { get; set; }
+        public virtual Token ViewInBrowserToken { get; set; }
     }
 }

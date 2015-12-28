@@ -100,8 +100,8 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                     await _messageService.SendMessageAsync(new MessageDto
                     {
                         Type = EmailType.Register
-                    }, userCreateResult.Result);
-                    //TODO: Sent welcome email
+                    }, userCreateResult.Result, GetAppBaseUrl());
+
                     return RedirectToAction("Login");
                 }
                 else
