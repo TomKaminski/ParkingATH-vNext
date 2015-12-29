@@ -30,7 +30,6 @@ namespace ParkingATHWeb.DataAccess.Common
 
         public void Delete(T entity)
         {
-            _dbset.Attach(entity);
             _dbset.Remove(entity);
         }
 
@@ -48,53 +47,53 @@ namespace ParkingATHWeb.DataAccess.Common
         //Sync
         public T Find(TType id)
         {
-            return _dbset.Find(id);
+            return _dbset.AsNoTracking().First(x=>x.Id.Equals(id));
         }
 
         public T First(Expression<Func<T, bool>> expression)
         {
-            return _dbset.First(expression);
+            return _dbset.AsNoTracking().First(expression);
         }
 
         public T FirstOrDefault(Expression<Func<T, bool>> expression)
         {
-            return _dbset.FirstOrDefault(expression);
+            return _dbset.AsNoTracking().FirstOrDefault(expression);
         }
 
         public IQueryable<T> GetAll()
         {
-            return _dbset;
+            return _dbset.AsNoTracking();
         }
 
         public IQueryable<T> GetAll(Expression<Func<T, bool>> expression)
         {
-            return _dbset.Where(expression);
+            return _dbset.AsNoTracking().Where(expression);
         }
 
         //Async
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return await _dbset.ToListAsync();
+            return await _dbset.AsNoTracking().ToListAsync();
         }
 
         public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> expression)
         {
-            return await _dbset.Where(expression).ToListAsync();
+            return await _dbset.AsNoTracking().Where(expression).ToListAsync();
         }
 
         public async Task<T> FindAsync(TType id)
         {
-            return await _dbset.FindAsync(id);
+            return await _dbset.AsNoTracking().FirstAsync(x=>x.Id.Equals(id));
         }
 
         public async Task<T> FirstAsync(Expression<Func<T, bool>> expression)
         {
-            return await _dbset.FirstAsync(expression);
+            return await _dbset.AsNoTracking().FirstAsync(expression);
         }
 
         public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> expression)
         {
-            return await _dbset.FirstOrDefaultAsync(expression);
+            return await _dbset.AsNoTracking().FirstOrDefaultAsync(expression);
         }
     }
 }

@@ -1,44 +1,44 @@
-﻿using Autofac.Extras.Moq;
+﻿using System.Linq;
+using Autofac.Extras.Moq;
+using Microsoft.Data.Entity;
+using ParkingATHWeb.Business.Services;
+using ParkingATHWeb.Business.Tests.Base;
+using ParkingATHWeb.DataAccess;
 using ParkingATHWeb.DataAccess.Common;
 using ParkingATHWeb.DataAccess.Repositories;
-using ParkingATHWeb.DataAccess.Tests.Base;
 using ParkingATHWeb.Model;
+using ParkingATHWeb.Resolver.Mappings;
 using SharpTestsEx;
-using System.Linq;
-using Microsoft.Data.Entity;
-using ParkingATHWeb.DataAccess.Interfaces;
 using Xunit;
 
-namespace ParkingATHWeb.DataAccess.Tests.Repositories
+namespace ParkingATHWeb.Business.Tests.Services
 {
-    public class GenericRepositoryTests : DataAccessTestBase
+    public class EntityServiceTests : BusinessTestBase
     {
-        private  IUnitOfWork _uow;
-        private  IPriceTresholdRepository _repository;
-
+        private PriceTresholdService _sut;
         private readonly AutoMock _mock = AutoMock.GetLoose();
 
-        public GenericRepositoryTests()
+        public EntityServiceTests()
         {
             InitContext();
-            _repository.Add(GetPriceTreshold());
-            _repository.Add(GetPriceTreshold());
-            _repository.Add(GetPriceTreshold());
-            _uow.Commit();
-        }
+            BackendMappingProvider.InitMappings();
 
-     
+
+            _sut.Create(GetPriceTreshold());
+            _sut.Create(GetPriceTreshold());
+            _sut.Create(GetPriceTreshold());
+        }
 
         [Fact]
         public void AddEntity_ThenResultIsValid()
         {
             //Before
-            var preResult = _repository.GetAll().ToList();
+            var preResult = _sut.GetAll().Result.ToList();
 
             //Act
-            _repository.Add(GetPriceTreshold());
-            _uow.Commit();
-            var result = _repository.GetAll().ToList();
+            _sut.Create(GetPriceTreshold());
+
+            var result = _sut.GetAll().Result.ToList();
 
             //Then
             result.Count.Should().Be.EqualTo(preResult.Count + 1);
@@ -47,17 +47,17 @@ namespace ParkingATHWeb.DataAccess.Tests.Repositories
         [Fact]
         public void UpdateEntity_ThenResultIsValid()
         {
+            InitContext();
             //Before
-            var entites = _repository.GetAll().ToList();
+            var entites = _sut.GetAll().Result.ToList();
             var lastEntity = entites.Last();
 
             //Act
             lastEntity.MinCharges = 999;
-            _repository.Edit(lastEntity);
-            _uow.Commit();
+            _sut.Edit(lastEntity);
 
             //Then
-            var result = _repository.GetAll().ToList();
+            var result = _sut.GetAll().Result.ToList();
             result.Count.Should().Be.EqualTo(entites.Count);
             lastEntity.MinCharges.Should().Be.EqualTo(999);
         }
@@ -67,23 +67,24 @@ namespace ParkingATHWeb.DataAccess.Tests.Repositories
         {
             InitContext();
             //Before
-            var entites = _repository.GetAll().ToList();
+            var entites = _sut.GetAll().Result.ToList();
             var lastEntity = entites.Last();
 
             //Act
-            _repository.Delete(lastEntity);
-            _uow.Commit();
+            _sut.Delete(lastEntity);
 
             //Then
-            var result = _repository.GetAll().ToList();
+            var result = _sut.GetAll().Result.ToList();
             result.Count.Should().Be.EqualTo(entites.Count - 1);
         }
 
         private void InitContext()
         {
             _mock.Mock<IDatabaseFactory>().Setup(x => x.Get()).Returns(GetContext());
-            _repository = _mock.Create<PriceTresholdRepository>();
-            _uow = _mock.Create<UnitOfWork>();
+            var repository = _mock.Create<PriceTresholdRepository>();
+            var uow = _mock.Create<UnitOfWork>();
+
+            _sut = new PriceTresholdService(uow, repository);
         }
 
         private ParkingAthContext GetContext()

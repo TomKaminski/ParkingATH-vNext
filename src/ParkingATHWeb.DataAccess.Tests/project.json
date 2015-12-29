@@ -22,5 +22,8 @@
   "frameworks": {
     "dnx451": {
     }
+  },
+  "tooling": {
+    "defaultNamespace": "<%= namespace %>"
   }
 }

@@ -62,8 +62,8 @@ namespace ParkingATHWeb.Business.Services.Base
             {
                 return ServiceResult.Failure(new List<string> { "Nie znaleziono pasującego elementu." });
             }
-
-            obj = MapperHelper<TDto, TEntity>.MapNoIdToEntityOnEdit(entity, obj);
+            obj = Mapper.Map<TEntity>(entity);
+            //obj = MapperHelper<TDto, TEntity>.MapNoIdToEntityOnEdit(entity, obj);
             _repository.Edit(obj);
             _unitOfWork.Commit();
             return ServiceResult.Success();

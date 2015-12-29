@@ -21,7 +21,8 @@ namespace ParkingATHWeb.Model
             var i = 0;
             foreach (var property in key.Properties)
             {
-                entries = entries.Where(e => e.Property(property.Name).CurrentValue == keyValues[i]);
+                var i1 = i;
+                entries = entries.Where(e => e.Property(property.Name).CurrentValue == keyValues[i1]);
                 i++;
             }
 
