@@ -12,12 +12,17 @@ namespace ParkingATHWeb.Business.Providers.Email
         private const string EmailsBasePath = "/Content/Emails";
         private const string BodyMarker = "{{BodyHtml}}";
 
+        public EmailBodyProvider()
+        {
+            
+        }
+
         public EmailBodyProvider(IApplicationEnvironment appEnv)
         {
             _appEnv = appEnv;
         }
 
-        public string GetEmailBody(EmailType type, Dictionary<string,string> parameters)
+        public virtual string GetEmailBody(EmailType type, Dictionary<string,string> parameters)
         {
             var validTemplate = GetValidTemplateString(type);
             var templateWithLayout = InsertBodyIntoLayout(validTemplate);
@@ -32,14 +37,19 @@ namespace ParkingATHWeb.Business.Providers.Email
                 localTemplate = localTemplate.Replace("{{" + parameter.Key + "}}", parameter.Value);
             }
             return localTemplate;
-        } 
-
-        private string GetLayoutTemplate()
-        {
-            return File.ReadAllText($"{_appEnv.ApplicationBasePath}{EmailsBasePath}/_EmailLayout.html");
         }
 
-        private string GetValidTemplateString(EmailType type)
+        public virtual string GetLayoutTemplate()
+        {
+            return File.ReadAllText(GetLayoutPath());
+        }
+
+        private string GetLayoutPath()
+        {
+            return $"{_appEnv.ApplicationBasePath}{EmailsBasePath}/_EmailLayout.html";
+        }
+
+        public virtual string GetValidTemplateString(EmailType type)
         {
             switch (type)
             {

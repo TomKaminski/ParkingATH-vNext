@@ -7,5 +7,7 @@ namespace ParkingATHWeb.Contracts.Services
     public interface IEmailBodyProvider : IDependencyService
     {
         string GetEmailBody(EmailType type, Dictionary<string, string> parameters);
+        string GetLayoutTemplate();
+        string GetValidTemplateString(EmailType type);
     }
 }
