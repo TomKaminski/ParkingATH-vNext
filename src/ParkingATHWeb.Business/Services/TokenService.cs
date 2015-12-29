@@ -30,35 +30,28 @@ namespace ParkingATHWeb.Business.Services
 
         public ServiceResult<TokenBaseDto> Create(TokenType tokenType)
         {
-            return base.Create(new TokenBaseDto
-            {
-                TokenType = tokenType,
-                ValidTo = TokenValidityTimeProvider.GetValidToDate(tokenType),
-                SecureToken = Guid.NewGuid()
-            });
+            return base.Create(GetTokenToAdd(tokenType));
         }
 
         public async Task<ServiceResult<TokenBaseDto>> CreateAsync(TokenType tokenType)
         {
-            return await base.CreateAsync(new TokenBaseDto
-            {
-                TokenType = tokenType,
-                ValidTo = TokenValidityTimeProvider.GetValidToDate(tokenType),
-                SecureToken = Guid.NewGuid()
-            });
+            return await base.CreateAsync(GetTokenToAdd(tokenType));
         }
 
         public ServiceResult<SplittedTokenData> GetDecryptedData(string encryptedData)
         {
             var decryptedData = EncryptHelper.Decrypt(encryptedData);
             var tokenDto = JsonConvert.DeserializeObject<TokenBaseDto>(decryptedData);
-            //var splitted = decryptedData.Split(new[] {DefaultSplitCharacter}, StringSplitOptions.RemoveEmptyEntries);
             return ServiceResult<SplittedTokenData>.Success(Mapper.Map<SplittedTokenData>(tokenDto));
         }
 
         public async Task<ServiceResult<TokenBaseDto>> GetTokenBySecureTokenAndTypeAsync(Guid secureToken, TokenType type)
         {
             var token = Mapper.Map<TokenBaseDto>(await _repository.FirstOrDefaultAsync(x => x.TokenType == type && x.SecureToken == secureToken));
+            if (token == null)
+            {
+                return ServiceResult<TokenBaseDto>.Failure("Not found");
+            }
             return token.NotExpired()
                 ? ServiceResult<TokenBaseDto>.Success(token)
                 : ServiceResult<TokenBaseDto>.Failure("Expired");
@@ -70,6 +63,16 @@ namespace ParkingATHWeb.Business.Services
             _repository.Delete(token);
             await _unitOfWork.CommitAsync();
             return ServiceResult.Success();
+        }
+
+        private static TokenBaseDto GetTokenToAdd(TokenType tokenType)
+        {
+            return new TokenBaseDto
+            {
+                SecureToken = Guid.NewGuid(),
+                TokenType = tokenType,
+                ValidTo = TokenValidityTimeProvider.GetValidToDate(tokenType)
+            };
         }
     }
 }

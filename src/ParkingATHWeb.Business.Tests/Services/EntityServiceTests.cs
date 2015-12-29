@@ -38,10 +38,11 @@ namespace ParkingATHWeb.Business.Tests.Services
             //Act
             _sut.Create(GetPriceTreshold());
 
-            var result = _sut.GetAll().Result.ToList();
+            var result = _sut.GetAll();
 
             //Then
-            result.Count.Should().Be.EqualTo(preResult.Count + 1);
+            result.IsValid.Should().Be.True();
+            result.Result.ToList().Count.Should().Be.EqualTo(preResult.Count + 1);
         }
 
         [Fact]
@@ -57,8 +58,9 @@ namespace ParkingATHWeb.Business.Tests.Services
             _sut.Edit(lastEntity);
 
             //Then
-            var result = _sut.GetAll().Result.ToList();
-            result.Count.Should().Be.EqualTo(entites.Count);
+            var result = _sut.GetAll();
+            result.IsValid.Should().Be.True();
+            result.Result.ToList().Count.Should().Be.EqualTo(entites.Count);
             lastEntity.MinCharges.Should().Be.EqualTo(999);
         }
 
