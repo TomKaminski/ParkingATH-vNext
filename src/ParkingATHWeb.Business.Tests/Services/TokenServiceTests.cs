@@ -28,7 +28,7 @@ namespace ParkingATHWeb.Business.Tests.Services
         public async void WhenTokenIsCreated_DeleteItByTypeAndSecureToken_ThenTokenDontExists()
         {
             //Before
-            var changePasswordTokenCreateResult = _sut.Create(TokenType.PasswordChangeResetToken);
+            var changePasswordTokenCreateResult = _sut.Create(TokenType.ResetPasswordToken);
             InitContext();
             //Act
             var data = await _sut.DeleteTokenBySecureTokenAndTypeAsync(changePasswordTokenCreateResult.Result.SecureToken, changePasswordTokenCreateResult.Result.TokenType);
@@ -46,7 +46,7 @@ namespace ParkingATHWeb.Business.Tests.Services
         public async void WhenTokenIsCreated_GetItFromDbBySecTokenAndType_ThenTokenEquals()
         {
             //Before
-            var changePasswordTokenCreateResult = _sut.Create(TokenType.PasswordChangeResetToken);
+            var changePasswordTokenCreateResult = _sut.Create(TokenType.ResetPasswordToken);
 
             //Act
             var data = await _sut.GetTokenBySecureTokenAndTypeAsync(changePasswordTokenCreateResult.Result.SecureToken, changePasswordTokenCreateResult.Result.TokenType);
@@ -62,7 +62,7 @@ namespace ParkingATHWeb.Business.Tests.Services
         public void WhenTokenIsCreated_EncryptIt_ThenDecryptedDataEquals()
         {
             //Before
-            var changePasswordTokenCreateResult = _sut.Create(TokenType.PasswordChangeResetToken);
+            var changePasswordTokenCreateResult = _sut.Create(TokenType.ResetPasswordToken);
             var encryptedTokenData = changePasswordTokenCreateResult.Result.BuildEncryptedToken();
 
             //Act
@@ -80,13 +80,13 @@ namespace ParkingATHWeb.Business.Tests.Services
         {
             //Act
             var browserTokenCreateResult = _sut.Create(TokenType.ViewInBrowserToken);
-            var changePasswordTokenCreateResult = _sut.Create(TokenType.PasswordChangeResetToken);
+            var changePasswordTokenCreateResult = _sut.Create(TokenType.ResetPasswordToken);
 
             //Then
             browserTokenCreateResult.IsValid.Should().Be.True();
             changePasswordTokenCreateResult.IsValid.Should().Be.True();
 
-            var changePasswordValidDate = TokenValidityTimeProvider.GetValidToDate(TokenType.PasswordChangeResetToken);
+            var changePasswordValidDate = TokenValidityTimeProvider.GetValidToDate(TokenType.ResetPasswordToken);
 
             browserTokenCreateResult.Result.ValidTo.Should().Be.EqualTo(null);
             changePasswordTokenCreateResult.Result.ValidTo.Should().Be.IncludedIn(changePasswordValidDate.Value.AddMinutes(-1), changePasswordValidDate);
@@ -99,13 +99,13 @@ namespace ParkingATHWeb.Business.Tests.Services
         {
             //Act
             var browserTokenCreateResult = await _sut.CreateAsync(TokenType.ViewInBrowserToken);
-            var changePasswordTokenCreateResult = await _sut.CreateAsync(TokenType.PasswordChangeResetToken);
+            var changePasswordTokenCreateResult = await _sut.CreateAsync(TokenType.ResetPasswordToken);
 
             //Then
             browserTokenCreateResult.IsValid.Should().Be.True();
             changePasswordTokenCreateResult.IsValid.Should().Be.True();
 
-            var changePasswordValidDate = TokenValidityTimeProvider.GetValidToDate(TokenType.PasswordChangeResetToken);
+            var changePasswordValidDate = TokenValidityTimeProvider.GetValidToDate(TokenType.ResetPasswordToken);
 
             browserTokenCreateResult.Result.ValidTo.Should().Be.EqualTo(null);
             changePasswordTokenCreateResult.Result.ValidTo.Should().Be.IncludedIn(changePasswordValidDate.Value.AddMinutes(-1), changePasswordValidDate);

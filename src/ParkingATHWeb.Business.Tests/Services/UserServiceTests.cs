@@ -18,6 +18,7 @@ namespace ParkingATHWeb.Business.Tests.Services
         private readonly AutoMock _mock = AutoMock.GetLoose();
         private IUnitOfWork _unitOfWork;
         private UserRepository _userRepository;
+        private TokenService _tokenService;
 
         public UserServiceTests()
         {
@@ -37,8 +38,9 @@ namespace ParkingATHWeb.Business.Tests.Services
 
             var gateRepositoryMock = _mock.Create<GateUsageRepository>();
             var passwordHasher = _mock.Create<PasswordHasher>();
+            _tokenService = new TokenService(_unitOfWork, _mock.Create<TokenRepository>());
 
-            _sut = new UserService(_userRepository, _unitOfWork, gateRepositoryMock, passwordHasher);
+            _sut = new UserService(_userRepository, _unitOfWork, gateRepositoryMock, passwordHasher, _tokenService);
         }
 
         [Fact]
@@ -183,7 +185,7 @@ namespace ParkingATHWeb.Business.Tests.Services
         {
             InitContext();
             //act
-            var userGetResult = await _sut.AddChargesAsync("tkaminski93@gmail.com",25);
+            var userGetResult = await _sut.AddChargesAsync("tkaminski93@gmail.com", 25);
 
             //then
             userGetResult.IsValid.Should().Be.True();
@@ -194,7 +196,7 @@ namespace ParkingATHWeb.Business.Tests.Services
         public async void WhenCredentialsProvided_LoginSuccessfull()
         {
             //act
-            var result = await _sut.LoginFirstTimeMvcAsync("tkaminski93@gmail.com", BasicUserPassword);
+            var result = await _sut.LoginMvcAsync("tkaminski93@gmail.com", BasicUserPassword);
 
             //then
             result.Should().Not.Be.Null();
@@ -207,7 +209,7 @@ namespace ParkingATHWeb.Business.Tests.Services
         public async void WhenCredentialsProvided_LoginUnSuccessfull()
         {
             //act
-            var result = await _sut.LoginFirstTimeMvcAsync("tkaminski93@gmail.com", "dsadsasdaasdsda");
+            var result = await _sut.LoginMvcAsync("tkaminski93@gmail.com", "dsadsasdaasdsda");
 
             //then
             result.Should().Not.Be.Null();
@@ -264,6 +266,33 @@ namespace ParkingATHWeb.Business.Tests.Services
             userGetResult.IsValid.Should().Be.True();
             userGetResult.Result.Name.Should().Be.EqualTo("Changed");
             userGetResult.Result.LastName.Should().Be.EqualTo("Changed");
+        }
+
+        [Fact]
+        public async void GenerateResetPasswordToken_ThenTryToChangePasswordWithThatToken_PasswordIsChanged()
+        {
+            //before
+            InitContext();
+            var passwordChangeToken = await _sut.GetPasswordChangeTokenAsync("tkaminski93@gmail.com");
+
+            //act
+            InitContext();
+            var resetPasswordResult =
+                await _sut.ResetPasswordAsync("tkaminski93@gmail.com", System.Net.WebUtility.UrlDecode(passwordChangeToken.Result), "NewPassword123");
+
+            //then
+            resetPasswordResult.IsValid.Should().Be.True();
+            resetPasswordResult.Result.Should().Not.Be.Null();
+
+            InitContext();
+            var validLoginResult = await _sut.LoginMvcAsync("tkaminski93@gmail.com", "NewPassword123");
+            validLoginResult.IsValid.Should().Be.True();
+            validLoginResult.Result.Should().Not.Be.Null();
+
+            InitContext();
+            var oldPasswordLoginResult = await _sut.LoginMvcAsync("tkaminski93@gmail.com", BasicUserPassword);
+            oldPasswordLoginResult.IsValid.Should().Be.False();
+            oldPasswordLoginResult.Result.Should().Be.Null();
         }
 
     }

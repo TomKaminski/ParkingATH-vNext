@@ -22,7 +22,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
             {
                 case TokenType.EmailChangeToken:
                     break;
-                case TokenType.PasswordChangeResetToken:
+                case TokenType.ResetPasswordToken:
                     break;
                 case TokenType.ViewInBrowserToken:
                     return RedirectToAction("Display", "Message", new {id});
