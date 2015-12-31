@@ -21,27 +21,25 @@ namespace ParkingATHWeb.Shared.Tests
         public void WhenEncryptPassword_ReturnHashAndSalt()
         {
             //Act
-            var encryptedString = _sut.CreateHash(ValidPassword);
-            var splitted = encryptedString.Split(new[] { SplitCharacter }, StringSplitOptions.RemoveEmptyEntries);
+            var encrypted = _sut.CreateHash(ValidPassword);
 
             //Then
-            splitted.Length.Should().Be.EqualTo(2);
-            splitted[0].Should().Not.Be.Empty();
-            splitted[1].Should().Not.Be.Empty();
+            encrypted.Should().Not.Be.Null();
+            encrypted.Hash.Should().Not.Be.Empty();
+            encrypted.Salt.Should().Not.Be.Empty();
         }
 
         [Fact]
         public void WhenEncryptPassword_ThenValidateIt_ResultIsValid()
         {
             //Act
-            var encryptedString = _sut.CreateHash(ValidPassword);
-            var splitted = encryptedString.Split(new[] { SplitCharacter }, StringSplitOptions.RemoveEmptyEntries);
-            var validationResult = _sut.ValidatePassword(ValidPassword, splitted[1], splitted[0]);
+            var encrypted = _sut.CreateHash(ValidPassword);
+            var validationResult = _sut.ValidatePassword(ValidPassword, encrypted.Hash, encrypted.Salt);
 
             //Then
-            splitted.Length.Should().Be.EqualTo(2);
-            splitted[0].Should().Not.Be.Empty();
-            splitted[1].Should().Not.Be.Empty();
+            encrypted.Should().Not.Be.Null();
+            encrypted.Hash.Should().Not.Be.Empty();
+            encrypted.Salt.Should().Not.Be.Empty();
             validationResult.Should().Be.True();
         }
 
@@ -49,14 +47,14 @@ namespace ParkingATHWeb.Shared.Tests
         public void WhenEncryptPassword_ThenValidateIt_ResultIsNotValid()
         {
             //Act
-            var encryptedString = _sut.CreateHash(ValidPassword);
-            var splitted = encryptedString.Split(new[] { SplitCharacter }, StringSplitOptions.RemoveEmptyEntries);
-            var validationResult = _sut.ValidatePassword(NotValidPassword, splitted[1], splitted[0]);
+            var encrypted = _sut.CreateHash(ValidPassword);
+            var validationResult = _sut.ValidatePassword(NotValidPassword, encrypted.Hash, encrypted.Salt);
+
 
             //Then
-            splitted.Length.Should().Be.EqualTo(2);
-            splitted[0].Should().Not.Be.Empty();
-            splitted[1].Should().Not.Be.Empty();
+            encrypted.Should().Not.Be.Null();
+            encrypted.Hash.Should().Not.Be.Empty();
+            encrypted.Salt.Should().Not.Be.Empty();
             validationResult.Should().Be.False();
         }
     }

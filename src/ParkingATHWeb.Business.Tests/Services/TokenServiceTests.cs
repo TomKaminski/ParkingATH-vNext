@@ -1,12 +1,10 @@
-﻿using System;
-using Autofac.Extras.Moq;
-using Microsoft.Data.Entity;
+﻿using Autofac.Extras.Moq;
 using ParkingATHWeb.Business.Providers;
 using ParkingATHWeb.Business.Services;
+using ParkingATHWeb.Business.Tests.Base;
 using ParkingATHWeb.DataAccess;
 using ParkingATHWeb.DataAccess.Common;
 using ParkingATHWeb.DataAccess.Repositories;
-using ParkingATHWeb.Model;
 using ParkingATHWeb.Resolver.Mappings;
 using ParkingATHWeb.Shared.Enums;
 using SharpTestsEx;
@@ -14,7 +12,7 @@ using Xunit;
 
 namespace ParkingATHWeb.Business.Tests.Services
 {
-    public class TokenServiceTests
+    public class TokenServiceTests : BusinessTestBase
     {
         private TokenService _sut;
         private readonly AutoMock _mock = AutoMock.GetLoose();
@@ -121,14 +119,6 @@ namespace ParkingATHWeb.Business.Tests.Services
 
             _sut = new TokenService(uow, repository);
             BackendMappingProvider.InitMappings();
-        }
-
-        private static ParkingAthContext GetContext()
-        {
-            var context = new ParkingAthContext(true);
-            context.ChangeTracker.AutoDetectChangesEnabled = false;
-            context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-            return context;
         }
     }
 }

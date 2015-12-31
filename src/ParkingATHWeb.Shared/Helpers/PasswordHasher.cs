@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Security.Cryptography;
+using ParkingATHWeb.Shared.PasswordHash;
 
 namespace ParkingATHWeb.Shared.Helpers
 {
     public interface IPasswordHasher
     {
-        string CreateHash(string password);
+        EncryptedPasswordData CreateHash(string password);
         bool ValidatePassword(string password, string correctHash, string correctSalt);
     }
 
@@ -15,7 +16,7 @@ namespace ParkingATHWeb.Shared.Helpers
         private const int HashByteSize = 48;
         private const int Pbkdf2Iterations = 1000;
 
-        public string CreateHash(string password)
+        public EncryptedPasswordData CreateHash(string password)
         {
             // Generate a random salt
             var csprng = new RNGCryptoServiceProvider();
@@ -24,7 +25,11 @@ namespace ParkingATHWeb.Shared.Helpers
 
             // Hash the password and encode the parameters
             var hash = Pbkdf2(password, salt, Pbkdf2Iterations, HashByteSize);
-            return Convert.ToBase64String(salt) + ":" + Convert.ToBase64String(hash);
+            return new EncryptedPasswordData
+            {
+                Hash = Convert.ToBase64String(hash),
+                Salt = Convert.ToBase64String(salt)
+            };
         }
 
         public bool ValidatePassword(string password, string correctHash, string correctSalt)

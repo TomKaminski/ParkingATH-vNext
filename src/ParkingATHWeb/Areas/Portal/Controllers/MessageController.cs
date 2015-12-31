@@ -25,12 +25,12 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
             var decodedToken = _tokenService.GetDecryptedData(id);
             var tokenData = await _tokenService.GetTokenBySecureTokenAndTypeAsync(decodedToken.Result.SecureToken, decodedToken.Result.TokenType);
             var message = await _messageService.GetMessageByTokenId(tokenData.Result.Id);
-            var emailBody = _messageService.GetMessageBody(message).Result;
+            var emailBody = _messageService.GetMessageBody(message.Result).Result;
 
             return View(new DisplayMessageViewModel
             {
                 EmailHtml = emailBody,
-                Title = message.Title
+                Title = message.Result.Title
             });
         }
     }

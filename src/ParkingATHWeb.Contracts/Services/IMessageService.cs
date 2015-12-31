@@ -11,6 +11,6 @@ namespace ParkingATHWeb.Contracts.Services
     {
         Task<ServiceResult>  SendMessageAsync(MessageDto message, UserBaseDto userData, string appBasePath);
         ServiceResult<string> GetMessageBody(MessageDto message);
-        Task<MessageDto> GetMessageByTokenId(long id);
+        Task<ServiceResult<MessageDto>> GetMessageByTokenId(long id);
     }
 }

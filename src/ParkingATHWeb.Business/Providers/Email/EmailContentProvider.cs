@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Microsoft.Extensions.PlatformAbstractions;
 using ParkingATHWeb.Contracts.Services;
@@ -6,20 +7,23 @@ using ParkingATHWeb.Shared.Enums;
 
 namespace ParkingATHWeb.Business.Providers.Email
 {
-    public class EmailBodyProvider : IEmailBodyProvider
+    public class EmailContentProvider : IEmailContentProvider
     {
         private readonly IApplicationEnvironment _appEnv;
+        private readonly IAppSettingsProvider _appSettingsProvider;
+
         private const string EmailsBasePath = "/Content/Emails";
         private const string BodyMarker = "{{BodyHtml}}";
 
-        public EmailBodyProvider()
+        public EmailContentProvider()
         {
             
         }
 
-        public EmailBodyProvider(IApplicationEnvironment appEnv)
+        public EmailContentProvider(IApplicationEnvironment appEnv, IAppSettingsProvider appSettingsProvider)
         {
             _appEnv = appEnv;
+            _appSettingsProvider = appSettingsProvider;
         }
 
         public virtual string GetEmailBody(EmailType type, Dictionary<string,string> parameters)
@@ -66,6 +70,21 @@ namespace ParkingATHWeb.Business.Providers.Email
         private string InsertBodyIntoLayout(string bodyHtml)
         {
             return GetLayoutTemplate().Replace(BodyMarker, bodyHtml);
+        }
+
+        public virtual string GetEmailTitle(EmailType type)
+        {
+            var conf = _appSettingsProvider.GetAppSettings(AppSettingsType.Resources);
+            switch (type)
+            {
+                case EmailType.Register:
+                    return conf["EmailResources:RegisterEmail_Title"];
+                case EmailType.ResetPassword:
+                    return conf["EmailResources:ChangePassword_Title"];
+                case EmailType.ChangePassword:
+                    return conf["EmailResources:ResetPassword_Title"];
+            }
+            throw new ArgumentOutOfRangeException(nameof(type), type, null);
         }
     }
 }

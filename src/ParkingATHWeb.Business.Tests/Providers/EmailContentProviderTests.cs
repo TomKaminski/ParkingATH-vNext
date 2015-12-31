@@ -2,35 +2,22 @@
 using Autofac.Extras.Moq;
 using Moq;
 using ParkingATHWeb.Business.Providers.Email;
+using ParkingATHWeb.Business.Tests.Base;
 using ParkingATHWeb.Shared.Enums;
 using SharpTestsEx;
 using Xunit;
 
 namespace ParkingATHWeb.Business.Tests.Providers
 {
-    public class EmailBodyProviderTests
+    public class EmailContentProviderTests:BusinessTestBase
     {
-        private const string TestLayoutRegister = @"<div><h1>Email layout {{TekstLayoutPlz}}</h1><p>{{UserName}}</p><br/><br/><div>{{BodyHtml}}</div></div>";
-        private const string EmailBodyRegister = @"<div><h3>Email boooody Register</h3></div>";
-        private const string FullEmailRegister = @"<div><h1>Email layout Hahahahahahaha</h1><p>Tomek Kamiński</p><br/><br/><div><div><h3>Email boooody Register</h3></div></div></div>";
-
-        private const string EmailBodyChangeReset = @"<div><h3>Email boooody ChangeReset</h3></div>";
-        private const string FullEmailChangeReset = @"<div><h1>Email layout Hahahahahahaha</h1><p>Tomek Kamiński</p><br/><br/><div><div><h3>Email boooody ChangeReset</h3></div></div></div>";
-
-
-        private readonly Dictionary<string, string> _customParameters = new Dictionary<string, string>
-        {
-            { "UserName", "Tomek Kamiński" },
-            { "TekstLayoutPlz", "Hahahahahahaha" }
-        };
-
-        private readonly Mock<EmailBodyProvider> _sut;
+        private readonly Mock<EmailContentProvider> _sut;
         private readonly AutoMock _mock = AutoMock.GetLoose();
 
-        public EmailBodyProviderTests()
+        public EmailContentProviderTests()
         {
             //Before
-            _sut = new Mock<EmailBodyProvider> {CallBase = true};
+            _sut = new Mock<EmailContentProvider> {CallBase = true};
             _sut.Setup(x => x.GetValidTemplateString(EmailType.ResetPassword)).Returns(EmailBodyChangeReset);
             _sut.Setup(x => x.GetValidTemplateString(EmailType.ChangePassword)).Returns(EmailBodyChangeReset);
             _sut.Setup(x => x.GetValidTemplateString(EmailType.Register)).Returns(EmailBodyRegister);
@@ -41,7 +28,7 @@ namespace ParkingATHWeb.Business.Tests.Providers
         public void WhenSpecifiedRegisterEmailType_ThenCorrectLayoutIsTaken_AndCorrectBodyIsInsertedIntoLayout()
         {
             //Act
-            var emailBody = _sut.Object.GetEmailBody(EmailType.Register, _customParameters);
+            var emailBody = _sut.Object.GetEmailBody(EmailType.Register, CustomParameters);
 
             //Then
             emailBody.Should().Be.EqualTo(FullEmailRegister);
@@ -53,7 +40,7 @@ namespace ParkingATHWeb.Business.Tests.Providers
         public void WhenSpecifiedChangePasswordEmailType_ThenCorrectLayoutIsTaken_AndCorrectBodyIsInsertedIntoLayout()
         {
             //Act
-            var emailBody = _sut.Object.GetEmailBody(EmailType.ChangePassword, _customParameters);
+            var emailBody = _sut.Object.GetEmailBody(EmailType.ChangePassword, CustomParameters);
 
             //Then
             emailBody.Should().Be.EqualTo(FullEmailChangeReset);
@@ -65,7 +52,7 @@ namespace ParkingATHWeb.Business.Tests.Providers
         public void WhenSpecifiedResetPasswordEmailType_ThenCorrectLayoutIsTaken_AndCorrectBodyIsInsertedIntoLayout()
         {
             //Act
-            var emailBody = _sut.Object.GetEmailBody(EmailType.ResetPassword, _customParameters);
+            var emailBody = _sut.Object.GetEmailBody(EmailType.ResetPassword, CustomParameters);
 
             //Then
             emailBody.Should().Be.EqualTo(FullEmailChangeReset);
