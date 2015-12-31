@@ -30,16 +30,16 @@ namespace ParkingATHWeb.Business.Services
             _passwordHasher = passwordHasher;
         }
 
-        public new ServiceResult<string> Create(UserBaseDto entity)
+        public new ServiceResult<UserBaseDto> Create(UserBaseDto entity)
         {
             var code = GetUniqueKey();
             var saltHash = _passwordHasher.CreateHash(code);
             entity.PasswordSalt = saltHash.Salt;
             entity.PasswordHash = saltHash.Hash;
-            _repository.Add(Mapper.Map<User>(entity));
+            var user = _repository.Add(Mapper.Map<User>(entity));
 
             _unitOfWork.Commit();
-            return ServiceResult<string>.Success(code);
+            return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(user));
         }
 
         public ServiceResult<UserBaseDto> Create(UserBaseDto entity, string password)
@@ -77,24 +77,25 @@ namespace ParkingATHWeb.Business.Services
         public ServiceResult<UserBaseDto> GetByEmail(string email)
         {
             var stud = _repository.FirstOrDefault(x => x.Email == email);
-            return ServiceResult<UserBaseDto>.Success(stud == null ? null : Mapper.Map<UserBaseDto>(stud));
+            return stud == null ? ServiceResult<UserBaseDto>.Failure("Użytkownik nie istnieje")
+                : ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(stud));
         }
 
-        public async Task<ServiceResult<string>> ChangeEmailAsync(string email, string newEmail, string code)
+        public async Task<ServiceResult<UserBaseDto>> ChangeEmailAsync(string email, string newEmail, string password)
         {
             if (await _repository.FirstOrDefaultAsync(x => x.Email == newEmail) == null)
             {
                 var entity = await _repository.FirstOrDefaultAsync(x => x.Email == email);
-                if (_passwordHasher.ValidatePassword(code, entity.PasswordHash, entity.PasswordSalt))
+                if (_passwordHasher.ValidatePassword(password, entity.PasswordHash, entity.PasswordSalt))
                 {
                     entity.Email = newEmail;
                     _repository.Edit(entity);
                     await _unitOfWork.CommitAsync();
-                    return ServiceResult<string>.Success(code);
+                    return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(entity));
                 }
-                return ServiceResult<string>.Failure("Niepoprawny login lub hasło");
+                return ServiceResult<UserBaseDto>.Failure("Niepoprawny login lub hasło");
             }
-            return ServiceResult<string>.Failure("Adres email jest już zajęty");
+            return ServiceResult<UserBaseDto>.Failure("Adres email jest już zajęty");
         }
 
         //TODO: Use tokens
@@ -110,12 +111,12 @@ namespace ParkingATHWeb.Business.Services
 
         }
 
-        public async Task<ServiceResult<string>> ChangePasswordAsync(string email, string token)
+        public async Task<ServiceResult<UserBaseDto>> ChangePasswordAsync(string email, string token)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<ServiceResult<bool?>> ChangePasswordAsync(string email, string password, string newPassword)
+        public async Task<ServiceResult<UserBaseDto>> ChangePasswordAsync(string email, string password, string newPassword)
         {
             throw new NotImplementedException();
         }
@@ -134,7 +135,7 @@ namespace ParkingATHWeb.Business.Services
             entity.Charges += charges;
             _repository.Edit(entity);
             await _unitOfWork.CommitAsync();
-            return ServiceResult<int>.Success(entity.Id);
+            return ServiceResult<int>.Success(entity.Charges);
         }
 
         public async Task<ServiceResult<UserBaseDto>> LoginFirstTimeMvcAsync(string email, string password)
@@ -148,13 +149,13 @@ namespace ParkingATHWeb.Business.Services
         }
 
         //TODO: Token based authentication
-        public async Task<ServiceResult<string>> LoginFirstTimeAsync(string email, string password)
+        public async Task<ServiceResult<UserBaseDto>> LoginFirstTimeAsync(string email, string password)
         {
             throw new NotImplementedException();
         }
 
 
-        public async Task<ServiceResult<string>> CheckLogin(string email, string token)
+        public async Task<ServiceResult<UserBaseDto>> CheckLogin(string email, string token)
         {
             throw new NotImplementedException();
         }
@@ -192,14 +193,14 @@ namespace ParkingATHWeb.Business.Services
             return ServiceResult<bool>.Success((await _repository.FirstOrDefaultAsync(x => x.Email == email)).IsAdmin);
         }
 
-        public async Task<ServiceResult> EditStudentInitialsAsync(UserBaseDto entity)
+        public async Task<ServiceResult<UserBaseDto>> EditStudentInitialsAsync(UserBaseDto entity)
         {
             var student = await _repository.FirstOrDefaultAsync(x => x.Email == entity.Email);
             student.Name = entity.Name;
             student.LastName = entity.LastName;
             _repository.Edit(student);
             await _unitOfWork.CommitAsync();
-            return ServiceResult.Success();
+            return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(student));
         }
 
         #region Helpers

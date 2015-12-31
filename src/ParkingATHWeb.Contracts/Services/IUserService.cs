@@ -7,20 +7,20 @@ namespace ParkingATHWeb.Contracts.Services
 {
     public interface IUserService : IEntityService<UserBaseDto,int>, IDependencyService
     {
-        Task<ServiceResult<string>> ChangeEmailAsync(string email, string newEmail, string token);
+        Task<ServiceResult<UserBaseDto>> ChangeEmailAsync(string email, string newEmail, string password);
 
         Task<ServiceResult<string>> GetPasswordChangeTokenAsync(string email);
         Task<ServiceResult<string>> GetPasswordChangeTokenAsync(string email, string hash);
-        Task<ServiceResult<string>> ChangePasswordAsync(string email, string token);
-        Task<ServiceResult<bool?>> ChangePasswordAsync(string email, string password, string newPassword);
+        Task<ServiceResult<UserBaseDto>> ChangePasswordAsync(string email, string token);
+        Task<ServiceResult<UserBaseDto>> ChangePasswordAsync(string email, string password, string newPassword);
 
         Task<ServiceResult<int>> GetChargesAsync(string email);
         Task<ServiceResult<int>> AddChargesAsync(string email, int charges);
 
         Task<ServiceResult<UserBaseDto>> LoginFirstTimeMvcAsync(string email, string password);
 
-        Task<ServiceResult<string>> LoginFirstTimeAsync(string email, string password);
-        Task<ServiceResult<string>> CheckLogin(string email, string token);
+        Task<ServiceResult<UserBaseDto>> LoginFirstTimeAsync(string email, string password);
+        Task<ServiceResult<UserBaseDto>> CheckLogin(string email, string token);
         Task<ServiceResult<bool>> CheckHash(string email, string token);
 
         new ServiceResult<UserBaseDto> Create(UserBaseDto entity);
@@ -40,6 +40,6 @@ namespace ParkingATHWeb.Contracts.Services
 
         Task<ServiceResult<bool>> IsAdmin(string email);
 
-        Task<ServiceResult> EditStudentInitialsAsync(UserBaseDto entity);
+        Task<ServiceResult<UserBaseDto>> EditStudentInitialsAsync(UserBaseDto entity);
     }
 }

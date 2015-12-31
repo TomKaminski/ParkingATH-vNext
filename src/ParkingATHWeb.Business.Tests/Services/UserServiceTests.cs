@@ -1,0 +1,270 @@
+﻿using Autofac.Extras.Moq;
+using Moq;
+using ParkingATHWeb.Business.Services;
+using ParkingATHWeb.Business.Tests.Base;
+using ParkingATHWeb.DataAccess;
+using ParkingATHWeb.DataAccess.Common;
+using ParkingATHWeb.DataAccess.Repositories;
+using ParkingATHWeb.Resolver.Mappings;
+using ParkingATHWeb.Shared.Helpers;
+using SharpTestsEx;
+using Xunit;
+
+namespace ParkingATHWeb.Business.Tests.Services
+{
+    public class UserServiceTests : BusinessTestBase
+    {
+        private UserService _sut;
+        private readonly AutoMock _mock = AutoMock.GetLoose();
+        private IUnitOfWork _unitOfWork;
+        private UserRepository _userRepository;
+
+        public UserServiceTests()
+        {
+            BackendMappingProvider.InitMappings();
+            InitContext();
+
+            _sut.Create(GetUserBaseDto(), BasicUserPassword);
+            _sut.Create(GetUserBaseDto(), BasicUserPassword);
+            _sut.Create(GetUserBaseDto(), BasicUserPassword);
+        }
+
+        private void InitContext()
+        {
+            _mock.Mock<IDatabaseFactory>().Setup(x => x.Get()).Returns(GetContext());
+            _userRepository = _mock.Create<UserRepository>();
+            _unitOfWork = _mock.Create<UnitOfWork>();
+
+            var gateRepositoryMock = _mock.Create<GateUsageRepository>();
+            var passwordHasher = _mock.Create<PasswordHasher>();
+
+            _sut = new UserService(_userRepository, _unitOfWork, gateRepositoryMock, passwordHasher);
+        }
+
+        [Fact]
+        public void CreateUserWithRandomPassword_ThenResultIsValid()
+        {
+            //before
+            var userToCreate = GetUserBaseDto();
+
+            //act
+            var userCreateResult = _sut.Create(userToCreate, BasicUserPassword);
+
+            //then
+            userCreateResult.IsValid.Should().Be.True();
+            userCreateResult.Result.Should().Not.Be.Null();
+        }
+
+        [Fact]
+        public async void CreateUserWithRandomPassword_ThenResultIsValid_Async()
+        {
+            //before
+            var userToCreate = GetUserBaseDto();
+
+            //act
+            var userCreateResult = await _sut.CreateAsync(userToCreate, BasicUserPassword);
+
+            //then
+            userCreateResult.IsValid.Should().Be.True();
+            userCreateResult.Result.Should().Not.Be.Null();
+        }
+
+        [Fact]
+        public void CreateUserWithPassword_ThenResultIsValid()
+        {
+            //before
+            var userToCreate = GetUserBaseDto();
+
+            //act
+            var userCreateResult = _sut.Create(userToCreate, BasicUserPassword);
+
+            //then
+            userCreateResult.IsValid.Should().Be.True();
+            userCreateResult.Result.Should().Not.Be.Null();
+        }
+
+        [Fact]
+        public async void CreateUserWithPassword_ThenResultIsValid_Async()
+        {
+            //before
+            var userToCreate = GetUserBaseDto();
+
+            //act
+            var userCreateResult = await _sut.CreateAsync(userToCreate, BasicUserPassword);
+
+            //then
+            userCreateResult.IsValid.Should().Be.True();
+            userCreateResult.Result.Should().Not.Be.Null();
+        }
+
+        [Fact]
+        public void WhenGetUserByEmail_ThenResultIsValid()
+        {
+            //act
+            var userGetResult = _sut.GetByEmail("tkaminski93@gmail.com");
+
+            //then
+            userGetResult.IsValid.Should().Be.True();
+            userGetResult.Result.Should().Not.Be.Null();
+        }
+
+
+        [Fact]
+        public void WhenGetUserByEmail_ThenResultIsNotValid()
+        {
+            //act
+            var userGetResult = _sut.GetByEmail("tkaminadasdasdski93@gmail.com");
+
+            //then
+            userGetResult.IsValid.Should().Be.False();
+            userGetResult.Result.Should().Be.Null();
+        }
+
+        [Fact]
+        public async void WhenGetUserByEmail_ThenResultIsValid_Async()
+        {
+            //act
+            var userGetResult = await _sut.GetByEmailAsync("tkaminski93@gmail.com");
+
+            //then
+            userGetResult.IsValid.Should().Be.True();
+            userGetResult.Result.Should().Not.Be.Null();
+        }
+
+
+        [Fact]
+        public async void WhenGetUserByEmail_ThenResultIsNotValid_Async()
+        {
+            //act
+            var userGetResult = await _sut.GetByEmailAsync("tkaminadasdasdski93@gmail.com");
+
+            //then
+            userGetResult.IsValid.Should().Be.False();
+            userGetResult.Result.Should().Be.Null();
+        }
+
+        [Fact]
+        public async void WhenUserChangeEmail_WithValidPassword_ThenEmailIsChanged()
+        {
+            //act
+            var result = await _sut.ChangeEmailAsync("tkaminski93@gmail.com", "asddasasdasdads@adsasdsa.pl", BasicUserPassword);
+
+            //then
+            result.Result.Should().Not.Be.Null();
+            result.IsValid.Should().Be.True();
+            result.Result.Email.Should().Be.EqualTo("asddasasdasdads@adsasdsa.pl");
+        }
+
+        [Fact]
+        public async void WhenUserChangeEmail_WithWrongPassword_ThenEmailNotIsChanged()
+        {
+            //act
+            var result = await _sut.ChangeEmailAsync("tkaminski93@gmail.com", "asddasasdasdads@adsasdsa.pl", "wrongpassword");
+
+            //then
+            result.Result.Should().Be.Null();
+            result.IsValid.Should().Be.False();
+        }
+
+        [Fact]
+        public async void WhenGetChargesByEmail_ThenResultIsValid_Async()
+        {
+            //act
+            var userGetResult = await _sut.GetChargesAsync("tkaminski93@gmail.com");
+
+            //then
+            userGetResult.IsValid.Should().Be.True();
+            userGetResult.Result.Should().Be.EqualTo(25);
+
+        }
+
+        [Fact]
+        public async void WhenAddChargesByEmail_ThenResultIsValid_Async()
+        {
+            InitContext();
+            //act
+            var userGetResult = await _sut.AddChargesAsync("tkaminski93@gmail.com",25);
+
+            //then
+            userGetResult.IsValid.Should().Be.True();
+            userGetResult.Result.Should().Be.EqualTo(50);
+        }
+
+        [Fact]
+        public async void WhenCredentialsProvided_LoginSuccessfull()
+        {
+            //act
+            var result = await _sut.LoginFirstTimeMvcAsync("tkaminski93@gmail.com", BasicUserPassword);
+
+            //then
+            result.Should().Not.Be.Null();
+            result.IsValid.Should().Be.True();
+            result.Result.Email.Should().Be.EqualTo("tkaminski93@gmail.com");
+
+        }
+
+        [Fact]
+        public async void WhenCredentialsProvided_LoginUnSuccessfull()
+        {
+            //act
+            var result = await _sut.LoginFirstTimeMvcAsync("tkaminski93@gmail.com", "dsadsasdaasdsda");
+
+            //then
+            result.Should().Not.Be.Null();
+            result.IsValid.Should().Be.False();
+            result.Result.Should().Be.Null();
+        }
+
+        [Fact]
+        public async void WhenAccountEmailProvided_ThenCheckIfAccountExists_Exists()
+        {
+            //act
+            var result = await _sut.AccountExistsAsync("tkaminski93@gmail.com");
+
+            //then
+            result.Should().Not.Be.Null();
+            result.IsValid.Should().Be.True();
+            result.Result.Should().Be.True();
+        }
+
+        [Fact]
+        public async void WhenAccountEmailProvided_ThenCheckIfAccountExists_NotExists()
+        {
+            var result = await _sut.AccountExistsAsync("tkamindsadasdasski93@gmail.com");
+
+            //then
+            result.Should().Not.Be.Null();
+            result.Result.Should().Be.False();
+        }
+
+        [Fact]
+        public async void WhenAccountEmailProvided_ThenCheckIfAdmin_IsNot()
+        {
+            //act
+            var result = await _sut.IsAdmin("tkaminski93@gmail.com");
+
+            //then
+            result.Should().Not.Be.Null();
+            result.IsValid.Should().Be.True();
+            result.Result.Should().Be.False();
+        }
+
+        [Fact]
+        public async void WhenCredentialsEdited_ThenResultIsValid()
+        {
+            InitContext();
+            var studentDto = GetUserBaseDto();
+
+            //act
+            studentDto.LastName = "Changed";
+            studentDto.Name = "Changed";
+            var userGetResult = await _sut.EditStudentInitialsAsync(studentDto);
+
+            //then
+            userGetResult.IsValid.Should().Be.True();
+            userGetResult.Result.Name.Should().Be.EqualTo("Changed");
+            userGetResult.Result.LastName.Should().Be.EqualTo("Changed");
+        }
+
+    }
+}
