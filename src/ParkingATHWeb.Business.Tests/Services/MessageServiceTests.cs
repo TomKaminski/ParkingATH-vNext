@@ -87,7 +87,7 @@ namespace ParkingATHWeb.Business.Tests.Services
         public async void SendMessageAsync_ThenResultIsValid()
         {
             //act
-            var result = await _sut.SendMessageAsync(GetBaseMessageDto(EmailType.Register), GetUserBaseDto(), "sadsasadasd");
+            var result = await _sut.SendMessageAsync(GetBaseMessageDto(EmailType.Register), GetUserBaseDto(), "sadsasadasd",null);
 
             //then
             result.IsValid.Should().Be.True();

@@ -279,7 +279,7 @@ namespace ParkingATHWeb.Business.Tests.Services
             //act
             InitContext();
             var resetPasswordResult =
-                await _sut.ResetPasswordAsync(System.Net.WebUtility.UrlDecode(passwordChangeToken.Result), "NewPassword123");
+                await _sut.ResetPasswordAsync(System.Net.WebUtility.UrlDecode(passwordChangeToken.SecondResult), "NewPassword123");
 
             //then
             resetPasswordResult.IsValid.Should().Be.True();

@@ -97,11 +97,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                 var userCreateResult = await _userService.CreateAsync(Mapper.Map<UserBaseDto>(model), model.Password);
                 if (userCreateResult.IsValid)
                 {
-                    await _messageService.SendMessageAsync(new MessageDto
-                    {
-                        Type = EmailType.Register
-                    }, userCreateResult.Result, GetAppBaseUrl());
-
+                    await _messageService.SendMessageAsync(EmailType.Register, userCreateResult.Result, GetAppBaseUrl());
                     return RedirectToAction("Login");
                 }
                 else
@@ -116,6 +112,23 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
             return View(model);
         }
 
+
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(string email)
+        {
+            var changePasswordTokenResult = await _userService.GetPasswordChangeTokenAsync(email);
+
+            //TODO: IIS do not accept SomeCtrl/SomeAction/THISID -> we have to use ?id=...
+            var changePasswordUrl = $"{Url.Action("ResetPassword", "Manage")}?id={changePasswordTokenResult.SecondResult}";
+            await _messageService.SendMessageAsync(EmailType.Register, changePasswordTokenResult.Result, GetAppBaseUrl(), 
+                new Dictionary<string, string> { { "ChangePasswordLink", changePasswordUrl } });
+            return RedirectToAction("Index","Manage");
+        }
 
         private async Task IdentitySignin(UserBaseDto user, bool isPersistent = false)
         {

@@ -48,26 +48,27 @@ namespace ParkingATHWeb.Business.Services
             _configuration = appSettingsProvider.GetAppSettings(AppSettingsType.DefaultSettings, AppSettingsType.Resources);
         }
 
-        public async Task<ServiceResult> SendMessageAsync(MessageDto message, UserBaseDto userData, string appBasePath)
+        public async Task<ServiceResult> SendMessageAsync(EmailType type, UserBaseDto userData, string appBasePath, Dictionary<string,string> additionalParameters = null)
         {
             var tokenCreateResult = await _tokenService.CreateAsync(TokenType.ViewInBrowserToken);
 
-            var emailParameters = EmailParametersProvider.GetBaseParametersForEmail(userData);
+            var emailParameters = EmailParametersProvider.GetParameters(userData,additionalParameters);
             emailParameters.Add("ViewInBrowserLink", string.Format(appBasePath + TokenRedirectFormat, tokenCreateResult.Result.BuildEncryptedToken()));
 
-            var emailBody = _emailContentProvider.GetEmailBody(message.Type, emailParameters);
-            message.To = userData.Email;
-            message.DisplayFrom = "Parking ATH";
-            message.Title = _emailContentProvider.GetEmailTitle(message.Type);
-            message.MessageParameters = JsonConvert.SerializeObject(emailParameters);
-            message.UserId = userData.Id;
-            message.From = _smtpSettings.From;
-            message.ViewInBrowserTokenId = tokenCreateResult.Result.Id;
+            var messageDto = new MessageDto {Type = type};
+            var emailBody = _emailContentProvider.GetEmailBody(messageDto.Type, emailParameters);
+            messageDto.To = userData.Email;
+            messageDto.DisplayFrom = "Parking ATH";
+            messageDto.Title = _emailContentProvider.GetEmailTitle(messageDto.Type);
+            messageDto.MessageParameters = JsonConvert.SerializeObject(emailParameters);
+            messageDto.UserId = userData.Id;
+            messageDto.From = _smtpSettings.From;
+            messageDto.ViewInBrowserTokenId = tokenCreateResult.Result.Id;
 
-            _messageRepository.Add(Mapper.Map<Message>(message));
+            _messageRepository.Add(Mapper.Map<Message>(messageDto));
             await _unitOfWork.CommitAsync();
 
-            var mailMessage = new MailMessage(message.From, userData.Email, message.Title, emailBody)
+            var mailMessage = new MailMessage(messageDto.From, userData.Email, messageDto.Title, emailBody)
             {
                 IsBodyHtml = true
             };

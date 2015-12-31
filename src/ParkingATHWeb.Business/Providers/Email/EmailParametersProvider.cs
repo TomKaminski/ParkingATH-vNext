@@ -5,14 +5,30 @@ namespace ParkingATHWeb.Business.Providers.Email
 {
     public static class EmailParametersProvider
     {
-        public static Dictionary<string, string> GetBaseParametersForEmail(UserBaseDto userData)
+
+        public static Dictionary<string, string> GetParameters(UserBaseDto userData,
+            Dictionary<string, string> additionalParameters = null)
         {
-            return new Dictionary<string, string>
+            var baseParameters = new Dictionary<string, string>
             {
                 {"Name",userData.Name },
                 {"LastName",userData.LastName },
                 {"Id",userData.Id.ToString() },
             };
+
+            if (additionalParameters != null)
+            {
+                foreach (var additionalParameter in additionalParameters)
+                {
+                    baseParameters.Add(additionalParameter.Key, additionalParameter.Value);
+                }
+
+            }
+
+
+            return baseParameters;
         }
+
+        
     }
 }

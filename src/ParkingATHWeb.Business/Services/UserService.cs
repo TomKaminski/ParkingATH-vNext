@@ -103,21 +103,21 @@ namespace ParkingATHWeb.Business.Services
             return ServiceResult<UserBaseDto>.Failure("Adres email jest już zajęty");
         }
 
-        public async Task<ServiceResult<string>> GetPasswordChangeTokenAsync(string email)
+        public async Task<ServiceResult<UserBaseDto, string>> GetPasswordChangeTokenAsync(string email)
         {
             var entity = await _repository.FirstOrDefaultAsync(x => x.Email == email);
             var resetPasswordToken = await _tokenService.CreateAsync(TokenType.ResetPasswordToken);
             entity.PasswordChangeTokenId = resetPasswordToken.Result.Id;
             _repository.Edit(entity);
             await _unitOfWork.CommitAsync();
-            return ServiceResult<string>.Success(resetPasswordToken.Result.BuildEncryptedToken());
+            return ServiceResult<UserBaseDto, string>.Success(Mapper.Map<UserBaseDto>(entity), resetPasswordToken.Result.BuildEncryptedToken());
         }
 
         public async Task<ServiceResult<UserBaseDto>> ResetPasswordAsync(string token, string newPassword)
         {
             var decryptedTokenData = _tokenService.GetDecryptedData(token);
             var entity = await _repository.FirstOrDefaultAsync(x => x.PasswordChangeTokenId == decryptedTokenData.Result.Id);
-            if (entity != null &&  decryptedTokenData.Result.TokenType == TokenType.ResetPasswordToken)
+            if (entity != null && decryptedTokenData.Result.TokenType == TokenType.ResetPasswordToken)
             {
                 var newHashedPassword = _passwordHasher.CreateHash(newPassword);
                 entity.PasswordSalt = newHashedPassword.Salt;

@@ -25,6 +25,9 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
             return View();
         }
 
+
+
+
         [Route("ResetowanieHasla")]
         [AllowAnonymous]
         public IActionResult ResetPassword(string id)
@@ -34,6 +37,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
 
         [Route("ResetowanieHasla")]
         [AllowAnonymous]
+        [HttpPost]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
             if (ModelState.IsValid)
@@ -65,6 +69,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         }
 
         [Route("ZmianaHasla")]
+        [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
             if (ModelState.IsValid)
@@ -72,7 +77,6 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                 var resetPasswordResult = await _userService.ChangePasswordAsync(CurrentUser.Email, model.OldPassword, model.Password);
                 if (resetPasswordResult.IsValid)
                 {
-
                     return RedirectToAction("Index");
                 }
                 else
