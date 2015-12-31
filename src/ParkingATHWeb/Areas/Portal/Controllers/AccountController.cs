@@ -119,14 +119,12 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
 
         private async Task IdentitySignin(UserBaseDto user, bool isPersistent = false)
         {
-            var userState = Mapper.Map<AppUserState>(user);
-
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, userState.Email),
-                new Claim(ClaimTypes.Name, userState.Name),
-                new Claim("isAdmin",userState.IsAdmin.ToString()),
-                new Claim("LastName",userState.LastName)
+                new Claim(ClaimTypes.NameIdentifier, user.Email),
+                new Claim(ClaimTypes.Name, user.Name),
+                new Claim("isAdmin",user.IsAdmin.ToString()),
+                new Claim("LastName",user.LastName)
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

@@ -148,6 +148,7 @@ namespace ParkingATHWeb.Business.Tests.Services
         [Fact]
         public async void WhenUserChangeEmail_WithValidPassword_ThenEmailIsChanged()
         {
+            InitContext();
             //act
             var result = await _sut.ChangeEmailAsync("tkaminski93@gmail.com", "asddasasdasdads@adsasdsa.pl", BasicUserPassword);
 
@@ -278,7 +279,7 @@ namespace ParkingATHWeb.Business.Tests.Services
             //act
             InitContext();
             var resetPasswordResult =
-                await _sut.ResetPasswordAsync("tkaminski93@gmail.com", System.Net.WebUtility.UrlDecode(passwordChangeToken.Result), "NewPassword123");
+                await _sut.ResetPasswordAsync(System.Net.WebUtility.UrlDecode(passwordChangeToken.Result), "NewPassword123");
 
             //then
             resetPasswordResult.IsValid.Should().Be.True();

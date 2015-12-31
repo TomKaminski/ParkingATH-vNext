@@ -18,16 +18,19 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         public IActionResult RedirectFromToken(string id)
         {
             var decryptedToken = _tokenService.GetDecryptedData(id);
-            switch (decryptedToken.Result.TokenType)
+            if (decryptedToken.Result.NotExpired())
             {
-                case TokenType.EmailChangeToken:
-                    break;
-                case TokenType.ResetPasswordToken:
-                    break;
-                case TokenType.ViewInBrowserToken:
-                    return RedirectToAction("Display", "Message", new {id});
+                switch (decryptedToken.Result.TokenType)
+                {
+                    case TokenType.EmailChangeToken:
+                        break;
+                    case TokenType.ResetPasswordToken:
+                        return RedirectToAction("ResetPassword", "Manage", new { id });
+                    case TokenType.ViewInBrowserToken:
+                        return RedirectToAction("Display", "Message", new { id });
+                }
             }
-            return RedirectToAction("Error", "Home");
+            return RedirectToAction("WrongToken", "Token");
         }
     }
 }

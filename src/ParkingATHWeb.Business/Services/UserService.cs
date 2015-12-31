@@ -113,12 +113,11 @@ namespace ParkingATHWeb.Business.Services
             return ServiceResult<string>.Success(resetPasswordToken.Result.BuildEncryptedToken());
         }
 
-        public async Task<ServiceResult<UserBaseDto>> ResetPasswordAsync(string email, string token, string newPassword)
+        public async Task<ServiceResult<UserBaseDto>> ResetPasswordAsync(string token, string newPassword)
         {
-            var entity = await _repository.Include(x => x.PasswordChangeToken).FirstOrDefaultAsync(x => x.Email == email);
             var decryptedTokenData = _tokenService.GetDecryptedData(token);
-            if (entity.PasswordChangeTokenId != null && entity.PasswordChangeTokenId.Value == decryptedTokenData.Result.Id 
-                && decryptedTokenData.Result.NotExpired() && decryptedTokenData.Result.TokenType == TokenType.ResetPasswordToken)
+            var entity = await _repository.FirstOrDefaultAsync(x => x.PasswordChangeTokenId == decryptedTokenData.Result.Id);
+            if (entity != null &&  decryptedTokenData.Result.TokenType == TokenType.ResetPasswordToken)
             {
                 var newHashedPassword = _passwordHasher.CreateHash(newPassword);
                 entity.PasswordSalt = newHashedPassword.Salt;

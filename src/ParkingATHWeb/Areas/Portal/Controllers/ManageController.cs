@@ -1,46 +1,91 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
-using ParkingATHWeb.Areas.Portal.ViewModels.Account;
-using ParkingATHWeb.Contracts.DTO.User;
 using ParkingATHWeb.Contracts.Services;
-using AutoMapper;
-using Microsoft.AspNet.Authentication.Cookies;
 using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Http.Authentication;
-using ParkingATHWeb.Models;
 using ParkingATHWeb.Areas.Portal.Controllers.Base;
-using ParkingATHWeb.Contracts.DTO;
-using ParkingATHWeb.Shared.Enums;
+using ParkingATHWeb.Areas.Portal.ViewModels.Manage;
 
 namespace ParkingATHWeb.Areas.Portal.Controllers
 {
     [Area("Portal")]
-    [Route("[area]/[controller]")]
+    [Route("[area]/Konto")]
     [Authorize]
     public class ManageController : BaseController
     {
         private readonly IUserService _userService;
-        private readonly IMessageService _messageService;
 
-        public ManageController(IUserService userService, IMessageService messageService)
+        public ManageController(IUserService userService)
         {
             _userService = userService;
-            _messageService = messageService;
         }
 
-
-        [AllowAnonymous]
-        public IActionResult ResetPassword(string id)
+        public IActionResult Index()
         {
             return View();
         }
 
+        [Route("ResetowanieHasla")]
         [AllowAnonymous]
         public IActionResult ResetPassword(string id)
         {
+            return View(new ResetPasswordViewModel { Token = id });
+        }
+
+        [Route("ResetowanieHasla")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var resetPasswordResult = await _userService.ResetPasswordAsync(model.Token, model.Password);
+                if (resetPasswordResult.IsValid)
+                {
+
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    {
+                        //TODO: Fajne noty z błędem/błędami systemowymi!!!!!!!!!!!! :D
+                        model.AppendBackendValidationErrors(resetPasswordResult.ValidationErrors);
+
+                        ModelState.AddModelError("", resetPasswordResult.ValidationErrors.First());
+                        return View(model);
+                    }
+                }
+            }
+            return View(model);
+        }
+
+        [Route("ZmianaHasla")]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [Route("ZmianaHasla")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var resetPasswordResult = await _userService.ChangePasswordAsync(CurrentUser.Email, model.OldPassword, model.Password);
+                if (resetPasswordResult.IsValid)
+                {
+
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    {
+                        //TODO: Fajne noty z błędem/błędami systemowymi!!!!!!!!!!!! :D
+                        model.AppendBackendValidationErrors(resetPasswordResult.ValidationErrors);
+
+                        ModelState.AddModelError("", resetPasswordResult.ValidationErrors.First());
+                        return View(model);
+                    }
+                }
+            }
             return View();
         }
     }

@@ -3,15 +3,22 @@ using System.Security.Claims;
 using Microsoft.AspNet.Authentication.Cookies;
 using Microsoft.AspNet.Http.Authentication;
 using Microsoft.AspNet.Mvc;
-using ParkingATHWeb.Infrastructure.Filters;
+using Microsoft.AspNet.Mvc.Filters;
 using ParkingATHWeb.Models;
 
 
 namespace ParkingATHWeb.Areas.Portal.Controllers.Base
 {
-    [UserState]
     public class BaseController : Controller
     {
+        protected AppUserState CurrentUser => User == null ? new AppUserState() : new AppUserState(User);
+
+        public override void OnActionExecuted(ActionExecutedContext context)
+        {
+            context.RouteData.Values["appUserState"] = CurrentUser;
+            base.OnActionExecuted(context);
+        }
+
         protected ActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
@@ -45,7 +52,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers.Base
 
         protected string GetAppBaseUrl()
         {
-            return Url.Action("Index","Home", new {area="Portal"},"http");
+            return Url.Action("Index", "Home", new { area = "Portal" }, "http");
         }
     }
 }

@@ -10,7 +10,7 @@ namespace ParkingATHWeb.Contracts.Services
         Task<ServiceResult<UserBaseDto>> ChangeEmailAsync(string email, string newEmail, string password);
 
         Task<ServiceResult<string>> GetPasswordChangeTokenAsync(string email);
-        Task<ServiceResult<UserBaseDto>> ResetPasswordAsync(string email, string token, string newPassword);
+        Task<ServiceResult<UserBaseDto>> ResetPasswordAsync(string token, string newPassword);
         Task<ServiceResult<UserBaseDto>> ChangePasswordAsync(string email, string password, string newPassword);
 
         Task<ServiceResult<int>> GetChargesAsync(string email);
