@@ -54,10 +54,12 @@ namespace ParkingATHWeb
         {
             app.UseCookieAuthentication(opt =>
             {
-                opt.LoginPath = new PathString("/Portal/Konto/Logowanie");
-                opt.LogoutPath = new PathString("/Portal/Konto/Wyloguj");
+                opt.LoginPath = new PathString("/Portal/Logowanie");
+                opt.LogoutPath = new PathString("/Portal/Wyloguj");
                 opt.ExpireTimeSpan = new TimeSpan(4, 0, 0, 0);
                 opt.AutomaticAuthenticate = true;
+                opt.ReturnUrlParameter = "returnUrl";
+                opt.AutomaticChallenge = true;
             });
 
             //TODO

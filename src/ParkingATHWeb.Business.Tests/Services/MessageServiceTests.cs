@@ -54,7 +54,6 @@ namespace ParkingATHWeb.Business.Tests.Services
 
             var emailBodyProviderMock = new Mock<EmailContentProvider> { CallBase = true };
             emailBodyProviderMock.Setup(x => x.GetValidTemplateString(EmailType.ResetPassword)).Returns(EmailBodyChangeReset);
-            emailBodyProviderMock.Setup(x => x.GetValidTemplateString(EmailType.ChangePassword)).Returns(EmailBodyChangeReset);
             emailBodyProviderMock.Setup(x => x.GetValidTemplateString(EmailType.Register)).Returns(EmailBodyRegister);
             emailBodyProviderMock.Setup(x => x.GetLayoutTemplate()).Returns(TestLayoutRegister);
             emailBodyProviderMock.Setup(x => x.GetEmailTitle(It.IsAny<EmailType>())).Returns("Email Title");
@@ -87,7 +86,7 @@ namespace ParkingATHWeb.Business.Tests.Services
         public async void SendMessageAsync_ThenResultIsValid()
         {
             //act
-            var result = await _sut.SendMessageAsync(GetBaseMessageDto(EmailType.Register), GetUserBaseDto(), "sadsasadasd",null);
+            var result = await _sut.SendMessageAsync(EmailType.Register, GetUserBaseDto(), "sadsasadasd");
 
             //then
             result.IsValid.Should().Be.True();
@@ -97,7 +96,7 @@ namespace ParkingATHWeb.Business.Tests.Services
         public void WhenMessageDataIsProvider_GetMessageBody_ThenResultIsValid()
         {
             //Before
-            var dto = _sut.Create(GetBaseMessageDto(EmailType.ChangePassword));
+            var dto = _sut.Create(GetBaseMessageDto(EmailType.ResetPassword));
             
             //act
             var messageBodyResult = _sut.GetMessageBody(dto.Result);

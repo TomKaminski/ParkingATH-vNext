@@ -1,0 +1,17 @@
+﻿@model ParkingATHWeb.Areas.Portal.ViewModels.User.UserInfoViewModel
+@{
+    ViewData["Title"] = "Zmiana hasła";
+}
+
+<p>@Model.Email</p>
+<p>@Model.LastName</p>
+<p>@Model.Name</p>
+<p>@Model.Charges</p>
+<p>@Model.IsAdmin</p>
+
+<br />
+<br />
+<br />
+
+<a asp-action="ChangePassword" asp-controller="Manage">Zmień hasło</a>
+

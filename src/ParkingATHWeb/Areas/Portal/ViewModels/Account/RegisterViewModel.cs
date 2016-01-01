@@ -7,26 +7,26 @@ namespace ParkingATHWeb.Areas.Portal.ViewModels.Account
     public class RegisterViewModel : ParkingAthBaseViewModel
     {
         [EmailAddress]
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(ViewModelResources), ErrorMessageResourceName = "Common_RequiredError")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(ViewModelResources), ErrorMessageResourceName = "Common_RequiredError")]
         [MinLength(8)]
         [PasswordPropertyText]
         [DisplayName("Hasło")]
         public string Password { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(ViewModelResources), ErrorMessageResourceName = "Common_RequiredError")]
         [Compare("Password")]
         [PasswordPropertyText]
         [DisplayName("Powtórz hasło")]
         public string RepeatPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(ViewModelResources), ErrorMessageResourceName = "Common_RequiredError")]
         [DisplayName("Imię")]
         public string Name { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(ViewModelResources), ErrorMessageResourceName = "Common_RequiredError")]
         [DisplayName("Nazwisko")]
         public string LastName { get; set; }
     }

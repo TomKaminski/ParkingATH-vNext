@@ -5,6 +5,7 @@ using ParkingATHWeb.Contracts.Services;
 using Microsoft.AspNet.Authorization;
 using ParkingATHWeb.Areas.Portal.Controllers.Base;
 using ParkingATHWeb.Areas.Portal.ViewModels.Manage;
+using ParkingATHWeb.Areas.Portal.ViewModels.User;
 
 namespace ParkingATHWeb.Areas.Portal.Controllers
 {
@@ -20,13 +21,12 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
             _userService = userService;
         }
 
-        public IActionResult Index()
+        [Route("")]
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var userModel = AutoMapper.Mapper.Map<UserInfoViewModel>((await _userService.GetByEmailAsync(CurrentUser.Email)).Result);
+            return View(userModel);
         }
-
-
-
 
         [Route("ResetowanieHasla")]
         [AllowAnonymous]
@@ -38,6 +38,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         [Route("ResetowanieHasla")]
         [AllowAnonymous]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
             if (ModelState.IsValid)
@@ -46,7 +47,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                 if (resetPasswordResult.IsValid)
                 {
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index","Home");
                 }
                 else
                 {
@@ -70,6 +71,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
 
         [Route("ZmianaHasla")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
             if (ModelState.IsValid)
@@ -77,7 +79,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                 var resetPasswordResult = await _userService.ChangePasswordAsync(CurrentUser.Email, model.OldPassword, model.Password);
                 if (resetPasswordResult.IsValid)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index","Manage");
                 }
                 else
                 {

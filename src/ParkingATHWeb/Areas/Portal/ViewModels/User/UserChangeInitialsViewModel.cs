@@ -5,9 +5,9 @@ namespace ParkingATHWeb.Areas.Portal.ViewModels.User
 {
     public class UserChangeInitialsViewModel : ParkingAthBaseViewModel
     {
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(ViewModelResources), ErrorMessageResourceName = "Common_RequiredError")]
         public string Name { get; set; }
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(ViewModelResources), ErrorMessageResourceName = "Common_RequiredError")]
         public string LastName { get; set; }
     }
 }

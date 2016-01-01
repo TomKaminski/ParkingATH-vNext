@@ -3,7 +3,6 @@
     public enum EmailType
     {
         Register = 0,
-        ResetPassword = 1,
-        ChangePassword = 2
+        ResetPassword = 1
     }
 }

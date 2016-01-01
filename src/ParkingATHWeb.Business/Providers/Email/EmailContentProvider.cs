@@ -60,9 +60,7 @@ namespace ParkingATHWeb.Business.Providers.Email
                 case EmailType.Register:
                     return File.ReadAllText($"{_appEnv.ApplicationBasePath}{EmailsBasePath}/Register.html");
                 case EmailType.ResetPassword:
-                    break;
-                case EmailType.ChangePassword:
-                    break;
+                    return File.ReadAllText($"{_appEnv.ApplicationBasePath}{EmailsBasePath}/ResetPassword.html");
             }
             return "";
         }
@@ -80,8 +78,6 @@ namespace ParkingATHWeb.Business.Providers.Email
                 case EmailType.Register:
                     return conf["EmailResources:RegisterEmail_Title"];
                 case EmailType.ResetPassword:
-                    return conf["EmailResources:ChangePassword_Title"];
-                case EmailType.ChangePassword:
                     return conf["EmailResources:ResetPassword_Title"];
             }
             throw new ArgumentOutOfRangeException(nameof(type), type, null);

@@ -18,7 +18,7 @@ using ParkingATHWeb.Shared.Enums;
 namespace ParkingATHWeb.Areas.Portal.Controllers
 {
     [Area("Portal")]
-    [Route("[area]/[controller]")]
+    [Route("[area]/Konto")]
     [Authorize]
     public class AccountController : BaseController
     {
@@ -112,22 +112,26 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
             return View(model);
         }
 
-
+        [AllowAnonymous]
+        [Route("ZapomnianeHaslo")]
         public IActionResult ForgotPassword()
         {
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        [Route("ZapomnianeHaslo")]
         public async Task<IActionResult> ForgotPassword(string email)
         {
             var changePasswordTokenResult = await _userService.GetPasswordChangeTokenAsync(email);
 
             //TODO: IIS do not accept SomeCtrl/SomeAction/THISID -> we have to use ?id=...
-            var changePasswordUrl = $"{Url.Action("ResetPassword", "Manage")}?id={changePasswordTokenResult.SecondResult}";
-            await _messageService.SendMessageAsync(EmailType.Register, changePasswordTokenResult.Result, GetAppBaseUrl(), 
+            var changePasswordUrl = $"{Url.Action("RedirectFromToken", "Token", null, "http")}?id={changePasswordTokenResult.SecondResult}";
+            await _messageService.SendMessageAsync(EmailType.Register, changePasswordTokenResult.Result, GetAppBaseUrl(),
                 new Dictionary<string, string> { { "ChangePasswordLink", changePasswordUrl } });
-            return RedirectToAction("Index","Manage");
+            return RedirectToAction("Index", "Home");
         }
 
         private async Task IdentitySignin(UserBaseDto user, bool isPersistent = false)

@@ -5,7 +5,7 @@ namespace ParkingATHWeb.Areas.Portal.ViewModels.User
 {
     public class UserSelfDeleteViewModel : ParkingAthBaseViewModel
     {
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(ViewModelResources), ErrorMessageResourceName = "Common_RequiredError")]
         public string Password { get; set; }
     }
 }

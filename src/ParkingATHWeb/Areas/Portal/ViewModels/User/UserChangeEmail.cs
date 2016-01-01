@@ -5,14 +5,14 @@ namespace ParkingATHWeb.Areas.Portal.ViewModels.User
 {
     public class UserChangeEmail : ParkingAthBaseViewModel
     {
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(ViewModelResources), ErrorMessageResourceName = "Common_RequiredError")]
         [EmailAddress]
         public string NewEmail { get; set; }
 
         [Compare("NewEmail")]
         public string NewEmailRepeat { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(ViewModelResources), ErrorMessageResourceName = "Common_RequiredError")]
         public string Password { get; set; }
     }
 }

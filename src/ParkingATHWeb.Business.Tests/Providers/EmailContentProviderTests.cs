@@ -19,7 +19,6 @@ namespace ParkingATHWeb.Business.Tests.Providers
             //Before
             _sut = new Mock<EmailContentProvider> {CallBase = true};
             _sut.Setup(x => x.GetValidTemplateString(EmailType.ResetPassword)).Returns(EmailBodyChangeReset);
-            _sut.Setup(x => x.GetValidTemplateString(EmailType.ChangePassword)).Returns(EmailBodyChangeReset);
             _sut.Setup(x => x.GetValidTemplateString(EmailType.Register)).Returns(EmailBodyRegister);
             _sut.Setup(x => x.GetLayoutTemplate()).Returns(TestLayoutRegister);
         }
@@ -34,18 +33,6 @@ namespace ParkingATHWeb.Business.Tests.Providers
             emailBody.Should().Be.EqualTo(FullEmailRegister);
             emailBody.Should().Not.Contain("{{BodyHtml}}");
             emailBody.Should().Not.Contain("{{UserName}}");
-        }
-
-        [Fact]
-        public void WhenSpecifiedChangePasswordEmailType_ThenCorrectLayoutIsTaken_AndCorrectBodyIsInsertedIntoLayout()
-        {
-            //Act
-            var emailBody = _sut.Object.GetEmailBody(EmailType.ChangePassword, CustomParameters);
-
-            //Then
-            emailBody.Should().Be.EqualTo(FullEmailChangeReset);
-            emailBody.Should().Not.Contain("{{BodyHtml}}");
-            emailBody.Should().Not.Contain("{{TekstLayoutPlz}}");
         }
 
         [Fact]
