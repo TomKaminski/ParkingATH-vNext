@@ -58,12 +58,15 @@ namespace ParkingATHWeb
                 opt.LogoutPath = new PathString("/Portal/Wyloguj");
                 opt.ExpireTimeSpan = new TimeSpan(4, 0, 0, 0);
                 opt.AutomaticAuthenticate = true;
-                opt.ReturnUrlParameter = "returnUrl";
+                opt.ReturnUrlParameter = "ReturnUrl";
                 opt.AutomaticChallenge = true;
             });
 
             //TODO
-            //app.UseOAuthAuthentication(opt => { });
+            //app.UseOAuthAuthentication(opt =>
+            //{
+            //    opt.
+            //});
 
             app.UseCors(x => x.AllowAnyHeader());
 

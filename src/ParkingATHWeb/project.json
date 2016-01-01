@@ -22,6 +22,7 @@
     "ParkingATHWeb.Resolver": "1.0.0-*",
     "Microsoft.AspNet.Authentication.Cookies": "1.0.0-rc1-final",
     "Microsoft.AspNet.Authentication.OAuth": "1.0.0-rc1-final",
+    "Microsoft.AspNet.Authentication.OAuthBearer": "1.0.0-beta7",
     "AutoMapper": "4.1.1",
     "Autofac": "4.0.0-rc1-*",
     "Autofac.Extensions.DependencyInjection": "4.0.0-rc1-*"

@@ -40,13 +40,13 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
 
         [Route("~/[area]/Logowanie")]
         [AllowAnonymous]
-        public IActionResult Login()
+        public IActionResult Login(string ReturnUrl)
         {
             if (User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Home", new { area = "Portal" });
             }
-            return View();
+            return View(new LoginViewModel {ReturnUrl = ReturnUrl});
         }
 
         [HttpPost]
@@ -61,7 +61,8 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                 if (userLoginResult.IsValid)
                 {
                     await IdentitySignin(userLoginResult.Result, model.RemeberMe);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToLocal(model.ReturnUrl);
+                    //return RedirectToAction("Index", "Home");
                 }
                 else
                 {
