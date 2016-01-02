@@ -9,8 +9,6 @@ namespace ParkingATHWeb.Business.Providers
         {
             switch (tokenType)
             {
-                case TokenType.EmailChangeToken:
-                    return DateTime.Now.AddDays(3);
                 case TokenType.ResetPasswordToken:
                     return DateTime.Now.AddDays(3);
                 case TokenType.ViewInBrowserToken:

@@ -59,7 +59,7 @@ namespace ParkingATHWeb.Business.Tests.Services
             emailBodyProviderMock.Setup(x => x.GetEmailTitle(It.IsAny<EmailType>())).Returns("Email Title");
 
             var tokenServiceMock = new Mock<ITokenService>();
-            tokenServiceMock.Setup(x => x.CreateAsync(It.IsAny<TokenType>())).ReturnsAsync(ServiceResult<TokenBaseDto>.Success(GetTokenDto(TokenType.EmailChangeToken)));
+            tokenServiceMock.Setup(x => x.CreateAsync(It.IsAny<TokenType>())).ReturnsAsync(ServiceResult<TokenBaseDto>.Success(GetTokenDto(TokenType.ResetPasswordToken)));
 
             _sut = new MessageService(_unitOfWork, _smtpClientMock.Object, appEnvMock.Object, emailBodyProviderMock.Object, _messageRepoMock, tokenServiceMock.Object);
         }

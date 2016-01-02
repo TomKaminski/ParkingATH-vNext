@@ -22,8 +22,6 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
             {
                 switch (decryptedToken.Result.TokenType)
                 {
-                    case TokenType.EmailChangeToken:
-                        break;
                     case TokenType.ResetPasswordToken:
                         return RedirectToAction("ResetPassword", "Manage", new { id });
                     case TokenType.ViewInBrowserToken:

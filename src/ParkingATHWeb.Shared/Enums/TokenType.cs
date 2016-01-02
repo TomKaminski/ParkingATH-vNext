@@ -2,8 +2,7 @@
 {
     public enum TokenType
     {
-        EmailChangeToken = 0,
-        ResetPasswordToken = 1,
-        ViewInBrowserToken = 2
+        ResetPasswordToken = 0,
+        ViewInBrowserToken = 1
     }
 }
