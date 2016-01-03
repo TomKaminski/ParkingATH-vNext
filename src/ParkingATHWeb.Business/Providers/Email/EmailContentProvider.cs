@@ -61,6 +61,9 @@ namespace ParkingATHWeb.Business.Providers.Email
                     return File.ReadAllText($"{_appEnv.ApplicationBasePath}{EmailsBasePath}/Register.html");
                 case EmailType.ResetPassword:
                     return File.ReadAllText($"{_appEnv.ApplicationBasePath}{EmailsBasePath}/ResetPassword.html");
+                case EmailType.SelfDelete:
+                    return File.ReadAllText($"{_appEnv.ApplicationBasePath}{EmailsBasePath}/SelfDelete.html");
+
             }
             return "";
         }
@@ -79,6 +82,8 @@ namespace ParkingATHWeb.Business.Providers.Email
                     return conf["EmailResources:RegisterEmail_Title"];
                 case EmailType.ResetPassword:
                     return conf["EmailResources:ResetPassword_Title"];
+                case EmailType.SelfDelete:
+                    return conf["EmailResources:SelfDelete_Title"];
             }
             throw new ArgumentOutOfRangeException(nameof(type), type, null);
         }

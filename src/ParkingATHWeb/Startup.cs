@@ -100,14 +100,14 @@ namespace ParkingATHWeb
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            //}
-            //else
-            //{
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
                 app.UseExceptionHandler("/Error");
-            //}
+            }
 
             app.UseStatusCodePagesWithReExecute("/Error/Status/{0}");
 
@@ -121,11 +121,11 @@ namespace ParkingATHWeb
                 routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
 
-            app.Use((context, next) =>
-            {
-                context.Response.StatusCode = 404;
-                return next();
-            });
+            //app.Use((context, next) =>
+            //{
+            //    context.Response.StatusCode = 404;
+            //    return next();
+            //});
         }
 
         // Entry point for the application.

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using System;
+using Microsoft.AspNet.Mvc;
 using ParkingATHWeb.Contracts.Services;
 using ParkingATHWeb.Shared.Enums;
 
@@ -26,9 +27,17 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                         return RedirectToAction("ResetPassword", "Manage", new { id });
                     case TokenType.ViewInBrowserToken:
                         return RedirectToAction("Display", "Message", new { id });
+                    case TokenType.SelfDeleteToken:
+                        return RedirectToAction("SelfDeleteFinish", "Manage", new { id });
                 }
             }
             return RedirectToAction("WrongToken", "Token");
+        }
+
+        [Route("InvalidToken")]
+        public IActionResult WrongToken()
+        {
+            return View();
         }
     }
 }

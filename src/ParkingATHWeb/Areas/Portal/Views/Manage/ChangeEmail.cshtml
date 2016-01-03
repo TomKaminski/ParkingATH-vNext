@@ -1,0 +1,32 @@
+﻿@model ParkingATHWeb.Areas.Portal.ViewModels.Manage.ChangeEmailViewModel
+@{
+    ViewData["Title"] = "Zmiana adresu email";
+}
+
+<div class="row">
+    <div class="col-xs-12 col-md-8 col-md-offset-2">
+        <h2>Zmiana emaila</h2>
+        <form asp-action="ChangeEmail" asp-controller="Manage" asp-antiforgery="true">
+            <div asp-validation-summary="ValidationSummary.ModelOnly"></div>
+            <div class="form-group">
+                <label asp-for="NewEmail"></label>
+                <input type="text" asp-for="NewEmail" class="form-control"/>
+                <span asp-validation-for="NewEmail"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewEmailRepeat"></label>
+                <input type="text" asp-for="NewEmailRepeat" class="form-control" />
+                <span asp-validation-for="NewEmailRepeat"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input type="password" asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Zmień email" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>

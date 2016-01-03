@@ -5,7 +5,7 @@
 
 <div class="row">
     <div class="col-xs-12 col-md-8 col-md-offset-2">
-        <h2>Rejestracja</h2>
+        <h2>Logowanie</h2>
         <form asp-action="Login" asp-controller="Account" asp-antiforgery="true">
             <div asp-validation-summary="ValidationSummary.ModelOnly"></div>
             <input type="hidden" asp-for="ReturnUrl" value="@Model.ReturnUrl"/>

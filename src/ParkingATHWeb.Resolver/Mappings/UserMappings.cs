@@ -11,7 +11,6 @@ namespace ParkingATHWeb.Resolver.Mappings
         {
             Mapper.CreateMap<User, UserBaseDto>().IgnoreNotExistingProperties();
             Mapper.CreateMap<UserBaseDto, User>().IgnoreNotExistingProperties();
-
         }
     }
 }

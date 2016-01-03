@@ -1,9 +1,9 @@
-﻿using ParkingATHWeb.ViewModels.Base;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using ParkingATHWeb.ViewModels.Base;
 
-namespace ParkingATHWeb.Areas.Portal.ViewModels.User
+namespace ParkingATHWeb.Areas.Portal.ViewModels.Manage
 {
-    public class UserChangeEmail : ParkingAthBaseViewModel
+    public class ChangeEmailViewModel : ParkingAthBaseViewModel
     {
         [Required(ErrorMessageResourceType = typeof(ViewModelResources), ErrorMessageResourceName = "Common_RequiredError")]
         [EmailAddress]

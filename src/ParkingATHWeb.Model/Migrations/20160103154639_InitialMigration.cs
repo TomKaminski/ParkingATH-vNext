@@ -45,8 +45,8 @@ namespace ParkingATHWeb.Model.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Charges = table.Column<int>(nullable: false),
                     Email = table.Column<string>(nullable: true),
-                    EmailChangeTokenId = table.Column<long>(nullable: true),
                     IsAdmin = table.Column<bool>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
                     LastName = table.Column<string>(nullable: true),
                     LockedOut = table.Column<bool>(nullable: false),
                     LockedTo = table.Column<DateTime>(nullable: true),
@@ -54,20 +54,21 @@ namespace ParkingATHWeb.Model.Migrations
                     PasswordChangeTokenId = table.Column<long>(nullable: true),
                     PasswordHash = table.Column<string>(nullable: true),
                     PasswordSalt = table.Column<string>(nullable: true),
+                    SelfDeleteTokenId = table.Column<long>(nullable: true),
                     UnsuccessfulLoginAttempts = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_User", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_User_Token_EmailChangeTokenId",
-                        column: x => x.EmailChangeTokenId,
+                        name: "FK_User_Token_PasswordChangeTokenId",
+                        column: x => x.PasswordChangeTokenId,
                         principalTable: "Token",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_User_Token_PasswordChangeTokenId",
-                        column: x => x.PasswordChangeTokenId,
+                        name: "FK_User_Token_SelfDeleteTokenId",
+                        column: x => x.SelfDeleteTokenId,
                         principalTable: "Token",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);

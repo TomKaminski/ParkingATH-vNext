@@ -76,8 +76,8 @@ namespace ParkingATHWeb.Business.Tests.Base
 
             return new UserBaseDto
             {
-                Email = "tkaminski93@gmail.com",
-                Charges = 25,
+                Email = Guid.NewGuid().ToString("N")+"@wp312312addas.pl",
+                Charges = 300,
                 IsAdmin = false,
                 LastName = "Kamiński",
                 LockedOut = false,

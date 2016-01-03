@@ -10,6 +10,7 @@ namespace ParkingATHWeb.Contracts.Services
         Task<ServiceResult<UserBaseDto>> ChangeEmailAsync(string email, string newEmail, string password);
 
         Task<ServiceResult<UserBaseDto,string>> GetPasswordChangeTokenAsync(string email);
+        Task<ServiceResult<UserBaseDto, string>> GetSelfDeleteTokenAsync(string email);
         Task<ServiceResult<UserBaseDto>> ResetPasswordAsync(string token, string newPassword);
         Task<ServiceResult<UserBaseDto>> ChangePasswordAsync(string email, string password, string newPassword);
 
@@ -31,7 +32,7 @@ namespace ParkingATHWeb.Contracts.Services
 
         Task<ServiceResult<UserBaseDto>> GetByEmailAsync(string email);
 
-        Task<ServiceResult<bool>> SelfDelete(string email, string password);
+        Task<ServiceResult<bool>> SelfDeleteAsync(string email, string token);
 
         Task<ServiceResult<int?>> OpenGateAsync(string email, string token);
 
@@ -40,5 +41,7 @@ namespace ParkingATHWeb.Contracts.Services
         Task<ServiceResult<bool>> IsAdmin(string email);
 
         Task<ServiceResult<UserBaseDto>> EditStudentInitialsAsync(UserBaseDto entity);
+
+        Task<ServiceResult<int>> TransferCharges(string senderEmail, string recieverEmail, int numberOfCharges, string password);
     }
 }

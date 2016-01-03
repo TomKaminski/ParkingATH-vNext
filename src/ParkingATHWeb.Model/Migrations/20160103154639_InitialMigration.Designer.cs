@@ -8,7 +8,7 @@ using ParkingATHWeb.Model;
 namespace ParkingATHWeb.Model.Migrations
 {
     [DbContext(typeof(ParkingAthContext))]
-    [Migration("20151228185313_InitialMigration")]
+    [Migration("20160103154639_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -118,9 +118,9 @@ namespace ParkingATHWeb.Model.Migrations
 
                     b.Property<string>("Email");
 
-                    b.Property<long?>("EmailChangeTokenId");
-
                     b.Property<bool>("IsAdmin");
+
+                    b.Property<bool>("IsDeleted");
 
                     b.Property<string>("LastName");
 
@@ -135,6 +135,8 @@ namespace ParkingATHWeb.Model.Migrations
                     b.Property<string>("PasswordHash");
 
                     b.Property<string>("PasswordSalt");
+
+                    b.Property<long?>("SelfDeleteTokenId");
 
                     b.Property<int>("UnsuccessfulLoginAttempts");
 
@@ -173,12 +175,12 @@ namespace ParkingATHWeb.Model.Migrations
             modelBuilder.Entity("ParkingATHWeb.Model.Concrete.User", b =>
                 {
                     b.HasOne("ParkingATHWeb.Model.Concrete.Token")
-                        .WithOne()
-                        .HasForeignKey("ParkingATHWeb.Model.Concrete.User", "EmailChangeTokenId");
-
-                    b.HasOne("ParkingATHWeb.Model.Concrete.Token")
                         .WithMany()
                         .HasForeignKey("PasswordChangeTokenId");
+
+                    b.HasOne("ParkingATHWeb.Model.Concrete.Token")
+                        .WithOne()
+                        .HasForeignKey("ParkingATHWeb.Model.Concrete.User", "SelfDeleteTokenId");
                 });
         }
     }

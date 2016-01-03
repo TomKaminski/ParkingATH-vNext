@@ -11,6 +11,8 @@ namespace ParkingATHWeb.Business.Providers
             {
                 case TokenType.ResetPasswordToken:
                     return DateTime.Now.AddDays(3);
+                case TokenType.SelfDeleteToken:
+                    return DateTime.Now.AddHours(8);
                 case TokenType.ViewInBrowserToken:
                     return null;
                 default:

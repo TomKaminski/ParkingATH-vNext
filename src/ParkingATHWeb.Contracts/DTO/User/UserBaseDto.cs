@@ -1,17 +1,15 @@
 ﻿using System;
-using ParkingATHWeb.Contracts.Common;
 
 namespace ParkingATHWeb.Contracts.DTO.User
 {
-    public class UserBaseDto : BaseDto<int>
+    public class UserBaseDto : UserShortDto
     {
         public string Email { get; set; }
         public int Charges { get; set; }
-        public string Name { get; set; }
-        public string LastName { get; set; }
         public bool IsAdmin { get; set; }
+        public bool IsDeleted { get; set; }
 
-  
+
         public string PasswordHash { get; set; }
         public string PasswordSalt { get; set; }
         public bool LockedOut { get; set; }

@@ -61,7 +61,7 @@ namespace ParkingATHWeb.Model
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<User>()
-                .HasOne(x => x.EmailChangeToken)
+                .HasOne(x => x.SelfDeleteToken)
                 .WithOne(x => x.User)
                 .OnDelete(DeleteBehavior.Restrict);
 

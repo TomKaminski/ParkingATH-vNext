@@ -4,7 +4,6 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Data.Entity;
-using Newtonsoft.Json;
 using ParkingATHWeb.Business.Services.Base;
 using ParkingATHWeb.Contracts.Common;
 using ParkingATHWeb.Contracts.DTO.User;
@@ -24,8 +23,9 @@ namespace ParkingATHWeb.Business.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPasswordHasher _passwordHasher;
         private readonly ITokenService _tokenService;
+        private readonly ITokenRepository _tokenRepository;
 
-        public UserService(IUserRepository repository, IUnitOfWork unitOfWork, IGateUsageRepository gateUsageRepository, IPasswordHasher passwordHasher, ITokenService tokenService)
+        public UserService(IUserRepository repository, IUnitOfWork unitOfWork, IGateUsageRepository gateUsageRepository, IPasswordHasher passwordHasher, ITokenService tokenService, ITokenRepository tokenRepository)
             : base(repository, unitOfWork)
         {
             _repository = repository;
@@ -33,50 +33,109 @@ namespace ParkingATHWeb.Business.Services
             _gateUsageRepository = gateUsageRepository;
             _passwordHasher = passwordHasher;
             _tokenService = tokenService;
+            _tokenRepository = tokenRepository;
         }
 
         public new ServiceResult<UserBaseDto> Create(UserBaseDto entity)
         {
-            var code = GetUniqueKey();
-            var saltHash = _passwordHasher.CreateHash(code);
-            entity.PasswordSalt = saltHash.Salt;
-            entity.PasswordHash = saltHash.Hash;
-            var user = _repository.Add(Mapper.Map<User>(entity));
+            var possibleUserExistResult = _repository.FirstOrDefault(x => x.Email == entity.Email);
+            if (possibleUserExistResult == null || possibleUserExistResult.IsDeleted)
+            {
+                var code = GetUniqueKey();
+                var saltHash = _passwordHasher.CreateHash(code);
 
-            _unitOfWork.Commit();
-            return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(user));
+                if (possibleUserExistResult == null)
+                {
+                    entity.PasswordSalt = saltHash.Salt;
+                    entity.PasswordHash = saltHash.Hash;
+                    var user = _repository.Add(Mapper.Map<User>(entity));
+                    _unitOfWork.Commit();
+                    return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(user));
+                }
+                possibleUserExistResult.PasswordHash = saltHash.Hash;
+                possibleUserExistResult.PasswordSalt = saltHash.Salt;
+                possibleUserExistResult.IsDeleted = false;
+                _repository.Edit(Mapper.Map<User>(possibleUserExistResult));
+                _unitOfWork.Commit();
+                return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(possibleUserExistResult));
+            }
+            return ServiceResult<UserBaseDto>.Failure("Adres email jest już zajęty");
         }
 
         public ServiceResult<UserBaseDto> Create(UserBaseDto entity, string password)
         {
-            var saltHash = _passwordHasher.CreateHash(password);
-            entity.PasswordSalt = saltHash.Salt;
-            entity.PasswordHash = saltHash.Hash;
-            var user = _repository.Add(Mapper.Map<User>(entity));
+            var possibleUserExistResult = _repository.FirstOrDefault(x => x.Email == entity.Email);
+            if (possibleUserExistResult == null || possibleUserExistResult.IsDeleted)
+            {
+                var saltHash = _passwordHasher.CreateHash(password);
 
-            _unitOfWork.Commit();
-            return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(user));
+                if (possibleUserExistResult == null)
+                {
+                    entity.PasswordSalt = saltHash.Salt;
+                    entity.PasswordHash = saltHash.Hash;
+                    var user = _repository.Add(Mapper.Map<User>(entity));
+                    _unitOfWork.Commit();
+                    return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(user));
+                }
+                possibleUserExistResult.PasswordHash = saltHash.Hash;
+                possibleUserExistResult.PasswordSalt = saltHash.Salt;
+                possibleUserExistResult.IsDeleted = false;
+                _repository.Edit(Mapper.Map<User>(possibleUserExistResult));
+                _unitOfWork.Commit();
+                return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(possibleUserExistResult));
+            }
+            return ServiceResult<UserBaseDto>.Failure("Adres email jest już zajęty");
         }
 
         public new async Task<ServiceResult<UserBaseDto>> CreateAsync(UserBaseDto entity)
         {
-            var code = GetUniqueKey();
-            var saltHash = _passwordHasher.CreateHash(code);
-            entity.PasswordSalt = saltHash.Salt;
-            entity.PasswordHash = saltHash.Hash;
-            var user = _repository.Add(Mapper.Map<User>(entity));
-            await _unitOfWork.CommitAsync();
-            return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(user));
+            var possibleUserExistResult = await _repository.FirstOrDefaultAsync(x => x.Email == entity.Email);
+            if (possibleUserExistResult == null || possibleUserExistResult.IsDeleted)
+            {
+                var code = GetUniqueKey();
+                var saltHash = _passwordHasher.CreateHash(code);
+
+                if (possibleUserExistResult == null)
+                {
+                    entity.PasswordSalt = saltHash.Salt;
+                    entity.PasswordHash = saltHash.Hash;
+                    var user = _repository.Add(Mapper.Map<User>(entity));
+                    await _unitOfWork.CommitAsync();
+                    return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(user));
+                }
+                possibleUserExistResult.PasswordHash = saltHash.Hash;
+                possibleUserExistResult.PasswordSalt = saltHash.Salt;
+                possibleUserExistResult.IsDeleted = false;
+                _repository.Edit(Mapper.Map<User>(possibleUserExistResult));
+                await _unitOfWork.CommitAsync();
+                return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(possibleUserExistResult));
+            }
+            return ServiceResult<UserBaseDto>.Failure("Adres email jest już zajęty");
         }
 
         public async Task<ServiceResult<UserBaseDto>> CreateAsync(UserBaseDto entity, string password)
         {
-            var saltHash = _passwordHasher.CreateHash(password);
-            entity.PasswordSalt = saltHash.Salt;
-            entity.PasswordHash = saltHash.Hash;
-            var userDto = _repository.Add(Mapper.Map<User>(entity));
-            await _unitOfWork.CommitAsync();
-            return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(userDto));
+            var possibleUserExistResult = await _repository.FirstOrDefaultAsync(x => x.Email == entity.Email);
+            if (possibleUserExistResult == null || possibleUserExistResult.IsDeleted)
+            {
+                var saltHash = _passwordHasher.CreateHash(password);
+
+                if (possibleUserExistResult == null)
+                {
+                    entity.PasswordSalt = saltHash.Salt;
+                    entity.PasswordHash = saltHash.Hash;
+                    var user = _repository.Add(Mapper.Map<User>(entity));
+                    await _unitOfWork.CommitAsync();
+                    return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(user));
+                }
+                possibleUserExistResult.PasswordHash = saltHash.Hash;
+                possibleUserExistResult.PasswordSalt = saltHash.Salt;
+                possibleUserExistResult.IsDeleted = false;
+                _repository.Edit(Mapper.Map<User>(possibleUserExistResult));
+                await _unitOfWork.CommitAsync();
+                return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(possibleUserExistResult));
+            }
+            return ServiceResult<UserBaseDto>.Failure("Adres email jest już zajęty");
         }
 
         public ServiceResult<UserBaseDto> GetByEmail(string email)
@@ -88,10 +147,10 @@ namespace ParkingATHWeb.Business.Services
 
         public async Task<ServiceResult<UserBaseDto>> ChangeEmailAsync(string email, string newEmail, string password)
         {
-            if (await _repository.FirstOrDefaultAsync(x => x.Email == newEmail) == null)
+            if ((await _repository.FirstOrDefaultAsync(x => x.Email == newEmail)) == null)
             {
                 var entity = await _repository.FirstOrDefaultAsync(x => x.Email == email);
-                if (_passwordHasher.ValidatePassword(password, entity.PasswordHash, entity.PasswordSalt))
+                if (entity != null && _passwordHasher.ValidatePassword(password, entity.PasswordHash, entity.PasswordSalt))
                 {
                     entity.Email = newEmail;
                     _repository.Edit(entity);
@@ -105,12 +164,30 @@ namespace ParkingATHWeb.Business.Services
 
         public async Task<ServiceResult<UserBaseDto, string>> GetPasswordChangeTokenAsync(string email)
         {
-            var entity = await _repository.FirstOrDefaultAsync(x => x.Email == email);
+            var entity = await _repository.Include(x => x.PasswordChangeToken).FirstOrDefaultAsync(x => x.Email == email);
             var resetPasswordToken = await _tokenService.CreateAsync(TokenType.ResetPasswordToken);
+            if (entity.PasswordChangeTokenId != null)
+            {
+                _tokenRepository.Delete(entity.PasswordChangeToken);
+            }
             entity.PasswordChangeTokenId = resetPasswordToken.Result.Id;
             _repository.Edit(entity);
             await _unitOfWork.CommitAsync();
             return ServiceResult<UserBaseDto, string>.Success(Mapper.Map<UserBaseDto>(entity), resetPasswordToken.Result.BuildEncryptedToken());
+        }
+
+        public async Task<ServiceResult<UserBaseDto, string>> GetSelfDeleteTokenAsync(string email)
+        {
+            var entity = await _repository.Include(x => x.SelfDeleteToken).FirstOrDefaultAsync(x => x.Email == email);
+            var selfDeleteToken = await _tokenService.CreateAsync(TokenType.SelfDeleteToken);
+            if (entity.SelfDeleteTokenId != null)
+            {
+                _tokenRepository.Delete(entity.SelfDeleteToken);
+            }
+            entity.SelfDeleteTokenId = selfDeleteToken.Result.Id;
+            _repository.Edit(entity);
+            await _unitOfWork.CommitAsync();
+            return ServiceResult<UserBaseDto, string>.Success(Mapper.Map<UserBaseDto>(entity), selfDeleteToken.Result.BuildEncryptedToken());
         }
 
         public async Task<ServiceResult<UserBaseDto>> ResetPasswordAsync(string token, string newPassword)
@@ -165,7 +242,7 @@ namespace ParkingATHWeb.Business.Services
         public async Task<ServiceResult<UserBaseDto>> LoginMvcAsync(string email, string password)
         {
             var stud = await _repository.FirstOrDefaultAsync(x => x.Email == email);
-            if (stud != null && _passwordHasher.ValidatePassword(password, stud.PasswordHash, stud.PasswordSalt) && !stud.LockedOut)
+            if (stud != null && _passwordHasher.ValidatePassword(password, stud.PasswordHash, stud.PasswordSalt) && !stud.LockedOut && !stud.IsDeleted)
             {
                 return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(stud));
             }
@@ -189,9 +266,19 @@ namespace ParkingATHWeb.Business.Services
             throw new NotImplementedException();
         }
 
-        public async Task<ServiceResult<bool>> SelfDelete(string email, string token)
+        public async Task<ServiceResult<bool>> SelfDeleteAsync(string email, string token)
         {
-            throw new NotImplementedException();
+            var decryptedTokenData = _tokenService.GetDecryptedData(token);
+            var entity = await _repository.FirstOrDefaultAsync(x => x.SelfDeleteTokenId == decryptedTokenData.Result.Id);
+            if (entity != null && decryptedTokenData.Result.TokenType == TokenType.SelfDeleteToken)
+            {
+                entity.IsDeleted = true;
+                _repository.Edit(entity);
+                _tokenService.Delete(decryptedTokenData.Result.Id);
+                await _unitOfWork.CommitAsync();
+                return ServiceResult<bool>.Success(true);
+            }
+            return ServiceResult<bool>.Failure("Nieważny token usunięcia konta.");
         }
 
         public async Task<ServiceResult<int?>> OpenGateAsync(string email, string token)
@@ -225,6 +312,26 @@ namespace ParkingATHWeb.Business.Services
             _repository.Edit(student);
             await _unitOfWork.CommitAsync();
             return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(student));
+        }
+
+        public async Task<ServiceResult<int>> TransferCharges(string senderEmail, string recieverEmail, int numberOfCharges, string password)
+        {
+            var sender = await _repository.FirstOrDefaultAsync(x => x.Email == senderEmail);
+            var reciever = await _repository.FirstOrDefaultAsync(x => x.Email == recieverEmail);
+            if (sender != null && recieverEmail != null && sender.Charges >= numberOfCharges)
+            {
+                if (_passwordHasher.ValidatePassword(password, sender.PasswordHash, sender.PasswordSalt))
+                {
+                    sender.Charges -= numberOfCharges;
+                    reciever.Charges += numberOfCharges;
+                    _repository.Edit(sender);
+                    _repository.Edit(reciever);
+                    await _unitOfWork.CommitAsync();
+                    return ServiceResult<int>.Success(sender.Charges);
+                }
+                return ServiceResult<int>.Failure($"Nie można przekazać {numberOfCharges} wyjazdów na konto {recieverEmail} - złe hasło.");
+            }
+            return ServiceResult<int>.Failure($"Nie można przekazać {numberOfCharges} wyjazdów na konto {recieverEmail}");
         }
 
         #region Helpers

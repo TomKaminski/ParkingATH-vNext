@@ -4,6 +4,7 @@ using Microsoft.AspNet.Authentication.Cookies;
 using Microsoft.AspNet.Http.Authentication;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Filters;
+using ParkingATHWeb.Contracts.DTO.User;
 using ParkingATHWeb.Models;
 
 
@@ -33,7 +34,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers.Base
             await HttpContext.Authentication.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
-        protected async void IdentityReSignin(AppUserState user, bool isPersistent = false)
+        protected async void IdentityReSignin(UserBaseDto user , bool isPersistent = false)
         {
             IdentitySignout();
 

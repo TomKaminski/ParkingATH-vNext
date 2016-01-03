@@ -1,0 +1,19 @@
+﻿@model ParkingATHWeb.Areas.Portal.ViewModels.Manage.SelfDeleteViewModel
+@{
+    ViewData["Title"] = "Usuwanie konta - potwierdzenie";
+}
+
+<div class="row">
+    <div class="col-xs-12 col-md-8 col-md-offset-2">
+        <h2>Potwierdź proszę ZAKOŃCZENIE procesu usuwania konta - proces ten będzie nieodwracalny!</h2>
+        <form asp-action="SelfDeleteFinish" asp-controller="Manage" asp-antiforgery="true">
+            <div asp-validation-summary="ValidationSummary.ModelOnly"></div>
+            <input type="hidden" asp-for="Token" value="@Model.Token"/>
+            <h3><b>Czy na pewno chcesz usunąć swoje konto?</b></h3>
+            <div class="form-group">
+                <input type="submit" value="Chcę usunąć swoje konto" class="btn btn-default"/>
+            </div>
+            <a asp-action="Index" asp-controller="Manage">Zabierz mnie stąd!!!</a>
+        </form>
+    </div>
+</div>
