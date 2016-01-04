@@ -26,7 +26,8 @@
     "AutoMapper": "4.1.1",
     "Autofac": "4.0.0-rc1-*",
     "Autofac.Extensions.DependencyInjection": "4.0.0-rc1-*",
-    "Microsoft.AspNet.Authentication.OAuthBearer": "1.0.0-beta7"
+    "Microsoft.AspNet.Authentication.OAuthBearer": "1.0.0-beta7",
+    "Microsoft.IdentityModel.Protocols.OpenIdConnect": "2.0.0-rc1-211161024"
   },
 
   "commands": {

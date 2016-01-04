@@ -2,8 +2,10 @@
 
 namespace ParkingATHWeb.Controllers
 {
-    public class HomeController : Controller
+
+    public class WelcomeController : Controller
     {
+        [Route("~/")]
         public IActionResult Index()
         {
             return View();

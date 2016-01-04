@@ -46,9 +46,14 @@
                     }
                     else
                     {
+
                         <li class="navbar-text">Zalogowany jako @userState.ToString()</li>
                         <li><a asp-controller="Manage" asp-action="Index">Zarządzaj kontem</a></li>
                         <li><a asp-controller="Account" asp-action="Logout">Wyloguj</a></li>
+                        if (userState.IsAdmin)
+                        {
+                            <li><a asp-controller="AdminHome" asp-action="Index" asp-route-area="Admin">Panel administracyjny</a></li>
+                        }
                     }
                 </ul>
             </div>

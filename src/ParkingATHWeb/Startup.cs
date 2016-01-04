@@ -14,6 +14,7 @@ using ParkingATHWeb.Resolver.Modules;
 using ParkingATHWeb.Mappings;
 using Microsoft.AspNet.Authentication.OAuthBearer;
 using Microsoft.AspNet.Authorization;
+using ParkingATHWeb.Infrastructure.Attributes;
 
 namespace ParkingATHWeb
 {
@@ -36,6 +37,10 @@ namespace ParkingATHWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            //Admin requirement :-)
+            services.Configure<AuthorizationOptions>(
+                options => options.AddPolicy("Admin", policy => policy.Requirements.Add(new AdminRequirement())));
+
             // Add framework services.
             services.AddMvc();
 
@@ -45,34 +50,11 @@ namespace ParkingATHWeb
             builder.RegisterModule(new EfModule());
             builder.RegisterModule(new RepositoryModule());
 
-            // Build the container.'
+            // Build the container
             builder.Populate(services);
             var container = builder.Build();
 
-            //RsaSecurityKey key;
-            //using (var textReader = new System.IO.StreamReader(stream))
-            //{
-            //    RSACryptoServiceProvider publicAndPrivate = new RSACryptoServiceProvider();
-            //    publicAndPrivate.FromXmlString(textReader.ReadToEnd());
 
-            //    key = new RsaSecurityKey(publicAndPrivate.ExportParameters(true));
-            //}
-
-            //services.AddInstance(new SigningCredentials(key, SecurityAlgorithms.RsaSha256Signature, SecurityAlgorithms.Sha256Digest));
-
-            //services.Configure<OAuthBearerAuthenticationOptions>(bearer =>
-            //{
-            //    bearer.TokenValidationParameters.IssuerSigningKey = key;
-            //    bearer.TokenValidationParameters.ValidAudience = TokenAudience;
-            //    bearer.TokenValidationParameters.ValidIssuer = TokenIssuer;
-            //});
-
-            //services.ConfigureAuthorization(auth =>
-            //{
-            //    auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
-            //        .AddAuthenticationTypes(OAuthBearerAuthenticationDefaults.AuthenticationType)
-            //        .RequireAuthenticatedUser().Build());
-            //});
 
             // Resolve and return the service provider.
             return container.Resolve<IServiceProvider>();
@@ -120,12 +102,6 @@ namespace ParkingATHWeb
                 routes.MapRoute("areaRoute", "{area:exists}/{controller}/{action=Index}/{id?}");
                 routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
-
-            //app.Use((context, next) =>
-            //{
-            //    context.Response.StatusCode = 404;
-            //    return next();
-            //});
         }
 
         // Entry point for the application.
