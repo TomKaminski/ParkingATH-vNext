@@ -11,6 +11,10 @@ namespace ParkingATHWeb.Resolver.Mappings
         {
             Mapper.CreateMap<User, UserBaseDto>().IgnoreNotExistingProperties();
             Mapper.CreateMap<UserBaseDto, User>().IgnoreNotExistingProperties();
+
+            Mapper.CreateMap<User, UserAdminDto>()
+                .ForMember(x=>x.OrdersCount, opt=>opt.MapFrom(x=>x.Orders.Count))
+                .IgnoreNotExistingProperties();
         }
     }
 }

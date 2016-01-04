@@ -1,13 +1,8 @@
-﻿using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Mvc;
-using ParkingATHWeb.Areas.Portal.Controllers.Base;
+﻿using Microsoft.AspNet.Mvc;
 
 namespace ParkingATHWeb.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    [Authorize(Policy = "Admin")]
-    [Route("[area]")]
-    public class AdminHomeController : BaseController
+    public class AdminHomeController : AdminBaseController
     {
         [Route("~/[area]")]
         public IActionResult Index()

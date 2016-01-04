@@ -32,6 +32,8 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         }
 
         [Route("Wyloguj")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Logout()
         {
             IdentitySignout();

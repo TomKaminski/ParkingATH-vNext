@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -332,6 +335,32 @@ namespace ParkingATHWeb.Business.Services
                 return ServiceResult<int>.Failure($"Nie można przekazać {numberOfCharges} wyjazdów na konto {recieverEmail} - złe hasło.");
             }
             return ServiceResult<int>.Failure($"Nie można przekazać {numberOfCharges} wyjazdów na konto {recieverEmail}");
+        }
+
+        public async Task<ServiceResult<IEnumerable<UserAdminDto>>> GetAllForAdminAsync()
+        {
+            return ServiceResult<IEnumerable<UserAdminDto>>.Success((await _repository.Include(x => x.Orders)
+                .ToListAsync())
+                .Select(Mapper.Map<UserAdminDto>));
+        }
+
+        public async Task<ServiceResult<IEnumerable<UserAdminDto>>> GetAllForAdminAsync(Expression<Func<UserBaseDto,bool>> predicate)
+        {
+            return ServiceResult<IEnumerable<UserAdminDto>>.Success((await _repository.Include(x => x.Orders)
+                .Where(MapExpressionToEntity(predicate))
+                .ToListAsync())
+                .Select(Mapper.Map<UserAdminDto>));
+
+        }
+
+        public async Task<ServiceResult<UserAdminDto>> GetAdmin(int id)
+        {
+            return ServiceResult<UserAdminDto>.Success(Mapper.Map<UserAdminDto>(await _repository.FirstAsync(x => x.Id == id)));
+        }
+
+        public async Task<ServiceResult<UserAdminDto>> GetAdmin(Expression<Func<UserBaseDto,bool>> predicate)
+        {
+            return ServiceResult<UserAdminDto>.Success(Mapper.Map<UserAdminDto>(await _repository.FirstAsync(MapExpressionToEntity(predicate))));
         }
 
         #region Helpers

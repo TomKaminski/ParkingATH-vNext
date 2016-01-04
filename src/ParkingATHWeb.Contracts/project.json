@@ -16,6 +16,7 @@
     "System.Net.Mail.Abstractions": "1.0.8",
     "Newtonsoft.Json": "8.0.1-beta4",
     "Autofac.Extras.Moq": "4.0.0",
-    "Microsoft.Extensions.Configuration": "1.0.0-rc1-final"
+    "Microsoft.Extensions.Configuration": "1.0.0-rc1-final",
+    "Autofac": "3.5.2"
   }
 }

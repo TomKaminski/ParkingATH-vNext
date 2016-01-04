@@ -30,7 +30,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         [Route("")]
         public async Task<IActionResult> Index()
         {
-            var userModel = Mapper.Map<UserInfoViewModel>((await _userService.GetByEmailAsync(CurrentUser.Email)).Result);
+            var userModel = Mapper.Map<UserBaseViewModel>((await _userService.GetByEmailAsync(CurrentUser.Email)).Result);
             return View(userModel);
         }
 

@@ -1,15 +1,18 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 using ParkingATHWeb.Contracts.Common;
 using ParkingATHWeb.Contracts.DTO.User;
 using ParkingATHWeb.Contracts.Services.Base;
 
 namespace ParkingATHWeb.Contracts.Services
 {
-    public interface IUserService : IEntityService<UserBaseDto,int>, IDependencyService
+    public interface IUserService : IEntityService<UserBaseDto, int>, IDependencyService
     {
         Task<ServiceResult<UserBaseDto>> ChangeEmailAsync(string email, string newEmail, string password);
 
-        Task<ServiceResult<UserBaseDto,string>> GetPasswordChangeTokenAsync(string email);
+        Task<ServiceResult<UserBaseDto, string>> GetPasswordChangeTokenAsync(string email);
         Task<ServiceResult<UserBaseDto, string>> GetSelfDeleteTokenAsync(string email);
         Task<ServiceResult<UserBaseDto>> ResetPasswordAsync(string token, string newPassword);
         Task<ServiceResult<UserBaseDto>> ChangePasswordAsync(string email, string password, string newPassword);
@@ -43,5 +46,11 @@ namespace ParkingATHWeb.Contracts.Services
         Task<ServiceResult<UserBaseDto>> EditStudentInitialsAsync(UserBaseDto entity);
 
         Task<ServiceResult<int>> TransferCharges(string senderEmail, string recieverEmail, int numberOfCharges, string password);
+
+        Task<ServiceResult<IEnumerable<UserAdminDto>>> GetAllForAdminAsync();
+        Task<ServiceResult<IEnumerable<UserAdminDto>>> GetAllForAdminAsync(Expression<Func<UserBaseDto, bool>> predicate);
+
+        Task<ServiceResult<UserAdminDto>> GetAdmin(int id);
+        Task<ServiceResult<UserAdminDto>> GetAdmin(Expression<Func<UserBaseDto, bool>> predicate);
     }
 }

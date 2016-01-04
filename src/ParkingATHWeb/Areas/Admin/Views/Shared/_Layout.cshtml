@@ -39,7 +39,7 @@
                     <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                 </ul>
                 <ul class="nav navbar-right navbar-nav">
-                    @if (userState.IsEmpty())
+                    @if (!User.Identity.IsAuthenticated)
                     {
                         <li><a asp-controller="Account" asp-action="Login">Logowanie</a></li>
                         <li><a asp-controller="Account" asp-action="Register">Rejestracja</a></li>
@@ -47,11 +47,13 @@
                     else
                     {
                         <li><a asp-controller="Home" asp-action="Index" asp-route-area="Portal">Portal home</a></li>
-
                         <li class="navbar-text">Zalogowany jako @userState.ToString()</li>
-
                         <li><a asp-controller="Manage" asp-action="Index">Zarządzaj kontem</a></li>
-                        <li><a asp-controller="Account" asp-action="Logout">Wyloguj</a></li>
+                        <li>
+                            <form method="post" asp-controller="Account" asp-action="Logout" id="logoutForm" class="navbar-right" asp-antiforgery="true">
+                                <a href="javascript:document.getElementById('logoutForm').submit()">Wyloguj</a>>
+                            </form>
+                        </li>
                     }
                 </ul>
             </div>
