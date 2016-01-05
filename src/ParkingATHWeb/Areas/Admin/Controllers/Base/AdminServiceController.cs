@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNet.Mvc;
 using ParkingATHWeb.Contracts.Common;
@@ -77,7 +76,5 @@ namespace ParkingATHWeb.Areas.Admin.Controllers.Base
                 ? RedirectToAction(returnActionName)
                 : ReturnModelWithError(model, serviceResult);
         }
-
-
     }
 }

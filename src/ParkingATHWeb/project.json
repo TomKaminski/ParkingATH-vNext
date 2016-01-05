@@ -27,15 +27,18 @@
     "Autofac": "4.0.0-rc1-*",
     "Autofac.Extensions.DependencyInjection": "4.0.0-rc1-*",
     "Microsoft.AspNet.Authentication.OAuthBearer": "1.0.0-beta7",
-    "Microsoft.IdentityModel.Protocols.OpenIdConnect": "2.0.0-rc1-211161024"
+    "Microsoft.IdentityModel.Protocols.OpenIdConnect": "2.0.0-rc1-211161024",
+    "Microsoft.Framework.CodeGenerators.Mvc": "1.0.0-*"
   },
 
   "commands": {
-    "web": "Microsoft.AspNet.Server.Kestrel"
+    "web": "Microsoft.AspNet.Server.Kestrel",
+    "gen": "Microsoft.Framework.CodeGeneration"
   },
 
   "frameworks": {
     "dnx451": { }
+
   },
 
   "exclude": [

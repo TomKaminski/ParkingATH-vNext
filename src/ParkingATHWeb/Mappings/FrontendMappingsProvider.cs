@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ParkingATHWeb.Areas.Admin.ViewModels.AdminUser;
+using ParkingATHWeb.Areas.Admin.ViewModels.User;
 using ParkingATHWeb.Areas.Portal.ViewModels.User;
 using ParkingATHWeb.Contracts.DTO;
 using ParkingATHWeb.Contracts.DTO.User;

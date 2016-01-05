@@ -1,5 +1,5 @@
 ﻿using ParkingATHWeb.Areas.Admin.Controllers.Base;
-using ParkingATHWeb.Areas.Admin.ViewModels.AdminPriceTreshold;
+using ParkingATHWeb.Areas.Admin.ViewModels.PriceTreshold;
 using ParkingATHWeb.Contracts.DTO.PriceTreshold;
 using ParkingATHWeb.Contracts.Services.Base;
 
