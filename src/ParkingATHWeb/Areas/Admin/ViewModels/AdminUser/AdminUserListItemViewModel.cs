@@ -1,8 +1,8 @@
-﻿using ParkingATHWeb.Areas.Portal.ViewModels.User;
+﻿using ParkingATHWeb.ViewModels.Base;
 
 namespace ParkingATHWeb.Areas.Admin.ViewModels.AdminUser
 {
-    public class AdminUserListItemViewModel: UserBaseViewModel
+    public class AdminUserListItemViewModel: ParkingAthListBaseViewModel
     {
         public int Id { get; set; }
         public bool IsAdmin { get; set; }

@@ -50,7 +50,7 @@ namespace ParkingATHWeb.Contracts.Services
         Task<ServiceResult<IEnumerable<UserAdminDto>>> GetAllForAdminAsync();
         Task<ServiceResult<IEnumerable<UserAdminDto>>> GetAllForAdminAsync(Expression<Func<UserBaseDto, bool>> predicate);
 
-        Task<ServiceResult<UserAdminDto>> GetAdmin(int id);
-        Task<ServiceResult<UserAdminDto>> GetAdmin(Expression<Func<UserBaseDto, bool>> predicate);
+        Task<ServiceResult<UserAdminDto>> GetAdminAsync(int id);
+        Task<ServiceResult<UserAdminDto>> GetAdminAsync(Expression<Func<UserBaseDto, bool>> predicate);
     }
 }

@@ -6,7 +6,7 @@ namespace ParkingATHWeb.Areas.Portal.ViewModels.Account
 {
     public class ForgotPasswordViewModel : ParkingAthBaseViewModel
     {
-        [Required(ErrorMessage = "Pole {0} jest wymagane")]
+        [Required(ErrorMessageResourceType = typeof(ViewModelResources), ErrorMessageResourceName = "Common_RequiredError")]
         [EmailAddress(ErrorMessage = "To nie jest adres email")]
         [DisplayName("Email")]
         public string Email { get; set; }

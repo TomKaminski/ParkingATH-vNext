@@ -2,7 +2,7 @@
 
 namespace ParkingATHWeb.ViewModels.Base
 {
-    public class ParkingAthBaseViewModel
+    public abstract class ParkingAthBaseViewModel
     {
         public IEnumerable<string> ValidationErrors { get; set; }
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Mvc;
+using ParkingATHWeb.Areas.Admin.Controllers.Base;
 
 namespace ParkingATHWeb.Areas.Admin.Controllers
 {

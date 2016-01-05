@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using ParkingATHWeb.Infrastructure.Attributes;
 using ParkingATHWeb.ViewModels.Base;
 
 namespace ParkingATHWeb.Areas.Portal.ViewModels.Manage

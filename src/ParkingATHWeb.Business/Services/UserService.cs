@@ -353,12 +353,12 @@ namespace ParkingATHWeb.Business.Services
 
         }
 
-        public async Task<ServiceResult<UserAdminDto>> GetAdmin(int id)
+        public async Task<ServiceResult<UserAdminDto>> GetAdminAsync(int id)
         {
             return ServiceResult<UserAdminDto>.Success(Mapper.Map<UserAdminDto>(await _repository.FirstAsync(x => x.Id == id)));
         }
 
-        public async Task<ServiceResult<UserAdminDto>> GetAdmin(Expression<Func<UserBaseDto,bool>> predicate)
+        public async Task<ServiceResult<UserAdminDto>> GetAdminAsync(Expression<Func<UserBaseDto,bool>> predicate)
         {
             return ServiceResult<UserAdminDto>.Success(Mapper.Map<UserAdminDto>(await _repository.FirstAsync(MapExpressionToEntity(predicate))));
         }
