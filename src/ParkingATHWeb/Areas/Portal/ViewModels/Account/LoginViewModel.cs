@@ -13,11 +13,11 @@ namespace ParkingATHWeb.Areas.Portal.ViewModels.Account
         [Required(ErrorMessageResourceType = typeof(ViewModelResources), ErrorMessageResourceName = "Common_RequiredError")]
         [MinLength(6)]
         [PasswordPropertyText]
-        [DisplayName("Hasło")]
+        [Display(Name = "Hasło")]
         public string Password { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ViewModelResources), ErrorMessageResourceName = "Common_RequiredError")]
-        [DisplayName("Zapamiętaj moje dane")]
+        [Display(Name = "Zapamiętaj mnie")]
         public bool RemeberMe { get; set; }
 
         public string ReturnUrl { get; set; }

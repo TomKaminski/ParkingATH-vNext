@@ -1,40 +1,63 @@
-﻿@{
+﻿@model ParkingATHWeb.Areas.Portal.ViewModels.Account.RegisterViewModel
+@{
     ViewData["Title"] = "Rejestracja";
+    Layout = "_LayoutClear";
 }
-@model ParkingATHWeb.Areas.Portal.ViewModels.Account.RegisterViewModel
-<div class="row">
-    <div class="col-xs-12 col-md-8 col-md-offset-2">
-        <h2>Rejestracja</h2>
-        <form asp-action="Register" asp-controller="Account" asp-antiforgery="true">
-            <div asp-validation-summary="ValidationSummary.ModelOnly"></div>
-            <div class="form-group">
-                <label asp-for="Email"></label>
-                <input type="text" asp-for="Email" class="form-control"/>
-                <span asp-validation-for="Email"></span>
+
+<div class="row valign">
+    <div class="col s10 offset-s1 offset-m3 m6 text-blue darken-2">
+        <div class="card">
+            <div class="card-image">
+                <img src="~/images/logo.png" class="padding-10-5-nobottom" />
             </div>
-            <div class="form-group">
-                <label asp-for="Password"></label>
-                <input type="password" asp-for="Password" class="form-control"/>
-                <span asp-validation-for="Password"></span>
+            <div class="card-content">
+                <h3 class="center-align">Rejestracja</h3>
+                <form asp-action="Login" asp-controller="Account" asp-antiforgery="true">
+                    <div asp-validation-summary="ValidationSummary.ModelOnly"></div>
+                    <div class="input-field col s12">
+                        <input type="text" asp-for="Email" class="validate" />
+                        <label asp-for="Email"></label>
+                        <span asp-validation-for="Email"></span>
+                    </div>
+                    <div class="input-field col s12">
+                        <input type="password" asp-for="Password" class="validate" />
+                        <label asp-for="Password"></label>
+                        <span asp-validation-for="Password"></span>
+                    </div>
+                    <div class="input-field col s12">
+                        <input type="password" asp-for="RepeatPassword" class="validate" />
+                        <label asp-for="RepeatPassword"></label>
+                        <span asp-validation-for="RepeatPassword"></span>
+                    </div>
+                    <div class="input-field col s12">
+                        <input type="text" asp-for="Name" class="validate" />
+                        <label asp-for="Name"></label>
+                        <span asp-validation-for="Name"></span>
+                    </div>
+                    <div class="input-field col s12">
+                        <input type="text" asp-for="LastName" class="validate" />
+                        <label asp-for="LastName"></label>
+                        <span asp-validation-for="LastName"></span>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <button class="btn waves-effect waves-light btn col s6 offset-s3" type="submit" name="action">
+                            Zarejestruj
+                        </button>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="RepeatPassword"></label>
-                <input type="password" asp-for="RepeatPassword" class="form-control"/>
-                <span asp-validation-for="RepeatPassword"></span>
+            <div class="card-action">
+                <div class="row" style="margin-bottom: 0">
+                    <div class="col s6">
+                        <a asp-action="ForgotPassword" asp-controller="Account" class="waves-effect waves-light btn blue lighten-1 col s12 ">Przypomnij hasło</a>
+                    </div>
+                    <div class="col s6">
+                        <a asp-action="Login" asp-controller="Account" class="waves-effect waves-light btn blue lighten-1 col s12 ">Logowanie</a>
+                    </div>
+                </div>
+
             </div>
-            <div class="form-group">
-                <label asp-for="Name"></label>
-                <input type="text" asp-for="Name" class="form-control"/>
-                <span asp-validation-for="Name"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName"></label>
-                <input type="text" asp-for="LastName" class="form-control"/>
-                <span asp-validation-for="LastName"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Rejestruj" class="btn btn-default"/>
-            </div>
-        </form>
+        </div>
     </div>
 </div>

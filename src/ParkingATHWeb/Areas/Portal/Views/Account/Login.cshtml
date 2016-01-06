@@ -1,34 +1,55 @@
 ﻿@model ParkingATHWeb.Areas.Portal.ViewModels.Account.LoginViewModel
 @{
     ViewData["Title"] = "Logowanie";
+    Layout = "_LayoutClear";
 }
 
-<div class="row">
-    <div class="col-xs-12 col-md-8 col-md-offset-2">
-        <h2>Logowanie</h2>
-        <form asp-action="Login" asp-controller="Account" asp-antiforgery="true">
-            <div asp-validation-summary="ValidationSummary.ModelOnly"></div>
-            <input type="hidden" asp-for="ReturnUrl" value="@Model.ReturnUrl"/>
-            <div class="form-group">
-                <label asp-for="Email"></label>
-                <input type="text" asp-for="Email" class="form-control"/>
-                <span asp-validation-for="Email"></span>
+<div class="row valign">
+    <div class="col s10 offset-s1 offset-m3 m6 text-blue darken-2">
+        <div class="card">
+            <div class="card-image">
+                <img src="~/images/logo.png" class="padding-10-5-nobottom" />
             </div>
-            <div class="form-group">
-                <label asp-for="Password"></label>
-                <input type="password" asp-for="Password" class="form-control"/>
-                <span asp-validation-for="Password"></span>
+            <div class="card-content">
+                <h5 class="center-align">Logowanie</h5>
+                <form asp-action="Login" asp-controller="Account" asp-antiforgery="true">
+                    <div asp-validation-summary="ValidationSummary.ModelOnly"></div>
+                    <input type="hidden" asp-for="ReturnUrl" value="@Model.ReturnUrl" />
+                    <div class="input-field s12">
+                        <input type="text" asp-for="Email" class="validate" />
+                        <label asp-for="Email"></label>
+                        <span asp-validation-for="Email"></span>
+                    </div>
+                    <div class="input-field s12">
+                        <input type="password" asp-for="Password" class="validate" />
+                        <label asp-for="Password"></label>
+                        <span asp-validation-for="Password"></span>
+                    </div>
+                    <br />
+                    <p>
+                        <input type="checkbox" asp-for="RemeberMe" class="filled-in" />
+                        <label asp-for="RemeberMe"></label>
+                    </p>
+
+                    <br />
+                    <div class="row">
+                        <button class="btn waves-effect waves-light btn col s6 offset-s3" type="submit" name="action">
+                            Zaloguj
+                        </button>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="RemeberMe">
-                    <input type="checkbox" asp-for="RemeberMe" class="form-control"/>
-                </label>
+            <div class="card-action">
+                <div class="row" style="margin-bottom: 0">
+                    <div class="col s6">
+                        <a asp-action="ForgotPassword" asp-controller="Account" class="waves-effect waves-light btn blue lighten-1 col s12 ">Przypomnij hasło</a>
+                    </div>
+                    <div class="col s6">
+                        <a asp-action="Register" asp-controller="Account" class="waves-effect waves-light btn blue lighten-1 col s12 ">Rejestracja</a>
+                    </div>
+                </div>
 
             </div>
-            <div class="form-group">
-                <input type="submit" value="Zaloguj" class="btn btn-default"/>
-            </div>
-        </form>
-        <a asp-action="ForgotPassword" asp-controller="Account">Zapomniane hasło</a>
+        </div>
     </div>
 </div>
