@@ -1,0 +1,45 @@
+﻿@model ParkingATHWeb.Areas.Admin.ViewModels.User.AdminUserEditViewModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="row">
+    <div class="col-xs-12 col-md-8 col-md-offset-2">
+        <h2>Edit</h2>
+        <form asp-action="Edit" asp-controller="AdminUser" asp-antiforgery="true">
+            <div asp-validation-summary="ValidationSummary.ModelOnly"></div>
+
+            <div class="form-group">
+                <label asp-for="Charges"></label>
+                <input type="text" asp-for="Charges" class="form-control" value="@Model.Charges"/>
+                <span asp-validation-for="Charges"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input type="text" asp-for="Name" class="form-control" value="@Model.Name"/>
+                <span asp-validation-for="Name"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName"></label>
+                <input type="text" asp-for="LastName" class="form-control" value="@Model.LastName"/>
+                <span asp-validation-for="LastName"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="IsAdmin">
+                    <input type="checkbox" asp-for="IsAdmin" class="form-control" checked="@(Model.IsAdmin==true? true : false)"/>
+                </label>
+                <span asp-validation-for="Password"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsDeleted">
+                    <input type="checkbox" asp-for="IsDeleted" class="form-control" checked="@(Model.IsDeleted==true? true : false)"/>
+                </label>
+                <span asp-validation-for="IsDeleted"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Edit" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>

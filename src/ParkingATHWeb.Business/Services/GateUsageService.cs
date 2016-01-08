@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.Data.Entity;
 using ParkingATHWeb.Business.Services.Base;
 using ParkingATHWeb.Contracts.Common;
 using ParkingATHWeb.Contracts.DTO.GateUsage;
@@ -23,18 +25,16 @@ namespace ParkingATHWeb.Business.Services
             _repository = repository;
         }
 
-        public ServiceResult<IEnumerable<GateUsageAdminDto>> GetAllAdmin()
+        public async Task<ServiceResult<IEnumerable<GateUsageAdminDto>>> GetAllAdminAsync()
         {
             return ServiceResult<IEnumerable<GateUsageAdminDto>>
-                .Success(_repository.Include(x=>x.User)
-                .Select(Mapper.Map<GateUsageAdminDto>));
+                .Success((await _repository.Include(x => x.User).ToListAsync()).Select(Mapper.Map<GateUsageAdminDto>));
         }
 
-        public ServiceResult<IEnumerable<GateUsageAdminDto>> GetAllAdmin(Expression<Func<GateUsageBaseDto, bool>> predicate)
+        public async Task<ServiceResult<IEnumerable<GateUsageAdminDto>>> GetAllAdminAsync(Expression<Func<GateUsageBaseDto, bool>> predicate)
         {
             return ServiceResult<IEnumerable<GateUsageAdminDto>>
-                .Success(_repository.Include(x=>x.User).Where(MapExpressionToEntity(predicate))
-                .Select(Mapper.Map<GateUsageAdminDto>));
+                .Success((await _repository.Include(x => x.User).Where(MapExpressionToEntity(predicate)).ToListAsync()).Select(Mapper.Map<GateUsageAdminDto>));
         }
     }
 }

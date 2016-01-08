@@ -2,7 +2,6 @@
 {
     public class GateUsageAdminDto: GateUsageBaseDto
     {
-        public string StudentName { get; set; }
-        public string StudentLastName { get; set; }
+        public string Initials { get; set; }
     }
 }

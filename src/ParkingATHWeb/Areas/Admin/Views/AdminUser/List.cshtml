@@ -1,0 +1,36 @@
+﻿@using System.Threading.Tasks
+@model IEnumerable<ParkingATHWeb.Areas.Admin.ViewModels.User.AdminUserListItemViewModel>
+@{
+    ViewBag.Title = "Users - Lista";
+}
+@Html.ActionLink("Dodaj", "Create")
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(x => x.Id)</th>
+            <th>@Html.DisplayNameFor(x => x.IsDeleted)</th>
+            <th>@Html.DisplayNameFor(x => x.Charges)</th>
+            <th>@Html.DisplayNameFor(x => x.LastName)</th>
+            <th>@Html.DisplayNameFor(x => x.Name)</th>
+            <th>@Html.DisplayNameFor(x => x.OrdersCount)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.IsDeleted</td>
+                <td>@item.Charges</td>
+                <td>@item.LastName</td>
+                <td>@item.Name</td>
+                <td>@item.OrdersCount</td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

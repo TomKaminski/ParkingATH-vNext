@@ -1,0 +1,37 @@
+﻿@using System.Threading.Tasks
+@model IEnumerable<ParkingATHWeb.Areas.Admin.ViewModels.Message.AdminMessageListItemViewModel>
+@{
+    ViewBag.Title = "Wiadomości - Lista";
+}
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>BCC</th>
+        <th>CC</th>
+        <th>DisplayFrom</th>
+        <th>From</th>
+        <th>MessageParameters</th>
+        <th>Type</th>
+        <th>Title</th>
+        <th>To</th>
+    </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.BCC</td>
+                <td>@item.CC</td>
+                <td>@item.DisplayFrom</td>
+                <td>@item.From</td>
+                <td>@item.MessageParameters</td>
+                <td>@item.Type.ToString()</td>
+                <td>@item.Title</td>
+                <td>@item.To</td>
+            </tr>
+        }
+    </tbody>
+</table>

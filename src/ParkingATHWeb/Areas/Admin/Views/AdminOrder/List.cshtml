@@ -1,0 +1,37 @@
+﻿@using System.Threading.Tasks
+@model IEnumerable<ParkingATHWeb.Areas.Admin.ViewModels.Order.AdminOrderListItemViewModel>
+@{
+    ViewBag.Title = "Zamówienia - Lista";
+}
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>@Html.DisplayNameFor(x=>x.Id)</th>
+        <th>@Html.DisplayNameFor(x => x.Date)</th>
+        <th>@Html.DisplayNameFor(x => x.ExtOrderId)</th>
+        <th>@Html.DisplayNameFor(x => x.NumOfCharges)</th>
+        <th>@Html.DisplayNameFor(x => x.PricePerCharge)</th>
+        <th>@Html.DisplayNameFor(x => x.Price)</th>
+        <th>@Html.DisplayNameFor(x => x.TotalPrice)</th>
+        <th>@Html.DisplayNameFor(x => x.OrderPlace)</th>
+        <th>@Html.DisplayNameFor(x => x.OrderState)</th>
+    </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Date</td>
+                <td>@item.ExtOrderId</td>
+                <td>@item.NumOfCharges</td>
+                <td>@item.PricePerCharge</td>
+                <td>@item.Price</td>
+                <td>@item.TotalPrice</td>
+                <td>@item.OrderPlace</td>
+                <td>@item.OrderState</td>
+            </tr>
+        }
+    </tbody>
+</table>

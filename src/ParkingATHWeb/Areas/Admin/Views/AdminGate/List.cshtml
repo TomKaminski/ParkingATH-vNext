@@ -1,0 +1,27 @@
+﻿@using System.Threading.Tasks
+@model IEnumerable<ParkingATHWeb.Areas.Admin.ViewModels.GateUsage.AdminGateUsageListItemViewModel>
+@{
+    ViewBag.Title = "Otwarcia bramy";
+}
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>
+            Imię i nazwisko
+        </th>
+        <th>Data</th>
+    </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Initials</td>
+                <td>@item.DateOfUse.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>

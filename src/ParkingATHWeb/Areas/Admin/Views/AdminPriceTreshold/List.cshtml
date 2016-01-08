@@ -1,0 +1,30 @@
+﻿@using System.Threading.Tasks
+@model IEnumerable<ParkingATHWeb.Areas.Admin.ViewModels.PriceTreshold.AdminPriceTresholdListItemViewModel>
+@{
+    ViewBag.Title = "Zamówienia - Lista";
+}
+@Html.ActionLink("Dodaj nowy", "Create")
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(x => x.Id)</th>
+            <th>@Html.DisplayNameFor(x => x.MinCharges)</th>
+            <th>@Html.DisplayNameFor(x => x.PricePerCharge)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.MinCharges</td>
+                <td>@item.PricePerCharge</td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

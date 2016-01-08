@@ -1,0 +1,28 @@
+﻿@model ParkingATHWeb.Areas.Admin.ViewModels.PriceTreshold.AdminPriceTresholdEditViewModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="row">
+    <div class="col-xs-12 col-md-8 col-md-offset-2">
+        <h2>Edit</h2>
+        <form asp-action="Create" asp-controller="AdminPriceTreshold" asp-antiforgery="true">
+            <div asp-validation-summary="ValidationSummary.ModelOnly"></div>
+            <input type="hidden" asp-for="Id" value="@Model.Id" />
+
+            <div class="form-group">
+                <label asp-for="MinCharges"></label>
+                <input type="text" asp-for="MinCharges" class="form-control" value="@Model.MinCharges"/>
+                <span asp-validation-for="MinCharges"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PricePerCharge"></label>
+                <input type="text" asp-for="PricePerCharge" class="form-control" value="@Model.PricePerCharge"/>
+                <span asp-validation-for="PricePerCharge"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Edit" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
