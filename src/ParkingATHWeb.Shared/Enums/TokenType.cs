@@ -4,6 +4,7 @@
     {
         ResetPasswordToken = 0,
         ViewInBrowserToken = 1,
-        SelfDeleteToken = 2
+        SelfDeleteToken = 2,
+        AuthToken = 3
     }
 }

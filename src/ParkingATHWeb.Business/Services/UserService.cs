@@ -242,7 +242,7 @@ namespace ParkingATHWeb.Business.Services
             return ServiceResult<int>.Success(entity.Charges);
         }
 
-        public async Task<ServiceResult<UserBaseDto>> LoginMvcAsync(string email, string password)
+        public async Task<ServiceResult<UserBaseDto>> LoginAsync(string email, string password)
         {
             var stud = await _repository.FirstOrDefaultAsync(x => x.Email == email);
             if (stud != null && _passwordHasher.ValidatePassword(password, stud.PasswordHash, stud.PasswordSalt) && !stud.LockedOut && !stud.IsDeleted)
@@ -250,23 +250,6 @@ namespace ParkingATHWeb.Business.Services
                 return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(stud));
             }
             return ServiceResult<UserBaseDto>.Failure("Niepoprawny login lub hasło");
-        }
-
-        //TODO: Token based authentication
-        public async Task<ServiceResult<UserBaseDto>> LoginFirstTimeAsync(string email, string password)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public async Task<ServiceResult<UserBaseDto>> CheckLogin(string email, string token)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<ServiceResult<bool>> CheckHash(string email, string token)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<ServiceResult<bool>> SelfDeleteAsync(string email, string token)

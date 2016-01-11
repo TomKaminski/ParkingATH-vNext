@@ -9,6 +9,7 @@ namespace ParkingATHWeb.Model.Concrete
         public DateTime? ValidTo { get; set; }
         public TokenType TokenType { get; set; }
         public Guid SecureToken { get; set; }
+        public DateTime CreatedOn { get; set; }
 
         public int UserId { get; set; }
         public virtual User User { get; set; }

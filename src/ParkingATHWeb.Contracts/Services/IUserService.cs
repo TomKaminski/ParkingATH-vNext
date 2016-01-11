@@ -20,11 +20,11 @@ namespace ParkingATHWeb.Contracts.Services
         Task<ServiceResult<int>> GetChargesAsync(string email);
         Task<ServiceResult<int>> AddChargesAsync(string email, int charges);
 
-        Task<ServiceResult<UserBaseDto>> LoginMvcAsync(string email, string password);
+        Task<ServiceResult<UserBaseDto>> LoginAsync(string email, string password);
 
-        Task<ServiceResult<UserBaseDto>> LoginFirstTimeAsync(string email, string password);
-        Task<ServiceResult<UserBaseDto>> CheckLogin(string email, string token);
-        Task<ServiceResult<bool>> CheckHash(string email, string token);
+        //Task<ServiceResult<UserBaseDto>> LoginFirstTimeAsync(string email, string password);
+        //Task<ServiceResult<UserBaseDto>> CheckLogin(string email, string token);
+        //Task<ServiceResult<bool>> CheckHash(string email, string token);
 
         new ServiceResult<UserBaseDto> Create(UserBaseDto entity);
         ServiceResult<UserBaseDto> Create(UserBaseDto entity, string password);

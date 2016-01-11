@@ -206,7 +206,7 @@ namespace ParkingATHWeb.Business.Tests.Services
         public async void WhenCredentialsProvided_LoginSuccessfull()
         {
             //act
-            var result = await _sut.LoginMvcAsync("tkaminski93@gmail.com", BasicUserPassword);
+            var result = await _sut.LoginAsync("tkaminski93@gmail.com", BasicUserPassword);
 
             //then
             result.Should().Not.Be.Null();
@@ -219,7 +219,7 @@ namespace ParkingATHWeb.Business.Tests.Services
         public async void WhenCredentialsProvided_LoginUnSuccessfull()
         {
             //act
-            var result = await _sut.LoginMvcAsync("tkaminski93@gmail.com", "dsadsasdaasdsda");
+            var result = await _sut.LoginAsync("tkaminski93@gmail.com", "dsadsasdaasdsda");
 
             //then
             result.Should().Not.Be.Null();
@@ -321,12 +321,12 @@ namespace ParkingATHWeb.Business.Tests.Services
             resetPasswordResult.Result.Should().Not.Be.Null();
 
             InitContext();
-            var validLoginResult = await _sut.LoginMvcAsync(studentDto.Email, "NewPassword123");
+            var validLoginResult = await _sut.LoginAsync(studentDto.Email, "NewPassword123");
             validLoginResult.IsValid.Should().Be.True();
             validLoginResult.Result.Should().Not.Be.Null();
 
             InitContext();
-            var oldPasswordLoginResult = await _sut.LoginMvcAsync(studentDto.Email, BasicUserPassword);
+            var oldPasswordLoginResult = await _sut.LoginAsync(studentDto.Email, BasicUserPassword);
             oldPasswordLoginResult.IsValid.Should().Be.False();
             oldPasswordLoginResult.Result.Should().Be.Null();
         }

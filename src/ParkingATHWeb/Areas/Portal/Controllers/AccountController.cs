@@ -59,7 +59,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         {
             if (ModelState.IsValid)
             {
-                var userLoginResult = await _userService.LoginMvcAsync(model.Email, model.Password);
+                var userLoginResult = await _userService.LoginAsync(model.Email, model.Password);
                 if (userLoginResult.IsValid)
                 {
                     await IdentitySignin(userLoginResult.Result, model.RemeberMe);

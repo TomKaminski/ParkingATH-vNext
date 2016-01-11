@@ -30,6 +30,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ParkingATHWeb.Resolver", "s
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ParkingATHWeb.Business.Tests", "src\ParkingATHWeb.Business.Tests\ParkingATHWeb.Business.Tests.xproj", "{650A5A85-5956-491E-9312-5E25A27D1108}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "SmartPark.AuthorizationServer", "src\SmartPark.AuthorizationServer\SmartPark.AuthorizationServer.xproj", "{77F81DA9-1AEB-4C45-A13A-64D44DCFF600}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -160,6 +162,18 @@ Global
 		{650A5A85-5956-491E-9312-5E25A27D1108}.Release|x64.Build.0 = Release|Any CPU
 		{650A5A85-5956-491E-9312-5E25A27D1108}.Release|x86.ActiveCfg = Release|Any CPU
 		{650A5A85-5956-491E-9312-5E25A27D1108}.Release|x86.Build.0 = Release|Any CPU
+		{77F81DA9-1AEB-4C45-A13A-64D44DCFF600}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77F81DA9-1AEB-4C45-A13A-64D44DCFF600}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77F81DA9-1AEB-4C45-A13A-64D44DCFF600}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{77F81DA9-1AEB-4C45-A13A-64D44DCFF600}.Debug|x64.Build.0 = Debug|Any CPU
+		{77F81DA9-1AEB-4C45-A13A-64D44DCFF600}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{77F81DA9-1AEB-4C45-A13A-64D44DCFF600}.Debug|x86.Build.0 = Debug|Any CPU
+		{77F81DA9-1AEB-4C45-A13A-64D44DCFF600}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77F81DA9-1AEB-4C45-A13A-64D44DCFF600}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77F81DA9-1AEB-4C45-A13A-64D44DCFF600}.Release|x64.ActiveCfg = Release|Any CPU
+		{77F81DA9-1AEB-4C45-A13A-64D44DCFF600}.Release|x64.Build.0 = Release|Any CPU
+		{77F81DA9-1AEB-4C45-A13A-64D44DCFF600}.Release|x86.ActiveCfg = Release|Any CPU
+		{77F81DA9-1AEB-4C45-A13A-64D44DCFF600}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -175,5 +189,6 @@ Global
 		{FF0C4525-EFA0-4C3B-9913-491C750FF660} = {83F2FC37-C109-47B4-BB0A-DC0D3439B8C3}
 		{118BE583-5140-4315-ACD5-3811ABA30E8C} = {83F2FC37-C109-47B4-BB0A-DC0D3439B8C3}
 		{650A5A85-5956-491E-9312-5E25A27D1108} = {83F2FC37-C109-47B4-BB0A-DC0D3439B8C3}
+		{77F81DA9-1AEB-4C45-A13A-64D44DCFF600} = {83F2FC37-C109-47B4-BB0A-DC0D3439B8C3}
 	EndGlobalSection
 EndGlobal
