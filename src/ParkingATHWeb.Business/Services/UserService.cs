@@ -39,6 +39,16 @@ namespace ParkingATHWeb.Business.Services
             _tokenRepository = tokenRepository;
         }
 
+        public async Task<ServiceResult<bool>> CheckHash(string email, string hash)
+        {
+            var stud = await _repository.FirstOrDefaultAsync(x => x.Email == email);
+            if (stud != null && stud.PasswordHash == hash && !stud.LockedOut && !stud.IsDeleted)
+            {
+                return ServiceResult<bool>.Success(true);
+            }
+            return ServiceResult<bool>.Failure("Niepoprawny login lub hasło");
+        }
+
         public new ServiceResult<UserBaseDto> Create(UserBaseDto entity)
         {
             var possibleUserExistResult = _repository.FirstOrDefault(x => x.Email == entity.Email);
@@ -252,6 +262,16 @@ namespace ParkingATHWeb.Business.Services
             return ServiceResult<UserBaseDto>.Failure("Niepoprawny login lub hasło");
         }
 
+        public async Task<ServiceResult<UserBaseDto>> CheckLogin(string email, string hash)
+        {
+            var stud = await _repository.FirstOrDefaultAsync(x => x.Email == email);
+            if (stud != null && stud.PasswordHash == hash && !stud.LockedOut && !stud.IsDeleted)
+            {
+                return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(stud));
+            }
+            return ServiceResult<UserBaseDto>.Failure("Niepoprawny login lub hasło");
+        }
+
         public async Task<ServiceResult<bool>> SelfDeleteAsync(string email, string token)
         {
             var decryptedTokenData = _tokenService.GetDecryptedData(token);
@@ -267,9 +287,27 @@ namespace ParkingATHWeb.Business.Services
             return ServiceResult<bool>.Failure("Nieważny token usunięcia konta.");
         }
 
-        public async Task<ServiceResult<int?>> OpenGateAsync(string email, string token)
+        public async Task<ServiceResult<int?>> OpenGateAsync(string email, string hash)
         {
-            throw new NotImplementedException();
+            var user = await _repository.FirstOrDefaultAsync(x => x.Email == email);
+            if (user == null || user.PasswordHash != hash)
+            {
+                return ServiceResult<int?>.Failure("Nie znaleziono użytkownika powiązanego z podanym loginem i hasłem");
+            }
+            if (user.Charges == 0)
+            {
+                return ServiceResult<int?>.Failure("Brak wyjazdów, doładuj konto");
+            }
+
+            --user.Charges;
+            _repository.Edit(user);
+            _gateUsageRepository.Add(new GateUsage
+            {
+                DateOfUse = DateTime.Now,
+                UserId = user.Id
+            });
+            await _unitOfWork.CommitAsync();
+            return ServiceResult<int?>.Success(user.Charges);
         }
 
         public async Task<ServiceResult<UserBaseDto>> GetByEmailAsync(string email)
@@ -327,7 +365,7 @@ namespace ParkingATHWeb.Business.Services
                 .Select(Mapper.Map<UserAdminDto>));
         }
 
-        public async Task<ServiceResult<IEnumerable<UserAdminDto>>> GetAllForAdminAsync(Expression<Func<UserBaseDto,bool>> predicate)
+        public async Task<ServiceResult<IEnumerable<UserAdminDto>>> GetAllForAdminAsync(Expression<Func<UserBaseDto, bool>> predicate)
         {
             return ServiceResult<IEnumerable<UserAdminDto>>.Success((await _repository.Include(x => x.Orders)
                 .Where(MapExpressionToEntity(predicate))
@@ -341,7 +379,7 @@ namespace ParkingATHWeb.Business.Services
             return ServiceResult<UserAdminDto>.Success(Mapper.Map<UserAdminDto>(await _repository.FirstAsync(x => x.Id == id)));
         }
 
-        public async Task<ServiceResult<UserAdminDto>> GetAdminAsync(Expression<Func<UserBaseDto,bool>> predicate)
+        public async Task<ServiceResult<UserAdminDto>> GetAdminAsync(Expression<Func<UserBaseDto, bool>> predicate)
         {
             return ServiceResult<UserAdminDto>.Success(Mapper.Map<UserAdminDto>(await _repository.FirstAsync(MapExpressionToEntity(predicate))));
         }

@@ -25,7 +25,6 @@ namespace ParkingATHWeb.Business.Tests.Services
             InitContext();
             BackendMappingProvider.InitMappings();
 
-
             _sut.Create(GetPriceTreshold());
             _sut.Create(GetPriceTreshold());
             _sut.Create(GetPriceTreshold());

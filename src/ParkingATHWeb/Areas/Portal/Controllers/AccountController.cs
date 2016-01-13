@@ -132,7 +132,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
 
             //TODO: IIS do not accept SomeCtrl/SomeAction/THISID -> we have to use ?id=...
             var changePasswordUrl = $"{Url.Action("RedirectFromToken", "Token", null, "http")}?id={changePasswordTokenResult.SecondResult}";
-            await _messageService.SendMessageAsync(EmailType.Register, changePasswordTokenResult.Result, GetAppBaseUrl(),
+            await _messageService.SendMessageAsync(EmailType.ResetPassword, changePasswordTokenResult.Result, GetAppBaseUrl(),
                 new Dictionary<string, string> { { "ChangePasswordLink", changePasswordUrl } });
             return RedirectToAction("Index", "Home");
         }

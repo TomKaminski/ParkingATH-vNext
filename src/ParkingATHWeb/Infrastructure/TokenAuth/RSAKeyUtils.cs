@@ -1,9 +1,11 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Security.Cryptography;
 using Newtonsoft.Json;
 
-namespace ParkingATHWeb.Infrastructure.OAuth
+namespace ParkingATHWeb.Infrastructure.TokenAuth
 {
+    [Obsolete("We are not using JW Tokens for now.")]
     public class RSAKeyUtils
     {
         private static RSAParameters GetRandomKey()

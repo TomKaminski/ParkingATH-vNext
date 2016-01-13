@@ -22,9 +22,8 @@ namespace ParkingATHWeb.Contracts.Services
 
         Task<ServiceResult<UserBaseDto>> LoginAsync(string email, string password);
 
-        //Task<ServiceResult<UserBaseDto>> LoginFirstTimeAsync(string email, string password);
-        //Task<ServiceResult<UserBaseDto>> CheckLogin(string email, string token);
-        //Task<ServiceResult<bool>> CheckHash(string email, string token);
+        Task<ServiceResult<UserBaseDto>> CheckLogin(string email, string hash);
+        Task<ServiceResult<bool>> CheckHash(string email, string hash);
 
         new ServiceResult<UserBaseDto> Create(UserBaseDto entity);
         ServiceResult<UserBaseDto> Create(UserBaseDto entity, string password);
