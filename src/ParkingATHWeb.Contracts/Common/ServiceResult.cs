@@ -66,7 +66,7 @@ namespace ParkingATHWeb.Contracts.Common
     public class ServiceResult<T,T2> : ServiceResult<T>
     {
 
-        private ServiceResult(T result, T2 secondResult) : base(result)
+        protected ServiceResult(T result, T2 secondResult) : base(result)
         {
             SecondResult = secondResult;
         }

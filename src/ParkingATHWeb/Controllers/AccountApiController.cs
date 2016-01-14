@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
 using ParkingATHWeb.ApiModels;
+using ParkingATHWeb.ApiModels.Base;
 using ParkingATHWeb.Contracts.Services;
-using ParkingATHWeb.Infrastructure.TokenAuth;
+using ParkingATHWeb.Infrastructure.Attributes;
 
 namespace ParkingATHWeb.Controllers
 {
@@ -18,6 +20,34 @@ namespace ParkingATHWeb.Controllers
             _userService = userService;
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("Login")]
+        public async Task<ApiResult<string>> Login([FromBody] LoginApiModel model)
+        {
+            if (!ModelState.IsValid)
+                return ApiResult<string>.Failure(GetModelStateErrors(ModelState));
+
+            var loginApiResult = await _userService.LoginAsync(model.Username, model.Password);
+
+            return loginApiResult.IsValid
+                ? ApiResult<string>.Success(loginApiResult.Result.PasswordHash)
+                : ApiResult<string>.Failure(loginApiResult.ValidationErrors);
+        }
+
+        [ApiHeaderAuthorize]
+        public async Task<ApiResult<bool>> ChangePassword([FromBody] ChangePasswordApiModel model)
+        {
+            if (!ModelState.IsValid)
+                return ApiResult<bool>.Failure(GetModelStateErrors(ModelState));
+
+            var changePasswordResult =
+                await _userService.ChangePasswordAsync(model.Email, model.OldPassword, model.NewPassword);
+
+            return changePasswordResult.IsValid
+                ? ApiResult<bool>.Success(true)
+                : ApiResult<bool>.Failure(changePasswordResult.ValidationErrors);
+        }
 
         #region TokenAuth - OBSOLETE
         ///// <summary>
