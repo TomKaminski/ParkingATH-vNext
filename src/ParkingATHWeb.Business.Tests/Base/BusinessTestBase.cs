@@ -10,6 +10,7 @@ using ParkingATHWeb.Contracts.DTO.User;
 using ParkingATHWeb.Model;
 using ParkingATHWeb.Shared.Enums;
 using ParkingATHWeb.Shared.Helpers;
+using Remotion.Linq.Clauses;
 
 namespace ParkingATHWeb.Business.Tests.Base
 {
@@ -69,7 +70,8 @@ namespace ParkingATHWeb.Business.Tests.Base
             };
         }
 
-        protected UserBaseDto GetUserBaseDto()
+
+        protected static UserBaseDto GetUserBaseDto()
         {
             var passwordHash = new PasswordHasher();
             var result = passwordHash.CreateHash(BasicUserPassword);

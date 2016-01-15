@@ -35,20 +35,6 @@ namespace ParkingATHWeb.Controllers
                 : ApiResult<string>.Failure(loginApiResult.ValidationErrors);
         }
 
-        [ApiHeaderAuthorize]
-        public async Task<ApiResult<bool>> ChangePassword([FromBody] ChangePasswordApiModel model)
-        {
-            if (!ModelState.IsValid)
-                return ApiResult<bool>.Failure(GetModelStateErrors(ModelState));
-
-            var changePasswordResult =
-                await _userService.ChangePasswordAsync(model.Email, model.OldPassword, model.NewPassword);
-
-            return changePasswordResult.IsValid
-                ? ApiResult<bool>.Success(true)
-                : ApiResult<bool>.Failure(changePasswordResult.ValidationErrors);
-        }
-
         #region TokenAuth - OBSOLETE
         ///// <summary>
         ///// Request a new token for a given username/password pair.

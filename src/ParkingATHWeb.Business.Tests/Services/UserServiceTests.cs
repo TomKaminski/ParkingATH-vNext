@@ -330,5 +330,69 @@ namespace ParkingATHWeb.Business.Tests.Services
             oldPasswordLoginResult.IsValid.Should().Be.False();
             oldPasswordLoginResult.Result.Should().Be.Null();
         }
+
+        [Fact]
+        public async void WhenEmailAndHashIsGiven_ThenLoginIsChecked_ResultIsValid()
+        {
+            InitContext();
+            var studentDto = GetUserBaseDto();
+            _sut.Create(studentDto, BasicUserPassword);
+
+            //act
+            InitContext();
+            var checkLoginResult = await _sut.CheckLoginAsync(studentDto.Email, studentDto.PasswordHash);
+
+            //then
+            checkLoginResult.IsValid.Should().Be.True();
+            checkLoginResult.Result.Should().Not.Be.Null();
+        }
+
+        [Fact]
+        public async void WhenEmailAndHashIsGiven_ThenLoginIsChecked_ResultIsNotValid()
+        {
+            InitContext();
+            var studentDto = GetUserBaseDto();
+            _sut.Create(studentDto, BasicUserPassword);
+
+            //act
+            InitContext();
+            var checkLoginResult = await _sut.CheckLoginAsync(studentDto.Email, "dsasad'sda'sad'sad");
+
+            //then
+            checkLoginResult.IsValid.Should().Be.False();
+            checkLoginResult.Result.Should().Be.Null();
+        }
+
+        [Fact]
+        public async void WhenEmailAndHashIsGiven_ThenHashIsChecked_ResultIsValid()
+        {
+            InitContext();
+            var studentDto = GetUserBaseDto();
+            _sut.Create(studentDto, BasicUserPassword);
+
+            //act
+            InitContext();
+            var checkLoginResult = await _sut.CheckHashAsync(studentDto.Email, studentDto.PasswordHash);
+
+            //then
+            checkLoginResult.IsValid.Should().Be.True();
+            checkLoginResult.Result.Should().Be.True();
+        }
+
+        [Fact]
+        public async void WhenEmailAndHashIsGiven_ThenHashIsChecked_ResultIsNotValid()
+        {
+            InitContext();
+            var studentDto = GetUserBaseDto();
+            _sut.Create(studentDto, BasicUserPassword);
+
+            //act
+            InitContext();
+            var checkLoginResult = await _sut.CheckHashAsync(studentDto.Email, "dsasad'sda'sad'sad");
+
+            //then
+            checkLoginResult.IsValid.Should().Be.False();
+            checkLoginResult.Result.Should().Be.False();
+        }
     }
 }

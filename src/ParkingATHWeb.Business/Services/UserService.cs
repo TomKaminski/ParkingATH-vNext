@@ -39,7 +39,7 @@ namespace ParkingATHWeb.Business.Services
             _tokenRepository = tokenRepository;
         }
 
-        public async Task<ServiceResult<bool>> CheckHash(string email, string hash)
+        public async Task<ServiceResult<bool>> CheckHashAsync(string email, string hash)
         {
             var stud = await _repository.FirstOrDefaultAsync(x => x.Email == email);
             if (stud != null && stud.PasswordHash == hash && !stud.LockedOut && !stud.IsDeleted)
@@ -262,7 +262,7 @@ namespace ParkingATHWeb.Business.Services
             return ServiceResult<UserBaseDto>.Failure("Niepoprawny login lub hasło");
         }
 
-        public async Task<ServiceResult<UserBaseDto>> CheckLogin(string email, string hash)
+        public async Task<ServiceResult<UserBaseDto>> CheckLoginAsync(string email, string hash)
         {
             var stud = await _repository.FirstOrDefaultAsync(x => x.Email == email);
             if (stud != null && stud.PasswordHash == hash && !stud.LockedOut && !stud.IsDeleted)
