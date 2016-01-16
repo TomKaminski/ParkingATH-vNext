@@ -163,7 +163,8 @@ namespace ParkingATHWeb
                 opt.AutomaticChallenge = true;
             });
 
-            app.UseCors(x => x.AllowAnyHeader());
+            app.UseCors(policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
