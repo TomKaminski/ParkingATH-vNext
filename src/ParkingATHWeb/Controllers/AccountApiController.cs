@@ -5,6 +5,7 @@ using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
 using ParkingATHWeb.ApiModels;
 using ParkingATHWeb.ApiModels.Base;
+using ParkingATHWeb.Contracts.DTO.User;
 using ParkingATHWeb.Contracts.Services;
 using ParkingATHWeb.Infrastructure.Attributes;
 
@@ -23,16 +24,16 @@ namespace ParkingATHWeb.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("Login")]
-        public async Task<ApiResult<string>> Login([FromBody] LoginApiModel model)
+        public async Task<ApiResult<UserBaseDto>> Login([FromBody] LoginApiModel model)
         {
             if (!ModelState.IsValid)
-                return ApiResult<string>.Failure(GetModelStateErrors(ModelState));
+                return ApiResult<UserBaseDto>.Failure(GetModelStateErrors(ModelState));
 
             var loginApiResult = await _userService.LoginAsync(model.Username, model.Password);
 
             return loginApiResult.IsValid
-                ? ApiResult<string>.Success(loginApiResult.Result.PasswordHash)
-                : ApiResult<string>.Failure(loginApiResult.ValidationErrors);
+                ? ApiResult<UserBaseDto>.Success(loginApiResult.Result)
+                : ApiResult<UserBaseDto>.Failure(loginApiResult.ValidationErrors);
         }
 
         #region TokenAuth - OBSOLETE
