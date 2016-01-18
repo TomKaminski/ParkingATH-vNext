@@ -21,6 +21,8 @@ namespace ParkingATHWeb.Controllers
             _userService = userService;
         }
 
+        [Route("ChangePassword")]
+        [HttpPost]
         public async Task<ApiResult<bool>> ChangePassword([FromBody] ChangePasswordApiModel model)
         {
             if (!ModelState.IsValid)
@@ -32,6 +34,20 @@ namespace ParkingATHWeb.Controllers
             return changePasswordResult.IsValid
                 ? ApiResult<bool>.Success(true)
                 : ApiResult<bool>.Failure(changePasswordResult.ValidationErrors);
+        }
+
+        [Route("ChangeEmail")]
+        [HttpPost]
+        public async Task<ApiResult<bool>> ChangeEmail([FromBody] ChangeEmailApiModel model)
+        {
+            if (!ModelState.IsValid)
+                return ApiResult<bool>.Failure(GetModelStateErrors(ModelState));
+
+            var changeEmailResult = await _userService.ChangeEmailAsync(model.Email, model.NewEmail, model.Password);
+
+            return changeEmailResult.IsValid
+                ? ApiResult<bool>.Success(true)
+                : ApiResult<bool>.Failure(changeEmailResult.ValidationErrors);
         }
     }
 }

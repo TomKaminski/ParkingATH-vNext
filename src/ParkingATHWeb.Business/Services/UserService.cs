@@ -235,10 +235,11 @@ namespace ParkingATHWeb.Business.Services
             return ServiceResult<UserBaseDto>.Failure("Wystąpił błąd podczas zmiany hasła, spróbuj jeszcze raz.");
         }
 
-        public async Task<ServiceResult<int>> GetChargesAsync(string email)
+        public async Task<ServiceResult<int>> GetChargesAsync(string email, string hash)
         {
             var stud = await _repository.FirstOrDefaultAsync(x => x.Email == email);
-            return stud != null
+
+            return stud != null && stud.PasswordHash == hash
                 ? ServiceResult<int>.Success(stud.Charges)
                 : ServiceResult<int>.Failure("Użytkownik nie został znaleziony");
         }

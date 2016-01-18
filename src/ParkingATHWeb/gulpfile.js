@@ -1,11 +1,10 @@
-﻿/// <binding Clean='clean' />
-"use strict";
+﻿"use strict";
 
 var gulp = require("gulp"),
     rimraf = require("rimraf"),
     concat = require("gulp-concat"),
     cssmin = require("gulp-cssmin"),
-    gulpsass = require("gulp-sass"),
+    sass = require("gulp-sass"),
     uglify = require("gulp-uglify");
 
 var paths = {
@@ -18,6 +17,8 @@ paths.css = paths.webroot + "css/**/*.css";
 paths.minCss = paths.webroot + "css/**/*.min.css";
 paths.concatJsDest = paths.webroot + "js/site.min.js";
 paths.concatCssDest = paths.webroot + "css/site.min.css";
+paths.sass = "./Content/SCSS/*.scss";
+paths.destCss = paths.webroot + "css/";
 
 gulp.task("clean:js", function (cb) {
     rimraf(paths.concatJsDest, cb);
@@ -44,3 +45,13 @@ gulp.task("min:css", function () {
 });
 
 gulp.task("min", ["min:js", "min:css"]);
+
+gulp.task('sass', function () {
+    gulp.src(paths.sass)
+      .pipe(sass().on('error', sass.logError))
+      .pipe(gulp.dest(paths.destCss));
+});
+
+gulp.task('sass:watch', function () {
+    gulp.watch(paths.sass, ['sass']);
+});

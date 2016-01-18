@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
 using ParkingATHWeb.ApiModels;
+using ParkingATHWeb.ApiModels.Account;
 using ParkingATHWeb.ApiModels.Base;
 using ParkingATHWeb.Contracts.DTO.User;
 using ParkingATHWeb.Contracts.Services;
-using ParkingATHWeb.Infrastructure.Attributes;
 
 namespace ParkingATHWeb.Controllers
 {
@@ -22,7 +20,6 @@ namespace ParkingATHWeb.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [Route("Login")]
         public async Task<ApiResult<UserBaseDto>> Login([FromBody] LoginApiModel model)
         {
@@ -35,6 +32,22 @@ namespace ParkingATHWeb.Controllers
                 ? ApiResult<UserBaseDto>.Success(loginApiResult.Result)
                 : ApiResult<UserBaseDto>.Failure(loginApiResult.ValidationErrors);
         }
+
+        [HttpPost]
+        [Route("Forgot")]
+        public async Task<ApiResult<bool>> ForgotPassword([FromBody] ForgotApiModel model)
+        {
+            if (!ModelState.IsValid)
+                return ApiResult<bool>.Failure(GetModelStateErrors(ModelState));
+
+            var loginApiResult = await _userService.GetPasswordChangeTokenAsync(model.Email);
+
+            return loginApiResult.IsValid
+                ? ApiResult<bool>.Success(true)
+                : ApiResult<bool>.Failure(loginApiResult.ValidationErrors);
+        }
+
+
 
         #region TokenAuth - OBSOLETE
         ///// <summary>

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ParkingATHWeb.ApiModels
+namespace ParkingATHWeb.ApiModels.Account
 {
     public class LoginApiModel
     {
