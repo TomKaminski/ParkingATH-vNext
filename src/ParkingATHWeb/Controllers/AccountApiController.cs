@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
 using ParkingATHWeb.ApiModels;
@@ -6,6 +7,7 @@ using ParkingATHWeb.ApiModels.Account;
 using ParkingATHWeb.ApiModels.Base;
 using ParkingATHWeb.Contracts.DTO.User;
 using ParkingATHWeb.Contracts.Services;
+using ParkingATHWeb.Shared.Enums;
 
 namespace ParkingATHWeb.Controllers
 {
@@ -13,10 +15,12 @@ namespace ParkingATHWeb.Controllers
     public class AccountApiController : BaseApiController
     {
         private readonly IUserService _userService;
+        private readonly IMessageService _messageService;
 
-        public AccountApiController(IUserService userService) : base(userService)
+        public AccountApiController(IUserService userService, IMessageService messageService) : base(userService)
         {
             _userService = userService;
+            _messageService = messageService;
         }
 
         [HttpPost]
@@ -40,11 +44,14 @@ namespace ParkingATHWeb.Controllers
             if (!ModelState.IsValid)
                 return ApiResult<bool>.Failure(GetModelStateErrors(ModelState));
 
-            var loginApiResult = await _userService.GetPasswordChangeTokenAsync(model.Email);
+            var changePasswordTokenResult = await _userService.GetPasswordChangeTokenAsync(model.Email);
+            var changePasswordUrl = $"{Url.Action("RedirectFromToken", "Token", null, "http")}?id={changePasswordTokenResult.SecondResult}";
+            await _messageService.SendMessageAsync(EmailType.ResetPassword, changePasswordTokenResult.Result, GetAppBaseUrl(),
+                new Dictionary<string, string> { { "ChangePasswordLink", changePasswordUrl } });
 
-            return loginApiResult.IsValid
+            return changePasswordTokenResult.IsValid
                 ? ApiResult<bool>.Success(true)
-                : ApiResult<bool>.Failure(loginApiResult.ValidationErrors);
+                : ApiResult<bool>.Failure(changePasswordTokenResult.ValidationErrors);
         }
 
 

@@ -37,6 +37,11 @@ namespace ParkingATHWeb.Controllers
             return Request.Headers[HeaderAuthorizeName];
         }
 
+        protected string GetAppBaseUrl()
+        {
+            return Url.Action("Index", "Home", new { area = "Portal" }, "http");
+        }
+
         #region TokenAuth
         //private readonly TokenAuthOptions _tokenOptions;
 
