@@ -126,15 +126,19 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         [Route("ZapomnianeHaslo")]
-        public async Task<IActionResult> ForgotPassword(string email)
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
-            var changePasswordTokenResult = await _userService.GetPasswordChangeTokenAsync(email);
+            if (ModelState.IsValid)
+            {
+                var changePasswordTokenResult = await _userService.GetPasswordChangeTokenAsync(model.Email);
 
-            //TODO: IIS do not accept SomeCtrl/SomeAction/THISID -> we have to use ?id=...
-            var changePasswordUrl = $"{Url.Action("RedirectFromToken", "Token", null, "http")}?id={changePasswordTokenResult.SecondResult}";
-            await _messageService.SendMessageAsync(EmailType.ResetPassword, changePasswordTokenResult.Result, GetAppBaseUrl(),
-                new Dictionary<string, string> { { "ChangePasswordLink", changePasswordUrl } });
-            return RedirectToAction("Index", "Home");
+                //TODO: IIS do not accept SomeCtrl/SomeAction/THISID -> we have to use ?id=...
+                var changePasswordUrl = $"{Url.Action("RedirectFromToken", "Token", null, "http")}?id={changePasswordTokenResult.SecondResult}";
+                await _messageService.SendMessageAsync(EmailType.ResetPassword, changePasswordTokenResult.Result, GetAppBaseUrl(),
+                    new Dictionary<string, string> { { "ChangePasswordLink", changePasswordUrl } });
+                return RedirectToAction("Index", "Home");
+            }
+            
         }
 
         private async Task IdentitySignin(UserBaseDto user, bool isPersistent = false)
