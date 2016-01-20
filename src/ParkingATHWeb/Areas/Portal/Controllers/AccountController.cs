@@ -138,7 +138,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                     new Dictionary<string, string> { { "ChangePasswordLink", changePasswordUrl } });
                 return RedirectToAction("Index", "Home");
             }
-            
+            return View(model);
         }
 
         private async Task IdentitySignin(UserBaseDto user, bool isPersistent = false)

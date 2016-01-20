@@ -181,8 +181,9 @@ namespace ParkingATHWeb.Business.Tests.Services
         [Fact]
         public async void WhenGetChargesByEmail_ThenResultIsValid_Async()
         {
+            var user = GetUserBaseDto();
             //act
-            var userGetResult = await _sut.GetChargesAsync("tkaminski93@gmail.com");
+            var userGetResult = await _sut.GetChargesAsync("tkaminski93@gmail.com", user.PasswordHash);
 
             //then
             userGetResult.IsValid.Should().Be.True();
