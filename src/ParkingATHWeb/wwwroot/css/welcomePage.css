@@ -529,3 +529,6 @@ p {
   #footer img {
     width: 40%;
     margin: auto; } }
+
+.row-timeline > div, .row-timeline > h4 {
+  padding: 0 !important; }
