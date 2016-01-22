@@ -1,88 +1,368 @@
-﻿@{
-    ViewData["Title"] = "Witaj w SmartPark ATH!";
+﻿@using System
+@{
+    Layout = null;
 }
-<div id="index-banner" class="parallax-container">
-    <div class="section no-pad-bot">
-        <div class="container">
-            <br><br>
-            <h1 class="header center teal-text text-lighten-2">Parallax Template</h1>
-            <div class="row center">
-                <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
-            </div>
-            <div class="row center">
-                <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Get Started</a>
-            </div>
-            <br><br>
-        </div>
-    </div>
-    <div class="parallax"><img src="~/images/background1.jpg" alt="Unsplashed background img 1"/></div>
-</div>
 
-<div class="container">
-    <div class="section">
-        <!--   Icon Section   -->
-        <div class="row">
-            <div class="col s12 m4">
-                <div class="icon-block">
-                    <h2 class="center brown-text"><i class="material-icons">flash_on</i></h2>
-                    <h5 class="center">Speeds up development</h5>
-                    <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartPark ATH - Witaj!</title>
+
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+        <link href="~/lib/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" />
+        <link href="~/lib/animate.css/animate.css" rel="stylesheet" />
+        <link rel="stylesheet" href="~/css/welcomePage.css" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/welcomePage.css" />
+    </environment>
+    <script src="~/js/modernizr.custom.js"></script>
+</head>
+<body>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div id="status"></div>
+    </div>
+    <!-- Home start -->
+    <section id="home" class="smart-block-image screen-height paralax">
+        <div class="home-overlay"></div>
+        <div class="text intro">
+            <div class="row">
+                <div class="col-xs-8 col-xs-offset-2  col-md-6 col-md-offset-3 margin-bottom-25">
+                    <h1>
+                        <img src="~/images/logo_white.png" />
+                    </h1>
+                </div>
+                <div class="col-xs-12">
+                    <div class="start">wykup abonament - zapłać zbliżeniowo</div>
+                    <h1>UŁATWIAMY ŻYCIE</h1>
+                    <div class="start">otwieraj bramę smartfonem</div>
+                </div>
+
+            </div>
+        </div>
+        <a href="#about">
+            <div class="scroll-down">
+                <span>
+                    <i class="fa fa-angle-down fa-2x"></i>
+                </span>
+            </div>
+        </a>
+    </section>
+<!-- Home end -->
+
+    <!-- Navigation start -->
+    <header class="header">
+        <nav class="navbar navbar-custom" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#custom-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">
+                        <img src="~/images/logotyp_standard.png" alt="Logotyp smartPark" />
+                    </a>
+                    <a class="navbar-brand" href="#">
+                        <img src="~/images/logo_reset.svg" alt="Logo RESET"/>
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse" id="custom-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#about">O SYSTEMIE</a></li>
+                        <li><a href="#howitworks">JAK TO DZIAŁA?</a></li>
+                        <li><a href="#author">TWÓRCY</a></li>
+                        <li><a asp-action="Index" asp-controller="Home" asp-route-area="Portal"><b>SKORZYSTAJ!</b></a></li>
+                    </ul>
+                </div>
+            </div><!-- .container -->
+        </nav>
+    </header>
+    <!-- Navigation end -->
+    <!-- Services start -->
+    <section id="about" class="smart-block-mini block-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <div class="smart-block-header wow fadeInUp">
+                        <h2 class="smart-block-title">O SYSTEMIE</h2>
+                        <div class="smart-block-line"></div>
+                    </div>
                 </div>
             </div>
-            <div class="col s12 m4">
-                <div class="icon-block">
-                    <h2 class="center brown-text"><i class="material-icons">group</i></h2>
-                    <h5 class="center">User Experience Focused</h5>
-                    <p class="light">By utilizing elements and principles of Material Design, we were able to create a framework that incorporates components and animations that provide more feedback to users. Additionally, a single underlying responsive system across all platforms allow for a more unified user experience.</p>
+        </div>
+    </section>
+
+    <section id="system" class="smart-block-image screen-height-60 paralax margin-bottom-50">
+        <div class="system-overlay"></div>
+        <div class="text text-right">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1>
+                        <b>Zobacz</b>
+                    </h1>
+                    <h2>
+                       co sprawia, że warto<br />używać <b>smartPARK</b>
+                    </h2>
                 </div>
             </div>
-            <div class="col s12 m4">
-                <div class="icon-block">
-                    <h2 class="center brown-text"><i class="material-icons">settings</i></h2>
-                    <h5 class="center">Easy to work with</h5>
-                    <p class="light">We have provided detailed documentation as well as specific code examples to help new users get started. We are also always open to feedback and can answer any questions a user may have about Materialize.</p>
+        </div>
+    </section>
+    <section id="system-about">
+        <div class="container">
+            <div class="row flex-align-center-container">
+                <div class="col-xs-12 col-md-6 text-right">
+                    <h1 class="smart-grey">
+                        smartPARK.<br />INNOWACJA I WYGODA.
+                    </h1><br /><br />
+                    <p class="smart-blue">
+                        system został stworzony przez studenta <b>
+                            Informatyki na Wydziale Budowy Maszyn i Informatyki
+                        </b> jako projekt pracy inżynierskiej. Zadaniem systemu jest ułatwienie studentom płatności za wjazd na parking uczelni oraz wyjazd.<br />
+                        <br />
+                        Na <b>smartPARK</b> składają się trzy elementy: infokiosk, w którym możliwe jest wykupienie abonamentu na wyjazdy oraz płatność kartą, aplikacja mobilna, która słóży do łatwego, wygodnego i szybkiego otwierania szlabanu, oraz oczywiście serce całego systemu - aplikacja webowa.
+
+                    </p>
+                </div>
+                <div class="col-xs-12 col-md-6  ">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="iconbox wow slideInLeft">
+                                <div class="iconbox-icon">
+                                    <span class="icon-trophy"></span>
+                                </div>
+                                <div class="iconbox-text">
+                                    <h3 class="iconbox-title">NIEZAWODNOŚĆ</h3>
+                                    <div class="iconbox-desc">
+                                        cały system został przetestowany przez liczne grono doświadczonych testerów, dodatkowo aplikację pokrywa szeroka gama testów jednostkowych i integracyjnych
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="iconbox wow slideInRight">
+                                <div class="iconbox-icon">
+                                    <span class="icon-bulb"></span>
+                                </div>
+                                <div class="iconbox-text">
+                                    <h3 class="iconbox-title">INNOWACYJNOŚĆ</h3>
+                                    <div class="iconbox-desc">
+                                        aplikacja została zbudowana przy pomocy najnowszych i najoptymalniejszych technologi webowych
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="iconbox wow slideInLeft">
+                                <div class="iconbox-icon">
+                                    <span class="icon-plane"></span>
+                                </div>
+                                <div class="iconbox-text">
+                                    <h3 class="iconbox-title">WYGODA</h3>
+                                    <div class="iconbox-desc">
+                                        dzięki smartPark nie musisz już martwić się o codzienny zapas drobnych, już nigdy więcej wychylania się z samochodu podczas deszczowej pogody, aby opłacić kaucję!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="iconbox wow slideInRight">
+                                <div class="iconbox-icon">
+                                    <span class="icon-grid"></span>
+                                </div>
+                                <div class="iconbox-text">
+                                    <h3 class="iconbox-title">PROSTOTA</h3>
+                                    <div class="iconbox-desc">
+                                        dzięki intuicyjnemu i nowoczesnemu designowi, opartemu na wysokim poziomie UX, zarówno system infokiosku jak i aplikacja mobilna są niezwykle łatwe w obsłudze
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div><!-- .row -->
+        </div><!-- .container -->
+    </section>
+    <!-- Services end -->
+    <!-- Skills start -->
+
+    <section class="smart-block smart-block-gray" id="howitworks">
+        <div class="container">
+            <div class="row skills">
+
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <div class="smart-block-header wow fadeInUp">
+                            <h2 class="smart-block-title">JAK TO DZIAŁA?</h2>
+                            <div class="smart-block-line"></div>
+                            <div class="smart-block-subtitle">
+                                Spójrz na poniższą infografikę, aby w łatwy i prosty sposób załapać jak działa nasz system :).
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- .row -->
+            </div><!--End row -->
+        </div>
+        <div class="container smart-block-white">
+            <div class="row">
+                <div class="col-md-3 wow fadeIn" data-wow-delay="1s" style="background: red; height: 150px;"></div>
+                <div class="col-md-3 wow fadeIn" data-wow-delay="2s" style="background: blue; height: 150px;"></div>
+                <div class="col-md-3 wow fadeIn" data-wow-delay="3s" style="background: red; height: 150px;"></div>
+                <div class="col-md-3 wow fadeIn" data-wow-delay="4s" style="background: blue; height: 150px;"></div>
+                <div class="col-md-3 wow fadeIn" data-wow-delay="1s" style="background: red; height: 150px;"></div>
+                <div class="col-md-3 wow fadeIn" data-wow-delay="2s" style="background: blue; height: 150px;"></div>
+                <div class="col-md-3 wow fadeIn" data-wow-delay="3s" style="background: red; height: 150px;"></div>
+                <div class="col-md-3 wow fadeIn" data-wow-delay="4s" style="background: blue; height: 150px;"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="banner3" class="smart-block-image screen-height-60 paralax margin-bottom-50">
+        <div class="system-overlay"></div>
+        <div class="text intro">
+            <div class="row">
+                <div class="col-xs-12 text-right wow fadeInRight">
+                    <h2>
+                        <b>smartPARK</b> to projekt studencki.<br />W razie jakichkolwiek pytań, uwag lub spostrzeżeń,<br /> prosimy o kontakt na:
+                    </h2><br />
+                    <h1>
+                        <b>smartpark@ath.bielsko.pl</b>
+                    </h1>
+                    <h2>lub bezpośrednio z autorami.</h2>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
 
-<div class="parallax-container valign-wrapper">
-    <div class="section no-pad-bot">
+    <!-- Skills end -->
+    <section id="author" class="smart-block-mini smart-block-white">
         <div class="container">
-            <div class="row center">
-                <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <div class="smart-block-header wow fadeInUp">
+                        <h2 class="smart-block-title">TWÓRCY</h2>
+                        <div class="smart-block-line"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-4 col-md-offset-0 col-xs-8 col-xs-offset-2 author-box">
+                    <img src="~/images/tomek_400x400.png"/>
+                    <h4>
+                        inż. Tomasz Kamiński<br /><br /><b>AUTOR</b><br /><br />twórca smartPARK, odpowiedzialny za działanie całego systemu, jego niezawodność oraz innowacyjność.
+                    </h4>
+                    <br />
+                    <h5 class="smart-grey">kontakt</h5>
+                    <h4 class="smart-grey">tkaminski93@gmail.com</h4>
+                </div>
+                <div class="col-md-4 col-md-offset-0 col-xs-8 col-xs-offset-2 author-box">
+                    <img src="~/images/kasia_400x400.png" />
+                    <h4>
+                        inż. Katarzyna Jasiewicz<br /><br /><b>DESIGNER</b><br /><br />twórca logo oraz nazwy systemu, odpowiedzialna za oprawę graficzną oraz wszystko co widzi użytkownik.
+                    </h4>
+                    <br />
+                    <h5 class="smart-grey">kontakt</h5>
+                    <h4 class="smart-grey">katarzynajasiewicz.93@gmail.com</h4>
+                </div>
+                <div class="col-md-4 col-md-offset-0 col-xs-8 col-xs-offset-2 author-box">
+                    <img src="~/images/szymon_400x400.png"/>
+                    <h4>
+                        dr inż. Szymon Tengler<br /><br /><b>PROMOTOR</b><br /><br />promotor pracy inżynierskiej,<br /> opiekun Koła RESET oraz opiekun systemu.
+                    </h4>
+                    <br />
+                    <h5 class="smart-grey">kontakt</h5>
+                    <h4 class="smart-grey">stengler@ath.bielsko.pl</h4>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="parallax"><img src="~/images/background2.jpg" alt="Unsplashed background img 2"></div>
-</div>
-<div class="container">
-    <div class="section">
-        <div class="row">
-            <div class="col s12 center">
-                <h3><i class="mdi-content-send brown-text"></i></h3>
-                <h4>Contact Us</h4>
-                <p class="left-align light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque id nunc nec volutpat. Etiam pellentesque tristique arcu, non consequat magna fermentum ac. Cras ut ultricies eros. Maecenas eros justo, ullamcorper a sapien id, viverra ultrices eros. Morbi sem neque, posuere et pretium eget, bibendum sollicitudin lacus. Aliquam eleifend sollicitudin diam, eu mattis nisl maximus sed. Nulla imperdiet semper molestie. Morbi massa odio, condimentum sed ipsum ac, gravida ultrices erat. Nullam eget dignissim mauris, non tristique erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
-            </div>
-        </div>
-    </div>
-</div>
+    </section>
 
-<div class="parallax-container valign-wrapper">
-    <div class="section no-pad-bot">
+    <section id="application" class="smart-block-mini smart-block-black">
         <div class="container">
-            <div class="row center">
-                <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
+            <div class="row  flex-align-center-container">
+                <div class="col-md-6 col-xs-12 text-right">
+                    <h1>
+                        POBIERZ APLIKACJĘ<br />NA SWÓJ SYSTEM OPERACYJNY
+                    </h1>
+                </div>
+                <div class="col-md-6 col-xs-12" id="appicons">
+                    <a href="#"><i class="fa fa-android"></i></a>
+                    <a href="#"><i class="fa fa-windows"></i></a>
+                    <a href="#"><i class="fa fa-apple"></i></a>
+                </div>
             </div>
         </div>
+    </section>
+
+    <!-- Footer start -->
+    <footer id="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="margin-bottom-25">
+                        <img src="~/images/logo_white.png" class="img-responsive"/>
+                    </div>
+                    <ul class="social-links margin-bottom-25">
+                        <li><a href="#" class="wow fadeInUp"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="#" class="wow fadeInUp" data-wow-delay=".1s"><i class="fa fa-twitter"></i></a></li>
+                    </ul>
+                    <ul class="list-inline footer-list">
+                        <li><a href="">O SYSTEMIE</a></li>
+                        <li><a href="">JAK TO DZIAŁA?</a></li>
+                        <li><a href="">TWÓRCY</a></li>
+                        <li><a href="">POLITYKA PRYWATNOŚCI</a></li>
+                        <li><a href="">FAQ</a></li>
+                    </ul>
+                    <p class="copyright">
+                        <span>&copy;</span> COPYRIGHT BY smartPARKING @DateTime.Now.Year
+                    </p>
+                </div>
+            </div><!-- .row -->
+        </div><!-- .container -->
+    </footer>
+    <!-- Footer end -->
+    <!-- Scroll to top -->
+    <div class="scroll-up">
+        <a href="#home"><i class="fa fa-angle-up"></i></a>
     </div>
-    <div class="parallax"><img src="~/images/background3.jpg" alt="Unsplashed background img 3">
-    </div>
-</div>
-@section Styles{
-    <link rel="stylesheet" href="~/css/welcomePage.css"/>
-}
-@section Scripts{
-    <script src="~/js/welcomePage.js" asp-append-version="true"></script>
-}
+
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/jquery.parallax/jquery.parallax.js"></script>
+        <script src="~/lib/jquery.sticky/jquery.sticky.js"></script>
+        <script src="~/lib/smoothscroll/smoothscroll.js"></script>
+        <script src="~/lib/wow/dist/wow.js"></script>
+        <script src="~/lib/jquery-waypoints/lib/jquery.waypoints.js"></script>
+        <script src="~/js/welcomePage.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+        </script>
+        <script src="~/js/welcomePage.js" asp-append-version="true"></script>
+    </environment>
+</body>
+</html>
