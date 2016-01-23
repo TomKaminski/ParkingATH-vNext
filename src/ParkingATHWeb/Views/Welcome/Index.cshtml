@@ -56,8 +56,7 @@
             </div>
         </a>
     </section>
-<!-- Home end -->
-
+    <!-- Home end -->
     <!-- Navigation start -->
     <header class="header">
         <nav class="navbar navbar-custom" role="navigation">
@@ -69,11 +68,11 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">
-                        <img src="~/images/logotyp_standard.png" alt="Logotyp smartPark" />
+                    <a class="navbar-brand" asp-action="Index" asp-controller="Welcome">
+                        <img src="~/images/logotyp_standard.png" alt="Logotyp smartPark" target="blank"/>
                     </a>
-                    <a class="navbar-brand" href="#">
-                        <img src="~/images/logo_reset.svg" alt="Logo RESET"/>
+                    <a class="navbar-brand" href="http://www.reset.ath.bielsko.pl">
+                        <img src="~/images/logo_reset.svg" alt="Logo RESET" />
                     </a>
                 </div>
                 <div class="collapse navbar-collapse" id="custom-collapse">
@@ -111,7 +110,7 @@
                         <b>Zobacz</b>
                     </h1>
                     <h2>
-                       co sprawia, że warto<br />używać <b>smartPARK</b>
+                        co sprawia, że warto<br />używać <b>smartPARK</b>
                     </h2>
                 </div>
             </div>
@@ -205,42 +204,46 @@
 
     <section class="smart-block smart-block-white" id="howitworks">
         <div class="container">
-            <div class="row skills">
 
-                <div class="row">
-                    <div class="col-sm-6 col-sm-offset-3">
-                        <div class="smart-block-header wow fadeInUp">
-                            <h2 class="smart-block-title">JAK TO DZIAŁA?</h2>
-                            <div class="smart-block-line"></div>
-                            <div class="smart-block-subtitle">
-                                Spójrz na poniższą infografikę, aby w łatwy i prosty sposób załapać jak działa nasz system :).
-                            </div>
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <div class="smart-block-header wow fadeInUp">
+                        <h2 class="smart-block-title">JAK TO DZIAŁA?</h2>
+                        <div class="smart-block-line"></div>
+                        <div class="smart-block-subtitle">
+                            Spójrz na poniższą infografikę, aby w łatwy i prosty sposób załapać jak działa nasz system :).
                         </div>
                     </div>
-                </div><!-- .row -->
-                <div class="row text-center ">
-                    <h4 class="col-md-2 col-md-offset-2"></h4>
-                    <h4 class="col-md-2 wow fadeInDown" data-wow-delay="2s" style="color: #F6931D; text-decoration: underline; text-decoration-color: #F6931D">kupienie <b>WYJAZDÓW</b></h4>
-                    <h4 class="col-md-2"></h4>
-                    <h4 class="col-md-2 wow fadeInDown" data-wow-delay="4s" style="color:#1C75BC; text-decoration: underline; text-decoration-color: #1C75BC">otwórz <b>BRAMĘ</b></h4>
                 </div>
-                <div class="row row-timeline">
-                    <div class="col-md-2 col-md-offset-2 wow fadeIn" data-wow-delay="1s"><img src="~/images/infografika/timeline1.png" class="img-responsive"/>
-                    </div>
-                    <div class="col-md-2 wow fadeIn" data-wow-delay="2s"><img src="~/images/infografika/timeline2.png" class="img-responsive"/>
-                    </div>
-                    <div class="col-md-2 wow fadeIn" data-wow-delay="3s"><img src="~/images/infografika/timeline3.png" class="img-responsive"/>
-                    </div>
-                    <div class="col-md-2 wow fadeIn" data-wow-delay="4s"><img src="~/images/infografika/timeline4.png" class="img-responsive"/>
-                    </div>
+            </div><!-- .row -->
+
+            <div class="row text-center row-timeline">
+                <h4 class="col-xs-3 col-xs-offset-0 col-md-2 col-md-offset-2"></h4>
+                <h4 class="col-xs-3 col-md-2 wow fadeInDown" data-wow-delay="2s" style="color: #F6931D; text-decoration: underline; text-decoration-color: #F6931D">2. kup <b>WYJAZDY</b></h4>
+                <h4 class="col-xs-3 col-md-2"></h4>
+                <h4 class="col-xs-3 col-md-2 wow fadeInDown" data-wow-delay="4s" style="color:#1C75BC; text-decoration: underline; text-decoration-color: #1C75BC">4. otwórz <b>BRAMĘ</b></h4>
+            </div>
+            <div class="row row-timeline">
+                <div class="col-xs-3 col-xs-offset-0 col-md-2 col-md-offset-2 wow fadeIn" data-wow-delay="1s">
+                    <img src="~/images/infografika/timeline1.png" class="img-responsive" />
                 </div>
-                <div class="row text-center row-timeline">
-                    <h4 class="col-md-2 col-md-offset-2 wow fadeInUp" data-wow-delay="1s" style="color:#00A79C; text-decoration: underline; text-decoration-color: #00A79C">założenie <b>KONTA</b></h4>
-                    <h4 class="col-md-2"></h4>
-                    <h4 class="col-md-2 wow fadeInUp" data-wow-delay="3s" style="color:#ED2A7B; text-decoration: underline; text-decoration-color: #ED2A7B">pobranie <br /><b>APLIKACJI MOBILNEJ</b></h4>
-                    <h4 class="col-md-2"></h4>
+                <div class="col-xs-3 col-md-2 wow fadeIn" data-wow-delay="2s">
+                    <img src="~/images/infografika/timeline2.png" class="img-responsive"/>
+                </div>
+                <div class="col-xs-3 col-md-2 wow fadeIn" data-wow-delay="3s">
+                    <img src="~/images/infografika/timeline3.png" class="img-responsive" />
+                </div>
+                <div class="col-xs-3 col-md-2 wow fadeIn" data-wow-delay="4s">
+                    <img src="~/images/infografika/timeline4.png" class="img-responsive"/>
                 </div>
             </div>
+            <div class="row text-center row-timeline">
+                <h4 class="col-xs-3 col-xs-offset-0 col-md-2 col-md-offset-2 wow fadeInUp" data-wow-delay="1s" style="color:#00A79C; text-decoration: underline; text-decoration-color: #00A79C">1. załóż <b>KONTO</b></h4>
+                <h4 class="col-xs-3 col-md-2"></h4>
+                <h4 class="col-xs-3 col-md-2 wow fadeInUp" data-wow-delay="3s" style="color:#ED2A7B; text-decoration: underline; text-decoration-color: #ED2A7B">4. pobierz <br /><b>APLIKACJĘ MOBILNĄ</b></h4>
+                <h4 class="col-xs-3 col-md-2"></h4>
+            </div>
+
         </div>
     </section>
 
@@ -274,7 +277,7 @@
             </div>
             <div class="row text-center">
                 <div class="col-md-4 col-md-offset-0 col-xs-8 col-xs-offset-2 author-box">
-                    <img src="~/images/tomek_400x400.png"/>
+                    <img src="~/images/tomek_400x400.png" />
                     <h4>
                         inż. Tomasz Kamiński<br /><br /><b>AUTOR</b><br /><br />twórca smartPARK, odpowiedzialny za działanie całego systemu, jego niezawodność oraz innowacyjność.
                     </h4>
@@ -292,7 +295,7 @@
                     <h4 class="smart-grey">katarzynajasiewicz.93@gmail.com</h4>
                 </div>
                 <div class="col-md-4 col-md-offset-0 col-xs-8 col-xs-offset-2 author-box">
-                    <img src="~/images/szymon_400x400.png"/>
+                    <img src="~/images/szymon_400x400.png" />
                     <h4>
                         dr inż. Szymon Tengler<br /><br /><b>PROMOTOR</b><br /><br />promotor pracy inżynierskiej,<br /> opiekun Koła RESET oraz opiekun systemu.
                     </h4>
@@ -327,12 +330,12 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="margin-bottom-25">
-                        <img src="~/images/logo_white.png" class="img-responsive"/>
+                        <img src="~/images/logo_white.png" class="img-responsive" />
                     </div>
                     <ul class="social-links margin-bottom-25">
-                        <li><a href="#" class="wow fadeInUp"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="#" class="wow fadeInUp" data-wow-delay=".1s"><i class="fa fa-twitter"></i></a></li>
-                    </ul>
+                        <li><a target="blank" href="https://facebook.com" class="wow fadeInUp"><i class="fa fa-facebook"></i></a></li>
+                        <li><a target="blank" href="https://twitter.com" class="wow fadeInUp" data-wow-delay=".1s"><i class="fa fa-twitter"></i></a></li>
+                    </ul> 
                     <ul class="list-inline footer-list">
                         <li><a href="">O SYSTEMIE</a></li>
                         <li><a href="">JAK TO DZIAŁA?</a></li>

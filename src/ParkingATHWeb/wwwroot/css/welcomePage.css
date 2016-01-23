@@ -532,3 +532,7 @@ p {
 
 .row-timeline > div, .row-timeline > h4 {
   padding: 0 !important; }
+
+@media (max-width: 560px) {
+  .row-timeline h4 {
+    font-size: 12px; } }

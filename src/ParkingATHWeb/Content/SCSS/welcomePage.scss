@@ -644,18 +644,19 @@ p {
             font-size: 50px;
         }
     }
-        #application .col-xs-12.col-md-6{
-        text-align:center !important;
-        h1{
-            font-size:22px;
-                       margin-bottom:25px;
+
+    #application .col-xs-12.col-md-6 {
+        text-align: center !important;
+
+        h1 {
+            font-size: 22px;
+            margin-bottom: 25px;
         }
-        
     }
 
-        .smart-block-black i{
-            font-size:36px;
-        }
+    .smart-block-black i {
+        font-size: 36px;
+    }
 }
 
 @media (max-width: 767px) {
@@ -731,6 +732,15 @@ p {
     }
 }
 
-.row-timeline > div, .row-timeline > h4{
-    padding:0 !important;
+.row-timeline > div, .row-timeline > h4 {
+    padding: 0 !important;
+}
+
+
+
+@media (max-width: 560px) {
+
+    .row-timeline h4 {
+        font-size: 12px;
+    }
 }
