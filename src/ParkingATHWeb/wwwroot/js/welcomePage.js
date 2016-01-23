@@ -2,8 +2,12 @@
 
 
     $(window).load(function () {
-        $('#status').fadeOut();
-        $('#preloader').delay(300).fadeOut('slow');
+        setTimeout(function () {
+            $('#status').fadeOut();
+
+            $('#preloader').delay(300).fadeOut('slow');
+
+        }, 1500);
     });
 
     $(document).ready(function () {
