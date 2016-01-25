@@ -1,0 +1,46 @@
+﻿@model ParkingATHWeb.Areas.Portal.ViewModels.Account.LoginViewModel
+<form asp-action="Login" asp-controller="Account" asp-antiforgery="true" id="login-form">
+    <div asp-validation-summary="ValidationSummary.ModelOnly"></div>
+    <input type="hidden" asp-for="ReturnUrl" value="@Model.ReturnUrl" />
+    <div class="row">
+        <div class="col s10 m9">
+            <div class="input-field">
+                <input type="text" asp-for="Email" />
+                <label asp-for="Email"></label>
+                <span asp-validation-for="Email"></span>
+            </div>
+        </div>
+        <div class="col s10 m9">
+            <div class="input-field">
+                <input type="password" asp-for="Password" />
+                <label asp-for="Password"></label>
+                <span asp-validation-for="Password"></span>
+            </div>
+        </div>
+        <div class="col s10 m9">
+            <p>
+                <input type="checkbox" asp-for="RemeberMe" class="filled-in" />
+                <label asp-for="RemeberMe"></label>
+            </p>
+        </div>
+    </div>
+
+
+    <br />
+    <div class="row right-align" style="margin-bottom: 0">
+        <div class="col s10 m10">
+            <a href="#" id="moveRegister" class="smart-blue"><b>ZAREJESTRUJ</b></a>
+            <button class="btn waves-effect waves-light smart-blue-bg" type="submit" name="action">
+                <b>Zaloguj</b>
+            </button>
+        </div>
+
+    </div>
+    <div class="row right-align">
+        <div class="col s10 m10">
+            <a href="#" id="moveForgot" class="red-text lighten-2">zapomniałem <b>hasło</b></a>
+
+        </div>
+    </div>
+</form>
+@*<a href="#" id="movetop">Zapomniane hasło</a>*@

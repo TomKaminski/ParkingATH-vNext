@@ -1,1 +1,179 @@
 ﻿/*Main scss file for all views, create other scss for specific views.*/
+@import url(http://fonts.googleapis.com/css?family=Titillium+Web);
+
+body {
+    font: 300 14px/1.8 'Titillium Web', sans-serif;
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: Titillium Web, sans-serif;
+    letter-spacing: 3px;
+    margin: 5px 0 5px;
+    color: #4b85c5;
+}
+
+h2 {
+    font-size: 32px;
+    margin: 0 0 30px;
+}
+
+h3 {
+    font-size: 24px;
+    letter-spacing: 2px;
+    margin: 0 0 5px;
+}
+
+h4 {
+    font-size: 18px;
+}
+
+h5 {
+    font-size: 14px;
+}
+
+h6 {
+    font-size: 12px;
+}
+
+h4, h5, h6 {
+    letter-spacing: 1px;
+}
+
+p {
+    font-size: 16px;
+}
+
+.smart-blue {
+    color: #4b85c5;
+}
+
+.smart-blue-bg {
+    background: #4b85c5;
+}
+
+.smart-grey {
+    color: #b0b0b0;
+}
+
+.flex-align-center-container {
+    display: flex;
+    align-items: center;
+}
+
+.margin-bottom-25 {
+    margin-bottom: 25px;
+}
+
+.margin-bottom-50 {
+    margin-bottom: 50px;
+}
+
+.margin-top-25 {
+    margin-top: 25px;
+}
+
+.margin-top-50 {
+    margin-top: 50px;
+}
+
+.system-overlay {
+    background-color: rgba(38,163,217,0.55);
+}
+
+.system-overlay, .home-overlay {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 0;
+}
+
+.home-overlay {
+    background-color: rgba(44, 62, 80, 0.3);
+    background-image: url("../images/pattern.png");
+    background-repeat: repeat;
+}
+
+input.input-validation-error {
+    border-bottom: 2px solid red;
+    margin-bottom: 1px;
+}
+
+.input-field {
+    text-align: left;
+
+    span.field-validation-error {
+        font-size: 12px;
+        color: red;
+        text-align: left !important;
+    }
+}
+
+@media(max-width: 968px) {
+    .flex-align-center-container {
+        display: block;
+    }
+
+    h2 {
+        font-size: 38px;
+        margin: 0 0 30px;
+    }
+
+    h3 {
+        font-size: 20px;
+        letter-spacing: 2px;
+        margin: 0 0 5px;
+    }
+
+    h4 {
+        font-size: 16px;
+    }
+
+    h5 {
+        font-size: 12px;
+    }
+
+    h6 {
+        font-size: 11px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 767px) {
+    h2 {
+        font-size: 20px;
+        margin: 0 0 20px;
+    }
+
+    h3 {
+        font-size: 20px;
+        letter-spacing: 2px;
+        margin: 0 0 5px;
+    }
+
+    h4 {
+        font-size: 16px;
+    }
+
+    h5 {
+        font-size: 12px;
+    }
+
+    h6 {
+        font-size: 11px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+}

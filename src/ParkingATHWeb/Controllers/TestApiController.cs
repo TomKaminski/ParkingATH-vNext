@@ -21,35 +21,35 @@ namespace ParkingATHWeb.Controllers
         [ApiHeaderAuthorize]
         [HttpPost]
         [Route("GetStudentDataWithHeader")]
-        public async Task<ApiResult<UserBaseDto>> GetStudentDataWithHeader([FromBody]GetStudentDataHeaderApiModel model)
+        public async Task<SmartJsonResult<UserBaseDto>> GetStudentDataWithHeader([FromBody]GetStudentDataHeaderApiModel model)
         {
             var student = await _userService.GetByEmailAsync(model.userName);
-            return ApiResult<UserBaseDto>.Success(student.Result);
+            return SmartJsonResult<UserBaseDto>.Success(student.Result);
         }
 
 
         [HttpGet]
         [Route("Test")]
-        public ApiResult<bool> Test()
+        public SmartJsonResult<bool> Test()
         {
-            return ApiResult<bool>.Success(true);
+            return SmartJsonResult<bool>.Success(true);
         }
 
         [HttpPost]
         [Route("GetStudentDataWithoutHeader")]
-        public async Task<ApiResult<UserBaseDto>> GetStudentDataWithoutHeader([FromBody]GetStudentDataHeaderApiModel model)
+        public async Task<SmartJsonResult<UserBaseDto>> GetStudentDataWithoutHeader([FromBody]GetStudentDataHeaderApiModel model)
         {
             var student = await _userService.GetByEmailAsync(model.userName);
-            return ApiResult<UserBaseDto>.Success(student.Result);
+            return SmartJsonResult<UserBaseDto>.Success(student.Result);
         }
 
         [HttpPost]
         [ApiHeaderAuthorize]
         [Route("CheckUserHeader")]
-        public async Task<ApiResult<bool>> CheckUserHeaderr([FromBody]GetStudentDataHeaderApiModel model)
+        public async Task<SmartJsonResult<bool>> CheckUserHeaderr([FromBody]GetStudentDataHeaderApiModel model)
         {
             var checkHeaderHash = await _userService.CheckHashAsync(model.userName, GetHashFromHeader());
-            return ApiResult<bool>.Success(checkHeaderHash.Result);
+            return SmartJsonResult<bool>.Success(checkHeaderHash.Result);
         }
     }
 }

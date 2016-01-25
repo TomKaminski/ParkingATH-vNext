@@ -25,24 +25,24 @@ namespace ParkingATHWeb.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public async Task<ApiResult<UserBaseDto>> Login([FromBody] LoginApiModel model)
+        public async Task<SmartJsonResult<UserBaseDto>> Login([FromBody] LoginApiModel model)
         {
             if (!ModelState.IsValid)
-                return ApiResult<UserBaseDto>.Failure(GetModelStateErrors(ModelState));
+                return SmartJsonResult<UserBaseDto>.Failure(GetModelStateErrors(ModelState));
 
             var loginApiResult = await _userService.LoginAsync(model.Username, model.Password);
 
             return loginApiResult.IsValid
-                ? ApiResult<UserBaseDto>.Success(loginApiResult.Result)
-                : ApiResult<UserBaseDto>.Failure(loginApiResult.ValidationErrors);
+                ? SmartJsonResult<UserBaseDto>.Success(loginApiResult.Result)
+                : SmartJsonResult<UserBaseDto>.Failure(loginApiResult.ValidationErrors);
         }
 
         [HttpPost]
         [Route("Forgot")]
-        public async Task<ApiResult<bool>> ForgotPassword([FromBody] ForgotApiModel model)
+        public async Task<SmartJsonResult<bool>> ForgotPassword([FromBody] ForgotApiModel model)
         {
             if (!ModelState.IsValid)
-                return ApiResult<bool>.Failure(GetModelStateErrors(ModelState));
+                return SmartJsonResult<bool>.Failure(GetModelStateErrors(ModelState));
 
             var changePasswordTokenResult = await _userService.GetPasswordChangeTokenAsync(model.Email);
             var changePasswordUrl = $"{Url.Action("RedirectFromToken", "Token", null, "http")}?id={changePasswordTokenResult.SecondResult}";
@@ -50,8 +50,8 @@ namespace ParkingATHWeb.Controllers
                 new Dictionary<string, string> { { "ChangePasswordLink", changePasswordUrl } });
 
             return changePasswordTokenResult.IsValid
-                ? ApiResult<bool>.Success(true)
-                : ApiResult<bool>.Failure(changePasswordTokenResult.ValidationErrors);
+                ? SmartJsonResult<bool>.Success(true)
+                : SmartJsonResult<bool>.Failure(changePasswordTokenResult.ValidationErrors);
         }
 
 

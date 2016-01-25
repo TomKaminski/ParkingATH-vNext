@@ -20,30 +20,30 @@ namespace ParkingATHWeb.Controllers
 
         [Route("RefreshCharges")]
         [HttpPost]
-        public async Task<ApiResult<int>> RefreshCharges([FromBody] RefreshChargesApiModel model)
+        public async Task<SmartJsonResult<int>> RefreshCharges([FromBody] RefreshChargesApiModel model)
         {
             if (!ModelState.IsValid)
-                return ApiResult<int>.Failure(GetModelStateErrors(ModelState));
+                return SmartJsonResult<int>.Failure(GetModelStateErrors(ModelState));
 
             var getChargesResult = await _userService.GetChargesAsync(model.Email, GetHashFromHeader());
 
             return getChargesResult.IsValid
-                ? ApiResult<int>.Success(getChargesResult.Result)
-                : ApiResult<int>.Failure(getChargesResult.ValidationErrors);
+                ? SmartJsonResult<int>.Success(getChargesResult.Result)
+                : SmartJsonResult<int>.Failure(getChargesResult.ValidationErrors);
         }
 
         [Route("OpenGate")]
         [HttpPost]
-        public async Task<ApiResult<int?>> OpenGate([FromBody] OpenGateApiModel model)
+        public async Task<SmartJsonResult<int?>> OpenGate([FromBody] OpenGateApiModel model)
         {
             if (!ModelState.IsValid)
-                return ApiResult<int?>.Failure(GetModelStateErrors(ModelState));
+                return SmartJsonResult<int?>.Failure(GetModelStateErrors(ModelState));
 
             var openGateResult = await _userService.OpenGateAsync(model.Email, GetHashFromHeader());
 
             return openGateResult.IsValid
-                ? ApiResult<int?>.Success(openGateResult.Result)
-                : ApiResult<int?>.Failure(openGateResult.ValidationErrors);
+                ? SmartJsonResult<int?>.Success(openGateResult.Result)
+                : SmartJsonResult<int?>.Failure(openGateResult.ValidationErrors);
         }
     }
 }

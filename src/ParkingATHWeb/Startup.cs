@@ -155,7 +155,7 @@ namespace ParkingATHWeb
 
             app.UseCookieAuthentication(opt =>
             {
-                opt.LoginPath = new PathString("/Portal/Logowanie");
+                opt.LoginPath = new PathString("/Portal/Konto/Start");
                 opt.LogoutPath = new PathString("/Portal/Wyloguj");
                 opt.ExpireTimeSpan = new TimeSpan(4, 0, 0, 0);
                 opt.AutomaticAuthenticate = true;

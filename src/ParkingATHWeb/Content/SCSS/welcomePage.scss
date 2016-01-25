@@ -1,19 +1,6 @@
-﻿@import url(http://fonts.googleapis.com/css?family=Titillium+Web);
-
-body {
-    font: 300 14px/1.8 'Titillium Web', sans-serif;
-    overflow-x: hidden;
-}
-
-img {
-    max-width: 100%;
-    height: auto;
-}
-
-/* ---------------------------------------------- /*
+﻿/* ---------------------------------------------- /*
  * Transition elsements
 /* ---------------------------------------------- */
-
 
 .navbar a {
     -webkit-transition: all 0.4s ease-in-out 0s;
@@ -41,58 +28,8 @@ a {
 }
 
 /* ---------------------------------------------- /*
- * Typography
-/* ---------------------------------------------- */
-
-h1, h2, h3, h4, h5, h6 {
-    font-family: Titillium Web, sans-serif;
-    letter-spacing: 3px;
-    margin: 5px 0 5px;
-    color: #4b85c5;
-}
-
-h2 {
-    font-size: 32px;
-    margin: 0 0 30px;
-}
-
-h3 {
-    font-size: 24px;
-    letter-spacing: 2px;
-    margin: 0 0 5px;
-}
-
-h4 {
-    font-size: 18px;
-}
-
-h5 {
-    font-size: 14px;
-}
-
-h6 {
-    font-size: 12px;
-}
-
-h4, h5, h6 {
-    letter-spacing: 1px;
-}
-
-p {
-    font-size: 16px;
-}
-
-/* ---------------------------------------------- /*
  * General Styles
 /* ---------------------------------------------- */
-
-.smart-blue {
-    color: #4b85c5;
-}
-
-.smart-grey {
-    color: #b0b0b0;
-}
 
 .smart-block {
     padding: 100px 0;
@@ -100,14 +37,6 @@ p {
 
 .smart-block-mini {
     padding: 30px 0;
-}
-
-.margin-bottom-25 {
-    margin-bottom: 25px;
-}
-
-.margin-bottom-50 {
-    margin-bottom: 50px;
 }
 
 .smart-block-gray {
@@ -185,11 +114,6 @@ p {
     font-size: 32px;
 }
 
-.flex-align-center-container {
-    display: flex;
-    align-items: center;
-}
-
 /* ---------------------------------------------- /*
  * Home
 /* ---------------------------------------------- */
@@ -206,18 +130,7 @@ p {
     background: url(../images/banner3.png);
 }
 
-.system-overlay {
-    background-color: rgba(38,163,217,0.55);
-}
 
-.system-overlay, .home-overlay {
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    z-index: 0;
-}
 
 #home, #system, #banner3 {
     background-color: #222;
@@ -583,39 +496,8 @@ p {
         padding-bottom: 70px;
     }
 
-    .flex-align-center-container {
-        display: block;
-    }
-
     .author-box {
         margin-bottom: 30px;
-    }
-
-    h2 {
-        font-size: 38px;
-        margin: 0 0 30px;
-    }
-
-    h3 {
-        font-size: 20px;
-        letter-spacing: 2px;
-        margin: 0 0 5px;
-    }
-
-    h4 {
-        font-size: 16px;
-    }
-
-    h5 {
-        font-size: 12px;
-    }
-
-    h6 {
-        font-size: 11px;
-    }
-
-    p {
-        font-size: 14px;
     }
 
     #home, #system, #banner3 {
@@ -660,9 +542,6 @@ p {
 }
 
 @media (max-width: 767px) {
-
-
-
     .navbar-custom .navbar-brand img {
         max-height: 55px;
         margin: 0 2px;
@@ -670,33 +549,6 @@ p {
 
     .navbar-collapse {
         margin-top: 15px;
-    }
-
-    h2 {
-        font-size: 20px;
-        margin: 0 0 20px;
-    }
-
-    h3 {
-        font-size: 20px;
-        letter-spacing: 2px;
-        margin: 0 0 5px;
-    }
-
-    h4 {
-        font-size: 16px;
-    }
-
-    h5 {
-        font-size: 12px;
-    }
-
-    h6 {
-        font-size: 11px;
-    }
-
-    p {
-        font-size: 14px;
     }
 
     #home, #system, #banner3 {

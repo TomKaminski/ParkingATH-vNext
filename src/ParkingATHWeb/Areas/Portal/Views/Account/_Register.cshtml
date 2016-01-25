@@ -1,0 +1,47 @@
+﻿@model ParkingATHWeb.Areas.Portal.ViewModels.Account.RegisterViewModel
+<form asp-action="Register" asp-controller="Account" asp-antiforgery="true" id="register-form">
+    <div asp-validation-summary="ValidationSummary.ModelOnly"></div>
+    <div class="row">
+        <div class="col s10 m9">
+            <div class="input-field">
+                <input type="text" asp-for="Email" />
+                <label asp-for="Email"></label>
+                <span asp-validation-for="Email"></span>
+            </div>
+        </div>
+        <div class="col s10 m9">
+            <div class="input-field">
+                <input type="password" asp-for="Password" />
+                <label asp-for="Password"></label>
+                <span asp-validation-for="Password"></span>
+            </div>
+        </div>
+        <div class="col s10 m9">
+            <div class="input-field">
+                <input type="password" asp-for="RepeatPassword" />
+                <label asp-for="RepeatPassword"></label>
+                <span asp-validation-for="RepeatPassword"></span>
+            </div>
+        </div>
+        <div class="col s10 m9">
+            <div class="input-field">
+                <input type="text" asp-for="Name" class="validate" />
+                <label asp-for="Name"></label>
+                <span asp-validation-for="Name"></span>
+            </div>
+        </div>
+        <div class="col s10 m9">
+            <div class="input-field">
+                <input type="text" asp-for="LastName" class="validate" />
+                <label asp-for="LastName"></label>
+                <span asp-validation-for="LastName"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <a href="#" id="moveLogin" class="smart-blue"><b>ZALOGUJ</b></a>
+        <button class="btn waves-effect waves-light smart-blue-bg" type="submit" name="action">
+            <b>ZAREJESTRUJ</b>
+        </button>
+    </div>
+</form>

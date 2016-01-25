@@ -10,6 +10,7 @@ using AutoMapper;
 using Microsoft.AspNet.Authentication.Cookies;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Http.Authentication;
+using ParkingATHWeb.ApiModels.Base;
 using ParkingATHWeb.Models;
 using ParkingATHWeb.Areas.Portal.Controllers.Base;
 using ParkingATHWeb.Contracts.DTO;
@@ -48,7 +49,18 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
             {
                 return RedirectToAction("Index", "Home", new { area = "Portal" });
             }
-            return View(new LoginViewModel {ReturnUrl = ReturnUrl});
+            return View(new LoginViewModel { ReturnUrl = ReturnUrl });
+        }
+
+        [Route("~/[area]/Konto/Start")]
+        [AllowAnonymous]
+        public IActionResult LoginRegisterForgot(string ReturnUrl)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home", new { area = "Portal" });
+            }
+            return View(new LoginRegisterForgot(ReturnUrl));
         }
 
         [HttpPost]
@@ -63,19 +75,11 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                 if (userLoginResult.IsValid)
                 {
                     await IdentitySignin(userLoginResult.Result, model.RemeberMe);
-                    return RedirectToLocal(model.ReturnUrl);
-                    //return RedirectToAction("Index", "Home");
+                    return Json(model);
                 }
-                else
-                {
-                    //TODO: Fajne noty z błędem/błędami systemowymi!!!!!!!!!!!! :D
-                    model.AppendBackendValidationErrors(userLoginResult.ValidationErrors);
-
-                    ModelState.AddModelError("", userLoginResult.ValidationErrors.First());
-                    return View(model);
-                }
+                model.AppendBackendValidationErrors(userLoginResult.ValidationErrors);
             }
-            return View(model);
+            return Json(model);
         }
 
         [Route("~/[area]/Rejestracja")]
@@ -101,18 +105,15 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                 if (userCreateResult.IsValid)
                 {
                     await _messageService.SendMessageAsync(EmailType.Register, userCreateResult.Result, GetAppBaseUrl());
-                    return RedirectToAction("Login");
+                    return Json(true);
                 }
-                else
-                {
-                    //TODO: Fajne noty z błędem/błędami systemowymi!!!!!!!!!!!! :D
-                    model.AppendBackendValidationErrors(userCreateResult.ValidationErrors);
+                //TODO: Fajne noty z błędem/błędami systemowymi!!!!!!!!!!!! :D
+                model.AppendBackendValidationErrors(userCreateResult.ValidationErrors);
 
-                    ModelState.AddModelError("", userCreateResult.ValidationErrors.First());
-                    return View(model);
-                }
+                ModelState.AddModelError("", userCreateResult.ValidationErrors.First());
+                return Json(model);
             }
-            return View(model);
+            return Json(model);
         }
 
         [AllowAnonymous]
@@ -131,14 +132,15 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
             if (ModelState.IsValid)
             {
                 var changePasswordTokenResult = await _userService.GetPasswordChangeTokenAsync(model.Email);
-
-                //TODO: IIS do not accept SomeCtrl/SomeAction/THISID -> we have to use ?id=...
-                var changePasswordUrl = $"{Url.Action("RedirectFromToken", "Token", null, "http")}?id={changePasswordTokenResult.SecondResult}";
-                await _messageService.SendMessageAsync(EmailType.ResetPassword, changePasswordTokenResult.Result, GetAppBaseUrl(),
-                    new Dictionary<string, string> { { "ChangePasswordLink", changePasswordUrl } });
-                return RedirectToAction("Index", "Home");
+                if (changePasswordTokenResult.IsValid)
+                {
+                    var changePasswordUrl = $"{Url.Action("RedirectFromToken", "Token", null, "http")}?id={changePasswordTokenResult.SecondResult}";
+                    await _messageService.SendMessageAsync(EmailType.ResetPassword, changePasswordTokenResult.Result, GetAppBaseUrl(),
+                        new Dictionary<string, string> { { "ChangePasswordLink", changePasswordUrl } });
+                    return Json(true);
+                }   
             }
-            return View(model);
+            return Json(model);
         }
 
         private async Task IdentitySignin(UserBaseDto user, bool isPersistent = false)

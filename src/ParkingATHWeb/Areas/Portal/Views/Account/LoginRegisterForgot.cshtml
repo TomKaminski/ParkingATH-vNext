@@ -1,0 +1,86 @@
+﻿@model ParkingATHWeb.Areas.Portal.ViewModels.Account.LoginRegisterForgot
+@{
+    ViewData["Title"] = "Zaczynajmy!";
+    Layout = "_LayoutClear";
+}
+<div class="container valign main-container">
+    <p class="center-align margin-bottom-50"><img src="~/images/logo_standard.png" /></p>
+    <div class="row valign" style="height: 100%">
+        <div class="col s12 offset-s0 offset-l1 l10 text-blue darken-2" style="height: 100%">
+            <div class="card" style="height: 100%">
+                <div id="fback" class="hide-on-med-and-down">
+                    <div class="register-bg">
+                        <div class="system-overlay"></div>
+                        <div class="bg-text-container">
+                            <h1 class="white-text">
+                                <b>ZOBACZ</b>
+                            </h1>
+                            <h3 class="white-text">CO SPRAWIA, ŻE WARTO<br />SKORZYSTAĆ ZE <b>smartPARK</b></h3>
+                        </div>
+                    </div>
+                    <div class="login-bg">
+                        <div class="home-overlay"></div>
+                        <div class="bg-text-container align-left">
+                            <h4 class="white-text">
+                                wykup abonament - zapłać zbliżeniowo
+                            </h4>
+                            <h2 class="white-text" style="margin:5px 0"><b>UŁATWIAMY ŻYCIE</b></h2>
+                            <h4 class="white-text">
+                                otwieraj bramę smartfonem
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content switcher-box" data-status="0" id="switcher-box">
+                    <div class="inner-box">
+                        <div class="left-item">
+                            <div class="register-content">
+                                <div class="row">
+                                    <div class="col s10 offset-s1 center-align margin-top-50">
+                                        <h2 class="valign-wrapper" style="justify-content: center">
+                                            <img src="~/images/lock_logo.png" class="valign"/>REJESTRACJA
+                                        </h2>
+                                        <h4 class="smart-grey">Jeżeli nie posiadasz jeszcze konta, zarejestruj się w kilku szybkich krokach!</h4>
+                                        @await Html.PartialAsync("_Register", Model.RegisterViewModel)
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="center-item">
+                            <div class="login-content">
+                                <div class="row">
+                                    <div class="col s10 offset-s1 center-align margin-top-50">
+                                        <h2 class="valign-wrapper" style="justify-content: center">
+                                            <img class="valign" src="~/images/lock_logo.png"/>LOGOWANIE
+                                        </h2>
+                                        <h4 class="smart-grey margin-bottom-50">Zaloguj się do swojego konta w systemie, aby zarządzać swoimi wyjazdami:</h4>
+                                        @await Html.PartialAsync("_Login", Model.LoginViewModel)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="right-item">
+                            <div class="forgot-content">
+                                <div class="row">
+                                    <div class="col s10 offset-s1 center-align margin-top-50">
+                                        <h2 class="valign-wrapper" style="justify-content: center">
+                                            <img class="valign" src="~/images/lock_logo.png" />PRZYPOMNIJ HASŁO
+                                        </h2>
+                                        <h4 class="smart-grey margin-bottom-50">Jeżeli nie pamiętasz swojego hasła, podaj swój email, a my pomożemy Ci odzyskać utracone hasło:</h4>
+                                        @await Html.PartialAsync("_ForgotPassword", Model.ForgotPasswordViewModel)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section styles{
+    <link href="~/css/portal/account/loginregisterforgot.css" rel="stylesheet" />
+}
+

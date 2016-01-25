@@ -23,31 +23,31 @@ namespace ParkingATHWeb.Controllers
 
         [Route("ChangePassword")]
         [HttpPost]
-        public async Task<ApiResult<bool>> ChangePassword([FromBody] ChangePasswordApiModel model)
+        public async Task<SmartJsonResult<bool>> ChangePassword([FromBody] ChangePasswordApiModel model)
         {
             if (!ModelState.IsValid)
-                return ApiResult<bool>.Failure(GetModelStateErrors(ModelState));
+                return SmartJsonResult<bool>.Failure(GetModelStateErrors(ModelState));
 
             var changePasswordResult =
                 await _userService.ChangePasswordAsync(model.Email, model.OldPassword, model.NewPassword);
 
             return changePasswordResult.IsValid
-                ? ApiResult<bool>.Success(true)
-                : ApiResult<bool>.Failure(changePasswordResult.ValidationErrors);
+                ? SmartJsonResult<bool>.Success(true)
+                : SmartJsonResult<bool>.Failure(changePasswordResult.ValidationErrors);
         }
 
         [Route("ChangeEmail")]
         [HttpPost]
-        public async Task<ApiResult<bool>> ChangeEmail([FromBody] ChangeEmailApiModel model)
+        public async Task<SmartJsonResult<bool>> ChangeEmail([FromBody] ChangeEmailApiModel model)
         {
             if (!ModelState.IsValid)
-                return ApiResult<bool>.Failure(GetModelStateErrors(ModelState));
+                return SmartJsonResult<bool>.Failure(GetModelStateErrors(ModelState));
 
             var changeEmailResult = await _userService.ChangeEmailAsync(model.Email, model.NewEmail, model.Password);
 
             return changeEmailResult.IsValid
-                ? ApiResult<bool>.Success(true)
-                : ApiResult<bool>.Failure(changeEmailResult.ValidationErrors);
+                ? SmartJsonResult<bool>.Success(true)
+                : SmartJsonResult<bool>.Failure(changeEmailResult.ValidationErrors);
         }
     }
 }
