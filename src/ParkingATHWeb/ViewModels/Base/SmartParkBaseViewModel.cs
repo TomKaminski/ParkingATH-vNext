@@ -5,6 +5,11 @@ namespace ParkingATHWeb.ViewModels.Base
 {
     public abstract class SmartParkBaseViewModel
     {
+        protected SmartParkBaseViewModel()
+        {
+            ValidationErrors = new List<string>();
+            SuccessNotifications = new List<string>();
+        }
         public List<string> ValidationErrors { get; set; }
         public List<string> SuccessNotifications { get; set; }
 

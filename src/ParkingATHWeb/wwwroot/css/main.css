@@ -70,6 +70,9 @@ p {
   color: grey !important;
   cursor: default !important; }
 
+.toast-green {
+  background: #66BB6A !important; }
+
 .system-overlay, .home-overlay {
   height: 100%;
   left: 0;
