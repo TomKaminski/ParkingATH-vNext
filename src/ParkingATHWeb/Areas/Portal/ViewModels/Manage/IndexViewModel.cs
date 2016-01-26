@@ -6,7 +6,7 @@ using ParkingATHWeb.ViewModels.Base;
 
 namespace ParkingATHWeb.Areas.Portal.ViewModels.Manage
 {
-    public class IndexViewModel:ParkingAthListBaseViewModel
+    public class IndexViewModel:SmartParkListBaseViewModel
     {
         
     }

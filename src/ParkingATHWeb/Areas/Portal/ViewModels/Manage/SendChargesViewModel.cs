@@ -3,7 +3,7 @@ using ParkingATHWeb.ViewModels.Base;
 
 namespace ParkingATHWeb.Areas.Portal.ViewModels.Manage
 {
-    public class SendChargesViewModel : ParkingAthBaseViewModel
+    public class SendChargesViewModel : SmartParkBaseViewModel
     {
         [Required(ErrorMessageResourceType = typeof(ViewModelResources), ErrorMessageResourceName = "Common_RequiredError")]
         public string Password { get; set; }

@@ -3,7 +3,7 @@ using ParkingATHWeb.ViewModels.Base;
 
 namespace ParkingATHWeb.Areas.Portal.ViewModels.Manage
 {
-    public class ChangePasswordViewModel : ParkingAthBaseViewModel
+    public class ChangePasswordViewModel : SmartParkBaseViewModel
     {
         [Required(ErrorMessageResourceType = typeof(ViewModelResources), ErrorMessageResourceName = "Common_RequiredError")]
         public string OldPassword { get; set; }

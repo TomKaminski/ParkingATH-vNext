@@ -3,7 +3,7 @@ using ParkingATHWeb.ViewModels.Base;
 
 namespace ParkingATHWeb.Areas.Admin.ViewModels.PriceTreshold
 {
-    public class AdminPriceTresholdCreateViewModel:ParkingAthCreateBaseViewModel
+    public class AdminPriceTresholdCreateViewModel:SmartParkCreateBaseViewModel
     {
         [Required(ErrorMessageResourceType = typeof(ViewModelResources), ErrorMessageResourceName = "Common_RequiredError")]
         public int MinCharges { get; set; }

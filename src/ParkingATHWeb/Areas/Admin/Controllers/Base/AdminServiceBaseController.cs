@@ -10,7 +10,7 @@ namespace ParkingATHWeb.Areas.Admin.Controllers.Base
 {
     [Route("[area]/[controller]/[action]")]
     public class AdminServiceBaseController<TListViewModel, TDto, TKeyType> : AdminBaseController
-        where TListViewModel : ParkingAthListBaseViewModel
+        where TListViewModel : SmartParkListBaseViewModel
         where TKeyType : struct
         where TDto : BaseDto<TKeyType>
     {

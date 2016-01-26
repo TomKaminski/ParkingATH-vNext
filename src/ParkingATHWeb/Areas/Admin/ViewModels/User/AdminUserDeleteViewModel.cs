@@ -2,7 +2,7 @@
 
 namespace ParkingATHWeb.Areas.Admin.ViewModels.User
 {
-    public class AdminUserDeleteViewModel:ParkingAthDeleteBaseViewModel<int>
+    public class AdminUserDeleteViewModel:SmartParkDeleteBaseViewModel<int>
     {
         public string Name { get; set; }
         public string LastName { get; set; }

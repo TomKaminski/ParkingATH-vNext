@@ -4,7 +4,7 @@ using ParkingATHWeb.ViewModels.Base;
 
 namespace ParkingATHWeb.Areas.Portal.ViewModels.Account
 {
-    public class RegisterViewModel : ParkingAthBaseViewModel
+    public class RegisterViewModel : SmartParkBaseViewModel
     {
         [EmailAddress]
         [Required(ErrorMessageResourceType = typeof(ViewModelResources), ErrorMessageResourceName = "Common_RequiredError")]

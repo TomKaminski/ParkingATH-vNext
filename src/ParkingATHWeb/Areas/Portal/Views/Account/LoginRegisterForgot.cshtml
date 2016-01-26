@@ -4,8 +4,10 @@
     Layout = "_LayoutClear";
 }
 <div class="container valign main-container">
-    <p class="center-align margin-bottom-50"><img src="~/images/logo_standard.png" /></p>
-    <div class="row valign" style="height: 100%">
+    <p class="center-align margin-bottom-50">
+        <a asp-action="Index" asp-controller="Home" asp-route-area="Portal"><img src="~/images/logo_standard.png" /></a>
+    </p>
+    <div class="row" style="height: 100%">
         <div class="col s12 offset-s0 offset-l1 l10 text-blue darken-2" style="height: 100%">
             <div class="card" style="height: 100%">
                 <div id="fback" class="hide-on-med-and-down">
@@ -37,10 +39,10 @@
                             <div class="register-content">
                                 <div class="row">
                                     <div class="col s10 offset-s1 center-align margin-top-50">
-                                        <h2 class="valign-wrapper" style="justify-content: center">
-                                            <img src="~/images/lock_logo.png" class="valign"/>REJESTRACJA
+                                        <h2 class="valign-wrapper" style="justify-content: center; margin-bottom: 10px;">
+                                            <img src="~/images/lock_logo.png" class="valign" />REJESTRACJA
                                         </h2>
-                                        <h4 class="smart-grey">Jeżeli nie posiadasz jeszcze konta, zarejestruj się w kilku szybkich krokach!</h4>
+                                        <h5 class="smart-grey">Jeżeli nie posiadasz jeszcze konta, zarejestruj się w kilku szybkich krokach!</h5>
                                         @await Html.PartialAsync("_Register", Model.RegisterViewModel)
 
                                     </div>
@@ -51,10 +53,10 @@
                             <div class="login-content">
                                 <div class="row">
                                     <div class="col s10 offset-s1 center-align margin-top-50">
-                                        <h2 class="valign-wrapper" style="justify-content: center">
-                                            <img class="valign" src="~/images/lock_logo.png"/>LOGOWANIE
+                                        <h2 class="valign-wrapper" style="justify-content: center; margin-bottom:10px">
+                                            <img class="valign" src="~/images/lock_logo.png" />LOGOWANIE
                                         </h2>
-                                        <h4 class="smart-grey margin-bottom-50">Zaloguj się do swojego konta w systemie, aby zarządzać swoimi wyjazdami:</h4>
+                                        <h5 class="smart-grey margin-bottom-50">Zaloguj się do swojego konta w systemie, aby zarządzać swoimi wyjazdami:</h5>
                                         @await Html.PartialAsync("_Login", Model.LoginViewModel)
                                     </div>
                                 </div>
@@ -64,10 +66,10 @@
                             <div class="forgot-content">
                                 <div class="row">
                                     <div class="col s10 offset-s1 center-align margin-top-50">
-                                        <h2 class="valign-wrapper" style="justify-content: center">
+                                        <h2 class="valign-wrapper" style="justify-content: center; margin-bottom: 10px;">
                                             <img class="valign" src="~/images/lock_logo.png" />PRZYPOMNIJ HASŁO
                                         </h2>
-                                        <h4 class="smart-grey margin-bottom-50">Jeżeli nie pamiętasz swojego hasła, podaj swój email, a my pomożemy Ci odzyskać utracone hasło:</h4>
+                                        <h5 class="smart-grey margin-bottom-50">Jeżeli nie pamiętasz swojego hasła, podaj swój email, a my pomożemy Ci odzyskać utracone hasło:</h5>
                                         @await Html.PartialAsync("_ForgotPassword", Model.ForgotPasswordViewModel)
                                     </div>
                                 </div>
@@ -82,5 +84,9 @@
 
 @section styles{
     <link href="~/css/portal/account/loginregisterforgot.css" rel="stylesheet" />
+}
+
+@section scripts{
+    <script src="~/js/portal/account/loginregisterforgot.js"></script>
 }
 

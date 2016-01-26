@@ -2,7 +2,7 @@
 
 namespace ParkingATHWeb.Areas.Admin.ViewModels.PriceTreshold
 {
-    public class AdminPriceTresholdListItemViewModel : ParkingAthListBaseViewModel
+    public class AdminPriceTresholdListItemViewModel : SmartParkListBaseViewModel
     {
         public int Id { get; set; }
         public int MinCharges { get; set; }

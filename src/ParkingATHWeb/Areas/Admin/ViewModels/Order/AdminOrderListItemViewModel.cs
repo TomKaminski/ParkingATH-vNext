@@ -4,7 +4,7 @@ using ParkingATHWeb.ViewModels.Base;
 
 namespace ParkingATHWeb.Areas.Admin.ViewModels.Order
 {
-    public class AdminOrderListItemViewModel : ParkingAthListBaseViewModel
+    public class AdminOrderListItemViewModel : SmartParkListBaseViewModel
     {
         public long Id { get; set; }
         public decimal Price { get; set; }

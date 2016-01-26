@@ -2,60 +2,176 @@
 // 1 - register
 // 2 - forgot
 
-$(document).ready(function () {
-    $(".main-container > .row").height($('.register-content > .row').height() + 50);
+function showNotifications(model) {
+    for (var i = 0; i < model.SuccessNotifications.length; i++) {
+        var $toastContent = $('<span style="color:white;background:green">' + model.SuccessNotifications[i] + '</span>');
+        Materialize.toast($toastContent, 8000);
+    }
+    for (var j = 0; j < model.ValidationErrors.length; j++) {
+        var $toastContentError = $('<span>' + model.ValidationErrors[j] + '</span>');
+        Materialize.toast($toastContentError, 8000);
+    }
+}
 
-    $(window).resize(function () {
-        $(".main-container > .row").height($('.register-content > .row').height() + 50);
+function setStatus() {
+    var attrData = getCurrentStatus();
+    var windowWidth = $(window).width();
+    if (windowWidth > 992 && attrData === 0) {
+        $('.card-content.switcher-box').css("margin-left", "50%");
+    } else if (windowWidth <= 992 && attrData === 0) {
+        $('.card-content.switcher-box').css("margin-left", "0%");
+    }
+}
+
+function getCurrentStatus() {
+    return parseInt($('#switcher-box').attr('data-status'));
+}
+
+function clearFormErrors() {
+    $('#register-form, #login-form, #forgot-form').each(function () {
+        $(this).find('input[type=text], input[type=password]').each(function () {
+            $(this).removeClass('input-validation-error').removeClass('valid');
+            $(this).val(null);
+        });
+        $(this).find('span.field-validation-error').each(function () {
+            $(this).remove();
+        });
+        $(this).find('label').each(function () {
+            $(this).removeClass('active');
+        });
     });
+}
 
+function clearValues() {
+    $('#register-form, #login-form, #forgot-form').each(function () {
+        $(this).find('input[type=text], input[type=password]').each(function () {
+            $(this).val(null);
+        });
+        $(this).find('label').each(function () {
+            $(this).removeClass('active');
+        });
+    });
+}
+
+function setupBeforeSubmit() {
+    $('.preloader-wrapper').show();
+    resizeContainer();
+    $('.smart-move-btn, .smart-form-btn').addClass('disabled');
+}
+
+function setupAfterSubmit() {
+    $('.preloader-wrapper').hide();
+    $('.smart-move-btn, .smart-form-btn').removeClass('disabled');
+}
+
+function beforeSubmit() {
+    setupBeforeSubmit();
+}
+
+function afterSuccess(data) {
+    if (data.IsValid) {
+        clearValues();
+    }
+    setupAfterSubmit(data);
+    showNotifications(data);
+}
+
+function afterSuccessLogin(data) {
+    if (data.IsValid) {
+        clearValues();
+    }
+    setupAfterSubmit(data);
+    if (data.IsValid === true) {
+        window.location.replace(data.ReturnUrl);
+    } else {
+        showNotifications(data);
+    }
+}
+
+function onError() {
+    $('.preloader-wrapper').hide();
+    $('.smart-move-btn, .smart-form-btn').removeClass('disabled');
+    var $toastContentError = $('<span>Wystąpił błąd serwera - spróbuj później.</span>');
+    Materialize.toast($toastContentError, 8000);
+}
+
+function checkIfNotDisabled(button) {
+    return $(button).hasClass('disabled') ? false : true;
+}
+
+function resizeContainer() {
+    $(".main-container > .row").height($('.register-content > .row').height() + 80);
+}
+
+$(document).ready(function () {
+    $('.preloader-wrapper').hide();
+    resizeContainer();
+    $(window).resize(function () {
+        resizeContainer();
+    });
 
     $('#moveRegister, #moveRegister2').click(function () {
         clearFormErrors();
-        $('#switcher-box').attr('data-status', 1);
-        $('.card-content.switcher-box').animate({
-            'marginLeft': "0" //moves left
-        });
+        if (checkIfNotDisabled(this)) {
+            $('#switcher-box').attr('data-status', 1);
+            $('.card-content.switcher-box').animate({
+                'marginLeft': "0" 
+            });
 
-        $('.inner-box').animate({
-            'marginLeft': "100%" //moves right
-        });
+            $('.inner-box').animate({
+                'marginLeft': "100%" 
+            });
+        }
+    });
+
+    $('.smart-form-btn').click(function (e) {
+        e.preventDefault();
+        if ($(this).hasClass('disabled')) {
+            return;
+        } else {
+            var formId = $(this).data('form-id');
+            $('#'+formId).submit();
+        }
     });
 
     $('#moveLogin, #moveLogin2').click(function () {
         clearFormErrors();
-        $('#switcher-box').attr('data-status', 0);
-        if ($(window).width() <= 992) {
-            $('.card-content.switcher-box').animate({
-                'marginLeft': "0%" //moves right
-            });
-        } else {
-            $('.card-content.switcher-box').animate({
-                'marginLeft': "50%" //moves right
+        if (checkIfNotDisabled(this)) {
+            $('#switcher-box').attr('data-status', 0);
+            if ($(window).width() <= 992) {
+                $('.card-content.switcher-box').animate({
+                    'marginLeft': "0%"
+                });
+            } else {
+                $('.card-content.switcher-box').animate({
+                    'marginLeft': "50%"
+                });
+            }
+
+            $('.inner-box').animate({
+                'marginLeft': "0"
             });
         }
-
-        $('.inner-box').animate({
-            'marginLeft': "0" //moves right
-        });
     });
 
     $('#moveForgot').click(function () {
         clearFormErrors();
-        $('#switcher-box').attr('data-status', 2);
-        if ($(window).width() <= 992) {
-            $('.card-content.switcher-box').animate({
-                'marginLeft': "0" //moves right
-            });
-        } else {
-            $('.card-content.switcher-box').animate({
-                'marginLeft': "50%" //moves right
+        if (checkIfNotDisabled(this)) {
+            $('#switcher-box').attr('data-status', 2);
+            if ($(window).width() <= 992) {
+                $('.card-content.switcher-box').animate({
+                    'marginLeft': "0" 
+                });
+            } else {
+                $('.card-content.switcher-box').animate({
+                    'marginLeft': "50%" 
+                });
+            }
+
+            $('.inner-box').animate({
+                'marginLeft': "-100%" 
             });
         }
-
-        $('.inner-box').animate({
-            'marginLeft': "-100%" //moves right
-        });
     });
 
     setStatus();
@@ -63,50 +179,21 @@ $(document).ready(function () {
         setStatus();
     });
 
-    function setStatus() {
-        var attrData = getCurrentStatus();
-        var windowWidth = $(window).width();
-        if (windowWidth > 992 && attrData === 0) {
-            $('.card-content.switcher-box').css("margin-left", "50%");
-        } else if (windowWidth <= 992 && attrData === 0) {
-            $('.card-content.switcher-box').css("margin-left", "0%");
-        }
+    var options = {
+        beforeSubmit: beforeSubmit,
+        success: afterSuccess,
+        error: onError
     }
 
-    function getCurrentStatus() {
-        return parseInt($('#switcher-box').attr('data-status'));
-    }
+    $('#register-form').ajaxForm(options);
 
-    $('#register-form').ajaxForm(function (data) {
-        alert(data);
+    $('#login-form').ajaxForm({
+        beforeSubmit: beforeSubmit,
+        success: afterSuccessLogin,
+        error: onError
     });
 
-    $('#login-form').ajaxForm(function (data) {
-        console.log(data);
-        if (data.IsValid === true) {
-            window.location.replace(data.ReturnUrl);
-        } else {
-            alert(data.ValidationErrors);
-        }
-    });
+    $('#forgot-form').ajaxForm(options);
 
-    $('#forgot-form').ajaxForm(function (data) {
-        console.log(data);
-        alert(data);
-    });
 
-    function clearFormErrors() {
-        $('#register-form, #login-form, #forgot-form').each(function () {
-            $(this).find('input[type=text], input[type=password]').each(function () {
-                $(this).removeClass('input-validation-error').removeClass('valid');
-                $(this).val(null);
-            });
-            $(this).find('span.field-validation-error').each(function () {
-                $(this).remove();
-            });
-            $(this).find('label').each(function () {
-                $(this).removeClass('active');
-            });
-        });
-    }
 });

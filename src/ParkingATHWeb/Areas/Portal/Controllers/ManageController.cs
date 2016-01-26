@@ -72,7 +72,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                 IdentitySignout();
                 return RedirectToAction("Index", "Home");
             }
-            model.AppendBackendValidationErrors(selfDeleteResult.ValidationErrors);
+            model.AppendErrors(selfDeleteResult.ValidationErrors);
 
             ModelState.AddModelError("", selfDeleteResult.ValidationErrors.First());
             return View(model);
@@ -97,15 +97,13 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                 var resetPasswordResult = await _userService.ResetPasswordAsync(model.Token, model.Password);
                 if (resetPasswordResult.IsValid)
                 {
-
-                    return RedirectToAction("Index", "Home");
+                    model.AppendNotifications("Hasło zostało zmienione pomyślnie.");
+                    return Json(model);
                 }
-                //TODO: Fajne noty z błędem/błędami systemowymi!!!!!!!!!!!! :D
-                model.AppendBackendValidationErrors(resetPasswordResult.ValidationErrors);
-
-                ModelState.AddModelError("", resetPasswordResult.ValidationErrors.First());
+                model.AppendErrors(resetPasswordResult.ValidationErrors);
             }
-            return View(model);
+            model.AppendErrors(GetModelStateErrors(ModelState));
+            return Json(model);
         }
 
         [Route("ZmianaHasla")]
@@ -127,7 +125,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                     return RedirectToAction("Index", "Manage");
                 }
                 //TODO: Fajne noty z błędem/błędami systemowymi!!!!!!!!!!!! :D
-                model.AppendBackendValidationErrors(changePasswordResult.ValidationErrors);
+                model.AppendErrors(changePasswordResult.ValidationErrors);
 
                 ModelState.AddModelError("", changePasswordResult.ValidationErrors.First());
             }
@@ -154,7 +152,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                     return RedirectToAction("Login", "Account");
                 }
                 //TODO: Fajne noty z błędem/błędami systemowymi!!!!!!!!!!!! :D
-                model.AppendBackendValidationErrors(resetPasswordResult.ValidationErrors);
+                model.AppendErrors(resetPasswordResult.ValidationErrors);
 
                 ModelState.AddModelError("", resetPasswordResult.ValidationErrors.First());
             }
@@ -181,7 +179,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                     return RedirectToAction("Index", "Manage");
                 }
                 //TODO: Fajne noty z błędem/błędami systemowymi!!!!!!!!!!!! :D
-                model.AppendBackendValidationErrors(sendChargesResult.ValidationErrors);
+                model.AppendErrors(sendChargesResult.ValidationErrors);
 
                 ModelState.AddModelError("", sendChargesResult.ValidationErrors.First());
             }
@@ -213,7 +211,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                 }
 
                 //TODO: Fajne noty z błędem/błędami systemowymi!!!!!!!!!!!! :D
-                model.AppendBackendValidationErrors(editUserResult.ValidationErrors);
+                model.AppendErrors(editUserResult.ValidationErrors);
                 ModelState.AddModelError("", editUserResult.ValidationErrors.First());
             }
             return View(model);

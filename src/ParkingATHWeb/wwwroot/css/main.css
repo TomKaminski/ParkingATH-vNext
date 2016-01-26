@@ -66,6 +66,10 @@ p {
 .system-overlay {
   background-color: rgba(38, 163, 217, 0.55); }
 
+.disabled {
+  color: grey !important;
+  cursor: default !important; }
+
 .system-overlay, .home-overlay {
   height: 100%;
   left: 0;

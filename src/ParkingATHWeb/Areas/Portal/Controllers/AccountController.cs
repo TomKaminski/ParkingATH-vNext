@@ -75,10 +75,10 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                 if (userLoginResult.IsValid)
                 {
                     await IdentitySignin(userLoginResult.Result, model.RemeberMe);
-                    return Json(model);
                 }
-                model.AppendBackendValidationErrors(userLoginResult.ValidationErrors);
+                model.AppendErrors(userLoginResult.ValidationErrors);
             }
+            model.AppendErrors(GetModelStateErrors(ModelState));
             return Json(model);
         }
 
@@ -105,14 +105,11 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                 if (userCreateResult.IsValid)
                 {
                     await _messageService.SendMessageAsync(EmailType.Register, userCreateResult.Result, GetAppBaseUrl());
-                    return Json(true);
+                    model.AppendNotifications("Twoje konto zostało utworzone pomyślnie, czas się zalogować! :)");
                 }
-                //TODO: Fajne noty z błędem/błędami systemowymi!!!!!!!!!!!! :D
-                model.AppendBackendValidationErrors(userCreateResult.ValidationErrors);
-
-                ModelState.AddModelError("", userCreateResult.ValidationErrors.First());
-                return Json(model);
+                model.AppendErrors(userCreateResult.ValidationErrors);
             }
+            model.AppendErrors(GetModelStateErrors(ModelState));
             return Json(model);
         }
 
@@ -137,9 +134,11 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                     var changePasswordUrl = $"{Url.Action("RedirectFromToken", "Token", null, "http")}?id={changePasswordTokenResult.SecondResult}";
                     await _messageService.SendMessageAsync(EmailType.ResetPassword, changePasswordTokenResult.Result, GetAppBaseUrl(),
                         new Dictionary<string, string> { { "ChangePasswordLink", changePasswordUrl } });
-                    return Json(true);
-                }   
+                    model.AppendNotifications("Na podany adres email zostały wysłane dalsze instrukcje.");
+                }
+                model.AppendErrors(changePasswordTokenResult.ValidationErrors);
             }
+            model.AppendErrors(GetModelStateErrors(ModelState));
             return Json(model);
         }
 

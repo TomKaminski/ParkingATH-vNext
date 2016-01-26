@@ -3,7 +3,7 @@ using ParkingATHWeb.ViewModels.Base;
 
 namespace ParkingATHWeb.Areas.Portal.ViewModels.Payment
 {
-    public class PaymentNotLoggedInViewModel : ParkingAthBaseViewModel
+    public class PaymentNotLoggedInViewModel : SmartParkBaseViewModel
     {
         [Required]
         public string Name { get; set; }

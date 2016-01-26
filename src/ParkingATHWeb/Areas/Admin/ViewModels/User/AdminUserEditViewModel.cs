@@ -4,7 +4,7 @@ using ParkingATHWeb.ViewModels.Base;
 
 namespace ParkingATHWeb.Areas.Admin.ViewModels.User
 {
-    public class AdminUserEditViewModel:ParkingAthEditBaseViewModel<int>
+    public class AdminUserEditViewModel:SmartParkEditBaseViewModel<int>
     {
         [Required(ErrorMessageResourceType = typeof(ViewModelResources), ErrorMessageResourceName = "Common_RequiredError")]
         [DisplayName("Imię")]

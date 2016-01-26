@@ -2,7 +2,7 @@
 
 namespace ParkingATHWeb.ViewModels.Base
 {
-    public class ParkingAthEditBaseViewModel<T> : ParkingAthBaseViewModel
+    public class SmartParkDeleteBaseViewModel<T> : SmartParkBaseViewModel
         where T : struct
     {
         [Required(ErrorMessageResourceType = typeof(ViewModelResources), ErrorMessageResourceName = "Common_RequiredError")]

@@ -2,7 +2,7 @@
 
 namespace ParkingATHWeb.Areas.Admin.ViewModels.User
 {
-    public class AdminUserListItemViewModel: ParkingAthListBaseViewModel
+    public class AdminUserListItemViewModel: SmartParkListBaseViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

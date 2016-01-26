@@ -5,6 +5,7 @@ using Microsoft.AspNet.Authentication.Cookies;
 using Microsoft.AspNet.Http.Authentication;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Filters;
+using Microsoft.AspNet.Mvc.ModelBinding;
 using ParkingATHWeb.Contracts.Common;
 using ParkingATHWeb.Contracts.DTO.User;
 using ParkingATHWeb.Models;
@@ -59,14 +60,23 @@ namespace ParkingATHWeb.Areas.Portal.Controllers.Base
             return Url.Action("Index", "Home", new { area = "Portal" }, "http");
         }
 
-        protected IActionResult ReturnModelWithError<TModel, TServiceResult>(TModel model, TServiceResult serviceResult)
-            where TModel : ParkingAthBaseViewModel
+        protected IActionResult ReturnModelWithError<TModel, TServiceResult>(TModel model, TServiceResult serviceResult, ModelStateDictionary modelState)
+            where TModel : SmartParkBaseViewModel
             where TServiceResult : ServiceResult
         {
-            //TODO: Fajne noty z błędem/błędami systemowymi!!!!!!!!!!!! :D
-            model.AppendBackendValidationErrors(serviceResult.ValidationErrors);
-            ModelState.AddModelError("", serviceResult.ValidationErrors.First());
+            model.AppendErrors(serviceResult.ValidationErrors);
+            model.AppendErrors(GetModelStateErrors(modelState));
             return View(model);
+        }
+
+        protected IEnumerable<string> GetModelStateErrors(ModelStateDictionary modelState)
+        {
+            var modelStateErrors = new List<string>();
+            foreach (var mdl in modelState)
+            {
+                modelStateErrors.AddRange(mdl.Value.Errors.Select(error => error.ErrorMessage));
+            }
+            return modelStateErrors;
         }
     }
 }

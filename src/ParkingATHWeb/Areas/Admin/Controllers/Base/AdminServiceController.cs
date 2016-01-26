@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Mvc.ModelBinding;
 using ParkingATHWeb.Contracts.Common;
 using ParkingATHWeb.Contracts.Services.Base;
 using ParkingATHWeb.ViewModels.Base;
@@ -9,11 +10,11 @@ namespace ParkingATHWeb.Areas.Admin.Controllers.Base
 {
     [Route("[area]/[controller]/[action]")]
     public class AdminServiceController<TListViewModel, TCreateViewModel, TEditViewModel, TDeleteViewModel, TDto, TKeyType> : AdminServiceBaseController<TListViewModel, TDto, TKeyType>
-        where TListViewModel : ParkingAthListBaseViewModel
-        where TCreateViewModel : ParkingAthCreateBaseViewModel
-        where TEditViewModel : ParkingAthEditBaseViewModel<TKeyType>
+        where TListViewModel : SmartParkListBaseViewModel
+        where TCreateViewModel : SmartParkCreateBaseViewModel
+        where TEditViewModel : SmartParkEditBaseViewModel<TKeyType>
         where TKeyType : struct
-        where TDeleteViewModel : ParkingAthDeleteBaseViewModel<TKeyType>
+        where TDeleteViewModel : SmartParkDeleteBaseViewModel<TKeyType>
         where TDto : BaseDto<TKeyType>
     {
         private readonly IEntityService<TDto, TKeyType> _entityService;
@@ -34,7 +35,7 @@ namespace ParkingATHWeb.Areas.Admin.Controllers.Base
         public virtual async Task<IActionResult> Create(TCreateViewModel model)
         {
             var serviceResult = await _entityService.CreateAsync(Mapper.Map<TDto>(model));
-            return ReturnWithModelBase(model, serviceResult);
+            return ReturnWithModelBase(model, serviceResult, ModelState);
         }
 
         [HttpGet]
@@ -50,7 +51,7 @@ namespace ParkingATHWeb.Areas.Admin.Controllers.Base
         public virtual async Task<IActionResult> Delete(TDeleteViewModel model)
         {
             var serviceResult = await _entityService.DeleteAsync(model.Id);
-            return ReturnWithModelBase(model, serviceResult);
+            return ReturnWithModelBase(model, serviceResult, ModelState);
         }
 
         [HttpGet]
@@ -66,15 +67,15 @@ namespace ParkingATHWeb.Areas.Admin.Controllers.Base
         public virtual async Task<IActionResult> Edit(TEditViewModel model)
         {
             var serviceResult = await _entityService.EditAsync(Mapper.Map<TDto>(model));
-            return ReturnWithModelBase(model, serviceResult);
+            return ReturnWithModelBase(model, serviceResult, ModelState);
         }
 
-        protected IActionResult ReturnWithModelBase<TBaseModel>(TBaseModel model, ServiceResult serviceResult, string returnActionName = "List")
-            where TBaseModel : ParkingAthBaseViewModel
+        protected IActionResult ReturnWithModelBase<TBaseModel>(TBaseModel model, ServiceResult serviceResult, ModelStateDictionary modelstate, string returnActionName = "List")
+            where TBaseModel : SmartParkBaseViewModel
         {
             return serviceResult.IsValid
                 ? RedirectToAction(returnActionName)
-                : ReturnModelWithError(model, serviceResult);
+                : ReturnModelWithError(model, serviceResult, modelstate);
         }
     }
 }

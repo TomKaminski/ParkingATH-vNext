@@ -4,7 +4,7 @@ using ParkingATHWeb.ViewModels.Base;
 
 namespace ParkingATHWeb.Areas.Admin.ViewModels.Message
 {
-    public class AdminMessageListItemViewModel : ParkingAthListBaseViewModel
+    public class AdminMessageListItemViewModel : SmartParkListBaseViewModel
     {
         public Guid Id { get; set; }
         public string To { get; set; }

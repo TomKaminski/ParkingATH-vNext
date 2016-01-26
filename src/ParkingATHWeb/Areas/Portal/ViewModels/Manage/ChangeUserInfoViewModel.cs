@@ -3,7 +3,7 @@ using ParkingATHWeb.ViewModels.Base;
 
 namespace ParkingATHWeb.Areas.Portal.ViewModels.Manage
 {
-    public class ChangeUserInfoViewModel : ParkingAthBaseViewModel
+    public class ChangeUserInfoViewModel : SmartParkBaseViewModel
     {
         [Required(ErrorMessageResourceType = typeof(ViewModelResources), ErrorMessageResourceName = "Common_RequiredError")]
         public string Name { get; set; }
