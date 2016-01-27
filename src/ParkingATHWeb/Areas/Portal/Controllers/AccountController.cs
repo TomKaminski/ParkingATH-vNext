@@ -79,6 +79,10 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                 model.AppendErrors(userLoginResult.ValidationErrors);
             }
             model.AppendErrors(GetModelStateErrors(ModelState));
+            if (model.ReturnUrl == null)
+            {
+                model.ReturnUrl = Url.Action("Index", "Home", new {area = "Portal"});
+            }
             return Json(model);
         }
 

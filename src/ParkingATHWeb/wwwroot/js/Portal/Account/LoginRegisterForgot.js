@@ -39,8 +39,8 @@ $(document).ready(function () {
     });
 
     $('#moveRegister, #moveRegister2').click(function () {
-        smartAjax.clearFormErrors(getCurrentForm());
         if (smartAjax.checkIfNotDisabled(this)) {
+            smartAjax.clearFormErrors(getCurrentForm());
             setCurrentForm("register-form");
             smartAjax.setCurrentForm(getCurrentForm());
             $('.card-content.switcher-box').animate({
@@ -54,8 +54,8 @@ $(document).ready(function () {
     });
 
     $('#moveLogin, #moveLogin2').click(function () {
-        smartAjax.clearFormErrors(getCurrentForm());
         if (smartAjax.checkIfNotDisabled(this)) {
+            smartAjax.clearFormErrors(getCurrentForm());
             setCurrentForm("login-form");
             smartAjax.setCurrentForm(getCurrentForm());
             if ($(window).width() <= 992) {
@@ -74,8 +74,8 @@ $(document).ready(function () {
     });
 
     $('#moveForgot').click(function () {
-        smartAjax.clearFormErrors(getCurrentForm());
         if (smartAjax.checkIfNotDisabled(this)) {
+            smartAjax.clearFormErrors(getCurrentForm());
             setCurrentForm("forgot-form");
             smartAjax.setCurrentForm(getCurrentForm());
             if ($(window).width() <= 992) {
