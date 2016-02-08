@@ -1,15 +1,15 @@
 ﻿function setStatus() {
     var attrData = getCurrentForm();
     var windowWidth = $(window).width();
-    if (windowWidth > 992 && attrData === "login-form") {
+    if (windowWidth > 992 && (attrData === "login-form" || attrData === "forgot-form")) {
         $('.card-content.switcher-box').css("margin-left", "50%");
-    } else if (windowWidth <= 992 && attrData === "login-form") {
+    } else if (windowWidth <= 992 && (attrData === "login-form" || attrData === "forgot-form")) {
         $('.card-content.switcher-box').css("margin-left", "0%");
     }
 }
 
 function getCurrentForm() {
-    return $('#switcher-box').attr('data-status');
+    return $('#switcher-box').attr('data-current-form');
 }
 
 function setCurrentForm(formId) {
@@ -32,17 +32,48 @@ function resizeContainer() {
     $(".main-container > .row").height($('.register-content > .row').height() + 80);
 }
 
+
+function manageTabIndexAttr() {
+    var currentForm = getCurrentForm();
+    var selector = resolverSelectorForTabIndex(currentForm);
+    $(selector).find('button, a, input').each(function () {
+        $(this).attr('tabIndex', '-1');
+    });
+    $('#'+currentForm).find('button, a, input').each(function () {
+        $(this).removeAttr('tabindex');
+    });
+}
+
+function resolverSelectorForTabIndex(currentForm) {
+    switch (currentForm) {
+        case "login-form":
+            {
+                return "#register-form, #forgot-form";
+            }
+        case "register-form":
+            {
+                return "#login-form, #forgot-form";
+            }
+        case "forgot-form":
+            {
+                return "#register-form, #login-form";
+            }
+    };
+}
+
 $(document).ready(function () {
     resizeContainer();
     $(window).resize(function () {
         resizeContainer();
     });
+    manageTabIndexAttr();
 
     $('#moveRegister, #moveRegister2').click(function () {
         if (smartAjax.checkIfNotDisabled(this)) {
             smartAjax.clearFormErrors(getCurrentForm());
             setCurrentForm("register-form");
             smartAjax.setCurrentForm(getCurrentForm());
+            
             $('.card-content.switcher-box').animate({
                 'marginLeft': "0"
             });
@@ -50,6 +81,7 @@ $(document).ready(function () {
             $('.inner-box').animate({
                 'marginLeft': "100%"
             });
+            manageTabIndexAttr();
         }
     });
 
@@ -70,6 +102,7 @@ $(document).ready(function () {
             $('.inner-box').animate({
                 'marginLeft': "0"
             });
+            manageTabIndexAttr();
         }
     });
 
@@ -90,6 +123,7 @@ $(document).ready(function () {
             $('.inner-box').animate({
                 'marginLeft': "-100%"
             });
+            manageTabIndexAttr();
         }
     });
 
