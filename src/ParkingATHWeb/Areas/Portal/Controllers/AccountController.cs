@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
@@ -10,10 +9,8 @@ using AutoMapper;
 using Microsoft.AspNet.Authentication.Cookies;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Http.Authentication;
-using ParkingATHWeb.ApiModels.Base;
-using ParkingATHWeb.Models;
 using ParkingATHWeb.Areas.Portal.Controllers.Base;
-using ParkingATHWeb.Contracts.DTO;
+using ParkingATHWeb.Contracts.DTO.UserPreferences;
 using ParkingATHWeb.Shared.Enums;
 
 namespace ParkingATHWeb.Areas.Portal.Controllers
@@ -74,7 +71,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                 var userLoginResult = await _userService.LoginAsync(model.Email, model.Password);
                 if (userLoginResult.IsValid)
                 {
-                    await IdentitySignin(userLoginResult.Result, model.RemeberMe);
+                    await IdentitySignin(userLoginResult.Result, userLoginResult.SecondResult, model.RememberMe);
                 }
                 model.AppendErrors(userLoginResult.ValidationErrors);
             }
@@ -146,14 +143,15 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
             return Json(model);
         }
 
-        private async Task IdentitySignin(UserBaseDto user, bool isPersistent = false)
+        private async Task IdentitySignin(UserBaseDto user, UserPreferencesDto userPreferences, bool isPersistent = false)
         {
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Email),
                 new Claim(ClaimTypes.Name, user.Name),
                 new Claim("isAdmin",user.IsAdmin.ToString()),
-                new Claim("LastName",user.LastName)
+                new Claim("LastName",user.LastName),
+                new Claim("SidebarShrinked",userPreferences.ShrinkedSidebar.ToString())
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

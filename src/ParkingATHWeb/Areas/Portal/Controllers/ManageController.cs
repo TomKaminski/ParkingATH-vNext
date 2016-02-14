@@ -6,6 +6,7 @@ using Microsoft.AspNet.Mvc;
 using ParkingATHWeb.Contracts.Services;
 using Microsoft.AspNet.Authorization;
 using ParkingATHWeb.Areas.Portal.Controllers.Base;
+using ParkingATHWeb.Areas.Portal.ViewModels.Account;
 using ParkingATHWeb.Areas.Portal.ViewModels.Manage;
 using ParkingATHWeb.Areas.Portal.ViewModels.User;
 using ParkingATHWeb.Contracts.DTO.User;
@@ -20,18 +21,20 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
     {
         private readonly IUserService _userService;
         private readonly IMessageService _messageService;
+        private readonly IUserPreferencesService _userPreferencesService;
 
-        public ManageController(IUserService userService, IMessageService messageService)
+        public ManageController(IUserService userService, IMessageService messageService, IUserPreferencesService userPreferencesService)
         {
             _userService = userService;
             _messageService = messageService;
+            _userPreferencesService = userPreferencesService;
         }
 
         [Route("")]
         public async Task<IActionResult> Index()
         {
             var userModel = Mapper.Map<UserBaseViewModel>((await _userService.GetByEmailAsync(CurrentUser.Email)).Result);
-            return View(userModel);
+            return PartialView(userModel);
         }
 
         [Route("UsuwanieKonta")]
@@ -58,7 +61,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         [Route("PotwierdzenieUsunieciaKonta")]
         public IActionResult SelfDeleteFinish(string id)
         {
-            return View(new SelfDeleteViewModel {Token = id});
+            return View(new SelfDeleteViewModel { Token = id });
         }
 
         [Route("PotwierdzenieUsunieciaKonta")]
@@ -172,7 +175,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         {
             if (ModelState.IsValid)
             {
-                var sendChargesResult =await _userService.TransferCharges(CurrentUser.Email, model.RecieverEmail, model.AmountOfCharges, model.Password);
+                var sendChargesResult = await _userService.TransferCharges(CurrentUser.Email, model.RecieverEmail, model.AmountOfCharges, model.Password);
 
                 if (sendChargesResult.IsValid)
                 {
@@ -206,7 +209,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                 var editUserResult = await _userService.EditStudentInitialsAsync(dto);
                 if (editUserResult.IsValid)
                 {
-                    IdentityReSignin(editUserResult.Result);
+                    IdentityReSignin(editUserResult.Result, editUserResult.SecondResult);
                     return RedirectToAction("Index", "Manage");
                 }
 
@@ -216,5 +219,26 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
             }
             return View(model);
         }
+
+        [HttpPost]
+        [Route("SaveSidebarState")]
+        public async Task<IActionResult> SaveSidebarState([FromBody]SidebarStateViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var userFullGetResult = await _userService.GetByEmailWithPreferencesAsync(CurrentUser.Email);
+                if (userFullGetResult.IsValid)
+                {
+                    userFullGetResult.SecondResult.ShrinkedSidebar = model.SidebarShrinked;
+                    await _userPreferencesService.EditAsync(userFullGetResult.SecondResult);
+                    IdentityReSignin(userFullGetResult.Result,userFullGetResult.SecondResult);
+                    return Json(model);
+                }
+                model.AppendErrors(userFullGetResult.ValidationErrors);
+            }
+            model.AppendErrors(GetModelStateErrors(ModelState));
+            return Json(false);
+        }
     }
+
 }

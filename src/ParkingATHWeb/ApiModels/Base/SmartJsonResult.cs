@@ -53,12 +53,12 @@ namespace ParkingATHWeb.ApiModels.Base
             return new SmartJsonResult<T>(errors);
         }
 
-        public new static SmartJsonResult<T> Failure(IEnumerable<string> validationErrors, T result)
+        public static SmartJsonResult<T> Failure(IEnumerable<string> validationErrors, T result)
         {
             return new SmartJsonResult<T>(result, validationErrors);
         }
 
-        public new static SmartJsonResult<T> Failure(T result)
+        public static SmartJsonResult<T> Failure(T result)
         {
             return new SmartJsonResult<T>(result);
         }

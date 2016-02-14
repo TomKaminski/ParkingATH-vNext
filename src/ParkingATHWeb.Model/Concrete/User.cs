@@ -29,13 +29,16 @@ namespace ParkingATHWeb.Model.Concrete
         public DateTime? LockedTo { get; set; }
 
 
-
+        public int UserPreferencesId { get; set; }
         public long? PasswordChangeTokenId { get; set; }
         public long? SelfDeleteTokenId { get; set; }
 
         public virtual Token PasswordChangeToken { get; set; }
         public virtual Token SelfDeleteToken { get; set; }
 
+        public virtual UserPreferences UserPreferences { get; set; }
+
+        public virtual HashSet<Message> UserMessages { get; set; }
         public virtual HashSet<GateUsage> GateUsages { get; set; }
         public virtual HashSet<Order> Orders { get; set; }
     }

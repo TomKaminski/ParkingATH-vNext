@@ -39,7 +39,7 @@ namespace ParkingATHWeb.Contracts.Common
             ValidationErrors = new List<string>();
         }
 
-        private ServiceResult(List<string> validationErrors):base(validationErrors)
+        protected ServiceResult(List<string> validationErrors):base(validationErrors)
         {
 
         }
@@ -70,13 +70,32 @@ namespace ParkingATHWeb.Contracts.Common
 
         protected ServiceResult(T result, T2 secondResult) : base(result)
         {
-            SecondResult = secondResult; ValidationErrors = new List<string>();
+            SecondResult = secondResult;
+            ValidationErrors = new List<string>();
+        }
+
+        protected ServiceResult(List<string> validationErrors) : base(validationErrors)
+        {
+
         }
 
         public static ServiceResult<T, T2> Success(T result, T2 secondResult)
         {
             return new ServiceResult<T, T2>(result, secondResult);
         }
+
+        public new static ServiceResult<T,T2> Failure(params string[] validationErrors)
+        {
+            var errors = new List<string>();
+            errors.AddRange(validationErrors);
+            return new ServiceResult<T,T2>(errors);
+        }
+
+        public new static ServiceResult<T, T2> Failure(List<string> validationErrors)
+        {
+            return new ServiceResult<T, T2>(validationErrors);
+        }
+
 
         public T2 SecondResult { get; set; }
     }

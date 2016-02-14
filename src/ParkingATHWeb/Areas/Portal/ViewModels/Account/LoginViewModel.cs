@@ -19,7 +19,7 @@ namespace ParkingATHWeb.Areas.Portal.ViewModels.Account
 
         [Required(ErrorMessageResourceType = typeof(ViewModelResources), ErrorMessageResourceName = "Common_RequiredError")]
         [Display(Name = "zapamiętaj mnie")]
-        public bool RemeberMe { get; set; }
+        public bool RememberMe { get; set; }
 
         public string ReturnUrl { get; set; }
     }

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
 using ParkingATHWeb.Areas.Portal.Controllers.Base;
 using ParkingATHWeb.Areas.Portal.ViewModels.Message;
@@ -8,6 +9,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
 {
     [Area("Portal")]
     [Route("[area]")]
+    [Authorize]
     public class MessageController : BaseController
     {
         private readonly IMessageService _messageService;
@@ -19,6 +21,13 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
             _tokenService = tokenService;
         }
 
+        [Route("Wiadomosci")]
+        public IActionResult Index()
+        {
+            return PartialView();
+        }
+
+        [AllowAnonymous]
         [Route("[controller]/[action]")]
         public async Task<IActionResult> Display(string id)
         {

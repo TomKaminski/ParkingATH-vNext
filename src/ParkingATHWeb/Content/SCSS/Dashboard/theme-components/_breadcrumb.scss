@@ -5,46 +5,62 @@
     Breadcrumb
 ------------------------------------------*/
 #breadcrumbs-wrapper {
-	background: $concrete;
+    background: $secondary-color-light;
 }
+
+@media (min-width:993px) {
+    #breadcrumbs-wrapper {
+        height: 129px;
+    }
+}
+
+
 h5.breadcrumbs-header {
-	font-size: 1.64rem;
-	line-height: 1.804rem;
-	margin: 1.5rem 0 0 0;
+    font-size: 1.64rem;
+    line-height: 1.804rem;
+    margin: 1.5rem 0 0 0;
 }
+
 .breadcrumbs {
-	padding: 0;
-	margin: 15px 0;
-	list-style: none;
-	> li {
-		display: inline-block;
-		+ li:before {
-			padding: 0 5px;
-			color: $color_celeste_approx;
-			content: "/\00a0";
-		}
-	}
-	a {
-		// color: $color_robins_egg_blue_approx;
-	}
-	.active {
-		font-weight: normal;
-		color: $color_mountain_mist_approx;
-	}
+    padding: 0;
+    margin: 15px 0;
+    list-style: none;
+
+    > li {
+        display: inline-block;
+        font-size:1.2rem;
+        + li:before {
+            padding: 0 5px;
+            color: $primary-color;
+            content: "/\00a0";
+        }
+    }
+    
+
+    a {
+        // color: $color_robins_egg_blue_approx;
+    }
+
+    .active {
+        font-weight: normal;
+        color: $white;
+    }
 }
+
 .breadcrumbs-title {
-	font-size: 1.5rem;
-	line-height: 1.804rem;
-	margin: 18px 0 0;
+    font-size: 1.5rem;
+    line-height: 1.804rem;
+    margin: 18px 0 0;
 }
+
 .breadcrumbs-nav {
-	margin: 8px 0 9px;
+    margin: 8px 0 9px;
 }
 
 // Breadcrumbs slash
 .breadcrumb {
-  &:before {
-    content: "\e7c3";
-    font-family: "Material-Design-Icons";
-  }
+    &:before {
+        content: "\e7c3";
+        font-family: "Material-Design-Icons";
+    }
 }

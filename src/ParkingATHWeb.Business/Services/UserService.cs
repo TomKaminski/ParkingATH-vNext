@@ -10,12 +10,14 @@ using Microsoft.Data.Entity;
 using ParkingATHWeb.Business.Services.Base;
 using ParkingATHWeb.Contracts.Common;
 using ParkingATHWeb.Contracts.DTO.User;
+using ParkingATHWeb.Contracts.DTO.UserPreferences;
 using ParkingATHWeb.Contracts.Services;
 using ParkingATHWeb.DataAccess.Common;
 using ParkingATHWeb.DataAccess.Interfaces;
 using ParkingATHWeb.Model.Concrete;
 using ParkingATHWeb.Shared.Enums;
 using ParkingATHWeb.Shared.Helpers;
+using ParkingATHWeb.Shared.PasswordHash;
 
 namespace ParkingATHWeb.Business.Services
 {
@@ -27,8 +29,9 @@ namespace ParkingATHWeb.Business.Services
         private readonly IPasswordHasher _passwordHasher;
         private readonly ITokenService _tokenService;
         private readonly ITokenRepository _tokenRepository;
+        private readonly IUserPreferencesRepository _userPreferencesRepository;
 
-        public UserService(IUserRepository repository, IUnitOfWork unitOfWork, IGateUsageRepository gateUsageRepository, IPasswordHasher passwordHasher, ITokenService tokenService, ITokenRepository tokenRepository)
+        public UserService(IUserRepository repository, IUnitOfWork unitOfWork, IGateUsageRepository gateUsageRepository, IPasswordHasher passwordHasher, ITokenService tokenService, ITokenRepository tokenRepository, IUserPreferencesRepository userPreferencesRepository)
             : base(repository, unitOfWork)
         {
             _repository = repository;
@@ -37,6 +40,7 @@ namespace ParkingATHWeb.Business.Services
             _passwordHasher = passwordHasher;
             _tokenService = tokenService;
             _tokenRepository = tokenRepository;
+            _userPreferencesRepository = userPreferencesRepository;
         }
 
         public async Task<ServiceResult<bool>> CheckHashAsync(string email, string hash)
@@ -59,20 +63,21 @@ namespace ParkingATHWeb.Business.Services
 
                 if (possibleUserExistResult == null)
                 {
-                    entity.PasswordSalt = saltHash.Salt;
-                    entity.PasswordHash = saltHash.Hash;
-                    var user = _repository.Add(Mapper.Map<User>(entity));
-                    _unitOfWork.Commit();
-                    return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(user));
+                    return CreateNewUser(entity, saltHash);
                 }
-                possibleUserExistResult.PasswordHash = saltHash.Hash;
-                possibleUserExistResult.PasswordSalt = saltHash.Salt;
-                possibleUserExistResult.IsDeleted = false;
-                _repository.Edit(Mapper.Map<User>(possibleUserExistResult));
-                _unitOfWork.Commit();
-                return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(possibleUserExistResult));
+                return UnDeleteExistingUser(possibleUserExistResult, saltHash);
             }
             return ServiceResult<UserBaseDto>.Failure("Adres email jest już zajęty");
+        }
+
+        private ServiceResult<UserBaseDto> UnDeleteExistingUser(User possibleUserExistResult, EncryptedPasswordData saltHash)
+        {
+            possibleUserExistResult.PasswordHash = saltHash.Hash;
+            possibleUserExistResult.PasswordSalt = saltHash.Salt;
+            possibleUserExistResult.IsDeleted = false;
+            _repository.Edit(Mapper.Map<User>(possibleUserExistResult));
+            _unitOfWork.Commit();
+            return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(possibleUserExistResult));
         }
 
         public ServiceResult<UserBaseDto> Create(UserBaseDto entity, string password)
@@ -84,18 +89,10 @@ namespace ParkingATHWeb.Business.Services
 
                 if (possibleUserExistResult == null)
                 {
-                    entity.PasswordSalt = saltHash.Salt;
-                    entity.PasswordHash = saltHash.Hash;
-                    var user = _repository.Add(Mapper.Map<User>(entity));
-                    _unitOfWork.Commit();
-                    return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(user));
+                    return CreateNewUser(entity, saltHash);
                 }
-                possibleUserExistResult.PasswordHash = saltHash.Hash;
-                possibleUserExistResult.PasswordSalt = saltHash.Salt;
-                possibleUserExistResult.IsDeleted = false;
-                _repository.Edit(Mapper.Map<User>(possibleUserExistResult));
-                _unitOfWork.Commit();
-                return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(possibleUserExistResult));
+                return UnDeleteExistingUser(possibleUserExistResult, saltHash);
+
             }
             return ServiceResult<UserBaseDto>.Failure("Adres email jest już zajęty");
         }
@@ -110,21 +107,14 @@ namespace ParkingATHWeb.Business.Services
 
                 if (possibleUserExistResult == null)
                 {
-                    entity.PasswordSalt = saltHash.Salt;
-                    entity.PasswordHash = saltHash.Hash;
-                    var user = _repository.Add(Mapper.Map<User>(entity));
-                    await _unitOfWork.CommitAsync();
-                    return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(user));
+                    return await CreateNewUserAsync(entity, saltHash);
                 }
-                possibleUserExistResult.PasswordHash = saltHash.Hash;
-                possibleUserExistResult.PasswordSalt = saltHash.Salt;
-                possibleUserExistResult.IsDeleted = false;
-                _repository.Edit(Mapper.Map<User>(possibleUserExistResult));
-                await _unitOfWork.CommitAsync();
-                return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(possibleUserExistResult));
+                return await UnDeleteExistingUserAsync(possibleUserExistResult, saltHash);
             }
             return ServiceResult<UserBaseDto>.Failure("Adres email jest już zajęty");
         }
+
+
 
         public async Task<ServiceResult<UserBaseDto>> CreateAsync(UserBaseDto entity, string password)
         {
@@ -135,20 +125,22 @@ namespace ParkingATHWeb.Business.Services
 
                 if (possibleUserExistResult == null)
                 {
-                    entity.PasswordSalt = saltHash.Salt;
-                    entity.PasswordHash = saltHash.Hash;
-                    var user = _repository.Add(Mapper.Map<User>(entity));
-                    await _unitOfWork.CommitAsync();
-                    return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(user));
+                    return await CreateNewUserAsync(entity, saltHash);
                 }
-                possibleUserExistResult.PasswordHash = saltHash.Hash;
-                possibleUserExistResult.PasswordSalt = saltHash.Salt;
-                possibleUserExistResult.IsDeleted = false;
-                _repository.Edit(Mapper.Map<User>(possibleUserExistResult));
-                await _unitOfWork.CommitAsync();
-                return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(possibleUserExistResult));
+                return await UnDeleteExistingUserAsync(possibleUserExistResult, saltHash);
             }
             return ServiceResult<UserBaseDto>.Failure("Adres email jest już zajęty");
+        }
+
+        private async Task<ServiceResult<UserBaseDto>> CreateNewUserAsync(UserBaseDto entity, EncryptedPasswordData saltHash)
+        {
+            entity.PasswordSalt = saltHash.Salt;
+            entity.PasswordHash = saltHash.Hash;
+            var user = _repository.Add(Mapper.Map<User>(entity));
+            var userPreference = _userPreferencesRepository.Add(new UserPreferences { UserId = user.Id, ShrinkedSidebar = false });
+            user.UserPreferencesId = userPreference.Id;
+            await _unitOfWork.CommitAsync();
+            return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(user));
         }
 
         public ServiceResult<UserBaseDto> GetByEmail(string email)
@@ -156,6 +148,13 @@ namespace ParkingATHWeb.Business.Services
             var stud = _repository.FirstOrDefault(x => x.Email == email);
             return stud == null ? ServiceResult<UserBaseDto>.Failure("Użytkownik nie istnieje")
                 : ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(stud));
+        }
+
+        public ServiceResult<UserBaseDto, UserPreferencesDto> GetByEmailWithPreferences(string email)
+        {
+            var stud = _repository.Include(x=>x.UserPreferences).FirstOrDefault(x => x.Email == email);
+            return stud == null ? ServiceResult<UserBaseDto, UserPreferencesDto>.Failure("Użytkownik nie istnieje")
+                : ServiceResult<UserBaseDto, UserPreferencesDto>.Success(Mapper.Map<UserBaseDto>(stud), Mapper.Map<UserPreferencesDto>(stud.UserPreferences));
         }
 
         public async Task<ServiceResult<UserBaseDto>> ChangeEmailAsync(string email, string newEmail, string password)
@@ -253,14 +252,14 @@ namespace ParkingATHWeb.Business.Services
             return ServiceResult<int>.Success(entity.Charges);
         }
 
-        public async Task<ServiceResult<UserBaseDto>> LoginAsync(string email, string password)
+        public async Task<ServiceResult<UserBaseDto, UserPreferencesDto>> LoginAsync(string email, string password)
         {
-            var stud = await _repository.FirstOrDefaultAsync(x => x.Email == email);
+            var stud = await _repository.Include(x=>x.UserPreferences).FirstOrDefaultAsync(x => x.Email == email);
             if (stud != null && _passwordHasher.ValidatePassword(password, stud.PasswordHash, stud.PasswordSalt) && !stud.LockedOut && !stud.IsDeleted)
             {
-                return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(stud));
+                return ServiceResult<UserBaseDto, UserPreferencesDto>.Success(Mapper.Map<UserBaseDto>(stud),Mapper.Map<UserPreferencesDto>(stud.UserPreferences));
             }
-            return ServiceResult<UserBaseDto>.Failure("Niepoprawny login lub hasło");
+            return ServiceResult<UserBaseDto, UserPreferencesDto>.Failure("Niepoprawny login lub hasło");
         }
 
         public async Task<ServiceResult<UserBaseDto>> CheckLoginAsync(string email, string hash)
@@ -319,6 +318,13 @@ namespace ParkingATHWeb.Business.Services
                 : ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(stud));
         }
 
+        public async Task<ServiceResult<UserBaseDto, UserPreferencesDto>> GetByEmailWithPreferencesAsync(string email)
+        {
+            var stud = await _repository.Include(x => x.UserPreferences).AsNoTracking().FirstOrDefaultAsync(x => x.Email == email);
+            return stud == null ? ServiceResult<UserBaseDto, UserPreferencesDto>.Failure("Użytkownik nie istnieje")
+                : ServiceResult<UserBaseDto, UserPreferencesDto>.Success(Mapper.Map<UserBaseDto>(stud), Mapper.Map<UserPreferencesDto>(stud.UserPreferences));
+        }
+
         public async Task<ServiceResult<bool>> AccountExistsAsync(string email)
         {
             return ServiceResult<bool>.Success(await _repository.FirstOrDefaultAsync(x => x.Email == email) != null);
@@ -329,14 +335,14 @@ namespace ParkingATHWeb.Business.Services
             return ServiceResult<bool>.Success((await _repository.FirstOrDefaultAsync(x => x.Email == email)).IsAdmin);
         }
 
-        public async Task<ServiceResult<UserBaseDto>> EditStudentInitialsAsync(UserBaseDto entity)
+        public async Task<ServiceResult<UserBaseDto, UserPreferencesDto>> EditStudentInitialsAsync(UserBaseDto entity)
         {
-            var student = await _repository.FirstOrDefaultAsync(x => x.Email == entity.Email);
+            var student = await _repository.Include(x=>x.UserPreferences).FirstOrDefaultAsync(x => x.Email == entity.Email);
             student.Name = entity.Name;
             student.LastName = entity.LastName;
             _repository.Edit(student);
             await _unitOfWork.CommitAsync();
-            return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(student));
+            return ServiceResult<UserBaseDto, UserPreferencesDto>.Success(Mapper.Map<UserBaseDto>(student), Mapper.Map<UserPreferencesDto>(student.UserPreferences));
         }
 
         public async Task<ServiceResult<int>> TransferCharges(string senderEmail, string recieverEmail, int numberOfCharges, string password)
@@ -404,5 +410,26 @@ namespace ParkingATHWeb.Business.Services
             return result.ToString();
         }
         #endregion
+
+        private async Task<ServiceResult<UserBaseDto>> UnDeleteExistingUserAsync(User possibleUserExistResult, EncryptedPasswordData saltHash)
+        {
+            possibleUserExistResult.PasswordHash = saltHash.Hash;
+            possibleUserExistResult.PasswordSalt = saltHash.Salt;
+            possibleUserExistResult.IsDeleted = false;
+            _repository.Edit(Mapper.Map<User>(possibleUserExistResult));
+            await _unitOfWork.CommitAsync();
+            return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(possibleUserExistResult));
+        }
+
+        private ServiceResult<UserBaseDto> CreateNewUser(UserBaseDto entity, EncryptedPasswordData saltHash)
+        {
+            entity.PasswordSalt = saltHash.Salt;
+            entity.PasswordHash = saltHash.Hash;
+            var user = _repository.Add(Mapper.Map<User>(entity));
+            var userPreference = _userPreferencesRepository.Add(new UserPreferences { UserId = user.Id, ShrinkedSidebar = false });
+            user.UserPreferencesId = userPreference.Id;
+            _unitOfWork.Commit();
+            return ServiceResult<UserBaseDto>.Success(Mapper.Map<UserBaseDto>(user));
+        }
     }
 }

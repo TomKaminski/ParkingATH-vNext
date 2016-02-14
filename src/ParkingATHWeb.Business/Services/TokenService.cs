@@ -27,7 +27,6 @@ namespace ParkingATHWeb.Business.Services
             _unitOfWork = unitOfWork;
         }
 
-
         public ServiceResult<TokenBaseDto> Create(TokenType tokenType)
         {
             return base.Create(GetTokenToAdd(tokenType));

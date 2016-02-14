@@ -8,6 +8,7 @@ using Microsoft.AspNet.Mvc.Filters;
 using Microsoft.AspNet.Mvc.ModelBinding;
 using ParkingATHWeb.Contracts.Common;
 using ParkingATHWeb.Contracts.DTO.User;
+using ParkingATHWeb.Contracts.DTO.UserPreferences;
 using ParkingATHWeb.Models;
 using ParkingATHWeb.ViewModels.Base;
 
@@ -38,7 +39,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers.Base
             await HttpContext.Authentication.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
-        protected async void IdentityReSignin(UserBaseDto user, bool isPersistent = false)
+        protected async void IdentityReSignin(UserBaseDto user, UserPreferencesDto userPreferences, bool isPersistent = false)
         {
             IdentitySignout();
 
@@ -47,7 +48,8 @@ namespace ParkingATHWeb.Areas.Portal.Controllers.Base
                 new Claim(ClaimTypes.NameIdentifier, user.Email),
                 new Claim(ClaimTypes.Name, user.Name),
                 new Claim("isAdmin", user.IsAdmin.ToString()),
-                new Claim("LastName", user.LastName)
+                new Claim("LastName", user.LastName),
+                new Claim("SidebarShrinked",userPreferences.ShrinkedSidebar.ToString())
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

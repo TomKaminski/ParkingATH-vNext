@@ -1,8 +1,6 @@
 ﻿using System;
-using System.IdentityModel.Tokens;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Microsoft.AspNet.Authentication.JwtBearer;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
@@ -13,11 +11,7 @@ using ParkingATHWeb.Resolver.Mappings;
 using ParkingATHWeb.Resolver.Modules;
 using ParkingATHWeb.Mappings;
 using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Diagnostics;
-using Microsoft.Extensions.PlatformAbstractions;
-using Newtonsoft.Json;
 using ParkingATHWeb.Infrastructure.Attributes;
-using ParkingATHWeb.Infrastructure.TokenAuth;
 
 namespace ParkingATHWeb
 {

@@ -15,11 +15,12 @@ namespace ParkingATHWeb.Model
 
 
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<UserPreferences> UserPreferences { get; set; }
         public virtual DbSet<Order> Order { get; set; }
         public virtual DbSet<GateUsage> GateUsage { get; set; }
         public virtual DbSet<PriceTreshold> PriceTreshold { get; set; }
         public virtual DbSet<Token> Token { get; set; }
-        public virtual DbSet<Message> Message { get; set; } 
+        public virtual DbSet<Message> Message { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -58,15 +59,22 @@ namespace ParkingATHWeb.Model
             modelBuilder.Entity<User>()
                 .HasOne(x => x.PasswordChangeToken)
                 .WithOne(x => x.User)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<User>()
                 .HasOne(x => x.SelfDeleteToken)
                 .WithOne(x => x.User)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>()
+                .HasOne(x => x.UserPreferences)
+                .WithOne(x => x.User)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Message>()
-                .HasOne(x => x.User);
+                .HasOne(x => x.User)
+                .WithMany(x => x.UserMessages)
+                .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(modelBuilder);
         }

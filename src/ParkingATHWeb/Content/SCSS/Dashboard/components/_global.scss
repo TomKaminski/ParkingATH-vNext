@@ -325,7 +325,11 @@ ul.staggered-list li {
     display: initial !important;
   }
 }
-
+.hide-on-semi-mid-and-small {
+  @media (max-width:1300px) {
+    display: none !important;
+  }
+}
 
 // Center text on mobile
 .center-on-small-only {

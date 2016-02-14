@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using ParkingATHWeb.Contracts.Common;
 using ParkingATHWeb.Contracts.DTO.User;
+using ParkingATHWeb.Contracts.DTO.UserPreferences;
 using ParkingATHWeb.Contracts.Services.Base;
 
 namespace ParkingATHWeb.Contracts.Services
@@ -20,7 +21,7 @@ namespace ParkingATHWeb.Contracts.Services
         Task<ServiceResult<int>> GetChargesAsync(string email, string hash);
         Task<ServiceResult<int>> AddChargesAsync(string email, int charges);
 
-        Task<ServiceResult<UserBaseDto>> LoginAsync(string email, string password);
+        Task<ServiceResult<UserBaseDto, UserPreferencesDto>> LoginAsync(string email, string password);
 
         Task<ServiceResult<UserBaseDto>> CheckLoginAsync(string email, string hash);
         Task<ServiceResult<bool>> CheckHashAsync(string email, string hash);
@@ -31,8 +32,10 @@ namespace ParkingATHWeb.Contracts.Services
         Task<ServiceResult<UserBaseDto>> CreateAsync(UserBaseDto entity, string password);
 
         ServiceResult<UserBaseDto> GetByEmail(string email);
+        ServiceResult<UserBaseDto, UserPreferencesDto> GetByEmailWithPreferences(string email);
 
         Task<ServiceResult<UserBaseDto>> GetByEmailAsync(string email);
+        Task<ServiceResult<UserBaseDto, UserPreferencesDto>> GetByEmailWithPreferencesAsync(string email);
 
         Task<ServiceResult<bool>> SelfDeleteAsync(string email, string token);
 
@@ -42,7 +45,7 @@ namespace ParkingATHWeb.Contracts.Services
 
         Task<ServiceResult<bool>> IsAdmin(string email);
 
-        Task<ServiceResult<UserBaseDto>> EditStudentInitialsAsync(UserBaseDto entity);
+        Task<ServiceResult<UserBaseDto, UserPreferencesDto>> EditStudentInitialsAsync(UserBaseDto entity);
 
         Task<ServiceResult<int>> TransferCharges(string senderEmail, string recieverEmail, int numberOfCharges, string password);
 

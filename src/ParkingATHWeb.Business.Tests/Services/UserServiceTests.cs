@@ -43,9 +43,10 @@ namespace ParkingATHWeb.Business.Tests.Services
             var gateRepositoryMock = _mock.Create<GateUsageRepository>();
             var passwordHasher = _mock.Create<PasswordHasher>();
             var tokenRepositoryMock = _mock.Create<TokenRepository>();
+            var userPreferencesRepositoryMock = _mock.Create<UserPreferencesRepository>();
             _tokenService = new TokenService(_unitOfWork, _mock.Create<TokenRepository>());
 
-            _sut = new UserService(_userRepository, _unitOfWork, gateRepositoryMock, passwordHasher, _tokenService, tokenRepositoryMock);
+            _sut = new UserService(_userRepository, _unitOfWork, gateRepositoryMock, passwordHasher, _tokenService, tokenRepositoryMock, userPreferencesRepositoryMock);
         }
 
         [Fact]

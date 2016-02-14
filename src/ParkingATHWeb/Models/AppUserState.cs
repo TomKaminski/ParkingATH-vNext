@@ -20,6 +20,7 @@ namespace ParkingATHWeb.Models
         public string Name => FindFirst(ClaimTypes.Name) == null ? null : FindFirst(ClaimTypes.Name).Value;
         public string LastName => FindFirst("LastName") == null ? null : FindFirst("LastName").Value;
         public bool IsAdmin => Convert.ToBoolean(FindFirst("isAdmin") == null ? null : FindFirst("isAdmin").Value);
+        public bool SidebarShrinked => Convert.ToBoolean(FindFirst("SidebarShrinked") == null ? null : FindFirst("SidebarShrinked").Value);
 
         public bool IsEmpty()
         {

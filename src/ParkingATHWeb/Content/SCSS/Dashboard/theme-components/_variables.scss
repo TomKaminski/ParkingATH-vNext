@@ -55,3 +55,15 @@ $black_10: rgba(0, 0, 0, 0.1);
 $url_0: url('../../images/dashboard/user-bg-2.jpg');
 $url_1: url('../../images/dashboard/user-bg.jpg');
 $url_2: url('../../images/dashboard/sample-1.jpg');
+
+/*** Colors ***/
+$primary-color: #132d4b !default;
+$primary-color-light: lighten($primary-color, 15%) !default;
+$primary-color-dark: darken($primary-color, 15%) !default; 
+
+$secondary-color: #2e6cb2 !default;
+$secondary-color-light: #4b85c5 !default;
+$secondary-color-most-light: lighten($secondary-color-light, 15%) !default;
+$secondary-color-dark: darken($secondary-color, 15%) !default; 
+$success-color: #66BB6A !default;
+$error-color: color("red", "accent-3") !default;

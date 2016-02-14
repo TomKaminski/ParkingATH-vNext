@@ -18,16 +18,6 @@ $(function() {
     }, 200);
   });  
 
-  
-  // Search class for focus
-  $('.header-search-input').focus(
-  function(){
-      $(this).parent('div').addClass('header-search-wrapper-focus');
-  }).blur(
-  function(){
-      $(this).parent('div').removeClass('header-search-wrapper-focus');
-  });  
-
   // Check first if any of the task is checked
   $('#task-card input:checkbox').each(function() {
     checkbox_check(this);
@@ -129,44 +119,6 @@ $(function() {
   $('.sidebar-collapse').sideNav({
     edge: 'left', // Choose the horizontal origin    
   });
-
-  // FULL SCREEN MENU (Layout 02)
-  $('.menu-sidebar-collapse').sideNav({
-        menuWidth: 240,
-        edge: 'left', // Choose the horizontal origin     
-        //closeOnClick:true, // Set if default menu open is true
-        menuOut:false // Set if default menu open is true
-        
-      });
-
-  // HORIZONTAL MENU (Layout 03)
-  $('.dropdown-menu').dropdown({
-      inDuration: 300,
-      outDuration: 225,
-      constrain_width: false, // Does not change width of dropdown to that of the activator
-      hover: true, // Activate on hover
-      gutter: 0, // Spacing from edge
-      belowOrigin: true // Displays dropdown below the button
-    });
-
-  
-  //Main Left Sidebar Chat
-  $('.chat-collapse').sideNav({
-    menuWidth: 300,
-    edge: 'right',
-  });
-  $('.chat-close-collapse').click(function() {
-    $('.chat-collapse').sideNav('hide');
-  });
-  $('.chat-collapsible').collapsible({
-    accordion: false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
-  });
-
-  // Pikadate datepicker
-  $('.datepicker').pickadate({
-    selectMonths: true, // Creates a dropdown to control month
-    selectYears: 15 // Creates a dropdown of 15 years to control year
-  });
   
   // Perfect Scrollbar
   $('select').not('.disabled').material_select();
@@ -179,39 +131,6 @@ $(function() {
   $('.rightside-navigation').height(righttnav).perfectScrollbar({
     suppressScrollX: true
   }); 
-  
-  
-  // Fullscreen
-  function toggleFullScreen() {
-    if ((document.fullScreenElement && document.fullScreenElement !== null) ||
-      (!document.mozFullScreen && !document.webkitIsFullScreen)) {
-      if (document.documentElement.requestFullScreen) {
-        document.documentElement.requestFullScreen();
-      }
-      else if (document.documentElement.mozRequestFullScreen) {
-        document.documentElement.mozRequestFullScreen();
-      }
-      else if (document.documentElement.webkitRequestFullScreen) {
-        document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
-      }
-    }
-    else {
-      if (document.cancelFullScreen) {
-        document.cancelFullScreen();
-      }
-      else if (document.mozCancelFullScreen) {
-        document.mozCancelFullScreen();
-      }
-      else if (document.webkitCancelFullScreen) {
-        document.webkitCancelFullScreen();
-      }
-    }
-  }
-
-  $('.toggle-fullscreen').click(function() {
-    toggleFullScreen();
-  });
-
 
   // Floating-Fixed table of contents (Materialize pushpin)
   if ($('nav').length) {
@@ -273,34 +192,5 @@ $(function() {
       overflow: 'auto'
     })
   }
-
-  //LINE CHART WITH AREA IN SIDEBAR
-  if (typeof Chartist != "undefined") {
-    new Chartist.Line('#ct2-chart', {
-        labels: [1, 2, 3, 4, 5, 6, 7, 8],
-        series: [
-            [5, 9, 7, 8, 5, 3, 5, 4]
-        ]
-    }, {
-        low: 0,
-        showArea: true
-    });
-  }
-  //Trending chart for small screen
-  if(window_width <= 480){    
-    $("#trending-line-chart").attr({
-      height: '200'
-    });
-  }
-  
-  /*
-  * Advanced UI 
-  */
-  
-  
-         
-    
-
-
 
 }); // end of document ready

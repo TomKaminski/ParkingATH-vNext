@@ -141,6 +141,20 @@ namespace ParkingATHWeb.Model.Migrations
 
                     b.Property<int>("UnsuccessfulLoginAttempts");
 
+                    b.Property<int>("UserPreferencesId");
+
+                    b.HasKey("Id");
+                });
+
+            modelBuilder.Entity("ParkingATHWeb.Model.Concrete.UserPreferences", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("ShrinkedSidebar");
+
+                    b.Property<int>("UserId");
+
                     b.HasKey("Id");
                 });
 
@@ -182,6 +196,10 @@ namespace ParkingATHWeb.Model.Migrations
                     b.HasOne("ParkingATHWeb.Model.Concrete.Token")
                         .WithOne()
                         .HasForeignKey("ParkingATHWeb.Model.Concrete.User", "SelfDeleteTokenId");
+
+                    b.HasOne("ParkingATHWeb.Model.Concrete.UserPreferences")
+                        .WithOne()
+                        .HasForeignKey("ParkingATHWeb.Model.Concrete.User", "UserPreferencesId");
                 });
         }
     }

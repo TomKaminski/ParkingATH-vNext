@@ -14,5 +14,11 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         {
             return View();
         }
+
+        [Route("~/[area]/Dashboard")]
+        public IActionResult Dashboard()
+        {
+            return PartialView();
+        }
     }
 }

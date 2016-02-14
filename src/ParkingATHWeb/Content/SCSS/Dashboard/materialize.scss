@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 
 // Mixins
 @import "components/prefixer";
@@ -9,7 +9,7 @@
 /*
   Tip: You can change the theme name here to generate new default style, you can also create your own !
 */
-@import "themes/default/theme";
+@import "themes/smartPark/theme";
 
 // Reset
 @import "components/normalize";
