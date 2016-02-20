@@ -31,8 +31,8 @@
         var titles = {
             thunderstorm: "burza",
             drizzle: "mrzawka",
-            rain: "deszcz",
-            snow: "śnieg",
+            rain: "opady deszczu",
+            snow: "opady śniegu",
             sun: "słońce",
             lightThunderstorm: "łagodna burza",
             lightDrizzle: "łagodna mrzawka",
@@ -62,8 +62,8 @@
 
         }
 
-        function getModel(title, icon) {
-            return { title, icon}
+        function getModel(title, icons) {
+            return { title, icons}
         }
 
         function getWeatherModelsFromId(weatherId) {
@@ -149,7 +149,7 @@
                 case 314:
                 case 321:
                     {
-                        weatherModel.push(getModel(titles.rain, icons.iconRainy));
+                        weatherModel.push(getModel(titles.rain, [icons.iconRainy, icons.iconBaseCloud]));
                         break;
                     }
 
@@ -158,7 +158,7 @@
                 case 520:
                 case 521:
                     {
-                        weatherModel.push(getModel(titles.rain, icons.iconRainy));
+                        weatherModel.push(getModel(titles.rain, [icons.iconRainy, icons.iconBaseCloud]));
                         break;
                     }
                 case 511:
@@ -168,7 +168,7 @@
                 case 522:
                 case 531:
                     {
-                        weatherModel.push(getModel(titles.heavyRain, icons.iconRainy));
+                        weatherModel.push(getModel(titles.heavyRain, [icons.iconRainy, icons.iconBaseCloud]));
                         break;
                     }
 

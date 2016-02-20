@@ -205,3 +205,18 @@ icon-night::after {
   content: '\f105';
   position: absolute;
   color: #cccccc; }
+
+.card-loader-wrapper {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  z-index: 50; }
+  .card-loader-wrapper > .preloader-wrapper {
+    width: 6rem;
+    height: 6rem;
+    align-self: center; }
+
+.spinner-white-only {
+  border-color: white; }

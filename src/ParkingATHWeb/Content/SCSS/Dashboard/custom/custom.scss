@@ -14,8 +14,8 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     padding: 0 25px;
 }
 
-.padding-bottom-20{
-    margin-bottom:20px
+.padding-bottom-20 {
+    margin-bottom: 20px;
 }
 
 
@@ -49,7 +49,6 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 .icon-sun::before,
 .icon-thunder::before,
 .icon-windy::before,
-
 .icon-night::after,
 .icon-sunny::after,
 .icon-frosty::after,
@@ -71,7 +70,6 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 .icon-sun::after,
 .icon-thunder::after,
 .icon-windy::after,
-
 .basecloud {
     font-family: "iconvault";
     font-style: normal;
@@ -85,7 +83,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     color: white;
     position: absolute;
     font-size: 6rem;
-    right:0
+    right: 0;
 }
 
 .icon-night::before {
@@ -250,8 +248,27 @@ icon-night::after {
 }
 
 .basecloud::after {
-	font-family: 'iconvault';
-	content: '\f105';
-	position:absolute;
-	color: rgb(204, 204, 204);
-	}
+    font-family: 'iconvault';
+    content: '\f105';
+    position: absolute;
+    color: rgb(204, 204, 204);
+}
+
+.card-loader-wrapper {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    z-index:50;
+
+    > .preloader-wrapper {
+        width: 6rem;
+        height: 6rem;
+        align-self: center;
+    }
+}
+
+.spinner-white-only{
+    border-color:white;
+}
