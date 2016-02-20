@@ -8,9 +8,10 @@ using ParkingATHWeb.Model;
 namespace ParkingATHWeb.Model.Migrations
 {
     [DbContext(typeof(ParkingAthContext))]
-    partial class ParkingAthContextModelSnapshot : ModelSnapshot
+    [Migration("20160219221635_WeatherInfo")]
+    partial class WeatherInfo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
@@ -162,8 +163,6 @@ namespace ParkingATHWeb.Model.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<int>("Clouds");
 
                     b.Property<DateTime>("DateOfRead");
 

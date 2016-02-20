@@ -2,7 +2,7 @@
  .config(['ChartJsProvider', function (ChartJsProvider) {
      // Configure all charts
      ChartJsProvider.setOptions({
-         colours: ['#FF8A80'],
+         colours: ['#FFFFFF'],
          responsive: false
      });
      // Configure all line charts

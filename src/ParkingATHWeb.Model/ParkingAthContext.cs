@@ -21,6 +21,8 @@ namespace ParkingATHWeb.Model
         public virtual DbSet<PriceTreshold> PriceTreshold { get; set; }
         public virtual DbSet<Token> Token { get; set; }
         public virtual DbSet<Message> Message { get; set; }
+        public virtual DbSet<Weather> Weather { get; set; }
+        public virtual DbSet<WeatherInfo> WeatherInfo { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -75,6 +77,11 @@ namespace ParkingATHWeb.Model
                 .HasOne(x => x.User)
                 .WithMany(x => x.UserMessages)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Weather>()
+                 .HasMany(x => x.WeatherInfo)
+                 .WithOne(x => x.Weather)
+                 .HasForeignKey(x => x.WeatherId);
 
             base.OnModelCreating(modelBuilder);
         }

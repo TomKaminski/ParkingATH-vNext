@@ -8,9 +8,10 @@ using ParkingATHWeb.Model;
 namespace ParkingATHWeb.Model.Migrations
 {
     [DbContext(typeof(ParkingAthContext))]
-    partial class ParkingAthContextModelSnapshot : ModelSnapshot
+    [Migration("20160215101601_Weather")]
+    partial class Weather
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
@@ -163,8 +164,6 @@ namespace ParkingATHWeb.Model.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("Clouds");
-
                     b.Property<DateTime>("DateOfRead");
 
                     b.Property<double>("Humidity");
@@ -173,21 +172,13 @@ namespace ParkingATHWeb.Model.Migrations
 
                     b.Property<double>("Temperature");
 
+                    b.Property<double>("TemperatureMax");
+
+                    b.Property<double>("TemperatureMin");
+
                     b.Property<DateTime>("ValidToDate");
 
-                    b.HasKey("Id");
-                });
-
-            modelBuilder.Entity("ParkingATHWeb.Model.Concrete.WeatherInfo", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("WeatherConditionId");
-
                     b.Property<string>("WeatherDescription");
-
-                    b.Property<Guid>("WeatherId");
 
                     b.Property<string>("WeatherMain");
 
@@ -236,13 +227,6 @@ namespace ParkingATHWeb.Model.Migrations
                     b.HasOne("ParkingATHWeb.Model.Concrete.UserPreferences")
                         .WithOne()
                         .HasForeignKey("ParkingATHWeb.Model.Concrete.User", "UserPreferencesId");
-                });
-
-            modelBuilder.Entity("ParkingATHWeb.Model.Concrete.WeatherInfo", b =>
-                {
-                    b.HasOne("ParkingATHWeb.Model.Concrete.Weather")
-                        .WithMany()
-                        .HasForeignKey("WeatherId");
                 });
         }
     }

@@ -233,6 +233,7 @@
 /// <reference path="js/portalapp/directives/sparklinechartdirective.js" />
 /// <reference path="js/portalapp/factories/apifactory.js" />
 /// <reference path="js/portalapp/factories/chartjsoptionsfactory.js" />
+/// <reference path="js/portalapp/factories/weatherinfoprovider.js" />
 /// <reference path="js/portalapp/portalapp.js" />
 /// <reference path="js/PortalApp/services/breadcrumbService.js" />
 /// <reference path="js/portalapp/services/sidebarstateservice.js" />

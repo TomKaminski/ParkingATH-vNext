@@ -10,6 +10,248 @@ NOTE:
 PLACE HERE YOUR OWN CSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
 WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
 
-.padding-25{
-    padding:0 25px;
+.padding-25 {
+    padding: 0 25px;
 }
+
+.padding-bottom-20{
+    margin-bottom:20px
+}
+
+
+@font-face {
+    font-family: "iconvault";
+    src: url("../../../font/forecast/iconvault_forecastfont.eot");
+    src: url("../../../font/forecast/iconvault_forecastfont.eot?#iefix") format("embedded-opentype"), url("../../../font/forecast/iconvault_forecastfont.woff") format("woff"), url("../../../font/forecast/iconvault_forecastfont.ttf") format("truetype"), url("../../../font/forecast/iconvault_forecastfont.svg#iconvault") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.icon-night::before,
+.icon-sunny::before,
+.icon-frosty::before,
+.icon-windysnow::before,
+.icon-showers::before,
+.icon-basecloud::before,
+.icon-cloud::before,
+.icon-rainy::before,
+.icon-mist::before,
+.icon-windysnowcloud::before,
+.icon-drizzle::before,
+.icon-snowy::before,
+.icon-sleet::before,
+.icon-moon::before,
+.icon-windyrain::before,
+.icon-hail::before,
+.icon-sunset::before,
+.icon-windyraincloud::before,
+.icon-sunrise::before,
+.icon-sun::before,
+.icon-thunder::before,
+.icon-windy::before,
+
+.icon-night::after,
+.icon-sunny::after,
+.icon-frosty::after,
+.icon-windysnow::after,
+.icon-showers::after,
+.icon-basecloud::after,
+.icon-rainy::after,
+.icon-mist::after,
+.icon-windysnowcloud::after,
+.icon-drizzle::after,
+.icon-snowy::after,
+.icon-sleet::after,
+.icon-moon::after,
+.icon-windyrain::after,
+.icon-hail::after,
+.icon-sunset::after,
+.icon-windyraincloud::after,
+.icon-sunrise::after,
+.icon-sun::after,
+.icon-thunder::after,
+.icon-windy::after,
+
+.basecloud {
+    font-family: "iconvault";
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    text-decoration: inherit;
+    color: white;
+    position: absolute;
+    font-size: 6rem;
+    right:0
+}
+
+.icon-night::before {
+    content: "\f100";
+}
+
+.icon-sunny::before {
+    content: "\f101";
+}
+
+.icon-frosty::before {
+    content: "\f102";
+}
+
+.icon-windysnow::before {
+    content: "\f103";
+}
+
+.icon-basecloud::before {
+    content: "\f105";
+}
+
+.icon-cloud::before {
+    content: "\f106";
+}
+
+.icon-mist::before {
+    content: "\f108";
+}
+
+.icon-windysnowcloud::before {
+    content: "\f109";
+}
+
+.icon-drizzle::before {
+    content: "\f10a";
+}
+
+.icon-snowy::before {
+    content: "\f10b";
+}
+
+.icon-sleet::before {
+    content: "\f10c";
+}
+
+.icon-moon::before {
+    content: "\f10d";
+}
+
+.icon-windyrain::before {
+    content: "\f10e";
+}
+
+.icon-hail::before {
+    content: "\f10f";
+}
+
+.icon-sunset::before {
+    content: "\f110";
+}
+
+.icon-windyraincloud::before {
+    content: "\f111";
+}
+
+.icon-sunrise::before {
+    content: "\f112";
+}
+
+.icon-sun::before {
+    content: "\f113";
+}
+
+.icon-thunder::before {
+    content: "\f114";
+}
+
+.icon-windy::before {
+    content: "\f115";
+}
+
+
+icon-night::after {
+    content: "\f100";
+}
+
+.icon-frosty::after {
+    content: "\f102";
+}
+
+.icon-windysnow::after {
+    content: "\f103";
+}
+
+.icon-showers::after {
+    content: "\f104";
+}
+
+.icon-basecloud::after {
+    content: "\f105";
+}
+
+.icon-rainy::after {
+    content: "\f107";
+}
+
+.icon-mist::after {
+    content: "\f108";
+}
+
+.icon-windysnowcloud::after {
+    content: "\f109";
+}
+
+.icon-drizzle::after {
+    content: "\f10a";
+}
+
+.icon-snowy::after {
+    content: "\f10b";
+}
+
+.icon-sleet::after {
+    content: "\f10c";
+}
+
+.icon-moon::after {
+    content: "\f10d";
+}
+
+.icon-windyrain::after {
+    content: "\f10e";
+}
+
+.icon-hail::after {
+    content: "\f10f";
+}
+
+.icon-sunset::after {
+    content: "\f110";
+}
+
+.icon-windyraincloud::after {
+    content: "\f111";
+}
+
+.icon-sunrise::after {
+    content: "\f112";
+}
+
+.icon-sun::after {
+    content: "\f113";
+}
+
+.icon-thunder::after {
+    content: "\f114";
+}
+
+.icon-windy::after {
+    content: "\f115";
+}
+
+.basecloud::after {
+	font-family: 'iconvault';
+	content: '\f105';
+	position:absolute;
+	color: rgb(204, 204, 204);
+	}

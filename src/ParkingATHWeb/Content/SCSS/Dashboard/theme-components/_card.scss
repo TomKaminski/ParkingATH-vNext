@@ -108,10 +108,8 @@
 	}
 }
 
-/* flight card */
-
 #message-card {
-    background: #009688;
+    background: #22B488;
     input{
         border-color: white !important;
     }
@@ -127,34 +125,7 @@
 		padding-bottom: 15px;
 	}
 	.card-content {
-		background: #009688;
-	}
-	.message-state-wrapper {
-		margin: 0 0 100px 0 !important;
-	}
-	.card-header .card-title {
-		padding: 20px;
-	}
-}
-
-#message-card {
-    background: #009688;
-    input{
-        border-color: white !important;
-    }
-    label{
-        color: white;
-    }
-	.message-card-title {
-		margin: 0;
-		font-weight: 300;
-		color:#fff;
-	}
-	.message-state {
-		padding-bottom: 15px;
-	}
-	.card-content {
-		background: #009688;
+		background: #22B488;
 	}
 	.message-state-wrapper {
 		margin: 0 0 100px 0 !important;
@@ -165,11 +136,8 @@
 }
 
 #weather-card {
-	.weather-card-title {
-		margin: 0;
-		font-weight: 300;
-		color:#fff;
-	}
+    background: #21a5da;
+
 	.weather-state {
 		padding-bottom: 15px;
 	}

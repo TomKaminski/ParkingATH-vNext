@@ -1,17 +1,23 @@
 ﻿(function () {
     'use strict';
 
-    function homepageController(chartJsOptionsFactory, breadcrumbService) {
+    function homepageController(chartJsOptionsFactory, breadcrumbService, apiFactory, weatherInfoFactory) {
         var self = this;
         breadcrumbService.setOuterBreadcrumb('dashboard');
-        self.clientsBarSparklineData = [70, 80, 65, 78, 58, 80, 78, 80, 70, 50, 75, 65, 80, 70, 65, 90, 65, 80, 70, 65, 90];
 
-        self.lineChartData = {
-            labels: ['14.02', '15.02', '16.02', '17.02', '18.02', '19.02', '20.02'],
-            data: [[2, 3, 5, 6, 1, 0, 3]],
-            options: chartJsOptionsFactory.getDefaultLineOptions()
-        };
+        self.model = getDashboardData();
+
+        function getDashboardData() {
+            apiFactory.get(apiFactory.apiEnum.GetDashboardData, {}).then(function (data) {
+                self.model = data;
+                self.model.weatherData.weatherInfo = weatherInfoFactory.getWeatherInfo(data.weatherData.WeatherInfo);
+                self.model.lineChartData.data = [data.lineChartData.data];
+                self.model.lineChartData.options = chartJsOptionsFactory.getDefaultLineOptions();
+            }, function (e) {
+                console.log(e);
+            });
+        }
     }
 
-    angular.module('portalApp').controller('homeCtrl', ['chartJsOptionsFactory', 'breadcrumbService', homepageController]);
+    angular.module('portalApp').controller('homeCtrl', ['chartJsOptionsFactory', 'breadcrumbService', 'apiFactory', 'weatherInfoFactory', homepageController]);
 })();

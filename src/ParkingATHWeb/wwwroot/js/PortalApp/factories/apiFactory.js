@@ -4,7 +4,8 @@
     function apiFactory($http, $q) {
 
         var apiEnum = {
-            SaveSidebarState: "Portal/Konto/SaveSidebarState"
+            SaveSidebarState: "Portal/Konto/SaveSidebarState",
+            GetDashboardData: "Portal/Home/DashboardData"
         }
 
         function get(apiUrl, options) {

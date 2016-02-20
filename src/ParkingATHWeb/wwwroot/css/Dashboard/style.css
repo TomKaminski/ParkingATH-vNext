@@ -562,7 +562,7 @@ ul.side-nav .collapsible-header {
 
 @media (min-width: 993px) {
   #breadcrumbs-wrapper {
-    height: 129px; } }
+    height: 125px; } }
 
 h5.breadcrumbs-header {
   font-size: 1.64rem;
@@ -719,9 +719,8 @@ h5.breadcrumbs-header {
   height: auto;
   padding-top: 22px; }
 
-/* flight card */
 #message-card {
-  background: #009688; }
+  background: #22B488; }
   #message-card input {
     border-color: white !important; }
   #message-card label {
@@ -733,44 +732,20 @@ h5.breadcrumbs-header {
   #message-card .message-state {
     padding-bottom: 15px; }
   #message-card .card-content {
-    background: #009688; }
+    background: #22B488; }
   #message-card .message-state-wrapper {
     margin: 0 0 100px 0 !important; }
   #message-card .card-header .card-title {
     padding: 20px; }
 
-#message-card {
-  background: #009688; }
-  #message-card input {
-    border-color: white !important; }
-  #message-card label {
-    color: white; }
-  #message-card .message-card-title {
-    margin: 0;
-    font-weight: 300;
-    color: #fff; }
-  #message-card .message-state {
+#weather-card {
+  background: #21a5da; }
+  #weather-card .weather-state {
     padding-bottom: 15px; }
-  #message-card .card-content {
-    background: #009688; }
-  #message-card .message-state-wrapper {
+  #weather-card .weather-state-wrapper {
     margin: 0 0 100px 0 !important; }
-  #message-card .card-header .card-title {
+  #weather-card .card-header .card-title {
     padding: 20px; }
-
-#weather-card .weather-card-title {
-  margin: 0;
-  font-weight: 300;
-  color: #fff; }
-
-#weather-card .weather-state {
-  padding-bottom: 15px; }
-
-#weather-card .weather-state-wrapper {
-  margin: 0 0 100px 0 !important; }
-
-#weather-card .card-header .card-title {
-  padding: 20px; }
 
 .card-move-up .move-up {
   padding: 20px; }
