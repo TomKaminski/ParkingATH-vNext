@@ -5,18 +5,17 @@ using ParkingATHWeb.Shared.Helpers;
 
 namespace ParkingATHWeb.Resolver.Mappings
 {
-    public static partial class BackendMappingProvider
+    public class GateUsageBackendMappings : Profile
     {
-        private static void InitializeGateUsageMappings()
+        protected override void Configure()
         {
+            CreateMap<GateUsage, GateUsageBaseDto>().IgnoreNotExistingProperties();
 
-            Mapper.CreateMap<GateUsage, GateUsageBaseDto>().IgnoreNotExistingProperties();
-
-            Mapper.CreateMap<GateUsage, GateUsageAdminDto>()
+            CreateMap<GateUsage, GateUsageAdminDto>()
                 .ForMember(x => x.Initials, opt => opt.MapFrom(k => $"{k.User.Name} {k.User.LastName}"))
                 .IgnoreNotExistingProperties();
 
-            Mapper.CreateMap<GateUsageBaseDto, GateUsage>().IgnoreNotExistingProperties();
+            CreateMap<GateUsageBaseDto, GateUsage>().IgnoreNotExistingProperties();
         }
     }
 }

@@ -6,19 +6,19 @@ using ParkingATHWeb.Shared.Helpers;
 
 namespace ParkingATHWeb.Resolver.Mappings
 {
-    public static partial class BackendMappingProvider
+    public class UserBackendMappings : Profile
     {
-        private static void InitializeStudentMappings()
+        protected override void Configure()
         {
-            Mapper.CreateMap<User, UserBaseDto>().IgnoreNotExistingProperties();
-            Mapper.CreateMap<UserBaseDto, User>().IgnoreNotExistingProperties();
+            CreateMap<User, UserBaseDto>().IgnoreNotExistingProperties();
+            CreateMap<UserBaseDto, User>().IgnoreNotExistingProperties();
 
-            Mapper.CreateMap<User, UserAdminDto>()
-                .ForMember(x=>x.OrdersCount, opt=>opt.MapFrom(x=>x.Orders.Count))
+            CreateMap<User, UserAdminDto>()
+                .ForMember(x => x.OrdersCount, opt => opt.MapFrom(x => x.Orders.Count))
                 .IgnoreNotExistingProperties();
 
-            Mapper.CreateMap<UserPreferences, UserPreferencesDto>().IgnoreNotExistingProperties();
-            Mapper.CreateMap<UserPreferencesDto, UserPreferences>().IgnoreNotExistingProperties();
+            CreateMap<UserPreferences, UserPreferencesDto>().IgnoreNotExistingProperties();
+            CreateMap<UserPreferencesDto, UserPreferences>().IgnoreNotExistingProperties();
         }
     }
 }

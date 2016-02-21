@@ -5,17 +5,17 @@ using ParkingATHWeb.Shared.Helpers;
 
 namespace ParkingATHWeb.Resolver.Mappings
 {
-    public static partial class BackendMappingProvider
+    public class PriceTresholdBackendMappings : Profile
     {
-        private static void InitializePriceTresholdMappings()
+        protected override void Configure()
         {
-            Mapper.CreateMap<PriceTreshold, PriceTresholdBaseDto>().IgnoreNotExistingProperties();
+            CreateMap<PriceTreshold, PriceTresholdBaseDto>().IgnoreNotExistingProperties();
 
-            Mapper.CreateMap<PriceTreshold, PriceTresholdAdminDto>()
+            CreateMap<PriceTreshold, PriceTresholdAdminDto>()
                 .ForMember(x => x.NumOfOrders, opt => opt.MapFrom(k => k.Orders.Count))
                 .IgnoreNotExistingProperties();
 
-            Mapper.CreateMap<PriceTresholdBaseDto, PriceTreshold>().IgnoreNotExistingProperties();
+            CreateMap<PriceTresholdBaseDto, PriceTreshold>().IgnoreNotExistingProperties();
         }
     }
 }

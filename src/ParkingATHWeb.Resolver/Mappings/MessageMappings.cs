@@ -6,13 +6,13 @@ using ParkingATHWeb.Shared.Helpers;
 
 namespace ParkingATHWeb.Resolver.Mappings
 {
-    public static partial class BackendMappingProvider
+    public class MessageBackendMappings : Profile
     {
-        private static void InitalizeMessageMappings()
+        protected override void Configure()
         {
-            Mapper.CreateMap<Message, MessageDto>().IgnoreNotExistingProperties();
-            Mapper.CreateMap<MessageDto, Message>().IgnoreNotExistingProperties();
-            Mapper.CreateMap<SmtpSettings,SmtpClient>()
+            CreateMap<Message, MessageDto>().IgnoreNotExistingProperties();
+            CreateMap<MessageDto, Message>().IgnoreNotExistingProperties();
+            CreateMap<SmtpSettings, SmtpClient>()
                 .AfterMap((src, dest) =>
                 {
                     dest.Credentials = src.Credentials;

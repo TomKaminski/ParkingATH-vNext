@@ -5,17 +5,17 @@ using ParkingATHWeb.Shared.Helpers;
 
 namespace ParkingATHWeb.Resolver.Mappings
 {
-    public static partial class BackendMappingProvider
+    public class TokenBackendMappings : Profile
     {
-        private static void InitializeTokenMappings()
+        protected override void Configure()
         {
-            Mapper.CreateMap<Token, TokenBaseDto>().IgnoreNotExistingProperties();
+            CreateMap<Token, TokenBaseDto>().IgnoreNotExistingProperties();
 
-            Mapper.CreateMap<TokenBaseDto, Token>().IgnoreNotExistingProperties();
+            CreateMap<TokenBaseDto, Token>().IgnoreNotExistingProperties();
 
-            Mapper.CreateMap<SplittedTokenData, TokenBaseDto>().IgnoreNotExistingProperties();
+            CreateMap<SplittedTokenData, TokenBaseDto>().IgnoreNotExistingProperties();
 
-            Mapper.CreateMap<TokenBaseDto, SplittedTokenData>().IgnoreNotExistingProperties();
+            CreateMap<TokenBaseDto, SplittedTokenData>().IgnoreNotExistingProperties();
         }
     }
 }

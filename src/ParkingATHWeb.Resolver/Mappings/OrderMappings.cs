@@ -6,20 +6,20 @@ using ParkingATHWeb.Shared.Helpers;
 
 namespace ParkingATHWeb.Resolver.Mappings
 {
-    public partial class BackendMappingProvider
+    public class OrderBackendMappings : Profile
     {
-        private static void InitializeOrderMappings()
+        protected override void Configure()
         {
-            Mapper.CreateMap<OrderBaseDto, Order>()
-                .ForMember(x => x.OrderState, opt => opt.UseValue(OrderStatus.Pending))
-                .IgnoreNotExistingProperties();
+            CreateMap<OrderBaseDto, Order>()
+             .ForMember(x => x.OrderState, opt => opt.UseValue(OrderStatus.Pending))
+             .IgnoreNotExistingProperties();
 
-            Mapper.CreateMap<Order, OrderAdminDto>()
+            CreateMap<Order, OrderAdminDto>()
                 .ForMember(x => x.LastName, opt => opt.MapFrom(k => k.User.LastName))
                 .ForMember(x => x.Name, opt => opt.MapFrom(k => k.User.Name))
                 .IgnoreNotExistingProperties();
 
-            Mapper.CreateMap<Order, OrderBaseDto>()
+            CreateMap<Order, OrderBaseDto>()
                 .IgnoreNotExistingProperties();
         }
     }

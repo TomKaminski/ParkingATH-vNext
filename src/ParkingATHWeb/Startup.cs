@@ -31,6 +31,7 @@ namespace ParkingATHWeb
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
 
+            //TODO:
             FrontendMappingsProvider.InitMappings();
             BackendMappingProvider.InitMappings();
         }
