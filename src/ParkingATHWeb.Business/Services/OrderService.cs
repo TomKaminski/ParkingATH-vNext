@@ -21,19 +21,21 @@ namespace ParkingATHWeb.Business.Services
         private readonly IOrderRepository _repository;
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public OrderService(IUnitOfWork unitOfWork, IOrderRepository repository, IUserRepository userRepository)
-            : base(repository,unitOfWork)
+        public OrderService(IUnitOfWork unitOfWork, IOrderRepository repository, IUserRepository userRepository, IMapper mapper)
+            : base(repository, unitOfWork, mapper)
         {
             _repository = repository;
             _userRepository = userRepository;
+            _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
 
         public async Task<ServiceResult<OrderBaseDto>> GetAsync(Guid externalorderId)
         {
             var obj = await _repository.FirstOrDefaultAsync(x => x.ExtOrderId == externalorderId);
-            return ServiceResult<OrderBaseDto>.Success(Mapper.Map<Order, OrderBaseDto>(obj));
+            return ServiceResult<OrderBaseDto>.Success(_mapper.Map<Order, OrderBaseDto>(obj));
         }
 
         public async Task<ServiceResult<Guid>> GenerateExternalOrderIdAsync()
@@ -51,7 +53,7 @@ namespace ParkingATHWeb.Business.Services
         {
             return ServiceResult<IEnumerable<OrderAdminDto>>
                 .Success(_repository.GetAll()
-                .Select(Mapper.Map<OrderAdminDto>));
+                .Select(_mapper.Map<OrderAdminDto>));
         }
 
         public ServiceResult<IEnumerable<OrderAdminDto>> GetAllAdmin(Expression<Func<OrderAdminDto, bool>> predicate)
@@ -61,7 +63,7 @@ namespace ParkingATHWeb.Business.Services
             var lambda = Expression.Lambda<Func<Order, bool>>(result, param);
             return ServiceResult<IEnumerable<OrderAdminDto>>
                 .Success(_repository.Include(x => x.User).Where(lambda)
-                .Select(Mapper.Map<OrderAdminDto>));
+                .Select(_mapper.Map<OrderAdminDto>));
         }
 
         public async Task<ServiceResult<OrderStatus>> UpdateOrderState(string status, Guid extOrderId)

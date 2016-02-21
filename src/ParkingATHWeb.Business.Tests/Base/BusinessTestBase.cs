@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AutoMapper;
 using Microsoft.Data.Entity;
 using Newtonsoft.Json;
 using ParkingATHWeb.Business.Providers;
@@ -8,6 +9,7 @@ using ParkingATHWeb.Contracts.DTO.PriceTreshold;
 using ParkingATHWeb.Contracts.DTO.Token;
 using ParkingATHWeb.Contracts.DTO.User;
 using ParkingATHWeb.Model;
+using ParkingATHWeb.Resolver.Mappings;
 using ParkingATHWeb.Shared.Enums;
 using ParkingATHWeb.Shared.Helpers;
 using Remotion.Linq.Clauses;
@@ -30,6 +32,17 @@ namespace ParkingATHWeb.Business.Tests.Base
             { "UserName", "Tomek Kamiński" },
             { "TekstLayoutPlz", "Hahahahahahaha" }
         };
+
+        protected IMapper Mapper = new MapperConfiguration(cfg =>
+        {
+            cfg.AddProfile(new GateUsageBackendMappings());
+            cfg.AddProfile(new WeatherBackendMappings());
+            cfg.AddProfile(new MessageBackendMappings());
+            cfg.AddProfile(new OrderBackendMappings());
+            cfg.AddProfile(new UserBackendMappings());
+            cfg.AddProfile(new TokenBackendMappings());
+            cfg.AddProfile(new PriceTresholdBackendMappings());
+        }).CreateMapper();
 
         protected static PriceTresholdBaseDto GetPriceTreshold()
         {

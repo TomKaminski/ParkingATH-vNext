@@ -19,18 +19,20 @@ namespace ParkingATHWeb.Business.Services
     public class GateUsageService : EntityService<GateUsageBaseDto, GateUsage, Guid>, IGateUsageService
     {
         private readonly IGateUsageRepository _repository;
+        private readonly IMapper _mapper;
 
-        public GateUsageService(IUnitOfWork unitOfWork, IGateUsageRepository repository)
-            : base(repository, unitOfWork)
+        public GateUsageService(IUnitOfWork unitOfWork, IGateUsageRepository repository, IMapper mapper)
+            : base(repository, unitOfWork, mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         public async Task<ServiceResult<IEnumerable<GateUsageAdminDto>>> GetAllAdminAsync()
         {
             return ServiceResult<IEnumerable<GateUsageAdminDto>>
                 .Success((await _repository.Include(x => x.User).ToListAsync())
-                .Select(Mapper.Map<GateUsageAdminDto>));
+                .Select(_mapper.Map<GateUsageAdminDto>));
         }
 
         public async Task<ServiceResult<IEnumerable<GateUsageAdminDto>>> GetAllAdminAsync(Expression<Func<GateUsageBaseDto, bool>> predicate)
@@ -39,7 +41,7 @@ namespace ParkingATHWeb.Business.Services
                 .Success((await _repository.Include(x => x.User)
                 .Where(MapExpressionToEntity(predicate))
                 .ToListAsync())
-                .Select(Mapper.Map<GateUsageAdminDto>));
+                .Select(_mapper.Map<GateUsageAdminDto>));
         }
 
         public ServiceResult<Dictionary<DateTime, int>> GetGateUsagesChartData(IEnumerable<GateUsageBaseDto> gateUsagesFiltered, DateTime startDate, DateTime endDate)

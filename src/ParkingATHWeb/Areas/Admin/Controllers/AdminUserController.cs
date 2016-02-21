@@ -11,15 +11,17 @@ namespace ParkingATHWeb.Areas.Admin.Controllers
     public class AdminUserController : AdminServiceController<AdminUserListItemViewModel, AdminUserCreateViewModel, AdminUserEditViewModel, AdminUserDeleteViewModel, UserBaseDto, int>
     {
         private readonly UserService _entityService;
+        private readonly IMapper _mapper;
 
-        public AdminUserController(UserService entityService) : base(entityService)
+        public AdminUserController(UserService entityService, IMapper mapper) : base(entityService, mapper)
         {
             _entityService = entityService;
+            _mapper = mapper;
         }
 
         public override async Task<IActionResult> Create(AdminUserCreateViewModel model)
         {
-            var serviceResult = await _entityService.CreateAsync(Mapper.Map<UserBaseDto>(model), model.Password);
+            var serviceResult = await _entityService.CreateAsync(_mapper.Map<UserBaseDto>(model), model.Password);
             return ReturnWithModelBase(model, serviceResult, ModelState);
         }
     }

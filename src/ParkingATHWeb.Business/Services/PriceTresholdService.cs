@@ -14,20 +14,22 @@ using ParkingATHWeb.Shared.Helpers;
 
 namespace ParkingATHWeb.Business.Services
 {
-    public class PriceTresholdService:EntityService<PriceTresholdBaseDto,PriceTreshold, int>, IPriceTresholdService
+    public class PriceTresholdService : EntityService<PriceTresholdBaseDto, PriceTreshold, int>, IPriceTresholdService
     {
         private readonly IPriceTresholdRepository _repository;
+        private readonly IMapper _mapper;
 
-        public PriceTresholdService(IUnitOfWork unitOfWork, IPriceTresholdRepository repository) : base(repository, unitOfWork)
+        public PriceTresholdService(IUnitOfWork unitOfWork, IPriceTresholdRepository repository, IMapper mapper) : base(repository, unitOfWork, mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         public ServiceResult<IEnumerable<PriceTresholdAdminDto>> GetAllAdmin()
         {
             return ServiceResult<IEnumerable<PriceTresholdAdminDto>>
-                .Success(_repository.Include(x=>x.Orders)
-                .Select(Mapper.Map<PriceTresholdAdminDto>));
+                .Success(_repository.Include(x => x.Orders)
+                .Select(_mapper.Map<PriceTresholdAdminDto>));
         }
 
         public ServiceResult<IEnumerable<PriceTresholdAdminDto>> GetAllAdmin(Expression<Func<PriceTresholdAdminDto, bool>> predicate)
@@ -36,8 +38,8 @@ namespace ParkingATHWeb.Business.Services
             var result = new CustomExpressionVisitor<PriceTreshold>(param).Visit(predicate.Body);
             var lambda = Expression.Lambda<Func<PriceTreshold, bool>>(result, param);
             return ServiceResult<IEnumerable<PriceTresholdAdminDto>>
-                .Success( _repository.Include(x=>x.Orders).Where(lambda)
-                .Select(Mapper.Map<PriceTresholdAdminDto>));
+                .Success(_repository.Include(x => x.Orders).Where(lambda)
+                .Select(_mapper.Map<PriceTresholdAdminDto>));
         }
     }
 }

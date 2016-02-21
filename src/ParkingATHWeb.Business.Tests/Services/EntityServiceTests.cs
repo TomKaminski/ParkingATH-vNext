@@ -23,8 +23,6 @@ namespace ParkingATHWeb.Business.Tests.Services
         public EntityServiceTests()
         {
             InitContext();
-            BackendMappingProvider.InitMappings();
-
             _sut.Create(GetPriceTreshold());
             _sut.Create(GetPriceTreshold());
             _sut.Create(GetPriceTreshold());
@@ -344,7 +342,7 @@ namespace ParkingATHWeb.Business.Tests.Services
             var repository = _mock.Create<PriceTresholdRepository>();
             var uow = _mock.Create<UnitOfWork>();
 
-            _sut = new PriceTresholdService(uow, repository);
+            _sut = new PriceTresholdService(uow, repository, Mapper);
         }
 
     }

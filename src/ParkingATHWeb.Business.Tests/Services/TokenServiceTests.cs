@@ -5,7 +5,6 @@ using ParkingATHWeb.Business.Tests.Base;
 using ParkingATHWeb.DataAccess;
 using ParkingATHWeb.DataAccess.Common;
 using ParkingATHWeb.DataAccess.Repositories;
-using ParkingATHWeb.Resolver.Mappings;
 using ParkingATHWeb.Shared.Enums;
 using SharpTestsEx;
 using Xunit;
@@ -117,8 +116,7 @@ namespace ParkingATHWeb.Business.Tests.Services
             var repository = _mock.Create<TokenRepository>();
             var uow = _mock.Create<UnitOfWork>();
 
-            _sut = new TokenService(uow, repository);
-            BackendMappingProvider.InitMappings();
+            _sut = new TokenService(uow, repository, Mapper);
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Net.Mail.Abstractions;
 using Autofac.Extras.Moq;
 using Moq;
 using ParkingATHWeb.Business.Providers.Email;
@@ -25,19 +24,16 @@ namespace ParkingATHWeb.Business.Tests.Services
     {
         private readonly MessageService _sut;
         private readonly AutoMock _mock = AutoMock.GetLoose();
-        private readonly Mock<ISmtpClient> _smtpClientMock;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly MessageRepository _messageRepoMock;
 
         public MessageServiceTests()
         {
-            BackendMappingProvider.InitMappings();
             _mock.Mock<IDatabaseFactory>().Setup(x => x.Get()).Returns(GetContext());
-            _messageRepoMock = _mock.Create<MessageRepository>();
+            var messageRepoMock = _mock.Create<MessageRepository>();
             _unitOfWork = _mock.Create<UnitOfWork>();
 
-            _smtpClientMock = _mock.Mock<System.Net.Mail.Abstractions.ISmtpClient>();
-            _smtpClientMock.Setup(x => x.SendMailAsync(It.IsAny<MailMessage>())).Verifiable();
+            var smtpClientMock = _mock.Mock<System.Net.Mail.Abstractions.ISmtpClient>();
+            smtpClientMock.Setup(x => x.SendMailAsync(It.IsAny<MailMessage>())).Verifiable();
 
             var appEnvMock = _mock.Mock<IAppSettingsProvider>();
             appEnvMock.Setup(x => x.GetSmtpSettings()).Returns(new SmtpSettings
@@ -61,14 +57,14 @@ namespace ParkingATHWeb.Business.Tests.Services
             var tokenServiceMock = new Mock<ITokenService>();
             tokenServiceMock.Setup(x => x.CreateAsync(It.IsAny<TokenType>())).ReturnsAsync(ServiceResult<TokenBaseDto>.Success(GetTokenDto(TokenType.ResetPasswordToken)));
 
-            _sut = new MessageService(_unitOfWork, _smtpClientMock.Object, appEnvMock.Object, emailBodyProviderMock.Object, _messageRepoMock, tokenServiceMock.Object);
+            _sut = new MessageService(_unitOfWork, smtpClientMock.Object, appEnvMock.Object, emailBodyProviderMock.Object, messageRepoMock, tokenServiceMock.Object, Mapper);
         }
 
         [Fact]
         public async void GetMessageByTokenId_ThenResultIsValid()
         {
             //before
-            var tokenService = new TokenService(_unitOfWork, _mock.Create<TokenRepository>());
+            var tokenService = new TokenService(_unitOfWork, _mock.Create<TokenRepository>(), Mapper);
             var tokenCreateResult = tokenService.Create(TokenType.ViewInBrowserToken);
             var messageDto = GetBaseMessageDto(EmailType.Register);
             messageDto.ViewInBrowserTokenId = tokenCreateResult.Result.Id;

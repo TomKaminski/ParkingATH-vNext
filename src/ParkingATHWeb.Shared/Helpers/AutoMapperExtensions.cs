@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.ComponentModel;
+using System.Linq;
 using AutoMapper;
 
 namespace ParkingATHWeb.Shared.Helpers
@@ -7,12 +8,16 @@ namespace ParkingATHWeb.Shared.Helpers
     {
         public static void IgnoreNotExistingProperties<TSource, TDestination>(this IMappingExpression<TSource, TDestination> expression)
         {
-            var existingMaps = Mapper.GetAllTypeMaps().First(x => x.SourceType == typeof(TSource) && x.DestinationType == typeof(TDestination));
+            var existingMaps = Mapper.GetAllTypeMaps().FirstOrDefault(x => x.SourceType == typeof(TSource) && x.DestinationType == typeof(TDestination));
 
-            foreach (var property in existingMaps.GetUnmappedPropertyNames())
+            if (existingMaps != null)
             {
-                expression.ForMember(property, opt => opt.Ignore());
+                foreach (var property in existingMaps.GetUnmappedPropertyNames())
+                {
+                    expression.ForMember(property, opt => opt.Ignore());
+                }
             }
+
         }
     }
 }

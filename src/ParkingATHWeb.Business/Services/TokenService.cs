@@ -19,11 +19,13 @@ namespace ParkingATHWeb.Business.Services
     {
         private readonly ITokenRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public TokenService(IUnitOfWork unitOfWork, ITokenRepository repository)
-            : base(repository, unitOfWork)
+        public TokenService(IUnitOfWork unitOfWork, ITokenRepository repository, IMapper mapper)
+            : base(repository, unitOfWork, mapper)
         {
             _repository = repository;
+            _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
 
@@ -41,12 +43,12 @@ namespace ParkingATHWeb.Business.Services
         {
             var decryptedData = EncryptHelper.Decrypt(encryptedData);
             var tokenDto = JsonConvert.DeserializeObject<TokenBaseDto>(decryptedData);
-            return ServiceResult<SplittedTokenData>.Success(Mapper.Map<SplittedTokenData>(tokenDto));
+            return ServiceResult<SplittedTokenData>.Success(_mapper.Map<SplittedTokenData>(tokenDto));
         }
 
         public async Task<ServiceResult<TokenBaseDto>> GetTokenBySecureTokenAndTypeAsync(Guid secureToken, TokenType type)
         {
-            var token = Mapper.Map<TokenBaseDto>(await _repository.FirstOrDefaultAsync(x => x.TokenType == type && x.SecureToken == secureToken));
+            var token = _mapper.Map<TokenBaseDto>(await _repository.FirstOrDefaultAsync(x => x.TokenType == type && x.SecureToken == secureToken));
             if (token == null)
             {
                 return ServiceResult<TokenBaseDto>.Failure("Not found");

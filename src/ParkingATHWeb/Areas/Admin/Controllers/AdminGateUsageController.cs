@@ -13,15 +13,17 @@ namespace ParkingATHWeb.Areas.Admin.Controllers
     public class AdminGateUsageController : AdminServiceBaseController<AdminGateUsageListItemViewModel, GateUsageBaseDto, Guid>
     {
         private readonly IGateUsageService _entityService;
+        private readonly IMapper _mapper;
 
-        public AdminGateUsageController(IGateUsageService entityService) : base(entityService)
+        public AdminGateUsageController(IGateUsageService entityService, IMapper mapper) : base(entityService, mapper)
         {
             _entityService = entityService;
+            _mapper = mapper;
         }
 
         public override async Task<IActionResult> List()
         {
-            return View((await _entityService.GetAllAdminAsync()).Result.Select(Mapper.Map<AdminGateUsageListItemViewModel>));
+            return View((await _entityService.GetAllAdminAsync()).Result.Select(_mapper.Map<AdminGateUsageListItemViewModel>));
         }
     }
 }

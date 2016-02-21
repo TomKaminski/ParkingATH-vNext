@@ -18,10 +18,12 @@ namespace ParkingATHWeb.Areas.Admin.Controllers.Base
         where TDto : BaseDto<TKeyType>
     {
         private readonly IEntityService<TDto, TKeyType> _entityService;
+        private readonly IMapper _mapper;
 
-        public AdminServiceController(IEntityService<TDto, TKeyType> entityService) : base(entityService)
+        public AdminServiceController(IEntityService<TDto, TKeyType> entityService, IMapper mapper) : base(entityService, mapper)
         {
             _entityService = entityService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -34,7 +36,7 @@ namespace ParkingATHWeb.Areas.Admin.Controllers.Base
         [ValidateAntiForgeryToken]
         public virtual async Task<IActionResult> Create(TCreateViewModel model)
         {
-            var serviceResult = await _entityService.CreateAsync(Mapper.Map<TDto>(model));
+            var serviceResult = await _entityService.CreateAsync(_mapper.Map<TDto>(model));
             return ReturnWithModelBase(model, serviceResult, ModelState);
         }
 
@@ -42,7 +44,7 @@ namespace ParkingATHWeb.Areas.Admin.Controllers.Base
         [Route("{id}")]
         public virtual async Task<IActionResult> Delete(TKeyType id)
         {
-            return View(Mapper.Map<TListViewModel>(await _entityService.GetAsync(id)));
+            return View(_mapper.Map<TListViewModel>(await _entityService.GetAsync(id)));
         }
 
         [HttpPost]
@@ -58,7 +60,7 @@ namespace ParkingATHWeb.Areas.Admin.Controllers.Base
         [Route("{id}")]
         public virtual async Task<IActionResult> Edit(TKeyType id)
         {
-            return View(Mapper.Map<TEditViewModel>(await _entityService.GetAsync(id)));
+            return View(_mapper.Map<TEditViewModel>(await _entityService.GetAsync(id)));
         }
 
         [HttpPost]
@@ -66,7 +68,7 @@ namespace ParkingATHWeb.Areas.Admin.Controllers.Base
         [ValidateAntiForgeryToken]
         public virtual async Task<IActionResult> Edit(TEditViewModel model)
         {
-            var serviceResult = await _entityService.EditAsync(Mapper.Map<TDto>(model));
+            var serviceResult = await _entityService.EditAsync(_mapper.Map<TDto>(model));
             return ReturnWithModelBase(model, serviceResult, ModelState);
         }
 

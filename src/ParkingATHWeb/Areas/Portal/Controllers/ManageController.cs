@@ -22,18 +22,20 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         private readonly IUserService _userService;
         private readonly IMessageService _messageService;
         private readonly IUserPreferencesService _userPreferencesService;
+        private readonly IMapper _mapper;
 
-        public ManageController(IUserService userService, IMessageService messageService, IUserPreferencesService userPreferencesService)
+        public ManageController(IUserService userService, IMessageService messageService, IUserPreferencesService userPreferencesService, IMapper mapper)
         {
             _userService = userService;
             _messageService = messageService;
             _userPreferencesService = userPreferencesService;
+            _mapper = mapper;
         }
 
         [Route("")]
         public async Task<IActionResult> Index()
         {
-            var userModel = Mapper.Map<UserBaseViewModel>((await _userService.GetByEmailAsync(CurrentUser.Email)).Result);
+            var userModel = _mapper.Map<UserBaseViewModel>((await _userService.GetByEmailAsync(CurrentUser.Email)).Result);
             return PartialView(userModel);
         }
 
@@ -193,7 +195,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         [Route("ZmienDane")]
         public async Task<IActionResult> ChangeUserInfo()
         {
-            var userInfoShortData = Mapper.Map<ChangeUserInfoViewModel>((await _userService.GetByEmailAsync(CurrentUser.Email)).Result);
+            var userInfoShortData = _mapper.Map<ChangeUserInfoViewModel>((await _userService.GetByEmailAsync(CurrentUser.Email)).Result);
             return View(userInfoShortData);
         }
 
@@ -204,7 +206,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         {
             if (ModelState.IsValid)
             {
-                var dto = Mapper.Map<UserBaseDto>(model);
+                var dto = _mapper.Map<UserBaseDto>(model);
                 dto.Email = CurrentUser.Email;
                 var editUserResult = await _userService.EditStudentInitialsAsync(dto);
                 if (editUserResult.IsValid)

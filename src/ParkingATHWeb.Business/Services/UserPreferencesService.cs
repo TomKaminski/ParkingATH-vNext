@@ -1,4 +1,5 @@
-﻿using ParkingATHWeb.Business.Services.Base;
+﻿using AutoMapper;
+using ParkingATHWeb.Business.Services.Base;
 using ParkingATHWeb.Contracts.DTO.UserPreferences;
 using ParkingATHWeb.Contracts.Services;
 using ParkingATHWeb.DataAccess.Common;
@@ -11,7 +12,7 @@ namespace ParkingATHWeb.Business.Services
     {
         private readonly IUserPreferencesRepository _repository;
 
-        public UserPreferenesService(IUserPreferencesRepository repository, IUnitOfWork unitOfWork) : base(repository, unitOfWork)
+        public UserPreferenesService(IUserPreferencesRepository repository, IUnitOfWork unitOfWork, IMapper mapper) : base(repository, unitOfWork, mapper)
         {
             _repository = repository;
         }

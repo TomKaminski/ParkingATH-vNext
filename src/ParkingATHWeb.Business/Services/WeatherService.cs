@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +12,6 @@ using ParkingATHWeb.Contracts.DTO.Weather;
 using ParkingATHWeb.Contracts.Services;
 using ParkingATHWeb.DataAccess.Common;
 using ParkingATHWeb.DataAccess.Interfaces;
-using ParkingATHWeb.Model.Concrete;
 using Weather = ParkingATHWeb.Model.Concrete.Weather;
 
 namespace ParkingATHWeb.Business.Services
@@ -22,10 +20,13 @@ namespace ParkingATHWeb.Business.Services
     {
         private readonly IWeatherRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
-        public WeatherService(IWeatherRepository repository, IUnitOfWork unitOfWork) : base(repository, unitOfWork)
+        private readonly IMapper _mapper;
+
+        public WeatherService(IWeatherRepository repository, IUnitOfWork unitOfWork, IMapper mapper) : base(repository, unitOfWork, mapper)
         {
             _repository = repository;
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public async Task<ServiceResult<WeatherDto>> GetLatestWeatherDataAsync()
@@ -35,7 +36,7 @@ namespace ParkingATHWeb.Business.Services
             {
                 return UpdateWeatherAndReturn();
             }
-            return ServiceResult<WeatherDto>.Success(Mapper.Map<WeatherDto>(latestWeather));
+            return ServiceResult<WeatherDto>.Success(_mapper.Map<WeatherDto>(latestWeather));
         }
 
         public ServiceResult<WeatherDto> UpdateWeatherAndReturn()
@@ -49,8 +50,8 @@ namespace ParkingATHWeb.Business.Services
                 {
                     var reader = new StreamReader(responseStream, Encoding.UTF8);
                     var obj = JsonConvert.DeserializeObject<WeatherHelper>(reader.ReadToEnd());
-                    var weatherDto = Mapper.Map<WeatherDto>(obj);
-                    var weather = Mapper.Map<Weather>(weatherDto);
+                    var weatherDto = _mapper.Map<WeatherDto>(obj);
+                    var weather = _mapper.Map<Weather>(weatherDto);
                     _repository.Add(weather);
                     _unitOfWork.Commit();
                     return ServiceResult<WeatherDto>.Success(weatherDto);

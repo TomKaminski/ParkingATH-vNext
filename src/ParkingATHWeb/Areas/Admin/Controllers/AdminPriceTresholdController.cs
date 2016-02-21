@@ -1,4 +1,5 @@
-﻿using ParkingATHWeb.Areas.Admin.Controllers.Base;
+﻿using AutoMapper;
+using ParkingATHWeb.Areas.Admin.Controllers.Base;
 using ParkingATHWeb.Areas.Admin.ViewModels.PriceTreshold;
 using ParkingATHWeb.Contracts.DTO.PriceTreshold;
 using ParkingATHWeb.Contracts.Services.Base;
@@ -12,7 +13,7 @@ namespace ParkingATHWeb.Areas.Admin.Controllers
                                                  AdminPriceTresholdDeleteViewModel, 
                                                  PriceTresholdBaseDto, int>
     {
-        public AdminPriceTresholdController(IEntityService<PriceTresholdBaseDto, int> entityService) : base(entityService)
+        public AdminPriceTresholdController(IEntityService<PriceTresholdBaseDto, int> entityService, IMapper mapper) : base(entityService, mapper)
         {
         }
     }

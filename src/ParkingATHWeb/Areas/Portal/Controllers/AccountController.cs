@@ -22,11 +22,13 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
     {
         private readonly IUserService _userService;
         private readonly IMessageService _messageService;
+        private readonly IMapper _mapper;
 
-        public AccountController(IUserService userService, IMessageService messageService)
+        public AccountController(IUserService userService, IMessageService messageService, IMapper mapper)
         {
             _userService = userService;
             _messageService = messageService;
+            _mapper = mapper;
         }
 
         [Route("Wyloguj")]
@@ -102,7 +104,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         {
             if (ModelState.IsValid)
             {
-                var userCreateResult = await _userService.CreateAsync(Mapper.Map<UserBaseDto>(model), model.Password);
+                var userCreateResult = await _userService.CreateAsync(_mapper.Map<UserBaseDto>(model), model.Password);
                 if (userCreateResult.IsValid)
                 {
                     await _messageService.SendMessageAsync(EmailType.Register, userCreateResult.Result, GetAppBaseUrl());

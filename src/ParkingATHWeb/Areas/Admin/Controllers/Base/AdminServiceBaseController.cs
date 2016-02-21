@@ -15,16 +15,18 @@ namespace ParkingATHWeb.Areas.Admin.Controllers.Base
         where TDto : BaseDto<TKeyType>
     {
         private readonly IEntityService<TDto, TKeyType> _entityService;
+        private readonly IMapper _mapper;
 
-        public AdminServiceBaseController(IEntityService<TDto, TKeyType> entityService)
+        public AdminServiceBaseController(IEntityService<TDto, TKeyType> entityService, IMapper mapper)
         {
             _entityService = entityService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public virtual async Task<IActionResult> List()
         {
-            return View((await _entityService.GetAllAsync()).Result.Select(Mapper.Map<TListViewModel>));
+            return View((await _entityService.GetAllAsync()).Result.Select(_mapper.Map<TListViewModel>));
         }
     }
 }

@@ -18,11 +18,13 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         private readonly IWeatherService _weatherService;
         private readonly IUserService _userService;
         private readonly IGateUsageService _gateUsageService;
-        public HomeController(IWeatherService weatherService, IUserService userService, IGateUsageService gateUsageService)
+        private readonly IMapper _mapper;
+        public HomeController(IWeatherService weatherService, IUserService userService, IGateUsageService gateUsageService, IMapper mapper)
         {
             _weatherService = weatherService;
             _userService = userService;
             _gateUsageService = gateUsageService;
+            _mapper = mapper;
         }
 
         [Route("~/[area]")]
@@ -43,7 +45,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
             var user = (await _userService.GetByEmailAsync(CurrentUser.Email)).Result;
             var userId = user.Id;
 
-            var weatherData = Mapper.Map<WeatherDataViewModel>((await _weatherService.GetLatestWeatherDataAsync()).Result);
+            var weatherData = _mapper.Map<WeatherDataViewModel>((await _weatherService.GetLatestWeatherDataAsync()).Result);
             var userGateUsages = (await _gateUsageService.GetAllAsync(x => x.UserId == userId)).Result.ToList();
 
             var endDate = DateTime.Today.AddDays(1).AddSeconds(-1);

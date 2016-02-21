@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoMapper;
 using ParkingATHWeb.Areas.Admin.Controllers.Base;
 using ParkingATHWeb.Areas.Admin.ViewModels.Message;
 using ParkingATHWeb.Contracts.DTO;
@@ -8,7 +9,7 @@ namespace ParkingATHWeb.Areas.Admin.Controllers
 {
     public class AdminMessageController : AdminServiceBaseController<AdminMessageListItemViewModel, MessageDto, Guid>
     {
-        public AdminMessageController(IEntityService<MessageDto, Guid> entityService) : base(entityService)
+        public AdminMessageController(IEntityService<MessageDto, Guid> entityService, IMapper mapper) : base(entityService, mapper)
         {
         }
     }

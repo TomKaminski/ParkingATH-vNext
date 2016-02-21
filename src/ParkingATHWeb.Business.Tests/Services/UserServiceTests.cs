@@ -1,11 +1,9 @@
 ﻿using Autofac.Extras.Moq;
-using Moq;
 using ParkingATHWeb.Business.Services;
 using ParkingATHWeb.Business.Tests.Base;
 using ParkingATHWeb.DataAccess;
 using ParkingATHWeb.DataAccess.Common;
 using ParkingATHWeb.DataAccess.Repositories;
-using ParkingATHWeb.Resolver.Mappings;
 using ParkingATHWeb.Shared.Helpers;
 using SharpTestsEx;
 using Xunit;
@@ -22,9 +20,7 @@ namespace ParkingATHWeb.Business.Tests.Services
 
         public UserServiceTests()
         {
-            BackendMappingProvider.InitMappings();
             InitContext();
-
 
             var tkaminskiUser = GetUserBaseDto();
             tkaminskiUser.Email = "tkaminski93@gmail.com";
@@ -44,9 +40,9 @@ namespace ParkingATHWeb.Business.Tests.Services
             var passwordHasher = _mock.Create<PasswordHasher>();
             var tokenRepositoryMock = _mock.Create<TokenRepository>();
             var userPreferencesRepositoryMock = _mock.Create<UserPreferencesRepository>();
-            _tokenService = new TokenService(_unitOfWork, _mock.Create<TokenRepository>());
+            _tokenService = new TokenService(_unitOfWork, _mock.Create<TokenRepository>(), Mapper);
 
-            _sut = new UserService(_userRepository, _unitOfWork, gateRepositoryMock, passwordHasher, _tokenService, tokenRepositoryMock, userPreferencesRepositoryMock);
+            _sut = new UserService(_userRepository, _unitOfWork, gateRepositoryMock, passwordHasher, _tokenService, tokenRepositoryMock, userPreferencesRepositoryMock, Mapper);
         }
 
         [Fact]

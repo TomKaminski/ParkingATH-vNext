@@ -1,6 +1,7 @@
 ﻿using System;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
@@ -21,6 +22,8 @@ namespace ParkingATHWeb
         //private TokenAuthOptions _tokenOptions;
         //private string _appBasePath;
 
+        private readonly IMapper _mapper;
+
         public Startup(IHostingEnvironment env)
         {
             //_appBasePath = appEnv.ApplicationBasePath;
@@ -31,9 +34,19 @@ namespace ParkingATHWeb
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
 
-            //TODO:
-            FrontendMappingsProvider.InitMappings();
-            BackendMappingProvider.InitMappings();
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new AccountFrontendMappings());
+                cfg.AddProfile(new FrontendMappings());
+                cfg.AddProfile(new GateUsageBackendMappings());
+                cfg.AddProfile(new WeatherBackendMappings());
+                cfg.AddProfile(new MessageBackendMappings());
+                cfg.AddProfile(new OrderBackendMappings());
+                cfg.AddProfile(new UserBackendMappings());
+                cfg.AddProfile(new TokenBackendMappings());
+                cfg.AddProfile(new PriceTresholdBackendMappings());
+            });
+            _mapper = config.CreateMapper();
         }
 
         public IConfigurationRoot Configuration { get; set; }
@@ -72,6 +85,7 @@ namespace ParkingATHWeb
 
             // Create the Autofac container builder.
             var builder = new ContainerBuilder();
+            builder.Register(x => _mapper).As<IMapper>();
             builder.RegisterModule(new ContractModule());
             builder.RegisterModule(new EfModule());
             builder.RegisterModule(new RepositoryModule());
