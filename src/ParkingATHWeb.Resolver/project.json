@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "1.0.0-*",
   "description": "ParkingATHWeb.Resolver Class Library",
   "authors": [ "Tomek" ],
@@ -7,7 +7,7 @@
   "licenseUrl": "",
   "dependencies": {
     "Autofac": "4.0.0-rc1-177",
-    "AutoMapper": "4.1.1",
+    "AutoMapper": "4.2.0",
     "ParkingATHWeb.Business": "1.0.0-*",
     "ParkingATHWeb.Contracts": "1.0.0-*",
     "ParkingATHWeb.DataAccess": "1.0.0-*",

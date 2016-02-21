@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "1.0.0-*",
   "compilationOptions": {
     "emitEntryPoint": true
@@ -21,13 +21,12 @@
     "ParkingATHWeb.Contracts": "1.0.0-*",
     "ParkingATHWeb.Resolver": "1.0.0-*",
     "Microsoft.AspNet.Authentication.Cookies": "1.0.0-rc1-final",
-    "AutoMapper": "4.1.1",
-    "Autofac": "4.0.0-rc1-*",
     "Autofac.Extensions.DependencyInjection": "4.0.0-rc1-*",
     "Microsoft.AspNet.Authentication.JwtBearer": "1.0.0-rc1-final",
     "System.IdentityModel.Tokens": "5.0.0-rc1-211161024",
-    "System.IdentityModel.Tokens.Jwt": "5.0.0-rc1-211161024"
-
+    "System.IdentityModel.Tokens.Jwt": "5.0.0-rc1-211161024",
+    "AutoMapper": "4.2.0",
+    "Autofac": "4.0.0-rc1-177"
   },
 
   "commands": {

@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "1.0.0-*",
   "description": "ParkingATHWeb.Shared.Tests Class Library",
   "authors": [ "Tomek" ],
@@ -6,7 +6,6 @@
   "projectUrl": "",
   "licenseUrl": "",
   "dependencies": {
-    "Moq": "4.2.1506.2515",
     "Autofac.Extras.Moq": "4.0.0",
     "System.Linq": "4.0.1-beta-23516",
     "SharpTestsEx": "1.2.1",
@@ -14,7 +13,8 @@
     "xunit.runner.visualstudio": "2.2.0-beta1-build1144",
     "xunit.runner.dnx": "2.1.0-rc1-build204",
     "ParkingATHWeb.Shared": "1.0.0-*",
-    "Newtonsoft.Json": "8.0.1"
+    "Moq": "4.2.1510.2205",
+    "Newtonsoft.Json": "8.0.2"
   },
   "frameworks": {
     "dnx451": {

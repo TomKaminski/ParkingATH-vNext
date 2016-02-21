@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "1.0.0-*",
   "description": "",
   "authors": [ "" ],
@@ -9,7 +9,6 @@
     "defaultNamespace": "<%= namespace %>"
   },
   "dependencies": {
-    "Moq": "4.2.1506.2515",
     "Autofac.Extras.Moq": "4.0.0",
     "System.Linq": "4.0.1-beta-23516",
     "SharpTestsEx": "1.2.1",
@@ -18,7 +17,8 @@
     "xunit.runner.dnx": "2.1.0-rc1-build204",
     "ParkingATHWeb.Contracts": "1.0.0-*",
     "ParkingATHWeb.Business": "1.0.0-*",
-    "ParkingATHWeb.Resolver": "1.0.0-*"
+    "ParkingATHWeb.Resolver": "1.0.0-*",
+    "Moq": "4.2.1510.2205"
   },
   "commands": {
     "test": "xunit.runner.dnx"

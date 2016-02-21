@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "1.0.0-*",
   "description": "ParkingATHWeb.Shared Class Library",
   "authors": [ "Tomek" ],
@@ -10,6 +10,6 @@
     }
   },
   "dependencies": {
-    "AutoMapper": "4.1.1"
+    "AutoMapper": "4.2.0"
   }
 }
