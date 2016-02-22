@@ -18,16 +18,10 @@ namespace ParkingATHWeb
 {
     public class Startup
     {
-        //private RsaSecurityKey _key;
-        //private TokenAuthOptions _tokenOptions;
-        //private string _appBasePath;
-
         private readonly IMapper _mapper;
 
         public Startup(IHostingEnvironment env)
         {
-            //_appBasePath = appEnv.ApplicationBasePath;
-
             // Set up configuration sources.
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("DefaultSettings.json")
@@ -85,7 +79,7 @@ namespace ParkingATHWeb
 
             // Create the Autofac container builder.
             var builder = new ContainerBuilder();
-            builder.Register(x => _mapper).As<IMapper>();
+            builder.Register(x => _mapper).As<IMapper>().SingleInstance();
             builder.RegisterModule(new ContractModule());
             builder.RegisterModule(new EfModule());
             builder.RegisterModule(new RepositoryModule());

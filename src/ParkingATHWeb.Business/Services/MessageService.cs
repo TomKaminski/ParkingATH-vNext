@@ -38,12 +38,12 @@ namespace ParkingATHWeb.Business.Services
         {
             _smtpSettings = appSettingsProvider.GetSmtpSettings();
             _smtpClient = smtpClient;
+            _mapper = mapper;
             _smtpClient = _mapper.Map<System.Net.Mail.Abstractions.SmtpClient>(_smtpSettings);
 
             _emailContentProvider = emailContentProvider;
             _messageRepository = messageRepository;
             _tokenService = tokenService;
-            _mapper = mapper;
             _unitOfWork = unitOfWork;
 
             appSettingsProvider.GetAppSettings(AppSettingsType.DefaultSettings, AppSettingsType.Resources);

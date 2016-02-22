@@ -34,30 +34,38 @@ namespace ParkingATHWeb.Business.Services
             var latestWeather = await _repository.GetMostRecentWeather();
             if (latestWeather== null || latestWeather.ValidToDate < DateTime.Now)
             {
-                return UpdateWeatherAndReturn();
+                return UpdateWeatherAndReturn(_mapper.Map<WeatherDto>(latestWeather));
             }
             return ServiceResult<WeatherDto>.Success(_mapper.Map<WeatherDto>(latestWeather));
         }
 
-        public ServiceResult<WeatherDto> UpdateWeatherAndReturn()
+        public ServiceResult<WeatherDto> UpdateWeatherAndReturn(WeatherDto latestWeather)
         {
             var request = (HttpWebRequest)WebRequest.Create("http://api.openweathermap.org/data/2.5/weather?id=7530791&appid=0db985dfe762e26f24741f0393273666");
 
-            var response = request.GetResponse();
-            using (var responseStream = response.GetResponseStream())
+            try
             {
-                if (responseStream != null)
+                var response = request.GetResponse();
+                using (var responseStream = response.GetResponseStream())
                 {
-                    var reader = new StreamReader(responseStream, Encoding.UTF8);
-                    var obj = JsonConvert.DeserializeObject<WeatherHelper>(reader.ReadToEnd());
-                    var weatherDto = _mapper.Map<WeatherDto>(obj);
-                    var weather = _mapper.Map<Weather>(weatherDto);
-                    _repository.Add(weather);
-                    _unitOfWork.Commit();
-                    return ServiceResult<WeatherDto>.Success(weatherDto);
+                    if (responseStream != null)
+                    {
+                        var reader = new StreamReader(responseStream, Encoding.UTF8);
+                        var obj = JsonConvert.DeserializeObject<WeatherHelper>(reader.ReadToEnd());
+                        var weatherDto = _mapper.Map<WeatherDto>(obj);
+                        var weather = _mapper.Map<Weather>(weatherDto);
+                        _repository.Add(weather);
+                        _unitOfWork.Commit();
+                        return ServiceResult<WeatherDto>.Success(weatherDto);
+                    }
+                    return ServiceResult<WeatherDto>.Success(new WeatherDto());
                 }
-                return ServiceResult<WeatherDto>.Success(new WeatherDto());
             }
+            catch
+            {
+                return ServiceResult<WeatherDto>.Success(latestWeather);
+            }
+            
         }
     }
 }
