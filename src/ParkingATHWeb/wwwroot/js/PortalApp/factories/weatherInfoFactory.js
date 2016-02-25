@@ -72,57 +72,57 @@
                 //Thunderstorm 2xx codes
                 case 200:
                     {
-                        weatherModel.push(getModel(titles.thunderstorm, icons.iconThunder));
-                        weatherModel.push(getModel(titles.lightRain, icons.iconRainy));
+                        weatherModel.push(getModel(titles.thunderstorm, [icons.iconThunder, icons.iconBaseCloud]));
+                        weatherModel.push(getModel(titles.lightRain, [icons.iconRainy, icons.iconBaseCloud]));
                         break;
                     }
                 case 201:
                     {
-                        weatherModel.push(getModel(titles.thunderstorm, icons.iconThunder));
-                        weatherModel.push(getModel(titles.rain, icons.iconRainy));
+                        weatherModel.push(getModel(titles.thunderstorm, [icons.iconThunder, icons.iconBaseCloud]));
+                        weatherModel.push(getModel(titles.rain, [icons.iconRainy, icons.iconBaseCloud]));
                         break;
                     }
                 case 202:
                     {
-                        weatherModel.push(getModel(titles.thunderstorm, icons.iconThunder));
-                        weatherModel.push(getModel(titles.heavyRain, icons.iconRainy));
+                        weatherModel.push(getModel(titles.thunderstorm, [icons.iconThunder, icons.iconBaseCloud]));
+                        weatherModel.push(getModel(titles.heavyRain, [icons.iconRainy, icons.iconBaseCloud]));
                         break;
                     }
                 case 210:
                     {
-                        weatherModel.push(getModel(titles.lightThunderstorm, icons.iconThunder));
+                        weatherModel.push(getModel(titles.lightThunderstorm, [icons.iconThunder, icons.iconBaseCloud]));
                         break;
                     }
                 case 211:
                     {
-                        weatherModel.push(getModel(titles.thunderstorm, icons.iconThunder));
+                        weatherModel.push(getModel(titles.thunderstorm, [icons.iconThunder, icons.iconBaseCloud]));
                         break;
                     }
                 case 212:
                 case 221:
                     {
-                        weatherModel.push(getModel(titles.heavyThunderstorm, icons.iconThunder));
+                        weatherModel.push(getModel(titles.heavyThunderstorm, [icons.iconThunder, icons.iconBaseCloud]));
                         break;
                     }
                 case 230:
                     {
 
-                        weatherModel.push(getModel(titles.thunderstorm, icons.iconThunder));
-                        weatherModel.push(getModel(titles.lightDrizzle, icons.iconDrizzle));
+                        weatherModel.push(getModel(titles.thunderstorm, [icons.iconThunder, icons.iconBaseCloud]));
+                        weatherModel.push(getModel(titles.lightDrizzle, [icons.iconDrizzle, icons.iconBaseCloud]));
                         break;
                     }
                 case 231:
                     {
 
-                        weatherModel.push(getModel(titles.thunderstorm, icons.iconThunder));
-                        weatherModel.push(getModel(titles.drizzle, icons.iconDrizzle));
+                        weatherModel.push(getModel(titles.thunderstorm, [icons.iconThunder, icons.iconBaseCloud]));
+                        weatherModel.push(getModel(titles.drizzle, [icons.iconDrizzle, icons.iconBaseCloud]));
                         break;
                     }
                 case 232:
                     {
 
-                        weatherModel.push(getModel(titles.thunderstorm, icons.iconThunder));
-                        weatherModel.push(getModel(titles.heavyDrizzle, icons.iconDrizzle));
+                        weatherModel.push(getModel(titles.thunderstorm, [icons.iconThunder, icons.iconBaseCloud]));
+                        weatherModel.push(getModel(titles.heavyDrizzle, [icons.iconDrizzle, icons.iconBaseCloud]));
                         break;
                     }
 
@@ -130,18 +130,18 @@
                 case 300:
                 case 301:
                     {
-                        weatherModel.push(getModel(titles.lightDrizzle, icons.iconDrizzle));
+                        weatherModel.push(getModel(titles.lightDrizzle, [icons.iconDrizzle, icons.iconBaseCloud]));
                         break;
                     }
                 case 302:
                 case 310:
                     {
-                        weatherModel.push(getModel(titles.heavyDrizzle, icons.iconDrizzle));
+                        weatherModel.push(getModel(titles.heavyDrizzle, [icons.iconDrizzle, icons.iconBaseCloud]));
                         break;
                     }
                 case 311:
                     {
-                        weatherModel.push(getModel(titles.rain, icons.iconDrizzle));
+                        weatherModel.push(getModel(titles.rain, [icons.iconDrizzle, icons.iconBaseCloud]));
                         break;
                     }
                 case 312:
@@ -175,12 +175,12 @@
                 case 600:
                 case 601:
                     {
-                        weatherModel.push(getModel(titles.snow, icons.iconSnow));
+                        weatherModel.push(getModel(titles.snow, [icons.iconSnow, icons.iconBaseCloud]));
                         break;
                     }
                 case 602:
                     {
-                        weatherModel.push(getModel(titles.heavySnow, icons.iconSnow));
+                        weatherModel.push(getModel(titles.heavySnow, [icons.iconSnow, icons.iconBaseCloud]));
                         break;
                     }
                 case 611:
@@ -192,33 +192,33 @@
                 case 622:
                     {
 
-                        weatherModel.push(getModel(titles.rain, icons.iconRainy));
-                        weatherModel.push(getModel(titles.snow, icons.iconSnow));
+                        weatherModel.push(getModel(titles.rain, [icons.iconRainy, icons.iconBaseCloud]));
+                        weatherModel.push(getModel(titles.snow, [icons.iconSnow, icons.iconBaseCloud]));
                         break;
                     }
                 case 800:
                     {
-                        weatherModel.push(getModel(titles.clearSky, icons.iconSunny));
+                        weatherModel.push(getModel(titles.clearSky, [icons.iconSun]));
                         break;
                     }
                 case 801:
                     {
-                        weatherModel.push(getModel(titles.lightClouds, icons.iconCloud));
+                        weatherModel.push(getModel(titles.lightClouds, [icons.iconBaseCloud,icons.iconSunny]));
                         break;
                     }
                 case 802:
                     {
-                        weatherModel.push(getModel(titles.lightClouds, icons.iconCloud));
+                        weatherModel.push(getModel(titles.lightClouds, [icons.iconBaseCloud, icons.iconSunny]));
                         break;
                     }
                 case 803:
                     {
-                        weatherModel.push(getModel(titles.clouds, icons.iconCloud));
+                        weatherModel.push(getModel(titles.clouds, [icons.iconBaseCloud, icons.iconSunny]));
                         break;
                     }
                 case 804:
                     {
-                        weatherModel.push(getModel(titles.heavyClouds, icons.iconCloud));
+                        weatherModel.push(getModel(titles.heavyClouds, [icons.iconCloud]));
                         break;
                     }
                 default:

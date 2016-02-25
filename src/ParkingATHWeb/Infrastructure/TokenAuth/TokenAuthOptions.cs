@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IdentityModel.Tokens;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ParkingATHWeb.Infrastructure.TokenAuth
 {

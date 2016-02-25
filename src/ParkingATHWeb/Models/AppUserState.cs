@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Claims;
 using System.Security.Principal;
+using ParkingATHWeb.Shared.Helpers;
 
 namespace ParkingATHWeb.Models
 {
@@ -16,6 +17,7 @@ namespace ParkingATHWeb.Models
 
         }
 
+        public int? UserId => FindFirst("userId") == null ? null : ToNullable.Convert<int>(FindFirst("userId").Value);
         public string Email => FindFirst(ClaimTypes.NameIdentifier) == null ? null : FindFirst(ClaimTypes.NameIdentifier).Value;
         public string Name => FindFirst(ClaimTypes.Name) == null ? null : FindFirst(ClaimTypes.Name).Value;
         public string LastName => FindFirst("LastName") == null ? null : FindFirst("LastName").Value;

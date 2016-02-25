@@ -8,13 +8,13 @@
 
   "dependencies": {
     "Autofac.Extras.Moq": "4.0.0",
-    "System.Linq": "4.0.1-beta-23516",
     "SharpTestsEx": "1.2.1",
     "xunit": "2.2.0-beta1-build3239",
     "xunit.runner.visualstudio": "2.2.0-beta1-build1144",
-    "xunit.runner.dnx": "2.1.0-rc1-build204",
+    "xunit.runner.dnx": "2.1.0-beta5-aspnet-1",
     "ParkingATHWeb.DataAccess": "1.0.0-*",
-    "Moq": "4.2.1510.2205"
+    "Moq": "4.2.1510.2205",
+    "System.Linq": "4.0.1-rc2-23623"
   },
   "commands": {
     "test": "xunit.runner.dnx"

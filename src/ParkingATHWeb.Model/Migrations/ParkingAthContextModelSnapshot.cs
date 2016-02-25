@@ -80,6 +80,34 @@ namespace ParkingATHWeb.Model.Migrations
                     b.HasKey("Id");
                 });
 
+            modelBuilder.Entity("ParkingATHWeb.Model.Concrete.PortalMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<bool>("IsDisplayed");
+
+                    b.Property<bool>("IsNotification");
+
+                    b.Property<Guid?>("NextMessageId");
+
+                    b.Property<Guid?>("NextMessageId1");
+
+                    b.Property<int>("PortalMessageType");
+
+                    b.Property<Guid?>("PreviousMessageId");
+
+                    b.Property<string>("Text");
+
+                    b.Property<bool>("ToAdmin");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+                });
+
             modelBuilder.Entity("ParkingATHWeb.Model.Concrete.PriceTreshold", b =>
                 {
                     b.Property<int>("Id")
@@ -217,6 +245,21 @@ namespace ParkingATHWeb.Model.Migrations
                     b.HasOne("ParkingATHWeb.Model.Concrete.PriceTreshold")
                         .WithMany()
                         .HasForeignKey("PriceTresholdId");
+
+                    b.HasOne("ParkingATHWeb.Model.Concrete.User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("ParkingATHWeb.Model.Concrete.PortalMessage", b =>
+                {
+                    b.HasOne("ParkingATHWeb.Model.Concrete.PortalMessage")
+                        .WithOne()
+                        .HasForeignKey("ParkingATHWeb.Model.Concrete.PortalMessage", "NextMessageId");
+
+                    b.HasOne("ParkingATHWeb.Model.Concrete.PortalMessage")
+                        .WithMany()
+                        .HasForeignKey("NextMessageId1");
 
                     b.HasOne("ParkingATHWeb.Model.Concrete.User")
                         .WithMany()

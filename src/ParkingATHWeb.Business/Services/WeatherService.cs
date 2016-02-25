@@ -41,7 +41,7 @@ namespace ParkingATHWeb.Business.Services
 
         public ServiceResult<WeatherDto> UpdateWeatherAndReturn(WeatherDto latestWeather)
         {
-            var request = (HttpWebRequest)WebRequest.Create("http://api.openweathermap.org/data/2.5/weather?id=7530791&appid=0db985dfe762e26f24741f0393273666");
+            var request = (HttpWebRequest)WebRequest.Create("http://api.openweathermap.org/data/2.5/weather?id=3103402&appid=0db985dfe762e26f24741f0393273666");
 
             try
             {

@@ -80,7 +80,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
             model.AppendErrors(GetModelStateErrors(ModelState));
             if (model.ReturnUrl == null)
             {
-                model.ReturnUrl = Url.Action("Index", "Home", new {area = "Portal"});
+                model.ReturnUrl = Url.Action("Index", "Home", new { area = "Portal" });
             }
             return Json(model);
         }
@@ -153,7 +153,8 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                 new Claim(ClaimTypes.Name, user.Name),
                 new Claim("isAdmin",user.IsAdmin.ToString()),
                 new Claim("LastName",user.LastName),
-                new Claim("SidebarShrinked",userPreferences.ShrinkedSidebar.ToString())
+                new Claim("SidebarShrinked",userPreferences.ShrinkedSidebar.ToString()),
+                new Claim("userId",user.Id.ToString())
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

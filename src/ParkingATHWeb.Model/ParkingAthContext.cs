@@ -1,5 +1,8 @@
-﻿using Microsoft.Data.Entity;
+﻿using System.Linq.Expressions;
+using Microsoft.Data.Entity;
 using Microsoft.Data.Entity.Metadata;
+using Microsoft.Data.Entity.Metadata.Builders;
+using Microsoft.Data.Entity.Metadata.Internal;
 using ParkingATHWeb.Model.Concrete;
 
 namespace ParkingATHWeb.Model
@@ -21,6 +24,7 @@ namespace ParkingATHWeb.Model
         public virtual DbSet<PriceTreshold> PriceTreshold { get; set; }
         public virtual DbSet<Token> Token { get; set; }
         public virtual DbSet<Message> Message { get; set; }
+        public virtual DbSet<PortalMessage> PortalMessage { get; set; }
         public virtual DbSet<Weather> Weather { get; set; }
         public virtual DbSet<WeatherInfo> WeatherInfo { get; set; }
 
@@ -82,6 +86,25 @@ namespace ParkingATHWeb.Model
                  .HasMany(x => x.WeatherInfo)
                  .WithOne(x => x.Weather)
                  .HasForeignKey(x => x.WeatherId);
+
+            modelBuilder.Entity<PortalMessage>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.UserPortalMessages)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<PortalMessage>()
+                .HasOne(x => x.PreviousMessage)
+                .WithOne(x=>x.NextMessage)
+                .HasForeignKey<PortalMessage>(x=>x.PreviousMessageId)
+                .IsRequired(false);
+
+            modelBuilder.Entity<PortalMessage>()
+                .HasOne(x => x.NextMessage)
+                .WithOne(x => x.PreviousMessage)
+                .HasForeignKey<PortalMessage>(x => x.NextMessageId)
+                .IsRequired(false);
+
+
 
             base.OnModelCreating(modelBuilder);
         }

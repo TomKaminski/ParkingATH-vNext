@@ -15,8 +15,8 @@
     "ParkingATHWeb.Shared": "1.0.0-*",
     "System.Net.Mail.Abstractions": "1.0.8",
     "Autofac.Extras.Moq": "4.0.0",
-    "Microsoft.Extensions.Configuration": "1.0.0-rc1-final",
     "Autofac": "4.0.0-rc1-177",
-    "Newtonsoft.Json": "8.0.2"
+    "Newtonsoft.Json": "8.0.2",
+    "Microsoft.Extensions.Configuration": "1.0.0-rc2-15952"
   }
 }

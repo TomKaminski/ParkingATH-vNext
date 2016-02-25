@@ -19,6 +19,14 @@ namespace ParkingATHWeb.Resolver.Mappings
             CreateMap<Weather, WeatherDto>()
                 .IgnoreNotExistingProperties();
 
+            CreateMap<Business.HelperClasses.Weather, WeatherInfoDto>()
+                .ForMember(x => x.WeatherConditionId, src => src.MapFrom(a => a.id))
+                .ForMember(x => x.WeatherDescription, src => src.MapFrom(a => a.description))
+                .ForMember(x => x.WeatherMain, src => src.MapFrom(a => a.main))
+                .ForMember(x => x.Id, opt => opt.Ignore())
+                .IgnoreNotExistingProperties();
+
+
             CreateMap<WeatherInfo, WeatherInfoDto>()
                .IgnoreNotExistingProperties();
 

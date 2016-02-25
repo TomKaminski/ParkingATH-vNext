@@ -49,7 +49,8 @@ namespace ParkingATHWeb.Areas.Portal.Controllers.Base
                 new Claim(ClaimTypes.Name, user.Name),
                 new Claim("isAdmin", user.IsAdmin.ToString()),
                 new Claim("LastName", user.LastName),
-                new Claim("SidebarShrinked",userPreferences.ShrinkedSidebar.ToString())
+                new Claim("SidebarShrinked",userPreferences.ShrinkedSidebar.ToString()),
+                new Claim("userId", user.Id.ToString())
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

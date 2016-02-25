@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ParkingATHWeb.Model.Common;
 using ParkingATHWeb.Shared.Enums;
 
@@ -20,5 +21,6 @@ namespace ParkingATHWeb.Model.Concrete
 
         public long ViewInBrowserTokenId { get; set; }
         public virtual Token ViewInBrowserToken { get; set; }
+
     }
 }
