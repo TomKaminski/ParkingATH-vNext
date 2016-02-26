@@ -92,20 +92,6 @@ namespace ParkingATHWeb.Model
                 .WithMany(x => x.UserPortalMessages)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<PortalMessage>()
-                .HasOne(x => x.PreviousMessage)
-                .WithOne(x=>x.NextMessage)
-                .HasForeignKey<PortalMessage>(x=>x.PreviousMessageId)
-                .IsRequired(false);
-
-            modelBuilder.Entity<PortalMessage>()
-                .HasOne(x => x.NextMessage)
-                .WithOne(x => x.PreviousMessage)
-                .HasForeignKey<PortalMessage>(x => x.NextMessageId)
-                .IsRequired(false);
-
-
-
             base.OnModelCreating(modelBuilder);
         }
     }

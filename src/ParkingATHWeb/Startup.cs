@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Mime;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
@@ -13,6 +14,7 @@ using ParkingATHWeb.Resolver.Modules;
 using ParkingATHWeb.Mappings;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Hosting.Internal;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ParkingATHWeb.Infrastructure.Attributes;
 
 namespace ParkingATHWeb
@@ -198,7 +200,8 @@ namespace ParkingATHWeb
         // Entry point for the application.
         public static void Main(string[] args)
         {
-              
+            WebApplication.Run<Startup>(args);
+
         }
     }
 }
