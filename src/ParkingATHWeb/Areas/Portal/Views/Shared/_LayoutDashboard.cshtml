@@ -1,4 +1,5 @@
 ﻿@using System.Threading.Tasks
+@using ParkingATHWeb.Infrastructure.Extensions
 @using ParkingATHWeb.Models
 @{
     var userState = (AppUserState)ViewContext.RouteData.Values["appUserState"];
@@ -41,7 +42,7 @@
     <link href="~/lib/angular-chart.js/dist/angular-chart.css" rel="stylesheet" />
     @RenderSection("styles", required: false)
 </head>
-<body ng-controller="layoutCtrl as layoutCtrl" ng-cloak ng-init="layoutCtrl.init('@userState.SidebarShrinked')">
+<body ng-controller="layoutCtrl as layoutCtrl" ng-cloak ng-init="layoutCtrl.init('@userState.SidebarShrinked')" request-verification-token="@Html.RequestVerificationToken()">
     <!-- Start Page Loading -->
     <div id="loader-wrapper">
         <div id="loader"></div>
@@ -213,6 +214,7 @@
     <script src="~/lib/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="~/js/portalapp/portalapp.js"></script>
     <script src="~/js/portalapp/directives/resolveloaderdirective.js"></script>
+    <script src="~/js/portalapp/directives/requestverificationtokendirective.js"></script>
     <script src="~/js/portalapp/directives/loaderdirective.js"></script>
     <script src="~/js/portalapp/directives/cardloaderdirective.js"></script>
     <script src="~/js/portalapp/factories/chartjsoptionsfactory.js"></script>

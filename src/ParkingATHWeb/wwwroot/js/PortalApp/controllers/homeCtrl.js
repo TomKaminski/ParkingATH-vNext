@@ -52,6 +52,7 @@
                     console.log(e);
                     loadingContentService.setIsLoading('sendQuickMessage', false);
                     self.sendMessageModel.disableButton = false;
+                    Materialize.toast("Wystąpił błąd podczas łączenia się z serwerem.", 8000, 'toast-red');
                 });
             }
         }

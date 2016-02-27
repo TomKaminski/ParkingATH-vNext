@@ -7,6 +7,7 @@ using ParkingATHWeb.Areas.Portal.Controllers.Base;
 using ParkingATHWeb.Areas.Portal.ViewModels.Message;
 using ParkingATHWeb.Contracts.DTO.SupportMessage;
 using ParkingATHWeb.Contracts.Services;
+using ParkingATHWeb.Infrastructure.Extensions;
 
 namespace ParkingATHWeb.Areas.Portal.Controllers
 {
@@ -54,6 +55,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
 
         [HttpPost]
         [Route("[action]")]
+        [ValidateAntiForgeryTokenFromHeader]
         public async Task<IActionResult> SendQuickMessage([FromBody] QuickMessageViewModel model)
         {
             if (ModelState.IsValid)
