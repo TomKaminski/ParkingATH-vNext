@@ -12,8 +12,19 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 .padding-25 {
   padding: 0 25px; }
 
+.margin-bottom-20 {
+  margin-bottom: 20px !important; }
+
 .padding-bottom-20 {
-  margin-bottom: 20px; }
+  padding-bottom: 20px !important; }
+
+.toast-green {
+  background: #66BB6A !important;
+  cursor: default !important; }
+
+.toast-red {
+  background: #ea454b !important;
+  cursor: default !important; }
 
 @font-face {
   font-family: "iconvault";

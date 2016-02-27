@@ -10,16 +10,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="msapplication-tap-highlight" content="no">
-    <meta name="description" content="Materialize is a Material Design Admin Template,It's modern, responsive and based on Material Design by Google. ">
-    <meta name="keywords" content="materialize, admin template, dashboard template, flat admin template, responsive admin template,">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
     <title>@ViewData["Title"] - SmartPark</title>
-    <!-- Favicons-->
-    <link rel="icon" href="~/images/dashboard/favicon/favicon-32x32.png" sizes="32x32">
-    <!-- Favicons-->
-    <link rel="apple-touch-icon-precomposed" href="~/images/dashboard/favicon/apple-touch-icon-152x152.png">
-    <!-- For iPhone -->
-    <meta name="msapplication-TileColor" content="#00bcd4">
-    <meta name="msapplication-TileImage" content="~/images/dashboard/favicon/mstile-144x144.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="~/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="~/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="~/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="~/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="~/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="~/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="~/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="~/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="~/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="~/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/favicon/favicon-16x16.png">
+    <link rel="manifest" href="~/favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="~/favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
     <!-- For Windows Phone -->
     <!-- CORE CSS-->
     <link href="~/css/Dashboard/materialize.css" type="text/css" rel="stylesheet" media="screen,projection">
@@ -104,7 +114,7 @@
                                 <img src="~/images/Kasia_400x400.png" alt="" class="responsive-img valign profile-image" style="border-left: 4px solid #00a651">
                             </div>
                             <div class="col s6 hide-on-shrinked">
-                                <p class="user-initials"><b>KATARZYNA<br />JASIEWICZ</b></p>
+                                <p class="user-initials"><b>@userState.Name<br />@userState.LastName</b></p>
                             </div>
                         </div>
                     </li>
@@ -203,6 +213,7 @@
     <script src="~/lib/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="~/js/portalapp/portalapp.js"></script>
     <script src="~/js/portalapp/directives/resolveloaderdirective.js"></script>
+    <script src="~/js/portalapp/directives/loaderdirective.js"></script>
     <script src="~/js/portalapp/directives/cardloaderdirective.js"></script>
     <script src="~/js/portalapp/factories/chartjsoptionsfactory.js"></script>
     <script src="~/js/portalapp/factories/weatherinfofactory.js"></script>

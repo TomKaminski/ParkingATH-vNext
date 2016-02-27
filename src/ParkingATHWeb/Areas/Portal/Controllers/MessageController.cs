@@ -54,7 +54,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> SendQuickMessage(QuickMessageViewModel model)
+        public async Task<IActionResult> SendQuickMessage([FromBody] QuickMessageViewModel model)
         {
             if (ModelState.IsValid)
             {

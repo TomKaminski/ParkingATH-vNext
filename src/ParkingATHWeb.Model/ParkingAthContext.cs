@@ -1,8 +1,5 @@
-﻿using System.Linq.Expressions;
-using Microsoft.Data.Entity;
+﻿using Microsoft.Data.Entity;
 using Microsoft.Data.Entity.Metadata;
-using Microsoft.Data.Entity.Metadata.Builders;
-using Microsoft.Data.Entity.Metadata.Internal;
 using ParkingATHWeb.Model.Concrete;
 
 namespace ParkingATHWeb.Model
@@ -98,7 +95,9 @@ namespace ParkingATHWeb.Model
                 .WithMany(x => x.UserPortalMessages)
                 .OnDelete(DeleteBehavior.Restrict);
 
+
             base.OnModelCreating(modelBuilder);
+
         }
     }
 }

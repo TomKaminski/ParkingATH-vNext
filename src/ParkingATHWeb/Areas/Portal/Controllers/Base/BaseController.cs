@@ -6,7 +6,6 @@ using Microsoft.AspNet.Http.Authentication;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Filters;
 using Microsoft.AspNet.Mvc.ModelBinding;
-using ParkingATHWeb.ApiModels.Base;
 using ParkingATHWeb.Contracts.Common;
 using ParkingATHWeb.Contracts.DTO.User;
 using ParkingATHWeb.Contracts.DTO.UserPreferences;

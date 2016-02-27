@@ -230,6 +230,7 @@
 /// <reference path="js/PortalApp/controllers/shopCtrl.js" />
 /// <reference path="js/portalapp/controllers/statisticsctrl.js" />
 /// <reference path="js/PortalApp/directives/cardLoaderDirective.js" />
+/// <reference path="js/portalapp/directives/loaderdirective.js" />
 /// <reference path="js/portalapp/directives/resolveloaderdirective.js" />
 /// <reference path="js/portalapp/directives/sparklinechartdirective.js" />
 /// <reference path="js/portalapp/factories/apifactory.js" />

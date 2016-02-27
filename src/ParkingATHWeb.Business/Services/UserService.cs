@@ -140,6 +140,7 @@ namespace ParkingATHWeb.Business.Services
             entity.PasswordHash = saltHash.Hash;
             var user = _repository.Add(_mapper.Map<User>(entity));
             var userPreference = _userPreferencesRepository.Add(new UserPreferences { UserId = user.Id, ShrinkedSidebar = false });
+            await _unitOfWork.CommitAsync();
             user.UserPreferencesId = userPreference.Id;
             await _unitOfWork.CommitAsync();
             return ServiceResult<UserBaseDto>.Success(_mapper.Map<UserBaseDto>(user));
@@ -438,6 +439,7 @@ namespace ParkingATHWeb.Business.Services
             entity.PasswordHash = saltHash.Hash;
             var user = _repository.Add(_mapper.Map<User>(entity));
             var userPreference = _userPreferencesRepository.Add(new UserPreferences { UserId = user.Id, ShrinkedSidebar = false });
+            _unitOfWork.Commit();
             user.UserPreferencesId = userPreference.Id;
             _unitOfWork.Commit();
             return ServiceResult<UserBaseDto>.Success(_mapper.Map<UserBaseDto>(user));
