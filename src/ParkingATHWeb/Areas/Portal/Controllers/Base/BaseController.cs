@@ -6,6 +6,7 @@ using Microsoft.AspNet.Http.Authentication;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Filters;
 using Microsoft.AspNet.Mvc.ModelBinding;
+using ParkingATHWeb.ApiModels.Base;
 using ParkingATHWeb.Contracts.Common;
 using ParkingATHWeb.Contracts.DTO.User;
 using ParkingATHWeb.Contracts.DTO.UserPreferences;
@@ -70,6 +71,15 @@ namespace ParkingATHWeb.Areas.Portal.Controllers.Base
             model.AppendErrors(serviceResult.ValidationErrors);
             model.AppendErrors(GetModelStateErrors(modelState));
             return View(model);
+        }
+
+        protected IActionResult ReturnJsonModelWithError<TModel, TServiceResult>(TModel model, TServiceResult serviceResult, ModelStateDictionary modelState)
+            where TModel : SmartParkBaseViewModel
+            where TServiceResult : ServiceResult
+        {
+            model.AppendErrors(serviceResult.ValidationErrors);
+            model.AppendErrors(GetModelStateErrors(modelState));
+            return Json(model);
         }
 
         protected IEnumerable<string> GetModelStateErrors(ModelStateDictionary modelState)

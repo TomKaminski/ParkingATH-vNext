@@ -45,7 +45,8 @@
             clearSky: "czyste niebo",
             clouds: "średnie zachmurzenie",
             lightClouds: "lekkie zachmurzenie",
-            heavyClouds: "silne zachmurzenie"
+            heavyClouds: "silne zachmurzenie",
+            mist: "mgła"
         }
 
         function getWeatherInfo(weatherData) {
@@ -219,6 +220,11 @@
                 case 804:
                     {
                         weatherModel.push(getModel(titles.heavyClouds, [icons.iconCloud]));
+                        break;
+                    }
+                    case 701:
+                    {
+                        weatherModel.push(getModel(titles.mist, [icons.iconMist]));
                         break;
                     }
                 default:

@@ -22,10 +22,7 @@
 
         function postSidebarChangeMessage(sidebarShrinked) {
             apiFactory.post(apiFactory.apiEnum.SaveSidebarState, { sidebarShrinked: sidebarShrinked }).then(function (data) {
-                if (data.IsValid === true) {
-                    console.log('changed');
-                } else {
-                    console.log('not changed');
+                if (data.IsValid === false) {
                     console.log(data.ValidationErrors);
                 }
             }, function (e) {

@@ -5,22 +5,44 @@
         var self = this;
         breadcrumbService.setOuterBreadcrumb('dashboard');
 
-        self.model = getDashboardData();
+        self.weatherModel = {}
+        self.sendMessageModel = {};
+        self.userChargesModel = {}
 
-        function getDashboardData() {
-            loadingContentService.setIsLoading(true);
-            apiFactory.get(apiFactory.apiEnum.GetDashboardData, {}).then(function (data) {
-                self.model = data;
-                self.model.weatherData.weatherInfo = weatherInfoFactory.getWeatherInfo(data.weatherData.WeatherInfo);
-                self.model.lineChartData.data = [data.lineChartData.data];
-                self.model.lineChartData.options = chartJsOptionsFactory.getDefaultLineOptions();
-                loadingContentService.setIsLoading(false);
+        getWeatherData();
+        getUserChargesData();
+
+        function getWeatherData() {
+            loadingContentService.setIsLoading('weatherLoading',true);
+            apiFactory.get(apiFactory.apiEnum.GetWeatherData, {}).then(function (data) {
+                console.log("got weather");
+                self.weatherModel = data;
+                self.weatherModel.weatherInfo = weatherInfoFactory.getWeatherInfo(data.WeatherInfo);
+                loadingContentService.setIsLoading('weatherLoading', false);
 
             }, function (e) {
                 console.log(e);
-                loadingContentService.setIsLoading(false);
-
+                loadingContentService.setIsLoading('weatherLoading', false);
             });
+        }
+
+        function getUserChargesData() {
+            loadingContentService.setIsLoading('userChargesLoading', true);
+            apiFactory.get(apiFactory.apiEnum.GetUserChargesData, {}).then(function (data) {
+                console.log("got user");
+
+                self.userChargesModel = data;
+                self.userChargesModel.lineChartData.data = [data.lineChartData.data];
+                self.userChargesModel.lineChartData.options = chartJsOptionsFactory.getDefaultLineOptions();
+                loadingContentService.setIsLoading('userChargesLoading', false);
+            }, function (e) {
+                console.log(e);
+                loadingContentService.setIsLoading('userChargesLoading', false);
+            });
+        }
+
+        self.SendQuickMessage = function() {
+         
         }
     }
 

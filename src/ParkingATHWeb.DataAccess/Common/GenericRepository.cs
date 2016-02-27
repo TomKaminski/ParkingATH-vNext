@@ -95,5 +95,10 @@ namespace ParkingATHWeb.DataAccess.Common
         {
             return await _dbset.AsNoTracking().FirstOrDefaultAsync(expression);
         }
+
+        public async Task<T> SingleOrDefaultAsync(Expression<Func<T, bool>> expression)
+        {
+            return await _dbset.AsNoTracking().SingleOrDefaultAsync(expression);
+        }
     }
 }

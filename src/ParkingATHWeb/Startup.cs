@@ -42,6 +42,7 @@ namespace ParkingATHWeb
                 cfg.AddProfile(new UserBackendMappings());
                 cfg.AddProfile(new TokenBackendMappings());
                 cfg.AddProfile(new PriceTresholdBackendMappings());
+                cfg.AddProfile(new PortalMessageBackendMappings());
             });
             _mapper = config.CreateMapper();
         }
@@ -201,7 +202,6 @@ namespace ParkingATHWeb
         public static void Main(string[] args)
         {
             WebApplication.Run<Startup>(args);
-
         }
     }
 }

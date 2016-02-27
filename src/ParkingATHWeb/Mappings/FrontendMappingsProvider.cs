@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using ParkingATHWeb.Areas.Admin.ViewModels.User;
+using ParkingATHWeb.Areas.Portal.ViewModels.Message;
 using ParkingATHWeb.Areas.Portal.ViewModels.User;
 using ParkingATHWeb.Areas.Portal.ViewModels.Weather;
 using ParkingATHWeb.Contracts.DTO;
+using ParkingATHWeb.Contracts.DTO.SupportMessage;
 using ParkingATHWeb.Contracts.DTO.User;
 using ParkingATHWeb.Contracts.DTO.Weather;
 using ParkingATHWeb.Contracts.DTO.WeatherInfo;
@@ -29,6 +31,8 @@ namespace ParkingATHWeb.Mappings
             CreateMap<WeatherInfoDto, WeatherInfoDataViewModel>()
                 .ForMember(x => x.WeatherId, src => src.MapFrom(a => a.WeatherConditionId))
                 .IgnoreNotExistingProperties();
+
+            CreateMap<QuickMessageViewModel, PortalMessageDto>().IgnoreNotExistingProperties();
         }
     }
 }

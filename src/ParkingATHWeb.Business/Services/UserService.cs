@@ -393,6 +393,15 @@ namespace ParkingATHWeb.Business.Services
             return ServiceResult<UserAdminDto>.Success(_mapper.Map<UserAdminDto>(await _repository.FirstAsync(MapExpressionToEntity(predicate))));
         }
 
+        public async Task<ServiceResult<int>> GetAdminAccountIdAsync()
+        {
+            var adminAccount = await _repository.SingleOrDefaultAsync(x => x.IsAdmin);
+
+            return adminAccount == null
+                ? ServiceResult<int>.Failure("Could not find admin account")
+                : ServiceResult<int>.Success(adminAccount.Id);
+        }
+
         #region Helpers
 
         private static string GetUniqueKey()

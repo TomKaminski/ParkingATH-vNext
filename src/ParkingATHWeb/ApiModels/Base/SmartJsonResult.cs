@@ -16,6 +16,13 @@ namespace ParkingATHWeb.ApiModels.Base
             ValidationErrors = validationErrors;
         }
 
+        public static SmartJsonResult Failure(params string[] validationErrors)
+        {
+            var errors = new List<string>();
+            errors.AddRange(validationErrors);
+            return new SmartJsonResult(errors);
+        }
+
         public static SmartJsonResult Success()
         {
             return new SmartJsonResult();
@@ -46,7 +53,7 @@ namespace ParkingATHWeb.ApiModels.Base
             Result = result;
         }
 
-        public static SmartJsonResult<T> Failure(params string[] validationErrors)
+        public new static SmartJsonResult<T> Failure(params string[] validationErrors)
         {
             var errors = new List<string>();
             errors.AddRange(validationErrors);

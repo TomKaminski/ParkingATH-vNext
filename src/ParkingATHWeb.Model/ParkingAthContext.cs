@@ -92,6 +92,12 @@ namespace ParkingATHWeb.Model
                 .WithMany(x => x.UserPortalMessages)
                 .OnDelete(DeleteBehavior.Restrict);
 
+
+            modelBuilder.Entity<PortalMessage>()
+                .HasOne(x => x.ReceiverUser)
+                .WithMany(x => x.UserPortalMessages)
+                .OnDelete(DeleteBehavior.Restrict);
+
             base.OnModelCreating(modelBuilder);
         }
     }

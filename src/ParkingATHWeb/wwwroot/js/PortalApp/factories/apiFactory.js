@@ -5,7 +5,9 @@
 
         var apiEnum = {
             SaveSidebarState: "Portal/Konto/SaveSidebarState",
-            GetDashboardData: "Portal/Home/DashboardData"
+            GetUserChargesData: "Portal/Home/GetUserChargesData",
+            GetWeatherData: "Portal/Home/GetWeatherData",
+            SendQuickMessage: "Portal/Wiadomosci/SendQuickMessage"
         }
 
         function get(apiUrl, options) {

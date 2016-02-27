@@ -111,22 +111,8 @@
                     <li class="bold nav-border">
                         <a ui-sref="dashboard" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'dashboard'}"><i class="mdi-action-view-column"></i> <span>Panel główny</span></a>
                     </li>
-                    <li class="no-padding nav-border">
-                        <ul class="collapsible collapsible-accordion">
-                            <li class="bold">
-                                <a class="collapsible-header waves-effect waves-cyan" ui-sref="statistics" ng-class="{'active': $state.current.name == 'statistics'}"><i class="mdi-action-trending-up"></i> <span>Statystyki</span></a>
-                                <div class="collapsible-body">
-                                    <ul>
-                                        <li>
-                                            <a href="layout-fullscreen.html">Wyjazdy</a>
-                                        </li>
-                                        <li>
-                                            <a href="layout-horizontal-menu.html">Zamówienia</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
+                    <li class="bold nav-border">
+                        <a ui-sref="statistics" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'statistics'}"><i class="mdi-action-trending-up"></i> <span>Statystyki</span></a>
                     </li>
                     <li class="bold nav-border">
                         <a ui-sref="shop" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'shop'}"><i class="mdi-action-shopping-cart"></i> <span>Sklep</span></a>
@@ -141,7 +127,7 @@
                         <a class="waves-effect waves-cyan toggle-side-nav-shrinked" ng-click="layoutCtrl.changeSidebarState()"><i class="mdi-action-swap-horiz"></i> <span>Zwiń</span></a>
                     </li>
                 </ul>
-                <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only cyan"><i class="mdi-navigation-menu"></i></a>
+                <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only" style="background:#4b85c5"><i class="mdi-navigation-menu"></i></a>
             </aside>
             <!-- END LEFT SIDEBAR NAV-->
             <!-- START CONTENT -->

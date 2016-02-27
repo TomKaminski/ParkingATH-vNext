@@ -17,6 +17,6 @@
     "Autofac.Extras.Moq": "4.0.0",
     "Autofac": "4.0.0-rc1-177",
     "Newtonsoft.Json": "8.0.2",
-    "Microsoft.Extensions.Configuration": "1.0.0-rc2-15952"
+    "Microsoft.Extensions.Configuration": "1.0.0-rc1-final"
   }
 }

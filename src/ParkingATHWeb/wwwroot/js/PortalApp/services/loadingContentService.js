@@ -2,12 +2,15 @@
     'use strict';
 
     function loadingContentService($rootScope) {
-        this.setIsLoading = function(loading) {
-            $rootScope.isContentLoading = loading;
+        this.setIsLoading = function (name, value) {
+            if (typeof $rootScope.loadingContainer === 'undefined') {
+                $rootScope.loadingContainer = {}
+            }
+            $rootScope.loadingContainer[name] = value;
         }
 
-        this.isContentLoading = function() {
-            return $rootScope.isContentLoading;
+        this.isContentLoading = function(name) {
+            return $rootScope.loadingContainer[name];
         }
     }
 

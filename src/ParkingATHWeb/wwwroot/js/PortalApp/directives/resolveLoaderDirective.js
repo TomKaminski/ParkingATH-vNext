@@ -7,14 +7,12 @@
         link: function (scope, element) {
 
             $rootScope.$on('$stateChangeStart', function (event, currentRoute, previousRoute) {
-                console.log('here');
                 $timeout(function () {
                     element.removeClass('ng-hide');
                 });
             });
 
             $rootScope.$on('$stateChangeSuccess', function () {
-                console.log('here suc');
                 $timeout(function () {
                     element.addClass('ng-hide');
                 });

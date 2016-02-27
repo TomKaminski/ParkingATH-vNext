@@ -40,5 +40,7 @@ namespace ParkingATHWeb.DataAccess.Common
         Task<T> FirstAsync(Expression<Func<T, bool>> expression);
 
         Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> expression);
+
+        Task<T> SingleOrDefaultAsync(Expression<Func<T, bool>> expression);
     }
 }

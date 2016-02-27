@@ -720,7 +720,7 @@ h5.breadcrumbs-header {
   padding-top: 22px; }
 
 #message-card {
-  background: #2e6cb2; }
+  background: #5c6bc0; }
   #message-card input {
     border-color: white !important; }
   #message-card label {
@@ -732,14 +732,14 @@ h5.breadcrumbs-header {
   #message-card .message-state {
     padding-bottom: 15px; }
   #message-card .card-content {
-    background: #2e6cb2; }
+    background: #5c6bc0; }
   #message-card .message-state-wrapper {
     margin: 0 0 100px 0 !important; }
   #message-card .card-header .card-title {
     padding: 20px; }
 
 #weather-card {
-  background: #2e6cb2; }
+  background: #40c4ff; }
   #weather-card .weather-state {
     padding-bottom: 15px; }
   #weather-card .weather-state-wrapper {

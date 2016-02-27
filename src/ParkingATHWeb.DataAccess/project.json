@@ -11,9 +11,9 @@
     }
   },
   "dependencies": {
-    "EntityFramework.Core": "7.0.0-rc2-16649",
-    "EntityFramework.InMemory": "7.0.0-rc2-16649",
-    "EntityFramework.MicrosoftSqlServer": "7.0.0-rc2-16649",
+    "EntityFramework.Core": "7.0.0-rc1-final",
+    "EntityFramework.InMemory": "7.0.0-rc1-final",
+    "EntityFramework.MicrosoftSqlServer": "7.0.0-rc1-final",
     "ParkingATHWeb.Model": "1.0.0-*"
   }
 }
