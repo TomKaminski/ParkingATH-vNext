@@ -561,9 +561,13 @@ ul.side-nav .collapsible-header {
 #breadcrumbs-wrapper {
   background: #4b85c5; }
 
-@media (min-width: 993px) {
+@media (min-width: 1200px) {
   #breadcrumbs-wrapper {
     height: 125px; } }
+
+@media (max-width: 1201px) {
+  #breadcrumbs-wrapper {
+    height: 127px; } }
 
 h5.breadcrumbs-header {
   font-size: 1.64rem;

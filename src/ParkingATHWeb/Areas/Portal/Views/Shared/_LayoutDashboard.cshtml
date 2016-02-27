@@ -78,23 +78,22 @@
                                 <a href="~/" class="brand-logo darken-1"><img src="~/images/wbmii-logo-white.png" alt="smartpark logo" style="max-height: 38px; width: auto"></a> <span class="logo-text">SmartPark</span>
                             </h1>
                         </li>
-                        <li class="hide-on-large-only">
+                        <li class="hide-on-large-only" style="position: absolute; right:0">
                             <form asp-action="Logout" asp-controller="Account" asp-route-area="Portal" id="logoutForm">
                                 <a href="javascript:document.getElementById('logoutForm').submit()"><i class="mdi-action-input"></i></a>
                             </form>
                         </li>
                     </ul>
-                    <ul class="right logo-cont  hide-on-semi-mid-and-small" style="height: 100%">
-                        <li class="valign-wrapper">
+                    <ul class="right logo-cont" style="height: 100%">
+                        <li class="valign-wrapper hide-on-semi-mid-and-small">
                             <h4 class="small right-align padding-25 no-hover valign">WYKUP ABONAMENT - ZAPŁAĆ ZBLIŻENIOWO<br/>OTWIERAJ BRAMĘ SMARTFONEM</h4>
                         </li>
-                        <li>
+                        <li class="hide-on-med-and-down">
                             <form asp-action="Logout" asp-controller="Account" asp-route-area="Portal" id="logoutForm">
                                 <a href="javascript:document.getElementById('logoutForm').submit()"><i class="mdi-action-input"></i></a>
                             </form>
                         </li>
                     </ul>
-                   
                 </div>
             </nav>
         </div>

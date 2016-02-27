@@ -8,9 +8,15 @@
     background: $secondary-color-light;
 }
 
-@media (min-width:993px) {
+@media (min-width:1200px) {
     #breadcrumbs-wrapper {
         height: 125px;
+    }
+}
+
+@media (max-width:1201px) {
+    #breadcrumbs-wrapper {
+        height: 127px;
     }
 }
 
