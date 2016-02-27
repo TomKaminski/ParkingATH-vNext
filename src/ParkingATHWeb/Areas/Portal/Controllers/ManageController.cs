@@ -10,6 +10,7 @@ using ParkingATHWeb.Areas.Portal.ViewModels.Account;
 using ParkingATHWeb.Areas.Portal.ViewModels.Manage;
 using ParkingATHWeb.Areas.Portal.ViewModels.User;
 using ParkingATHWeb.Contracts.DTO.User;
+using ParkingATHWeb.Infrastructure.Attributes;
 using ParkingATHWeb.Shared.Enums;
 
 namespace ParkingATHWeb.Areas.Portal.Controllers
@@ -224,6 +225,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
 
         [HttpPost]
         [Route("SaveSidebarState")]
+        [ValidateAntiForgeryTokenFromHeader]
         public async Task<IActionResult> SaveSidebarState([FromBody]SidebarStateViewModel model)
         {
             if (ModelState.IsValid)

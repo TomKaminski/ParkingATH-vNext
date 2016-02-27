@@ -1,4 +1,4 @@
-﻿angular.module('portalApp', ['ui.router', 'chart.js'])
+﻿angular.module('portalApp', ['ui.router', 'chart.js', 'ngMessages'])
  .config(['ChartJsProvider', function (ChartJsProvider) {
      // Configure all charts
      ChartJsProvider.setOptions({

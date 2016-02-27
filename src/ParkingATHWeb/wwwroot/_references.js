@@ -245,6 +245,7 @@
 /// <reference path="js/welcomePage.js" />
 /// <reference path="lib/angular/angular.js" />
 /// <reference path="lib/angular-chart.js/dist/angular-chart.js" />
+/// <reference path="lib/angular-messages/angular-messages.js" />
 /// <reference path="lib/angular-ui-router/release/angular-ui-router.js" />
 /// <reference path="lib/bootstrap/dist/js/bootstrap.js" />
 /// <reference path="lib/chart.js/chart.js" />

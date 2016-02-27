@@ -32,6 +32,10 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     cursor: default !important;
 }
 
+.ng-messages-errors p{
+    color:red !important
+}
+
 @font-face {
     font-family: "iconvault";
     src: url("../../../font/forecast/iconvault_forecastfont.eot");

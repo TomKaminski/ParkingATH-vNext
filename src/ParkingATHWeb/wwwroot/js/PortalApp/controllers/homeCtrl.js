@@ -13,7 +13,7 @@
         getUserChargesData();
 
         function getWeatherData() {
-            loadingContentService.setIsLoading('weatherLoading',true);
+            loadingContentService.setIsLoading('weatherLoading', true);
             apiFactory.get(apiFactory.apiEnum.GetWeatherData, {}).then(function (data) {
                 self.weatherModel = data;
                 self.weatherModel.weatherInfo = weatherInfoFactory.getWeatherInfo(data.WeatherInfo);
@@ -38,23 +38,22 @@
         }
 
         self.SendQuickMessage = function () {
-            if (!self.sendMessageModel.disableButton) {
-                loadingContentService.setIsLoading('sendQuickMessage', true);
-                self.sendMessageModel.disableButton = true;
-                apiFactory.post(apiFactory.apiEnum.SendQuickMessage, { Text: self.sendMessageModel.text }).then(function (data) {
-                    if (data.IsValid) {
-                        self.sendMessageModel.text = "";
-                    }
-                    loadingContentService.setIsLoading('sendQuickMessage', false);
-                    self.sendMessageModel.disableButton = false;
-                    showNotifications(data);
-                }, function (e) {
-                    console.log(e);
-                    loadingContentService.setIsLoading('sendQuickMessage', false);
-                    self.sendMessageModel.disableButton = false;
-                    Materialize.toast("Wystąpił błąd podczas łączenia się z serwerem.", 8000, 'toast-red');
-                });
-            }
+            loadingContentService.setIsLoading('sendQuickMessage', true);
+            self.sendMessageModel.disableButton = true;
+            apiFactory.post(apiFactory.apiEnum.SendQuickMessage, { Text: self.sendMessageModel.text }).then(function (data) {
+                if (data.IsValid) {
+                    self.sendMessageModel.text = "";
+                }
+                loadingContentService.setIsLoading('sendQuickMessage', false);
+                self.sendMessageModel.disableButton = false;
+                showNotifications(data);
+            }, function (e) {
+                console.log(e);
+                loadingContentService.setIsLoading('sendQuickMessage', false);
+                self.sendMessageModel.disableButton = false;
+                Materialize.toast("Wystąpił błąd podczas łączenia się z serwerem.", 8000, 'toast-red');
+            });
+
         }
 
         function showNotifications(model) {

@@ -7,7 +7,8 @@ namespace ParkingATHWeb.Areas.Portal.ViewModels.Message
 {
     public class QuickMessageViewModel : SmartParkBaseViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Treść wiadomości nie może być pusta!")]
+        [MinLength(20, ErrorMessage = "Wiadomość powinna zawierać minimum 20 znaków!")]
         public string Text { get; set; }
         public bool ToAdmin => true;
         public bool IsNotification => false;

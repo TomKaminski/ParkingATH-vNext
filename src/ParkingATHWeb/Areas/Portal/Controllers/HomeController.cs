@@ -7,6 +7,7 @@ using Microsoft.AspNet.Mvc;
 using ParkingATHWeb.Areas.Portal.Controllers.Base;
 using ParkingATHWeb.Areas.Portal.ViewModels.Weather;
 using ParkingATHWeb.Contracts.Services;
+using ParkingATHWeb.Infrastructure.Attributes;
 
 namespace ParkingATHWeb.Areas.Portal.Controllers
 {
@@ -40,6 +41,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         }
 
         [Route("[controller]/[action]")]
+        [ValidateAntiForgeryTokenFromHeader]
         public async Task<IActionResult> GetWeatherData()
         {
             var weatherData = _mapper.Map<WeatherDataViewModel>((await _weatherService.GetLatestWeatherDataAsync()).Result);
@@ -47,6 +49,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         }
 
         [Route("[controller]/[action]")]
+        [ValidateAntiForgeryTokenFromHeader]
         public async Task<IActionResult> GetUserChargesData()
         {
             var user = (await _userService.GetByEmailAsync(CurrentUser.Email)).Result;
