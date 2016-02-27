@@ -7,6 +7,7 @@ namespace ParkingATHWeb.Infrastructure.Attributes
 {
     public class ValidateAntiForgeryTokenFromHeaderAttribute : ActionFilterAttribute
     {
+        private const string RequestHeaderName = "requestVerificationToken";
         public override void OnActionExecuting(ActionExecutingContext actionContext)
         {
             if (actionContext == null) throw new ArgumentNullException(nameof(actionContext));
@@ -20,7 +21,7 @@ namespace ParkingATHWeb.Infrastructure.Attributes
             var request = actionContext.HttpContext.Request;
 
             var cookieToken = request.Cookies[config.CookieName];
-            var formToken = request.Headers["X-XSRF-Token"];
+            var formToken = request.Headers[RequestHeaderName];
             antiForgery.ValidateTokens(actionContext.HttpContext, new AntiforgeryTokenSet(formToken, cookieToken));
         }
     }
