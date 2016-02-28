@@ -10,7 +10,11 @@
             GetUserChargesData: "Home/GetUserChargesData",
             GetWeatherData: "Home/GetWeatherData",
             SendQuickMessage: "Wiadomosci/SendQuickMessage",
-            GetSettingsIndexData: "Konto/GetSettingsIndexData"
+            GetSettingsIndexData: "Konto/GetSettingsIndexData",
+            ChangePassword: "Konto/ChangePassword",
+            ChangeEmail: "Konto/ChangeEmail",
+            SendCharges: "Konto/SendCharges",
+            ChangeUserInfo: "Konto/ChangeUserInfo"
         }
 
         function get(apiUrl, options) {

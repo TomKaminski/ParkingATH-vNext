@@ -12,7 +12,7 @@ namespace ParkingATHWeb.Contracts.Services
 {
     public interface IUserService : IEntityService<UserBaseDto, int>, IDependencyService
     {
-        Task<ServiceResult<UserBaseDto>> ChangeEmailAsync(string email, string newEmail, string password);
+        Task<ServiceResult<UserBaseDto, UserPreferencesDto>> ChangeEmailAsync(string email, string newEmail, string password);
 
         Task<ServiceResult<UserBaseDto, string>> GetPasswordChangeTokenAsync(string email);
         Task<ServiceResult<UserBaseDto, string>> GetSelfDeleteTokenAsync(string email);

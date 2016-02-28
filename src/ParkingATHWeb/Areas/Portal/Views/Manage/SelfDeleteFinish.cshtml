@@ -1,19 +1,92 @@
 ﻿@model ParkingATHWeb.Areas.Portal.ViewModels.Manage.SelfDeleteViewModel
 @{
     ViewData["Title"] = "Usuwanie konta - potwierdzenie";
+    Layout = "_LayoutClear";
 }
 
-<div class="row">
-    <div class="col-xs-12 col-md-8 col-md-offset-2">
-        <h2>Potwierdź proszę ZAKOŃCZENIE procesu usuwania konta - proces ten będzie nieodwracalny!</h2>
-        <form asp-action="SelfDeleteFinish" asp-controller="Manage" asp-antiforgery="true">
-            <div asp-validation-summary="ValidationSummary.ModelOnly"></div>
-            <input type="hidden" asp-for="Token" value="@Model.Token"/>
-            <h3><b>Czy na pewno chcesz usunąć swoje konto?</b></h3>
-            <div class="form-group">
-                <input type="submit" value="Chcę usunąć swoje konto" class="btn btn-default"/>
-            </div>
-            <a asp-action="Index" asp-controller="Manage">Zabierz mnie stąd!!!</a>
-        </form>
+<div class="container valign">
+    <div class="row">
+        <div class="col s8 m6 offset-s2 offset-m3">
+            <p class="center-align margin-bottom-50">
+                <a asp-action="Index" asp-controller="Home" asp-route-area="Portal"><img src="~/images/logo_standard.png" /></a>
+            </p>
+        </div>
+    </div>
+    <div class="row" id="form-row">
+        <div class="col s10 m8 offset-s1 offset-m2 z-depth-1">
+            <h2 class="valign-wrapper" style="justify-content: center; margin-bottom: 0">
+                <img src="~/images/lock_logo.png" class="valign" />USUWANIE KONTA
+            </h2>
+            <h5 class="smart-grey center-align">Potwierdź usunięcie konta:</h5>
+
+            <form asp-action="SelfDeleteFinish" asp-controller="Manage" asp-antiforgery="true" id="selfDeleteForm">
+                <div asp-validation-summary="ValidationSummary.ModelOnly"></div>
+                <input type="hidden" asp-for="Token" value="@Model.Token" />
+                <div class="row valign-wrapper" style="margin:0">
+                    <button class="btn waves-effect waves-light valign smart-form-btn red" style="margin-right: 10px;" data-form-id="reset-password-form">
+                        Chcę usunąć swoje konto w systemie smartPARK
+                        <i class="material-icons right">send</i>
+                    </button>
+                    <div class="preloader-wrapper small active valign" style="display: none; margin: 0 10px 0 5px;">
+                        <div class="spinner-layer spinner-blue">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+
+                        <div class="spinner-layer spinner-red">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+
+                        <div class="spinner-layer spinner-yellow">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+
+                        <div class="spinner-layer spinner-green">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <a asp-action="LoginRegisterForgot" asp-controller="Account" class="smart-blue smart-move-btn align-right"><b>LOGOWANIE</b></a>
+                    <a asp-action="Index" asp-controller="Home" asp-route-area="Portal" class="smart-blue smart-move-btn align-right">Portal</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
+
+@section styles{
+    <link href="~/css/portal/manage/resetpassword.css" rel="stylesheet" />
+}
+@section scripts{
+    <script src="~/js/portal/Manage/ResetPassword.js"></script>
+}

@@ -55,25 +55,29 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
             return Json(SmartJsonResult<UserBaseViewModel>.Failure(serviceResult.ValidationErrors));
         }
 
-        [Route("UsuwanieKonta")]
-        public IActionResult SelfDeleteStart()
-        {
-            return View();
-        }
-
         [HttpPost]
-        [ActionName("SelfDeleteStart")]
-        [ValidateAntiForgeryToken]
-        [Route("UsuwanieKonta")]
-        public async Task<IActionResult> SelfDeleteStartPost()
+        [ValidateAntiForgeryTokenFromHeader]
+        [Route("SelfDeleteStart")]
+        public async Task<IActionResult> SelfDeleteStart()
         {
             var selfDeleteTokenGetResult = await _userService.GetSelfDeleteTokenAsync(CurrentUser.Email);
+            if (selfDeleteTokenGetResult.IsValid)
+            {
+                //TODO: IIS do not accept SomeCtrl/SomeAction/THISID -> we have to use ?id=...
+                var selfDeleteUrl = $"{Url.Action("RedirectFromToken", "Token", null, "http")}?id={selfDeleteTokenGetResult.SecondResult}";
 
-            //TODO: IIS do not accept SomeCtrl/SomeAction/THISID -> we have to use ?id=...
-            var selfDeleteUrl = $"{Url.Action("RedirectFromToken", "Token", null, "http")}?id={selfDeleteTokenGetResult.SecondResult}";
-            await _messageService.SendMessageAsync(EmailType.SelfDelete, selfDeleteTokenGetResult.Result, GetAppBaseUrl(),
-                new Dictionary<string, string> { { "SelfDeleteLink", selfDeleteUrl } });
-            return RedirectToAction("Index", "Home");
+                var messageSentResult = await _messageService.SendMessageAsync(EmailType.SelfDelete, selfDeleteTokenGetResult.Result, GetAppBaseUrl(),
+                    new Dictionary<string, string> { { "SelfDeleteLink", selfDeleteUrl } });
+                if (messageSentResult.IsValid)
+                {
+                    return
+                        Json(
+                            SmartJsonResult.Success(
+                                "Na adres email powiązany z kontem została wysłana wiadomość z dalszymi instrukcjami"));
+                }
+                return Json(SmartJsonResult.Failure(messageSentResult.ValidationErrors));
+            }
+            return Json(SmartJsonResult.Failure(selfDeleteTokenGetResult.ValidationErrors));
         }
 
         [Route("PotwierdzenieUsunieciaKonta")]
@@ -127,121 +131,79 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
             return Json(model);
         }
 
-        [Route("ZmianaHasla")]
-        public IActionResult ChangePassword()
-        {
-            return View();
-        }
-
-        [Route("ZmianaHasla")]
+        [Route("ChangePassword")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        [ValidateAntiForgeryTokenFromHeader]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var changePasswordResult = await _userService.ChangePasswordAsync(CurrentUser.Email, model.OldPassword, model.Password);
-                if (changePasswordResult.IsValid)
-                {
-                    return RedirectToAction("Index", "Manage");
-                }
-                //TODO: Fajne noty z błędem/błędami systemowymi!!!!!!!!!!!! :D
-                model.AppendErrors(changePasswordResult.ValidationErrors);
+            if (!ModelState.IsValid)
+                return Json(SmartJsonResult.Failure(GetModelStateErrors(ModelState)));
 
-                ModelState.AddModelError("", changePasswordResult.ValidationErrors.First());
-            }
-            return View();
+            var changePasswordResult = await _userService.ChangePasswordAsync(CurrentUser.Email, model.OldPassword, model.Password);
+
+            return Json(changePasswordResult.IsValid
+                ? SmartJsonResult.Success("Hasło zostało pomyślnie zmienione!")
+                : SmartJsonResult.Failure(changePasswordResult.ValidationErrors));
         }
 
-        [Route("ZmianaEmaila")]
-        public IActionResult ChangeEmail()
-        {
-            return View();
-        }
-
-        [Route("ZmianaEmaila")]
+        [Route("ChangeEmail")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangeEmail(ChangeEmailViewModel model)
+        [ValidateAntiForgeryTokenFromHeader]
+        public async Task<IActionResult> ChangeEmail([FromBody] ChangeEmailViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return Json(SmartJsonResult.Failure(GetModelStateErrors(ModelState)));
+
+            var changePasswordResult = await _userService.ChangeEmailAsync(CurrentUser.Email, model.NewEmail, model.Password);
+            if (changePasswordResult.IsValid)
             {
-                var resetPasswordResult = await _userService.ChangeEmailAsync(CurrentUser.Email, model.NewEmail, model.Password);
-                if (resetPasswordResult.IsValid)
-                {
-                    IdentitySignout();
-                    return RedirectToAction("Login", "Account");
-                }
-                //TODO: Fajne noty z błędem/błędami systemowymi!!!!!!!!!!!! :D
-                model.AppendErrors(resetPasswordResult.ValidationErrors);
-
-                ModelState.AddModelError("", resetPasswordResult.ValidationErrors.First());
+                IdentityReSignin(changePasswordResult.Result, changePasswordResult.SecondResult);
+                return Json(SmartJsonResult.Success("Adres email został zmieniony pomyślnie!"));
             }
-            return View(model);
+            return Json(SmartJsonResult.Failure(changePasswordResult.ValidationErrors));
         }
 
-        [Route("PodarujWyjazdy")]
-        public IActionResult SendCharges()
-        {
-            return View();
-        }
-
-        [Route("PodarujWyjazdy")]
+        [Route("SendCharges")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SendCharges(SendChargesViewModel model)
+        [ValidateAntiForgeryTokenFromHeader]
+        public async Task<IActionResult> SendCharges([FromBody] SendChargesViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return Json(SmartJsonResult.Failure(GetModelStateErrors(ModelState)));
+
+            var sendChargesResult = await _userService.TransferCharges(CurrentUser.Email, model.ReceiverEmail, model.AmountOfCharges, model.Password);
+            if (sendChargesResult.IsValid)
             {
-                var sendChargesResult = await _userService.TransferCharges(CurrentUser.Email, model.RecieverEmail, model.AmountOfCharges, model.Password);
-
-                if (sendChargesResult.IsValid)
-                {
-                    return RedirectToAction("Index", "Manage");
-                }
-                //TODO: Fajne noty z błędem/błędami systemowymi!!!!!!!!!!!! :D
-                model.AppendErrors(sendChargesResult.ValidationErrors);
-
-                ModelState.AddModelError("", sendChargesResult.ValidationErrors.First());
+                return Json(SmartJsonResult<int>.Success(sendChargesResult.Result, "Adres email został zmieniony pomyślnie!"));
             }
-            return View(model);
+            return Json(SmartJsonResult.Failure(sendChargesResult.ValidationErrors));
         }
 
-
-        [Route("ZmienDane")]
-        public async Task<IActionResult> ChangeUserInfo()
-        {
-            var userInfoShortData = _mapper.Map<ChangeUserInfoViewModel>((await _userService.GetByEmailAsync(CurrentUser.Email)).Result);
-            return View(userInfoShortData);
-        }
-
-        [Route("ZmienDane")]
+        [Route("ChangeUserInfo")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangeUserInfo(ChangeUserInfoViewModel model)
+        [ValidateAntiForgeryTokenFromHeader]
+        public async Task<IActionResult> ChangeUserInfo([FromBody] ChangeUserInfoViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var dto = _mapper.Map<UserBaseDto>(model);
-                dto.Email = CurrentUser.Email;
-                var editUserResult = await _userService.EditStudentInitialsAsync(dto);
-                if (editUserResult.IsValid)
-                {
-                    IdentityReSignin(editUserResult.Result, editUserResult.SecondResult);
-                    return RedirectToAction("Index", "Manage");
-                }
+            if (!ModelState.IsValid)
+                return Json(SmartJsonResult.Failure(GetModelStateErrors(ModelState)));
 
-                //TODO: Fajne noty z błędem/błędami systemowymi!!!!!!!!!!!! :D
-                model.AppendErrors(editUserResult.ValidationErrors);
-                ModelState.AddModelError("", editUserResult.ValidationErrors.First());
+            var dto = _mapper.Map<UserBaseDto>(model);
+            dto.Email = CurrentUser.Email;
+            var editUserResult = await _userService.EditStudentInitialsAsync(dto);
+            if (editUserResult.IsValid)
+            {
+                IdentityReSignin(editUserResult.Result, editUserResult.SecondResult);
+                return Json(SmartJsonResult<UserBaseDto>.Success(editUserResult.Result, "Dane kontaktowe zostały zmienione pomyślnie!"));
             }
-            return View(model);
+
+            return Json(SmartJsonResult.Failure(editUserResult.ValidationErrors));
+
         }
 
         [HttpPost]
         [Route("SaveSidebarState")]
         [ValidateAntiForgeryTokenFromHeader]
-        public async Task<IActionResult> SaveSidebarState([FromBody]SidebarStateViewModel model)
+        public async Task<IActionResult> SaveSidebarState([FromBody] SidebarStateViewModel model)
         {
             if (ModelState.IsValid)
             {

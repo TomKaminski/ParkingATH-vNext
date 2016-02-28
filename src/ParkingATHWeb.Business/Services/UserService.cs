@@ -161,21 +161,22 @@ namespace ParkingATHWeb.Business.Services
                 : ServiceResult<UserBaseDto, UserPreferencesDto>.Success(_mapper.Map<UserBaseDto>(stud), _mapper.Map<UserPreferencesDto>(stud.UserPreferences));
         }
 
-        public async Task<ServiceResult<UserBaseDto>> ChangeEmailAsync(string email, string newEmail, string password)
+        public async Task<ServiceResult<UserBaseDto, UserPreferencesDto>> ChangeEmailAsync(string email, string newEmail, string password)
         {
             if ((await _repository.FirstOrDefaultAsync(x => x.Email == newEmail)) == null)
             {
-                var entity = await _repository.FirstOrDefaultAsync(x => x.Email == email);
+                var entity = await _repository.Include(x=>x.UserPreferences).FirstOrDefaultAsync(x => x.Email == email);
                 if (entity != null && _passwordHasher.ValidatePassword(password, entity.PasswordHash, entity.PasswordSalt))
                 {
                     entity.Email = newEmail;
                     _repository.Edit(entity);
                     await _unitOfWork.CommitAsync();
-                    return ServiceResult<UserBaseDto>.Success(_mapper.Map<UserBaseDto>(entity));
+                    return ServiceResult<UserBaseDto, UserPreferencesDto>
+                        .Success(_mapper.Map<UserBaseDto>(entity), _mapper.Map<UserPreferencesDto>(entity.UserPreferences));
                 }
-                return ServiceResult<UserBaseDto>.Failure("Niepoprawny login lub hasło");
+                return ServiceResult<UserBaseDto, UserPreferencesDto>.Failure("Niepoprawny login lub hasło");
             }
-            return ServiceResult<UserBaseDto>.Failure("Adres email jest już zajęty");
+            return ServiceResult<UserBaseDto, UserPreferencesDto>.Failure("Adres email jest już zajęty");
         }
 
         public async Task<ServiceResult<UserBaseDto, string>> GetPasswordChangeTokenAsync(string email)

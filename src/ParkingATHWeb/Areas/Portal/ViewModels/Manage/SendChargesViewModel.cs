@@ -10,7 +10,7 @@ namespace ParkingATHWeb.Areas.Portal.ViewModels.Manage
 
         [Required(ErrorMessageResourceType = typeof(ViewModelResources), ErrorMessageResourceName = "Common_RequiredError")]
         [EmailAddress]
-        public string RecieverEmail { get; set; }
+        public string ReceiverEmail { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(ViewModelResources), ErrorMessageResourceName = "Common_RequiredError")]
         [Range(0, 99999)]
