@@ -1,19 +1,224 @@
 ﻿@model ParkingATHWeb.Areas.Portal.ViewModels.User.UserBaseViewModel
-<p>@Model.Email</p>
-<p>@Model.LastName</p>
-<p>@Model.Name</p>
-<p>@Model.Charges</p>
+<div class="row">
+    <div class="col s12 m8 l6">
+        <div class="card">
+            <div class="card-content">
+                <p class="padding-bottom-20">
+                    <span class="card-title grey-text text-darken-4">@Model.Name @Model.LastName</span>
+                    <span><i class="mdi-action-perm-identity cyan-text text-darken-2"></i>użytkownik</span>
+                </p>
 
-<br />
-<br />
-<br />
+                <p class="padding-bottom-20">Podstawowe informacje:</p>
 
-<a asp-action="ChangePassword" asp-controller="Manage">Zmień hasło</a>
-<br/>
-<a asp-action="ChangeEmail" asp-controller="Manage">Zmiana emaila</a>
-<br />
-<a asp-action="SendCharges" asp-controller="Manage">Przekaż wyjazdy innej osobie</a>
-<br />
-<a asp-action="EditUserInfo" asp-controller="Manage">Edytuj swoje dane</a>
-<br />
-<a asp-action="SelfDeleteStart" asp-controller="Manage">Usuń swoje konto</a>
+                <p>
+                    <i class="mdi-communication-email cyan-text text-darken-2"></i> Adres email: <b>@Model.Email</b>
+                </p>
+                <p>
+                    <i class="mdi-social-cake cyan-text text-darken-2"></i> Data dołączenia: <b>18th June 1990</b>
+                </p>
+                <p>
+                    <i class="mdi-device-airplanemode-on cyan-text text-darken-2"></i> Ilość dostępnych wyjazdów: <b>@Model.Charges</b>
+                </p>
+                <p>
+                    <i class="mdi-device-airplanemode-on cyan-text text-darken-2"></i> Data ostatniego wyjazdu: <b>18th June 1990</b>
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="row padding-bottom-20">
+    <div id="settings-tabs" class="col s12 m12 l12 xl8">
+        <ul class="tabs tab-profile z-depth-1">
+            <li class="tab col s4">
+                <a class="white-text waves-effect waves-light" ng-click="manageCtrl.setActiveTab(1)" ng-class="{'active': manageCtrl.activeTab == 1}"><i class="mdi-editor-border-color"></i> Przekaż wyjazdy</a>
+            </li>
+            <li class="tab col s4">
+                <a class="white-text waves-effect waves-light" ng-click="manageCtrl.setActiveTab(2)" ng-class="{'active': manageCtrl.activeTab == 2}"><i class="mdi-image-camera-alt"></i> Zmień hasło</a>
+            </li>
+            <li class="tab col s4 hide-on-med-and-down">
+                <a class="white-text waves-effect waves-light" ng-click="manageCtrl.setActiveTab(3)" ng-class="{'active': manageCtrl.activeTab == 3}"><i class="mdi-image-photo-album"></i> Zmień adres email</a>
+            </li>
+            <li class="tab col s4 hide-on-med-and-down">
+                <a class="white-text waves-effect waves-light" ng-click="manageCtrl.setActiveTab(4)" ng-class="{'active': manageCtrl.activeTab == 4}"><i class="mdi-editor-border-color"></i> Edytuj dane</a>
+            </li>
+        </ul>
+        <ul class="tabs tab-profile z-depth-1  hide-on-large-only">
+            <li class="tab col s4">
+                <a class="white-text waves-effect waves-light" ng-click="manageCtrl.setActiveTab(3)" ng-class="{'active': manageCtrl.activeTab == 1}"><i class="mdi-image-photo-album"></i> Zmień adres email</a>
+            </li>
+            <li class="tab col s4">
+                <a class="white-text waves-effect waves-light" ng-click="manageCtrl.setActiveTab(4)" ng-class="{'active': manageCtrl.activeTab == 2}"><i class="mdi-editor-border-color"></i> Edytuj dane</a>
+            </li>
+        </ul>
+        <div class="tab-content col s12 white z-depth-1">
+            <div class="row" ng-show="manageCtrl.activeTab == 1">
+                <h4>Przekaż swoje wyjazdy</h4>
+                <p>
+                    Poniższy formularz pozwoli Ci przekazać swoje wyjazdy innej osobie, która posiada <b>aktywne</b> konto w systemie smartPARK.
+                </p>
+                <div name="sendChargesForm" class="col s12" ng-form>
+                        <div class="input-field col s12">
+                            <input id="receiverEmail" name="receiverEmail" type="email" required ng-model="manageCtrl.sendChargesModel.receiverEmail" class="little-margin">
+                            <label for="receiverEmail">Adres email odbiorcy</label>
+                            <div ng-messages="sendChargesForm.receiverEmail.$error" ng-show="sendChargesForm.receiverEmail.$touched" class="ng-messages-errors">
+                                <p ng-message="email">Wartość nie jest prawidłowym adresem email</p>
+                            </div>
+                        </div>
+
+                        <div class="input-field col s12">
+                            <input id="amountOfCharges" name="amountOfCharges" type="number" required min="1" ng-model="manageCtrl.sendChargesModel.amountOfCharges" class="little-margin">
+                            <label for="amountOfCharges">Ilość wyjazdów do przekazania</label>
+                            <div ng-messages="sendChargesForm.amountOfCharges.$error" ng-show="sendChargesForm.amountOfCharges.$touched" class="ng-messages-errors">
+                                <p ng-message="number">Wartość nie jest liczbą</p>
+                            </div>
+                        </div>
+
+                        <div class="input-field col s12">
+                            <input id="password" name="password" type="password" required ng-model="manageCtrl.sendChargesModel.password" class="little-margin">
+                            <label for="password">Hasło (pełni rolę zabezpieczającą)</label>
+                            <div ng-messages="sendChargesForm.password.$error" ng-show="sendChargesForm.password.$touched" class="ng-messages-errors">
+                                <p ng-message="required">Hasło jest wymagane</p>
+                            </div>
+                        </div>
+
+                        <div class="input-field col s12">
+                            <button class="btn waves-effect waves-light right" type="submit" name="action" ng-disabled="sendChargesForm.$invalid || manageCtrl.sendChargesModel.disableButton == true">
+                                Zatwierdź i przekaż wyjazdy
+                                <i class="mdi-content-send right"></i>
+                            </button>
+                        </div>
+                    @*<div class="row" style="padding-right: 20px;">
+                        <loader loadname="sendCharges"></loader>
+                    </div>*@
+                </div>
+            </div>
+            <div class="row" ng-show="manageCtrl.activeTab == 2">
+                <h4>Zmiana obecnego hasła</h4>
+                <p>
+                    Poniższy formularz pozwoli Ci zmienić swoje hasło do konta w systemie.
+                </p>
+                <div name="changePasswordForm" class="col s12" ng-form>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="oldPassword" name="oldPassword" type="password" required ng-model="manageCtrl.changePasswordModel.oldPassword" class="little-margin">
+                            <label for="oldPassword">Stare hasło</label>
+                            <div ng-messages="changePasswordForm.oldPassword.$error" ng-show="changePasswordForm.oldPassword.$touched" class="padding-bottom-20 ng-messages-errors">
+                                <p ng-message="required">Hasło jest wymagane</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="newPassword" name="newPassword" type="password" required ng-model="manageCtrl.changePasswordModel.newPassword" class="little-margin">
+                            <label for="newPassword">Nowe hasło</label>
+                            <div ng-messages="changePasswordForm.newPassword.$error" ng-show="changePasswordForm.newPassword.$touched" class="padding-bottom-20 ng-messages-errors">
+                                <p ng-message="required">Hasło jest wymagane</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="repeatNewPassword" name="repeatNewPassword" type="password" required ng-model="manageCtrl.changePasswordModel.repeatNewPassword" compare-to="manageCtrl.changePasswordModel.newPassword" class="little-margin">
+                            <label for="repeatNewPassword">Powtórz nowe hasło</label>
+                            <div ng-messages="changePasswordForm.repeatNewPassword.$error" ng-show="changePasswordForm.repeatNewPassword.$touched" class="padding-bottom-20 ng-messages-errors">
+                                <p ng-message="required">Hasło jest wymagane</p>
+                                <p ng-message="compareTo">Hasło nie są takie same</p>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <button class="btn waves-effect waves-light right" type="submit" name="action" ng-disabled="changePasswordForm.$invalid || manageCtrl.changePasswordModel.disableButton == true">
+                                Zmień hasło
+                                <i class="mdi-content-send right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-show="manageCtrl.activeTab == 3">
+                <h4>Zmiana obecnego adresu email</h4>
+                <p>
+                    Poniższy formularz pozwoli Ci zmienić adres email należący do konta.
+                </p>
+                <div name="changeEmailForm" class="col s12" ng-form>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="newEmail" name="newEmail" type="email" required ng-model="manageCtrl.changeEmailModel.newEmail" class="little-margin">
+                            <label for="newEmail">Nowy adres email</label>
+                            <div ng-messages="changeEmailForm.newEmail.$error" ng-show="changeEmailForm.newEmail.$touched" class="padding-bottom-20 ng-messages-errors">
+                                <p ng-message="required">Podaj nowy adres email</p>
+                                <p ng-message="email">To nie jest adres email</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="newEmailRepeat" name="newEmailRepeat" type="email" required ng-model="manageCtrl.changeEmailModel.newEmailRepeat" class="little-margin" compare-to="manageCtrl.changeEmailModel.newEmail">
+                            <label for="newEmailRepeat">Powtórz nowy adres email</label>
+                            <div ng-messages="changeEmailForm.newEmailRepeat.$error" ng-show="changeEmailForm.newEmailRepeat.$touched" class="padding-bottom-20 ng-messages-errors">
+                                <p ng-message="required">Powtórz proszę nowy adres email</p>
+                                <p ng-message="email">To nie jest adres email</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="confirmPassword" name="confirmPassword" type="password" required ng-model="manageCtrl.changeEmailModel.confirmPassword" class="little-margin">
+                            <label for="confirmPassword">Hasło do konta</label>
+                            <div ng-messages="changeEmailForm.confirmPassword.$error" ng-show="changeEmailForm.confirmPassword.$touched" class="padding-bottom-20 ng-messages-errors">
+                                <p ng-message="required">Hasło jest wymagane</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <button class="btn waves-effect waves-light right" type="submit" name="action" ng-disabled="changeEmailForm.$invalid || manageCtrl.changeEmailModel.disableButton == true">
+                                Zmień email
+                                <i class="mdi-content-send right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-show="manageCtrl.activeTab == 4">
+                <h4>Zmiana danych kontaktowych</h4>
+                <p>
+                    Poniższy formularz pozwoli Ci zmienić swoje dane kontaktowe.
+                </p>
+                <div name="changeInfoForm" class="col s12" ng-form>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="firstName" name="firstName" type="text" required ng-model="manageCtrl.changeInfoModel.firstName" class="little-margin">
+                            <label for="firstName" ng-class="{'active': manageCtrl.changeInfoModel.firstName !== ''}">Imię</label>
+                            <div ng-messages="changeInfoForm.firstName.$error" ng-show="changeInfoForm.firstName.$touched" class="padding-bottom-20 ng-messages-errors">
+                                <p ng-message="required">Imię jest wymagane</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="lastName" name="lastName" type="text" required ng-model="manageCtrl.changeInfoModel.lastName" class="little-margin">
+                            <label for="lastName" ng-class="{'active': manageCtrl.changeInfoModel.lastName !== ''}">Nazwisko</label>
+                            <div ng-messages="changeInfoForm.lastName.$error" ng-show="changeInfoForm.lastName.$touched" class="padding-bottom-20 ng-messages-errors">
+                                <p ng-message="required">Nazwisko jest wymagane</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <button class="btn waves-effect waves-light right" type="submit" name="action" ng-disabled="changeInfoForm.$invalid || manageCtrl.changeInfoModel.disableButton == true">
+                                Zmień swoje dane kontaktowe
+                                <i class="mdi-content-send right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

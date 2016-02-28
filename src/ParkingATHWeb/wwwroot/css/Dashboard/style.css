@@ -565,7 +565,7 @@ ul.side-nav .collapsible-header {
   #breadcrumbs-wrapper {
     height: 125px; } }
 
-@media (max-width: 1201px) {
+@media (min-width: 968px) and (max-width: 1201px) {
   #breadcrumbs-wrapper {
     height: 127px; } }
 
