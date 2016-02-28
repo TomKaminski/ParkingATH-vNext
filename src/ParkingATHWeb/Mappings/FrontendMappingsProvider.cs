@@ -22,7 +22,11 @@ namespace ParkingATHWeb.Mappings
             CreateMap<ParkingAthMessage, MessageDto>().IgnoreNotExistingProperties();
             CreateMap<MessageDto, ParkingAthMessage>().IgnoreNotExistingProperties();
 
-            CreateMap<UserBaseDto, UserBaseViewModel>().IgnoreNotExistingProperties();
+            CreateMap<UserBaseDto, UserBaseViewModel>()
+                .ForMember(x => x.CreateDate, opt => opt.MapFrom(src => src.CreateDate.ToLongDateString()))
+                .ForMember(x => x.Range, src => src.MapFrom(y => y.IsAdmin ? "Administrator" : "Użytkownik"))
+                .IgnoreNotExistingProperties();
+
             CreateMap<UserAdminDto, AdminUserListItemViewModel>().IgnoreNotExistingProperties();
 
             CreateMap<WeatherDto, WeatherDataViewModel>()
@@ -35,7 +39,7 @@ namespace ParkingATHWeb.Mappings
                 .IgnoreNotExistingProperties();
 
             CreateMap<QuickMessageViewModel, PortalMessageDto>()
-                .ForMember(x=>x.PortalMessageType, opt=>opt.UseValue(PortalMessageEnum.MessageToAdminFromUser))
+                .ForMember(x => x.PortalMessageType, opt => opt.UseValue(PortalMessageEnum.MessageToAdminFromUser))
                 .IgnoreNotExistingProperties();
         }
     }

@@ -9,6 +9,7 @@ using AutoMapper;
 using Microsoft.Data.Entity;
 using ParkingATHWeb.Business.Services.Base;
 using ParkingATHWeb.Contracts.Common;
+using ParkingATHWeb.Contracts.DTO.GateUsage;
 using ParkingATHWeb.Contracts.DTO.User;
 using ParkingATHWeb.Contracts.DTO.UserPreferences;
 using ParkingATHWeb.Contracts.Services;
@@ -155,7 +156,7 @@ namespace ParkingATHWeb.Business.Services
 
         public ServiceResult<UserBaseDto, UserPreferencesDto> GetByEmailWithPreferences(string email)
         {
-            var stud = _repository.Include(x=>x.UserPreferences).FirstOrDefault(x => x.Email == email);
+            var stud = _repository.Include(x => x.UserPreferences).FirstOrDefault(x => x.Email == email);
             return stud == null ? ServiceResult<UserBaseDto, UserPreferencesDto>.Failure("Użytkownik nie istnieje")
                 : ServiceResult<UserBaseDto, UserPreferencesDto>.Success(_mapper.Map<UserBaseDto>(stud), _mapper.Map<UserPreferencesDto>(stud.UserPreferences));
         }
@@ -257,12 +258,28 @@ namespace ParkingATHWeb.Business.Services
 
         public async Task<ServiceResult<UserBaseDto, UserPreferencesDto>> LoginAsync(string email, string password)
         {
-            var stud = await _repository.Include(x=>x.UserPreferences).FirstOrDefaultAsync(x => x.Email == email);
+            var stud = await _repository.Include(x => x.UserPreferences).FirstOrDefaultAsync(x => x.Email == email);
             if (stud != null && _passwordHasher.ValidatePassword(password, stud.PasswordHash, stud.PasswordSalt) && !stud.LockedOut && !stud.IsDeleted)
             {
-                return ServiceResult<UserBaseDto, UserPreferencesDto>.Success(_mapper.Map<UserBaseDto>(stud),_mapper.Map<UserPreferencesDto>(stud.UserPreferences));
+                return ServiceResult<UserBaseDto, UserPreferencesDto>.Success(_mapper.Map<UserBaseDto>(stud), _mapper.Map<UserPreferencesDto>(stud.UserPreferences));
             }
             return ServiceResult<UserBaseDto, UserPreferencesDto>.Failure("Niepoprawny login lub hasło");
+        }
+
+        public async Task<ServiceResult<UserBaseDto, GateUsageBaseDto>> GetUserDataWithLastGateUsage(int userId)
+        {
+            var stud = await _repository.Include(x => x.GateUsages).FirstOrDefaultAsync(x => x.Id == userId);
+            if (stud == null)
+            {
+                return ServiceResult<UserBaseDto, GateUsageBaseDto>.Failure("Użytkownik nie istnieje");
+            }
+            if (stud.GateUsages == null || stud.GateUsages.Count == 0)
+            {
+                return ServiceResult<UserBaseDto, GateUsageBaseDto>.Success(_mapper.Map<UserBaseDto>(stud), null);
+            }
+            return ServiceResult<UserBaseDto, GateUsageBaseDto>.Success(
+                _mapper.Map<UserBaseDto>(stud),
+                _mapper.Map<GateUsageBaseDto>(stud.GateUsages.OrderByDescending(x=>x.DateOfUse).First()));
         }
 
         public async Task<ServiceResult<UserBaseDto>> CheckLoginAsync(string email, string hash)
@@ -340,7 +357,7 @@ namespace ParkingATHWeb.Business.Services
 
         public async Task<ServiceResult<UserBaseDto, UserPreferencesDto>> EditStudentInitialsAsync(UserBaseDto entity)
         {
-            var student = await _repository.Include(x=>x.UserPreferences).FirstOrDefaultAsync(x => x.Email == entity.Email);
+            var student = await _repository.Include(x => x.UserPreferences).FirstOrDefaultAsync(x => x.Email == entity.Email);
             student.Name = entity.Name;
             student.LastName = entity.LastName;
             _repository.Edit(student);

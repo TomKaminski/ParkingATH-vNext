@@ -3,16 +3,19 @@
 
     function apiFactory($http, $q) {
 
+        var portalPrefix = "Portal/";
+
         var apiEnum = {
-            SaveSidebarState: "Portal/Konto/SaveSidebarState",
-            GetUserChargesData: "Portal/Home/GetUserChargesData",
-            GetWeatherData: "Portal/Home/GetWeatherData",
-            SendQuickMessage: "Portal/Wiadomosci/SendQuickMessage"
+            SaveSidebarState: "Konto/SaveSidebarState",
+            GetUserChargesData: "Home/GetUserChargesData",
+            GetWeatherData: "Home/GetWeatherData",
+            SendQuickMessage: "Wiadomosci/SendQuickMessage",
+            GetSettingsIndexData: "Konto/GetSettingsIndexData"
         }
 
         function get(apiUrl, options) {
             var defered = $q.defer();
-            $http.get(apiUrl, { params: options })
+            $http.get(portalPrefix + apiUrl, { params: options })
                 .success(function (data) {
                     defered.resolve(data);
                 }).error(function () {
@@ -23,7 +26,7 @@
 
         function post(apiUrl, options) {
             var defered = $q.defer();
-            $http.post(apiUrl, options)
+            $http.post(portalPrefix + apiUrl, options)
                 .success(function (data) {
                     defered.resolve(data);
                 }).error(function (err) {

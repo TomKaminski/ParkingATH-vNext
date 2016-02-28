@@ -11,6 +11,12 @@ namespace ParkingATHWeb.ApiModels.Base
         {
 
         }
+
+        protected SmartJsonResult(IEnumerable<string> successNotifications, bool success)
+        {
+            SuccessNotifications = successNotifications;
+        }
+
         protected SmartJsonResult(IEnumerable<string> validationErrors)
         {
             ValidationErrors = validationErrors;
@@ -23,9 +29,11 @@ namespace ParkingATHWeb.ApiModels.Base
             return new SmartJsonResult(errors);
         }
 
-        public static SmartJsonResult Success()
+        public static SmartJsonResult Success(params string[] successNotifications)
         {
-            return new SmartJsonResult();
+            var success = new List<string>();
+            success.AddRange(successNotifications);
+            return new SmartJsonResult(success, true);
         }
 
         public static SmartJsonResult Failure(IEnumerable<string> validationErrors)
@@ -33,7 +41,8 @@ namespace ParkingATHWeb.ApiModels.Base
             return new SmartJsonResult(validationErrors);
         }
 
-        public IEnumerable<string> ValidationErrors { get; }
+        public IEnumerable<string> SuccessNotifications { get; set; }
+        public IEnumerable<string> ValidationErrors { get; set; }
     }
 
 
@@ -44,11 +53,16 @@ namespace ParkingATHWeb.ApiModels.Base
             Result = result;
         }
 
-        private SmartJsonResult(IEnumerable<string> validationErrors) : base(validationErrors)
+        protected SmartJsonResult(IEnumerable<string> validationErrors) : base(validationErrors)
         {
         }
 
-        private SmartJsonResult(T result, IEnumerable<string> validationErrors) : base(validationErrors)
+        protected SmartJsonResult(T result, IEnumerable<string> validationErrors) : base(validationErrors)
+        {
+            Result = result;
+        }
+
+        protected SmartJsonResult(T result, IEnumerable<string> successNotifications, bool success) : base(successNotifications, success)
         {
             Result = result;
         }
@@ -75,9 +89,11 @@ namespace ParkingATHWeb.ApiModels.Base
             return new SmartJsonResult<T>(validationErrors);
         }
 
-        public static SmartJsonResult<T> Success(T result)
+        public static SmartJsonResult<T> Success(T result, params string[] successNotifications)
         {
-            return new SmartJsonResult<T>(result);
+            var success = new List<string>();
+            success.AddRange(successNotifications);
+            return new SmartJsonResult<T>(result, success, true);
         }
 
         public T Result { get; set; }
@@ -92,9 +108,16 @@ namespace ParkingATHWeb.ApiModels.Base
             SecondResult = secondResult;
         }
 
-        public static SmartJsonResult<T, T2> Success(T result, T2 secondResult)
+        protected SmartJsonResult(T result, T2 secondResult, IEnumerable<string> successNotifications, bool success) : base(result, successNotifications, success)
         {
-            return new SmartJsonResult<T, T2>(result, secondResult);
+            SecondResult = secondResult;
+        }
+
+        public static SmartJsonResult<T, T2> Success(T result, T2 secondResult, params string[] successNotifications)
+        {
+            var success = new List<string>();
+            success.AddRange(successNotifications);
+            return new SmartJsonResult<T, T2>(result, secondResult, success, true);
         }
 
         public T2 SecondResult { get; set; }

@@ -1,26 +1,26 @@
-﻿@model ParkingATHWeb.Areas.Portal.ViewModels.User.UserBaseViewModel
-<div class="row">
+﻿<div class="row">
     <div class="col s12 m8 l6">
         <div class="card">
+            <card-loader style="background: white" class="black-loader" loadname="settingsMainLoading"></card-loader>
             <div class="card-content">
                 <p class="padding-bottom-20">
-                    <span class="card-title grey-text text-darken-4">@Model.Name @Model.LastName</span>
-                    <span><i class="mdi-action-perm-identity cyan-text text-darken-2"></i>użytkownik</span>
+                    <span class="card-title grey-text text-darken-4">{{manageCtrl.model.Name}} {{manageCtrl.model.LastName}}</span>
+                    <span><i class="mdi-action-perm-identity cyan-text text-darken-2"></i>{{manageCtrl.model.Range}}</span>
                 </p>
 
                 <p class="padding-bottom-20">Podstawowe informacje:</p>
 
                 <p>
-                    <i class="mdi-communication-email cyan-text text-darken-2"></i> Adres email: <b>@Model.Email</b>
+                    <i class="mdi-communication-email cyan-text text-darken-2"></i> Adres email: <b>{{manageCtrl.model.Email}}</b>
                 </p>
                 <p>
-                    <i class="mdi-social-cake cyan-text text-darken-2"></i> Data dołączenia: <b>18th June 1990</b>
+                    <i class="mdi-social-cake cyan-text text-darken-2"></i> Data dołączenia: <b>{{manageCtrl.model.CreateDate}}</b>
                 </p>
                 <p>
-                    <i class="mdi-device-airplanemode-on cyan-text text-darken-2"></i> Ilość dostępnych wyjazdów: <b>@Model.Charges</b>
+                    <i class="mdi-device-airplanemode-on cyan-text text-darken-2"></i> Ilość dostępnych wyjazdów: <b>{{manageCtrl.model.Charges}}</b>
                 </p>
                 <p>
-                    <i class="mdi-device-airplanemode-on cyan-text text-darken-2"></i> Data ostatniego wyjazdu: <b>18th June 1990</b>
+                    <i class="mdi-device-airplanemode-on cyan-text text-darken-2"></i> Data ostatniego wyjazdu: <b>{{manageCtrl.model.LastGateOpenDate}}</b>
                 </p>
             </div>
 

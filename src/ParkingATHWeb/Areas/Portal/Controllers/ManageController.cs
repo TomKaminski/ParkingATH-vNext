@@ -5,6 +5,7 @@ using AutoMapper;
 using Microsoft.AspNet.Mvc;
 using ParkingATHWeb.Contracts.Services;
 using Microsoft.AspNet.Authorization;
+using ParkingATHWeb.ApiModels.Base;
 using ParkingATHWeb.Areas.Portal.Controllers.Base;
 using ParkingATHWeb.Areas.Portal.ViewModels.Account;
 using ParkingATHWeb.Areas.Portal.ViewModels.Manage;
@@ -34,10 +35,24 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         }
 
         [Route("")]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var userModel = _mapper.Map<UserBaseViewModel>((await _userService.GetByEmailAsync(CurrentUser.Email)).Result);
-            return PartialView(userModel);
+            return PartialView();
+        }
+
+        [Route("GetSettingsIndexData")]
+        public async Task<IActionResult> GetSettingsIndexData()
+        {
+            var serviceResult = await _userService.GetUserDataWithLastGateUsage(CurrentUser.UserId.Value);
+            if (serviceResult.IsValid)
+            {
+                var viewModel = _mapper.Map<UserBaseViewModel>(serviceResult.Result);
+                viewModel.LastGateOpenDate = serviceResult.SecondResult != null
+                    ? $"{serviceResult.SecondResult.DateOfUse.ToLongDateString()} - {serviceResult.SecondResult.DateOfUse.ToShortTimeString()}"
+                    : "Brak wyjazdów";
+                return Json(SmartJsonResult<UserBaseViewModel>.Success(viewModel));
+            }
+            return Json(SmartJsonResult<UserBaseViewModel>.Failure(serviceResult.ValidationErrors));
         }
 
         [Route("UsuwanieKonta")]
@@ -235,7 +250,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                 {
                     userFullGetResult.SecondResult.ShrinkedSidebar = model.SidebarShrinked;
                     await _userPreferencesService.EditAsync(userFullGetResult.SecondResult);
-                    IdentityReSignin(userFullGetResult.Result,userFullGetResult.SecondResult);
+                    IdentityReSignin(userFullGetResult.Result, userFullGetResult.SecondResult);
                     return Json(model);
                 }
                 model.AppendErrors(userFullGetResult.ValidationErrors);

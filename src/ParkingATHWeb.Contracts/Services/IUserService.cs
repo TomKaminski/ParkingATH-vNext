@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using ParkingATHWeb.Contracts.Common;
+using ParkingATHWeb.Contracts.DTO.GateUsage;
 using ParkingATHWeb.Contracts.DTO.User;
 using ParkingATHWeb.Contracts.DTO.UserPreferences;
 using ParkingATHWeb.Contracts.Services.Base;
@@ -22,6 +23,9 @@ namespace ParkingATHWeb.Contracts.Services
         Task<ServiceResult<int>> AddChargesAsync(string email, int charges);
 
         Task<ServiceResult<UserBaseDto, UserPreferencesDto>> LoginAsync(string email, string password);
+
+        Task<ServiceResult<UserBaseDto, GateUsageBaseDto>> GetUserDataWithLastGateUsage(int userId);
+
 
         Task<ServiceResult<UserBaseDto>> CheckLoginAsync(string email, string hash);
         Task<ServiceResult<bool>> CheckHashAsync(string email, string hash);
