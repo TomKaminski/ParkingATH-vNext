@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    function layoutController(sidebarStateService, $timeout, breadcrumbService) {
+    function layoutController(sidebarStateService, $timeout, breadcrumbService, userProfileService) {
         var self = this;
 
         //Date and time
@@ -9,8 +9,22 @@
         self.time = null;
         setDateAndTime();
 
-        self.init = function (sidebarShrinked) {
+        self.init = function (sidebarShrinked, name, lastName, photoId) {
             sidebarStateService.setInitialState((sidebarShrinked === "True"));
+            userProfileService.userData = {
+                name: name,
+                lastName: lastName,
+                profilePhotoPath: photoId === "" ? userProfileService.setProfilePhotoPath(null) : userProfileService.setProfilePhotoPath(photoId),
+                charges: 0
+            }
+        }
+
+        self.userPhotoNavbar = function () {
+            return userProfileService.userData.profilePhotoPath;
+        }
+
+        self.userInitials = function () {
+            return userProfileService.getInitials();
         }
 
         //TODO
@@ -54,5 +68,5 @@
         }
     }
 
-    angular.module('portalApp').controller('layoutCtrl', ['sidebarStateService', '$timeout','breadcrumbService', layoutController]);
+    angular.module('portalApp').controller('layoutCtrl', ['sidebarStateService', '$timeout', 'breadcrumbService', 'userProfileService', layoutController]);
 })();

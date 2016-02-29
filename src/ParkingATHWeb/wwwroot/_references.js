@@ -245,6 +245,7 @@
 /// <reference path="js/portalapp/services/loadingcontentservice.js" />
 /// <reference path="js/portalapp/services/notificationservice.js" />
 /// <reference path="js/portalapp/services/sidebarstateservice.js" />
+/// <reference path="js/portalapp/services/userprofileservice.js" />
 /// <reference path="js/smartajaxforms.js" />
 /// <reference path="js/welcomePage.js" />
 /// <reference path="lib/angular/angular.js" />

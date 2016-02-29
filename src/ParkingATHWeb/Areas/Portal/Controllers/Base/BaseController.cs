@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNet.Authentication.Cookies;
 using Microsoft.AspNet.Http.Authentication;
 using Microsoft.AspNet.Mvc;
@@ -50,12 +51,27 @@ namespace ParkingATHWeb.Areas.Portal.Controllers.Base
                 new Claim("isAdmin", user.IsAdmin.ToString()),
                 new Claim("LastName", user.LastName),
                 new Claim("SidebarShrinked",userPreferences.ShrinkedSidebar.ToString()),
-                new Claim("userId", user.Id.ToString())
+                new Claim("userId", user.Id.ToString()),
+                new Claim("photoId", userPreferences.ProfilePhotoId.ToString())
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
             await HttpContext.Authentication.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = isPersistent });
+        }
+
+        protected async Task UpdateClaim(string claimName, object claimValue)
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            var claims = identity.Claims;
+
+            IdentitySignout();
+
+            var newClaims = claims.Where(x => x.Type != claimName).ToList();
+            newClaims.Add(new Claim(claimName, claimValue.ToString()));
+
+            var identityNew = new ClaimsIdentity(newClaims, CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.Authentication.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identityNew), new AuthenticationProperties { IsPersistent = true });
         }
 
         protected string GetAppBaseUrl()

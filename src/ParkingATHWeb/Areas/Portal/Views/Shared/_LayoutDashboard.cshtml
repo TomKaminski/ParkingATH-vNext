@@ -39,10 +39,12 @@
     <link href="~/css/Dashboard/custom/custom.css" type="text/css" rel="stylesheet" media="screen,projection">
     <!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
     <link href="~/js/Dashboard/plugins/perfect-scrollbar/perfect-scrollbar.css" type="text/css" rel="stylesheet" media="screen,projection">
+    <link href="~/js/Dashboard/plugins/dropify/css/dropify.css" type="text/css" rel="stylesheet" media="screen,projection">
+
     <link href="~/lib/angular-chart.js/dist/angular-chart.css" rel="stylesheet" />
     @RenderSection("styles", required: false)
 </head>
-<body ng-controller="layoutCtrl as layoutCtrl" ng-cloak ng-init="layoutCtrl.init('@userState.SidebarShrinked')" request-verification-token="@Html.RequestVerificationToken()">
+<body ng-controller="layoutCtrl as layoutCtrl" ng-cloak ng-init="layoutCtrl.init('@userState.SidebarShrinked','@userState.Name','@userState.LastName','@userState.PhotoId')" request-verification-token="@Html.RequestVerificationToken()">
     <!-- Start Page Loading -->
     <div id="loader-wrapper">
         <div id="loader"></div>
@@ -86,7 +88,7 @@
                     </ul>
                     <ul class="right logo-cont" style="height: 100%">
                         <li class="valign-wrapper hide-on-semi-mid-and-small">
-                            <h4 class="small right-align padding-25 no-hover valign">WYKUP ABONAMENT - ZAPŁAĆ ZBLIŻENIOWO<br/>OTWIERAJ BRAMĘ SMARTFONEM</h4>
+                            <h4 class="small right-align padding-25 no-hover valign">WYKUP ABONAMENT - ZAPŁAĆ ZBLIŻENIOWO<br />OTWIERAJ BRAMĘ SMARTFONEM</h4>
                         </li>
                         <li class="hide-on-med-and-down">
                             <form asp-action="Logout" asp-controller="Account" asp-route-area="Portal" id="logoutForm">
@@ -111,10 +113,10 @@
                     <li class="user-details">
                         <div class="row">
                             <div class="col s6 expand-on-shrinked" id="avatar-container">
-                                <img src="~/images/Kasia_400x400.png" alt="" class="responsive-img valign profile-image" style="border-left: 4px solid #00a651">
+                                <img ng-src="{{layoutCtrl.userPhotoNavbar()}}" alt="{{layoutCtrl.userPhotoNavbar()}}" class="responsive-img valign profile-image" style="border-left: 4px solid #00a651">
                             </div>
                             <div class="col s6 hide-on-shrinked">
-                                <p class="user-initials"><b>@userState.Name<br />@userState.LastName</b></p>
+                                <p class="user-initials"><b>{{layoutCtrl.userInitials()}}</b></p>
                             </div>
                         </div>
                     </li>
@@ -196,7 +198,6 @@
         </div>
     </footer>
     <!-- END FOOTER -->
-
     <!-- jQuery Library -->
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <!--materialize js-->
@@ -207,6 +208,8 @@
     <script type="text/javascript" src="~/js/Dashboard/plugins/sparkline/jquery.sparkline.min.js"></script>
     <!-- chartjs -->
     <script type="text/javascript" src="~/js/Dashboard/plugins/chartjs/chart.min.js"></script>
+
+    <script type="text/javascript" src="~/js/Dashboard/plugins/dropify/js/dropify.min.js"></script>
 
     @*ANGULAR APP*@
     <script src="~/lib/angular/angular.js"></script>
@@ -224,6 +227,7 @@
     <script src="~/js/portalapp/services/loadingcontentservice.js"></script>
     <script src="~/js/portalapp/services/notificationservice.js"></script>
     <script src="~/js/portalapp/services/breadcrumbservice.js"></script>
+    <script src="~/js/portalapp/services/userprofileservice.js"></script>
     <script src="~/js/portalapp/directives/sparklinechartdirective.js"></script>
     <script src="~/lib/angular-chart.js/dist/angular-chart.js"></script>
     <script src="~/js/portalapp/factories/apifactory.js"></script>
@@ -236,9 +240,10 @@
     <script src="~/js/portalapp/controllers/messagesctrl.js"></script>
 
     <!--plugins.js - Some Specific JS codes for Plugin Settings-->
-<script src="~/js/Dashboard/custom-sidenav-shrink-helper.js"></script>
+    <script src="~/js/Dashboard/custom-sidenav-shrink-helper.js"></script>
     <script type="text/javascript" src="~/js/Dashboard/plugins.js"></script>
 
     @RenderSection("scripts", required: false)
+   
 </body>
 </html>

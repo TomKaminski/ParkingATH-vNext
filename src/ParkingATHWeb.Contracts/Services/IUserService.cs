@@ -60,5 +60,6 @@ namespace ParkingATHWeb.Contracts.Services
         Task<ServiceResult<UserAdminDto>> GetAdminAsync(Expression<Func<UserBaseDto, bool>> predicate);
 
         Task<ServiceResult<int>> GetAdminAccountIdAsync();
+
     }
 }

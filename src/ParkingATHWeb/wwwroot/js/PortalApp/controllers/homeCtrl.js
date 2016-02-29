@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    function homepageController(chartJsOptionsFactory, breadcrumbService, apiFactory, weatherInfoFactory, loadingContentService, notificationService) {
+    function homepageController(chartJsOptionsFactory, breadcrumbService, apiFactory, weatherInfoFactory, loadingContentService, notificationService, userProfileService) {
         var self = this;
         breadcrumbService.setOuterBreadcrumb('dashboard');
 
@@ -28,6 +28,7 @@
             loadingContentService.setIsLoading('userChargesLoading', true);
             apiFactory.get(apiFactory.apiEnum.GetUserChargesData, {}).then(function (data) {
                 self.userChargesModel = data;
+                userProfileService.userData.charges = self.userChargesModel.chargesLeft;
                 self.userChargesModel.lineChartData.data = [data.lineChartData.data];
                 self.userChargesModel.lineChartData.options = chartJsOptionsFactory.getDefaultLineOptions();
                 loadingContentService.setIsLoading('userChargesLoading', false);
@@ -35,6 +36,10 @@
                 console.log(e);
                 loadingContentService.setIsLoading('userChargesLoading', false);
             });
+        }
+
+        self.userCharges = function() {
+            return userProfileService.userData.charges;
         }
 
         self.SendQuickMessage = function () {
@@ -57,5 +62,5 @@
         }
     }
 
-    angular.module('portalApp').controller('homeCtrl', ['chartJsOptionsFactory', 'breadcrumbService', 'apiFactory', 'weatherInfoFactory', 'loadingContentService', 'notificationService', homepageController]);
+    angular.module('portalApp').controller('homeCtrl', ['chartJsOptionsFactory', 'breadcrumbService', 'apiFactory', 'weatherInfoFactory', 'loadingContentService', 'notificationService','userProfileService', homepageController]);
 })();

@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using ImageResizer.ExtensionMethods;
 using Microsoft.AspNet.Mvc;
 using ParkingATHWeb.Contracts.Services;
 using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Hosting;
+using Microsoft.AspNet.Http;
 using ParkingATHWeb.ApiModels.Base;
 using ParkingATHWeb.Areas.Portal.Controllers.Base;
 using ParkingATHWeb.Areas.Portal.ViewModels.Account;
@@ -25,13 +29,15 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         private readonly IMessageService _messageService;
         private readonly IUserPreferencesService _userPreferencesService;
         private readonly IMapper _mapper;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public ManageController(IUserService userService, IMessageService messageService, IUserPreferencesService userPreferencesService, IMapper mapper)
+        public ManageController(IUserService userService, IMessageService messageService, IUserPreferencesService userPreferencesService, IMapper mapper, IHostingEnvironment hostingEnvironment)
         {
             _userService = userService;
             _messageService = messageService;
             _userPreferencesService = userPreferencesService;
             _mapper = mapper;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         [Route("")]
@@ -219,6 +225,36 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
             }
             model.AppendErrors(GetModelStateErrors(ModelState));
             return Json(false);
+        }
+
+        [HttpPost]
+        [Route("UploadProfilePhoto")]
+        [ValidateAntiForgeryTokenFromHeader]
+        public async Task<IActionResult> UploadProfilePhoto(IList<IFormFile> files)
+        {
+            var file = HttpContext.Request.Form.Files.FirstOrDefault();
+            if (file == null)
+            {
+                return Json(SmartJsonResult.Failure("Wystąpił błąd podczas wysyłania pliku!"));
+            }
+
+            var bytes = GetByteArrayFromFormFile(file);
+            var setProfilePhotoResult = await _userPreferencesService.SetUserAvatarAsync(bytes, CurrentUser.UserId.Value, _hostingEnvironment.WebRootPath + "\\images\\user-avatars\\");
+            if (setProfilePhotoResult.IsValid)
+            {
+                await UpdateClaim("photoId", setProfilePhotoResult.Result);
+                return Json(SmartJsonResult<Guid?>.Success(setProfilePhotoResult.Result, "Zdjęcie użytkownika zostało zmienione."));
+            }
+
+            return Json(SmartJsonResult.Failure(setProfilePhotoResult.ValidationErrors));
+        }
+
+        private byte[] GetByteArrayFromFormFile(IFormFile file)
+        {
+            using (var ms = file.OpenReadStream())
+            {
+                return ms.CopyToBytes();
+            }
         }
     }
 

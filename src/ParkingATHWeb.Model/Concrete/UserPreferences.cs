@@ -1,4 +1,5 @@
-﻿using ParkingATHWeb.Model.Common;
+﻿using System;
+using ParkingATHWeb.Model.Common;
 
 namespace ParkingATHWeb.Model.Concrete
 {
@@ -6,6 +7,7 @@ namespace ParkingATHWeb.Model.Concrete
     {
         public bool ShrinkedSidebar { get; set; }
         public byte[] ProfilePhoto { get; set; }
+        public Guid? ProfilePhotoId { get; set; }
 
         public int UserId { get; set; }
         public virtual User User { get; set; }

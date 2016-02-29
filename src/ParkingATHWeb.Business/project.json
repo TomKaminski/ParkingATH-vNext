@@ -16,6 +16,7 @@
     "ParkingATHWeb.DataAccess": "1.0.0-*",
     "ParkingATHWeb.Contracts": "1.0.0-*",
     "System.Net.Mail.Abstractions": "1.0.8",
-    "Newtonsoft.Json": "8.0.2"
+    "Newtonsoft.Json": "8.0.2",
+    "ImageResizer": "4.0.5"
   }
 }

@@ -14,7 +14,8 @@
             ChangePassword: "Konto/ChangePassword",
             ChangeEmail: "Konto/ChangeEmail",
             SendCharges: "Konto/SendCharges",
-            ChangeUserInfo: "Konto/ChangeUserInfo"
+            ChangeUserInfo: "Konto/ChangeUserInfo",
+            UploadProfilePhoto: "Konto/UploadProfilePhoto"
         }
 
         function get(apiUrl, options) {
@@ -28,14 +29,24 @@
             return defered.promise;
         }
 
-        function post(apiUrl, options) {
+        function post(apiUrl, data, options) {
             var defered = $q.defer();
-            $http.post(portalPrefix + apiUrl, options)
-                .success(function (data) {
-                    defered.resolve(data);
-                }).error(function (err) {
-                    defered.reject(err);
-                });
+            if (options != undefined) {
+                $http.post(portalPrefix + apiUrl, data, options)
+                    .success(function(data) {
+                        defered.resolve(data);
+                    }).error(function(err) {
+                        defered.reject(err);
+                    });
+            } else {
+                $http.post(portalPrefix + apiUrl, data)
+               .success(function (data) {
+                   defered.resolve(data);
+               }).error(function (err) {
+                   defered.reject(err);
+               });
+            }
+           
             return defered.promise;
         }
 

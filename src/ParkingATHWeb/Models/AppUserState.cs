@@ -24,6 +24,19 @@ namespace ParkingATHWeb.Models
         public bool IsAdmin => Convert.ToBoolean(FindFirst("isAdmin") == null ? null : FindFirst("isAdmin").Value);
         public bool SidebarShrinked => Convert.ToBoolean(FindFirst("SidebarShrinked") == null ? null : FindFirst("SidebarShrinked").Value);
 
+        public Guid? PhotoId
+        {
+            get
+            {
+                if (FindFirst("photoId") == null)
+                {
+                    return null;
+                }
+                return new Guid(FindFirst("photoId").Value);
+            }
+        }
+
+
         public bool IsEmpty()
         {
             return string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Name);

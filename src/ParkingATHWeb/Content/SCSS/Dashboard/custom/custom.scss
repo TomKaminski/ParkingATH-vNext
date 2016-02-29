@@ -18,8 +18,8 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     margin-bottom: 20px !important;
 }
 
-input.little-margin{
-    margin-bottom:5px !important;
+input.little-margin {
+    margin-bottom: 5px !important;
 }
 
 .padding-bottom-20 {
@@ -38,12 +38,35 @@ input.little-margin{
 
 .ng-messages-errors p {
     color: red !important;
-    font-size:13px;
-    margin-top:0;
+    font-size: 13px;
+    margin-top: 0;
 }
 
-.card-loader-wrapper.black-loader .spinner-layer{
-    border-color:black !important;
+.card-loader-wrapper.black-loader .spinner-layer {
+    border-color: black !important;
+}
+
+.dropify-wrapper {
+    border: none !important;
+
+    p {
+        text-align: center !important;
+    }
+}
+
+.floating-button-bottom-right {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 999;
+}
+
+.bg-smartpark {
+    background: #4b85c5;
+}
+
+.color-smartpark {
+    color: #4b85c5;
 }
 
 #settings-tabs {

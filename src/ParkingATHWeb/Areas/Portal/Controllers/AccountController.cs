@@ -154,7 +154,8 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                 new Claim("isAdmin",user.IsAdmin.ToString()),
                 new Claim("LastName",user.LastName),
                 new Claim("SidebarShrinked",userPreferences.ShrinkedSidebar.ToString()),
-                new Claim("userId",user.Id.ToString())
+                new Claim("userId",user.Id.ToString()),
+                new Claim("photoId", userPreferences.ProfilePhotoId.ToString())
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
