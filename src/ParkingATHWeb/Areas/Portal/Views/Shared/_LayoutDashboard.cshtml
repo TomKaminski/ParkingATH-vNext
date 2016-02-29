@@ -133,7 +133,7 @@
                     <li class="bold nav-border">
                         <a ui-sref="messages" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'messages'}"><i class="mdi-communication-comment"></i> <span>Wiadomości</span></a>
                     </li>
-                    <li class="bold nav-border">
+                    <li class="bold nav-border" style="margin-bottom: 60px;">
                         <a class="waves-effect waves-cyan toggle-side-nav-shrinked" ng-click="layoutCtrl.changeSidebarState()"><i class="mdi-action-swap-horiz"></i> <span>Zwiń</span></a>
                     </li>
                 </ul>
@@ -236,8 +236,9 @@
     <script src="~/js/portalapp/controllers/messagesctrl.js"></script>
 
     <!--plugins.js - Some Specific JS codes for Plugin Settings-->
+<script src="~/js/Dashboard/custom-sidenav-shrink-helper.js"></script>
     <script type="text/javascript" src="~/js/Dashboard/plugins.js"></script>
-    <script src="~/js/Dashboard/custom-sidenav-shrink-helper.js"></script>
+
     @RenderSection("scripts", required: false)
 </body>
 </html>

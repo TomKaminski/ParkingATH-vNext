@@ -45,10 +45,10 @@
         </ul>
         <ul class="tabs tab-profile z-depth-1  hide-on-large-only">
             <li class="tab col s4">
-                <a class="white-text waves-effect waves-light" ng-click="manageCtrl.setActiveTab(3)" ng-class="{'active': manageCtrl.activeTab == 1}"><i class="mdi-image-photo-album"></i> Zmień adres email</a>
+                <a class="white-text waves-effect waves-light" ng-click="manageCtrl.setActiveTab(3)" ng-class="{'active': manageCtrl.activeTab == 3}"><i class="mdi-image-photo-album"></i> Zmień adres email</a>
             </li>
             <li class="tab col s4">
-                <a class="white-text waves-effect waves-light" ng-click="manageCtrl.setActiveTab(4)" ng-class="{'active': manageCtrl.activeTab == 2}"><i class="mdi-editor-border-color"></i> Edytuj dane</a>
+                <a class="white-text waves-effect waves-light" ng-click="manageCtrl.setActiveTab(4)" ng-class="{'active': manageCtrl.activeTab == 4}"><i class="mdi-editor-border-color"></i> Edytuj dane</a>
             </li>
         </ul>
         <div class="tab-content col s12 white z-depth-1">
@@ -152,7 +152,7 @@
                         </div>
                     </div>
                     <div class="input-field col s12">
-                        <input id="newEmailRepeat" name="newEmailRepeat" type="email" required ng-model="manageCtrl.changeEmailModel.NewEmailRepeat" class="little-margin" compare-to="manageCtrl.changeEmailModel.newEmail">
+                        <input id="newEmailRepeat" name="newEmailRepeat" type="email" required ng-model="manageCtrl.changeEmailModel.NewEmailRepeat" class="little-margin" compare-to="manageCtrl.changeEmailModel.NewEmail">
                         <label for="newEmailRepeat">Powtórz nowy adres email</label>
                         <div ng-messages="manageCtrl.changeEmailForm.newEmailRepeat.$error" ng-show="manageCtrl.changeEmailForm.newEmailRepeat.$touched" class="padding-bottom-20 ng-messages-errors">
                             <p ng-message="required">Powtórz proszę nowy adres email</p>
