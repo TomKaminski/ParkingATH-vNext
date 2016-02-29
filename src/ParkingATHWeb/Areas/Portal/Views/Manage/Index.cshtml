@@ -118,7 +118,7 @@
                     <div class="input-field col s12">
                         <input id="repeatNewPassword" name="repeatNewPassword" type="password" required ng-model="manageCtrl.changePasswordModel.RepeatPassword" compare-to="manageCtrl.changePasswordModel.Password" class="little-margin">
                         <label for="repeatNewPassword">Powtórz nowe hasło</label>
-                        <div ng-messages="manageCtrl.changePasswordForm.repeatNewPassword.$error" ng-show="manageCtrl.changePasswordForm.RepeatPassword.$touched" class="padding-bottom-20 ng-messages-errors">
+                        <div ng-messages="manageCtrl.changePasswordForm.repeatNewPassword.$error" ng-show="manageCtrl.changePasswordForm.repeatNewPassword.$touched" class="padding-bottom-20 ng-messages-errors">
                             <p ng-message="required">Hasło jest wymagane</p>
                             <p ng-message="compareTo">Hasło nie są takie same</p>
 
@@ -157,6 +157,7 @@
                         <div ng-messages="manageCtrl.changeEmailForm.newEmailRepeat.$error" ng-show="manageCtrl.changeEmailForm.newEmailRepeat.$touched" class="padding-bottom-20 ng-messages-errors">
                             <p ng-message="required">Powtórz proszę nowy adres email</p>
                             <p ng-message="email">To nie jest adres email</p>
+                            <p ng-message="compareTo">Adresy email nie są takie same</p>
                         </div>
                     </div>
 

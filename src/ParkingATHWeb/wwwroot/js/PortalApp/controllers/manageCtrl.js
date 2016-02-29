@@ -1,35 +1,11 @@
 ﻿(function () {
     'use strict';
 
-    function manageController(breadcrumbService, loadingContentService, apiFactory) {
+    function manageController(breadcrumbService, loadingContentService, apiFactory, notificationService) {
         var self = this;
         breadcrumbService.setOuterBreadcrumb('account');
         self.model = {};
         getSettingsIndexData();
-
-        self.sendChargesModel = {
-            ReceiverEmail: "",
-            AmountOfCharges: null,
-            Password: "",
-            disableButton: false
-        }
-        self.changePasswordModel = {
-            OldPassword: "",
-            Password: "",
-            RepeatPassword: "",
-            disableButton: false
-        }
-        self.changeEmailModel = {
-            NewEmail: "",
-            NnewEmailRepeat: "",
-            Password: "",
-            disableButton: false
-        }
-        self.changeInfoModel = {
-            Name: "",
-            LastName: "",
-            disableButton: false
-        }
 
         self.activeTab = 1;
 
@@ -45,16 +21,13 @@
                     self.sendChargesForm.$setUntouched();
                     self.sendChargesForm.$setPristine();
                     self.sendChargesModel = {
-                        ReceiverEmail: "",
-                        AmountOfCharges: null,
-                        Password: "",
                         disableButton: false
                     }
                     self.model.Charges = data.Result;
                 }
                 loadingContentService.setIsLoading('sendCharges', false);
                 self.sendChargesModel.disableButton = false;
-                showNotifications(data);
+                notificationService.showNotifications(data);
             }, function (e) {
                 console.log(e);
                 loadingContentService.setIsLoading('sendCharges', false);
@@ -80,7 +53,7 @@
                 }
                 loadingContentService.setIsLoading('changeInfo', false);
                 self.changeInfoModel.disableButton = false;
-                showNotifications(data);
+                notificationService.showNotifications(data);
             }, function (e) {
                 console.log(e);
                 loadingContentService.setIsLoading('changeInfo', false);
@@ -97,16 +70,13 @@
                     self.changeEmailForm.$setUntouched();
                     self.changeEmailForm.$setPristine();
                     self.changeEmailModel = {
-                        NewEmail: "",
-                        NewEmailRepeat: "",
-                        Password: "",
                         disableButton: false
                     }
                     self.model.Email = data.Result.Email;
                 }
                 loadingContentService.setIsLoading('changeEmail', false);
                 self.changeEmailModel.disableButton = false;
-                showNotifications(data);
+                notificationService.showNotifications(data);
             }, function (e) {
                 console.log(e);
                 loadingContentService.setIsLoading('changeEmail', false);
@@ -123,15 +93,12 @@
                     self.changePasswordForm.$setUntouched();
                     self.changePasswordForm.$setPristine();
                     self.changePasswordModel = {
-                        OldPassword: "",
-                        Password: "",
-                        RepeatPassword: "",
                         disableButton: false
                     }
                 }
                 loadingContentService.setIsLoading('changePassword', false);
                 self.changePasswordModel.disableButton = false;
-                showNotifications(data);
+                notificationService.showNotifications(data);
             }, function (e) {
                 console.log(e);
                 loadingContentService.setIsLoading('changePassword', false);
@@ -151,7 +118,7 @@
                         disableButton: false
                     }
                 } else {
-                    showNotifications(data);
+                    notificationService.showNotifications(data);
                 }
                 loadingContentService.setIsLoading('settingsMainLoading', false);
             }, function (e) {
@@ -159,18 +126,7 @@
                 loadingContentService.setIsLoading('settingsMainLoading', false);
             });
         }
-
-        function showNotifications(model) {
-            for (var i = 0; i < model.SuccessNotifications.length; i++) {
-                var $toastContent = $('<span>' + model.SuccessNotifications[i] + '</span>');
-                Materialize.toast($toastContent, 8000, 'toast-green');
-            }
-            for (var j = 0; j < model.ValidationErrors.length; j++) {
-                var $toastContentError = $('<span>' + model.ValidationErrors[j] + '</span>');
-                Materialize.toast($toastContentError, 8000, 'toast-red');
-            }
-        }
     }
 
-    angular.module('portalApp').controller('manageCtrl', ['breadcrumbService', 'loadingContentService', 'apiFactory', manageController]);
+    angular.module('portalApp').controller('manageCtrl', ['breadcrumbService', 'loadingContentService', 'apiFactory', 'notificationService', manageController]);
 })();

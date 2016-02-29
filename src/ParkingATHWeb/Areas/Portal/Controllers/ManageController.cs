@@ -174,7 +174,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
             var sendChargesResult = await _userService.TransferCharges(CurrentUser.Email, model.ReceiverEmail, model.AmountOfCharges, model.Password);
             if (sendChargesResult.IsValid)
             {
-                return Json(SmartJsonResult<int>.Success(sendChargesResult.Result, "Adres email został zmieniony pomyślnie!"));
+                return Json(SmartJsonResult<int>.Success(sendChargesResult.Result, $"Przekazałes {model.AmountOfCharges} na konto {model.ReceiverEmail}"));
             }
             return Json(SmartJsonResult.Failure(sendChargesResult.ValidationErrors));
         }

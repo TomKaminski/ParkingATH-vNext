@@ -227,14 +227,19 @@ namespace ParkingATHWeb.Business.Services
         public async Task<ServiceResult<UserBaseDto>> ChangePasswordAsync(string email, string password, string newPassword)
         {
             var entity = await _repository.FirstOrDefaultAsync(x => x.Email == email);
-            if (entity != null && _passwordHasher.ValidatePassword(password, entity.PasswordHash, entity.PasswordSalt))
+            if (entity != null)
             {
-                var newHashedPassword = _passwordHasher.CreateHash(newPassword);
-                entity.PasswordSalt = newHashedPassword.Salt;
-                entity.PasswordHash = newHashedPassword.Hash;
-                _repository.Edit(entity);
-                await _unitOfWork.CommitAsync();
-                return ServiceResult<UserBaseDto>.Success(_mapper.Map<UserBaseDto>(entity));
+                if (_passwordHasher.ValidatePassword(password, entity.PasswordHash, entity.PasswordSalt))
+                {
+                    var newHashedPassword = _passwordHasher.CreateHash(newPassword);
+                    entity.PasswordSalt = newHashedPassword.Salt;
+                    entity.PasswordHash = newHashedPassword.Hash;
+                    _repository.Edit(entity);
+                    await _unitOfWork.CommitAsync();
+                    return ServiceResult<UserBaseDto>.Success(_mapper.Map<UserBaseDto>(entity));
+                }
+                return ServiceResult<UserBaseDto>.Failure("Podane obecne hasło jest niepoprawne.");
+
             }
             return ServiceResult<UserBaseDto>.Failure("Wystąpił błąd podczas zmiany hasła, spróbuj jeszcze raz.");
         }
@@ -370,7 +375,7 @@ namespace ParkingATHWeb.Business.Services
         {
             var sender = await _repository.FirstOrDefaultAsync(x => x.Email == senderEmail);
             var reciever = await _repository.FirstOrDefaultAsync(x => x.Email == recieverEmail);
-            if (sender != null && recieverEmail != null && sender.Charges >= numberOfCharges)
+            if (sender != null && reciever != null && sender.Charges >= numberOfCharges)
             {
                 if (_passwordHasher.ValidatePassword(password, sender.PasswordHash, sender.PasswordSalt))
                 {
