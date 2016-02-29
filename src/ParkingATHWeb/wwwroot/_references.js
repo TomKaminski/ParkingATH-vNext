@@ -235,6 +235,7 @@
 /// <reference path="js/portalapp/directives/loaderdirective.js" />
 /// <reference path="js/PortalApp/directives/notEqualToDirective.js" />
 /// <reference path="js/portalapp/directives/requestverificationtokendirective.js" />
+/// <reference path="js/portalapp/directives/requiredfiledirective.js" />
 /// <reference path="js/portalapp/directives/resolveloaderdirective.js" />
 /// <reference path="js/portalapp/directives/sparklinechartdirective.js" />
 /// <reference path="js/portalapp/factories/apifactory.js" />

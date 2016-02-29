@@ -9,6 +9,10 @@
 
         self.activeTab = 1;
 
+        self.uploadPhotoModel = {
+            disableButton: false
+        }
+
         self.setActiveTab = function (tabNumber) {
             self.activeTab = tabNumber;
         }
@@ -37,7 +41,7 @@
         }
 
         self.sendCharges = function () {
-            genericForm('sendCharges', self.sendChargesModel, apiFactory.apiEnum.SendCharges, function(data) {
+            genericForm('sendCharges', self.sendChargesModel, apiFactory.apiEnum.SendCharges, function (data) {
                 self.model.Charges = data.Result;
                 userProfileService.setCharges(data.Result);
             }, self.sendChargesForm);
@@ -68,6 +72,7 @@
         self.uploadFile = function () {
             loadingContentService.setIsLoading('uploadPhoto', true);
             var form = document.getElementById('upload-photo-form');
+            self.uploadPhotoModel.disableButton = true;
             var formData = new FormData(form);
             apiFactory.post(apiFactory.apiEnum.UploadProfilePhoto, formData, {
                 withCredentials: true,
@@ -79,22 +84,24 @@
                 }
                 loadingContentService.setIsLoading('uploadPhoto', false);
                 notificationService.showNotifications(data);
+                self.uploadPhotoModel.disableButton = false;
             }, function (e) {
                 console.log(e);
                 loadingContentService.setIsLoading('uploadPhoto', false);
                 Materialize.toast("Wystąpił błąd podczas łączenia się z serwerem.", 8000, 'toast-red');
+                self.uploadPhotoModel.disableButton = false;
             });
         }
 
-        self.userInitials = function() {
+        self.userInitials = function () {
             return userProfileService.getInitials();
         }
 
-        self.getCharges = function() {
+        self.getCharges = function () {
             return userProfileService.userData.charges;
         }
 
-        self.userPhoto = function() {
+        self.userPhoto = function () {
             return userProfileService.userData.profilePhotoPath;
         }
 
