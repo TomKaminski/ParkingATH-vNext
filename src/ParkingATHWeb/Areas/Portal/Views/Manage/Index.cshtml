@@ -33,10 +33,11 @@
                     <card-loader style="background: white" class="black-loader" loadname="profilePhotoLoading"></card-loader>
                     <div class="card-content">
                         <form id="upload-photo-form" novalidate name="manageCtrl.uploadPhotoForm">
-                            <button class="btn-floating btn-medium waves-effect waves-light floating-button-bottom-right bg-smartpark" ng-click="manageCtrl.uploadFile()" ng-disabled="manageCtrl.uploadPhotoForm.$invalid || manageCtrl.uploadPhotoModel.disableButton == true"><i class="mdi-content-save"></i></button>
+                            <button class="btn-floating btn-medium waves-effect waves-light floating-button-bottom-right bg-smartpark" ng-click="manageCtrl.uploadFile()"  ng-disabled="manageCtrl.uploadPhotoForm.$invalid || manageCtrl.uploadPhotoModel.disableButton == true"><i class="mdi-content-save"></i></button>
                             <div class="row section" style="padding: 0">
                                 <div class="col s12">
-                                    <input type="file" id="profile-photo" name="profile-photo" class="dropify-pl" data-max-file-size="1M" required-file required ng-model="manageCtrl.uploadPhotoModel.profileFile"/>
+                                    <input type="file" id="profile-photo" name="profile-photo" class="dropify-pl" data-max-file-size="1M" data-min-width="300" data-min-height="300"
+                                           required-file required ng-model="manageCtrl.uploadPhotoModel.profileFile" not-equal-to="manageCtrl.uploadPhotoModel.oldValue"/>
                                 </div>
                             </div>
                         </form>

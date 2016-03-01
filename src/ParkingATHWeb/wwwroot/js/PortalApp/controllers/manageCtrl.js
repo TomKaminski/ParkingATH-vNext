@@ -10,7 +10,8 @@
         self.activeTab = 1;
 
         self.uploadPhotoModel = {
-            disableButton: false
+            disableButton: false,
+            oldValue: null
         }
 
         self.setActiveTab = function (tabNumber) {
@@ -70,6 +71,7 @@
         }
 
         self.uploadFile = function () {
+            self.uploadPhotoModel.oldValue = self.uploadPhotoModel.profileFile;
             loadingContentService.setIsLoading('uploadPhoto', true);
             var form = document.getElementById('upload-photo-form');
             self.uploadPhotoModel.disableButton = true;
@@ -86,6 +88,7 @@
                 notificationService.showNotifications(data);
                 self.uploadPhotoModel.disableButton = false;
             }, function (e) {
+                self.uploadPhotoModel.oldValue = null;
                 console.log(e);
                 loadingContentService.setIsLoading('uploadPhoto', false);
                 Materialize.toast("Wystąpił błąd podczas łączenia się z serwerem.", 8000, 'toast-red');

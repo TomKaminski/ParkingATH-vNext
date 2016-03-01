@@ -11,7 +11,7 @@ namespace ParkingATHWeb.Business.Services
         public ServiceResult<byte[], Guid> ProcessAndSaveImage(byte[] source, string path)
         {
             var guid = Guid.NewGuid();
-            var imageJob = new ImageJob(source, path + guid, new Instructions("maxwidth=300&maxheight=300&format=png"))
+            var imageJob = new ImageJob(source, path + guid, new Instructions("width=300&height=300&format=jpg"))
             {
                 CreateParentDirectory = true,
                 AddFileExtension = true,
@@ -22,8 +22,8 @@ namespace ParkingATHWeb.Business.Services
 
         public void DeleteImagesByPath(string path)
         {
-            if (File.Exists($"{path}.png"))
-                File.Delete($"{path}.png");
+            if (File.Exists($"{path}.jpg"))
+                File.Delete($"{path}.jpg");
         }
     }
 }

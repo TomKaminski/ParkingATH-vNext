@@ -257,5 +257,4 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
             }
         }
     }
-
 }

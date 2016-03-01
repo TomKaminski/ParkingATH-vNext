@@ -20,7 +20,7 @@
 
         this.setProfilePhotoPath = function (imgId) {
             if (imgId != null) {
-                this.userData.profilePhotoPath = "/images/user-avatars/" + imgId + ".png";
+                this.userData.profilePhotoPath = "/images/user-avatars/" + imgId + ".jpg";
             }
             return this.userData.profilePhotoPath;
         }
