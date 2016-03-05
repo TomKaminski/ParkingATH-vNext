@@ -1,17 +1,36 @@
 ﻿using System;
-using AutoMapper;
-using ParkingATHWeb.Business.Services.Base;
-using ParkingATHWeb.Contracts.DTO.SupportMessage;
+using System.Threading.Tasks;
+using ParkingATHWeb.Contracts.Common;
+using ParkingATHWeb.Contracts.DTO.Chart;
+using ParkingATHWeb.Contracts.Providers.Chart;
 using ParkingATHWeb.Contracts.Services;
-using ParkingATHWeb.DataAccess.Common;
-using ParkingATHWeb.Model.Concrete;
+using ParkingATHWeb.Shared.Enums;
 
 namespace ParkingATHWeb.Business.Services
 {
-    public class PortalMessageService : EntityService<PortalMessageDto, PortalMessage, Guid>, IPortalMessageService
+    public class ChartService : IChartService
     {
-        public PortalMessageService(IGenericRepository<PortalMessage, Guid> repository, IUnitOfWork unitOfWork, IMapper mapper) : base(repository, unitOfWork, mapper)
+        private readonly IGateUsagesChartDataProvider _gateUsagesChartDataProvider;
+        private readonly IOrdersChartDataProvider _ordersChartDataProvider;
+
+
+        public ChartService(IGateUsagesChartDataProvider gateUsagesChartDataProvider, IOrdersChartDataProvider ordersChartDataProvider)
         {
+            _gateUsagesChartDataProvider = gateUsagesChartDataProvider;
+            _ordersChartDataProvider = ordersChartDataProvider;
+        }
+
+        public async Task<ServiceResult<ChartListDto>> GetDataAsync(ChartRequestDto request)
+        {
+            switch (request.Type)
+            {
+                case ChartType.GateOpenings:
+                    return ServiceResult<ChartListDto>.Success(await _gateUsagesChartDataProvider.GetChartData(request));
+                case ChartType.Orders:
+                    return ServiceResult<ChartListDto>.Success(await _ordersChartDataProvider.GetChartData(request));
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

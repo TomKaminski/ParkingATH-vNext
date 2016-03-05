@@ -6,7 +6,7 @@
        function getDefaultLineOptions() {
            return {
                 scaleShowGridLines: true, ///Boolean - Whether grid lines are shown across the chart		
-                scaleGridLineColor: "rgba(255,255,255,0.4)", //String - Colour of the grid lines		
+                scaleGridLineColor: "#132d4b", //String - Colour of the grid lines		
                 scaleGridLineWidth: 1, //Number - Width of the grid lines		
                 scaleShowHorizontalLines: true, //Boolean - Whether to show horizontal lines (except X axis)		
                 scaleShowVerticalLines: false, //Boolean - Whether to show vertical lines (except Y axis)		
@@ -23,15 +23,15 @@
                 animationEasing: "easeOutQuart", // String - Animation easing effect			
                 scaleFontSize: 12, // Number - Scale label font size in pixels		
                 scaleFontStyle: "normal", // String - Scale label font weight style		
-                scaleFontColor: "#fff", // String - Scale label font colour
+                scaleFontColor: "#132d4b", // String - Scale label font colour
                 tooltipEvents: ["mousemove", "touchstart", "touchmove"], // Array - Array of string names to attach tooltip events		
-                tooltipFillColor: "rgba(255,255,255,0.8)", // String - Tooltip background colour		
+                tooltipFillColor: "#4b85c5", // String - Tooltip background colour		
                 tooltipTitleFontFamily: "'Roboto','Helvetica Neue', 'Helvetica', 'Arial', sans-serif", // String - Tooltip title font declaration for the scale label		
                 tooltipFontSize: 12, // Number - Tooltip label font size in pixels
-                tooltipFontColor: "#000", // String - Tooltip label font colour		
+                tooltipFontColor: "white", // String - Tooltip label font colour		
                 tooltipTitleFontSize: 14, // Number - Tooltip title font size in pixels		
                 tooltipTitleFontStyle: "bold", // String - Tooltip title font weight style		
-                tooltipTitleFontColor: "#000", // String - Tooltip title font colour		
+                tooltipTitleFontColor: "#2e6cb2", // String - Tooltip title font colour		
                 tooltipYPadding: 8, // Number - pixel width of padding around tooltip text		
                 tooltipXPadding: 16, // Number - pixel width of padding around tooltip text		
                 tooltipCaretSize: 10, // Number - Size of the caret on the tooltip		

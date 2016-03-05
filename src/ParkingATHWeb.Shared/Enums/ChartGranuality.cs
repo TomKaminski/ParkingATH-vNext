@@ -1,4 +1,4 @@
-﻿namespace ParkingATHWeb.Contracts.DTO.Chart
+﻿namespace ParkingATHWeb.Shared.Enums
 {
     public enum ChartGranuality
     {

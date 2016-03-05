@@ -5,9 +5,13 @@ using AutoMapper;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
 using ParkingATHWeb.Areas.Portal.Controllers.Base;
+using ParkingATHWeb.Areas.Portal.ViewModels.Chart;
 using ParkingATHWeb.Areas.Portal.ViewModels.Weather;
+using ParkingATHWeb.Contracts.DTO.Chart;
 using ParkingATHWeb.Contracts.Services;
 using ParkingATHWeb.Infrastructure.Attributes;
+using ParkingATHWeb.Shared.Enums;
+using ParkingATHWeb.Shared.Helpers;
 
 namespace ParkingATHWeb.Areas.Portal.Controllers
 {
@@ -20,12 +24,15 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         private readonly IUserService _userService;
         private readonly IGateUsageService _gateUsageService;
         private readonly IMapper _mapper;
-        public HomeController(IWeatherService weatherService, IUserService userService, IGateUsageService gateUsageService, IMapper mapper)
+        private readonly IChartService _chartService;
+
+        public HomeController(IWeatherService weatherService, IUserService userService, IGateUsageService gateUsageService, IMapper mapper, IChartService chartService)
         {
             _weatherService = weatherService;
             _userService = userService;
             _gateUsageService = gateUsageService;
             _mapper = mapper;
+            _chartService = chartService;
         }
 
         [Route("~/[area]")]
@@ -57,43 +64,14 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
             var endDate = DateTime.Today.AddDays(1).AddSeconds(-1);
             var startDate = DateTime.Today.AddDays(-6);
             var userGateUsages = (await _gateUsageService.GetAllAsync(x => x.UserId == userId)).Result.ToList();
-            var lineChartData = _gateUsageService.GetGateUsagesChartData(userGateUsages.Where(x => x.DateOfUse >= startDate), startDate, endDate).Result;
+
+            var lineChartData = await _chartService.GetDataAsync(new ChartRequestDto(startDate, endDate, ChartType.GateOpenings, ChartGranuality.PerDay, userId));
 
             return Json(new
             {
                 chargesUsed = userGateUsages.Count,
                 chargesLeft = user.Charges,
-                lineChartData = new
-                {
-                    labels = lineChartData.Select(x => $"{x.Key.Day}.{x.Key.Month}").ToArray(),
-                    data = lineChartData.Select(x => x.Value).ToArray()
-                }
-            });
-        }
-
-        [Route("[controller]/[action]")]
-        [Obsolete("Use partial methods instead")]
-        public async Task<IActionResult> DashboardData()
-        {
-            var user = (await _userService.GetByEmailAsync(CurrentUser.Email)).Result;
-            var userId = user.Id;
-
-            var weatherData = _mapper.Map<WeatherDataViewModel>((await _weatherService.GetLatestWeatherDataAsync()).Result);
-            var userGateUsages = (await _gateUsageService.GetAllAsync(x => x.UserId == userId)).Result.ToList();
-
-            var endDate = DateTime.Today.AddDays(1).AddSeconds(-1);
-            var startDate = DateTime.Today.AddDays(-6);
-            var lineChartData = _gateUsageService.GetGateUsagesChartData(userGateUsages.Where(x => x.DateOfUse >= startDate), startDate, endDate).Result;
-            return Json(new
-            {
-                chargesUsed = userGateUsages.Count,
-                chargesLeft = user.Charges,
-                lineChartData = new
-                {
-                    labels = lineChartData.Select(x => $"{x.Key.Day}.{x.Key.Month}").ToArray(),
-                    data = lineChartData.Select(x => x.Value).ToArray()
-                },
-                weatherData
+                lineChartData = _mapper.Map<ChartDataReturnModel>(lineChartData.Result)
             });
         }
     }

@@ -1,9 +1,9 @@
-﻿angular.module('portalApp', ['ui.router', 'chart.js', 'ngMessages'])
+﻿angular.module('portalApp', ['ui.router', 'chart.js', 'ngMessages','ui.materialize'])
  .config(['ChartJsProvider', function (ChartJsProvider) {
      // Configure all charts
      ChartJsProvider.setOptions({
-         colours: ['#FFFFFF'],
-         responsive: false
+         colours: ['#2e6cb2'],
+         responsive: true
      });
      // Configure all line charts
      ChartJsProvider.setOptions('Line', {
@@ -43,7 +43,7 @@
             url: '/Statystyki',
             templateUrl: '/Portal/Statystyki',
             controller: 'statisticsCtrl',
-            controllerAs: 'statisticsCtrl'
+            controllerAs: 'statCtrl'
         })
         .state('messages', {
             url: '/Wiadomosci',

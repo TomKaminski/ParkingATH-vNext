@@ -249,6 +249,21 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
             return Json(SmartJsonResult.Failure(setProfilePhotoResult.ValidationErrors));
         }
 
+        [HttpPost]
+        [Route("DeleteProfilePhoto")]
+        [ValidateAntiForgeryTokenFromHeader]
+        public async Task<IActionResult> DeleteProfilePhoto()
+        {
+            var deleteProfilePhotoResult = await _userPreferencesService.DeleteProfilePhotoAsync(CurrentUser.UserId.Value, _hostingEnvironment.WebRootPath + "\\images\\user-avatars\\");
+            if (deleteProfilePhotoResult.IsValid)
+            {
+                await UpdateClaim("photoId", null);
+                return Json(SmartJsonResult<string>.Success(deleteProfilePhotoResult.Result, "Zdjęcie użytkownika zostało usunięte z systemu."));
+            }
+
+            return Json(SmartJsonResult.Failure(deleteProfilePhotoResult.ValidationErrors));
+        }
+
         private byte[] GetByteArrayFromFormFile(IFormFile file)
         {
             using (var ms = file.OpenReadStream())

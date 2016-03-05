@@ -67,6 +67,11 @@ namespace ParkingATHWeb.Areas.Portal.Controllers.Base
 
             IdentitySignout();
 
+            if (claimValue == null)
+            {
+                claimValue = "";
+            }
+
             var newClaims = claims.Where(x => x.Type != claimName).ToList();
             newClaims.Add(new Claim(claimName, claimValue.ToString()));
 

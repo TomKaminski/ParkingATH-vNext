@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col s12">
                 <div class="card" style="margin-top:0">
-                    <card-loader style="background: white" class="black-loader" loadname="settingsMainLoading"></card-loader>
+                    <card-loader style="background: white" loadname="settingsMainLoading"></card-loader>
                     <div class="card-content">
                         <p class="padding-bottom-20">
                             <span class="card-title grey-text text-darken-4">{{manageCtrl.model.Name}} {{manageCtrl.model.LastName}}</span>
@@ -30,16 +30,24 @@
 
             <div class="col s12">
                 <div class="card">
-                    <card-loader style="background: white" class="black-loader" loadname="profilePhotoLoading"></card-loader>
                     <div class="card-content">
                         <form id="upload-photo-form" novalidate name="manageCtrl.uploadPhotoForm">
-                            <button class="btn-floating btn-medium waves-effect waves-light floating-button-bottom-right bg-smartpark" ng-click="manageCtrl.uploadFile()"  ng-disabled="manageCtrl.uploadPhotoForm.$invalid || manageCtrl.uploadPhotoModel.disableButton == true"><i class="mdi-content-save"></i></button>
+                            <button class="btn-floating btn-medium waves-effect waves-light floating-button-bottom-right bg-smartpark" ng-click="manageCtrl.uploadFile()" ng-disabled="manageCtrl.uploadPhotoForm.$invalid || manageCtrl.uploadPhotoModel.disableButton == true"><i class="mdi-content-save"></i></button>
                             <div class="row section" style="padding: 0">
                                 <div class="col s12">
                                     <input type="file" id="profile-photo" name="profile-photo" class="dropify-pl" data-max-file-size="1M" data-min-width="300" data-min-height="300"
                                            required-file required ng-model="manageCtrl.uploadPhotoModel.profileFile" not-equal-to="manageCtrl.uploadPhotoModel.oldValue"/>
                                 </div>
                             </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-content"  style="padding:0">
+                        <form id="delete-photo-form" novalidate name="manageCtrl.deletePhotoForm">
+                            <button class="col s12 btn waves-effect waves-light bg-smartpark" ng-click="manageCtrl.deleteProfilePhoto()" ng-disabled="manageCtrl.isDefaultPhotoSet() == true || manageCtrl.deletePhotoModel.disableButton == true">USUŃ SWOJE ZDJĘCIE PROFILOWE</button>
                         </form>
                     </div>
                 </div>

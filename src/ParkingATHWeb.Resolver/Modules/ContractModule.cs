@@ -1,9 +1,10 @@
 ﻿using System.Linq;
 using System.Net.Mail.Abstractions;
 using Autofac;
-using ParkingATHWeb.Business.Providers.Email;
+using ParkingATHWeb.Business.Providers.Chart;
 using ParkingATHWeb.Business.Services;
 using ParkingATHWeb.Business.Services.Base;
+using ParkingATHWeb.Contracts.Providers.Chart;
 using ParkingATHWeb.Contracts.Services.Base;
 using ParkingATHWeb.Shared.Helpers;
 using SmtpClient = System.Net.Mail.Abstractions.SmtpClient;
@@ -26,11 +27,19 @@ namespace ParkingATHWeb.Resolver.Modules
 
             builder.RegisterType<PasswordHasher>().As<IPasswordHasher>().InstancePerLifetimeScope();
 
-            builder.RegisterGeneric(typeof (CustomExpressionVisitor<>))
-                .As(typeof (ICustomExpressionVisitor<>))
+            builder.RegisterGeneric(typeof(CustomExpressionVisitor<>))
+                .As(typeof(ICustomExpressionVisitor<>))
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<SmtpClient>().As<ISmtpClient>().InstancePerLifetimeScope();
+
+            builder.RegisterType<GateUsagesChartDataProvider>()
+                .As<IGateUsagesChartDataProvider>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<OrdersDataChartProvider>()
+                .As<IOrdersChartDataProvider>()
+                .InstancePerLifetimeScope();
         }
     }
 }

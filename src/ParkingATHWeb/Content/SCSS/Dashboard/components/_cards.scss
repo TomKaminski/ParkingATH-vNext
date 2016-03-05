@@ -14,7 +14,6 @@
   margin: $element-top-margin 0 $element-bottom-margin 0;
   background-color: $card-bg-color;
   transition: box-shadow .25s;
-  border-radius: 2px;
   @extend .z-depth-1;
 
 
@@ -101,8 +100,9 @@
   }
 
   .card-action {
-    border-top: 1px solid rgba(160,160,160,.2);
-    padding: $card-padding;
+    border-top: 3px solid #132d4b;
+    padding: 10px 20px;
+    background:#2e6cb2 ;
 
     a:not(.btn):not(.btn-large):not(.btn-floating) {
       color: $card-link-color;

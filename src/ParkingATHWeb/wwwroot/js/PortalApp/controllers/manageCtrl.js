@@ -14,6 +14,10 @@
             oldValue: null
         }
 
+        self.deletePhotoModel = {
+            disableButton: false
+        }
+
         self.setActiveTab = function (tabNumber) {
             self.activeTab = tabNumber;
         }
@@ -94,6 +98,25 @@
                 Materialize.toast("Wystąpił błąd podczas łączenia się z serwerem.", 8000, 'toast-red');
                 self.uploadPhotoModel.disableButton = false;
             });
+        }
+
+        self.deleteProfilePhoto = function () {
+            self.deletePhotoModel.disableButton = true;
+            apiFactory.post(apiFactory.apiEnum.DeleteProfilePhoto, {}).then(function (data) {
+                if (data.IsValid) {
+                    userProfileService.setProfilePhotoPath(data.Result);
+                }
+                notificationService.showNotifications(data);
+                self.deletePhotoModel.disableButton = false;
+            }, function (e) {
+                console.log(e);
+                Materialize.toast("Wystąpił błąd podczas łączenia się z serwerem.", 8000, 'toast-red');
+                self.deletePhotoModel.disableButton = false;
+            });
+        }
+
+        self.isDefaultPhotoSet = function() {
+            return userProfileService.userData.profilePhotoPath.endsWith("avatar-placeholder.jpg");
         }
 
         self.userInitials = function () {

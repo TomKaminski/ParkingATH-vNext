@@ -13,10 +13,5 @@ namespace ParkingATHWeb.Contracts.Services
         Task<ServiceResult<IEnumerable<GateUsageAdminDto>>> GetAllAdminAsync();
 
         Task<ServiceResult<IEnumerable<GateUsageAdminDto>>> GetAllAdminAsync(Expression<Func<GateUsageBaseDto, bool>> predicate);
-
-        ServiceResult<Dictionary<DateTime, int>> GetGateUsagesChartData(
-            IEnumerable<GateUsageBaseDto> gateUsagesFiltered, DateTime startDate, DateTime endDate);
-
-        Task<ServiceResult<Dictionary<DateTime, int>>> GetGateUsagesChartData(DateTime startDate, DateTime endDate, int userId);
     }
 }

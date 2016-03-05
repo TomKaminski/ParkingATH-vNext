@@ -5,7 +5,7 @@
         this.userData = {
             name: "",
             lastName: "",
-            profilePhotoPath: "/images/user-avatars/avatar-placeholder.png",
+            profilePhotoPath: "/images/user-avatars/avatar-placeholder.jpg",
             charges: 0
         }
 

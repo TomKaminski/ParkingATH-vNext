@@ -1,1 +1,158 @@
-﻿STATYSTYKI INDEX
+﻿<div class="col s12 m12 l12 xl7 margin-bottom-50">
+    <div class="card">
+        <div class="card-move-up">
+            <div class="row move-up">
+                <div class="col s12 l4 xl3">
+                    <input input-date
+                           type="text"
+                           name="created"
+                           id="inputCreated"
+                           ng-model="statCtrl.currentTime"
+                           container="body"
+                           format="dd/mm/yyyy"
+                           months-full="{{ statCtrl.month }}"
+                           months-short="{{ statCtrl.monthShort }}"
+                           weekdays-full="{{ statCtrl.weekdaysFull }}"
+                           weekdays-short="{{ statCtrl.weekdaysShort }}"
+                           weekdays-letter="{{ statCtrl.weekdaysLetter }}"
+                           disable="disable"
+                           min="{{ statCtrl.minDate }}"
+                           max="{{ statCtrl.maxDate }}"
+                           today="today"
+                           clear="clear"
+                           close="close"
+                           select-years="15"
+                           on-start="statCtrl.onStart()"
+                           on-render="statCtrl.onRender()"
+                           on-open="statCtrl.onOpen()"
+                           on-close="statCtrl.onClose()"
+                           on-set="statCtrl.onSet()"
+                           on-stop="statCtrl.onStop()"/>
+                    <form action="#">
+                        <p>
+                            <input name="group1" type="radio" id="test1" />
+                            <label for="test1">Red</label>
+                        </p>
+                        <p>
+                            <input name="group1" type="radio" id="test2" />
+                            <label for="test2">Yellow</label>
+                        </p>
+                        <p>
+                            <input name="group1" type="radio" id="test3" />
+                            <label for="test3">Green</label>
+                        </p>
+                    </form>
+                </div>
+                <div class="col s12 l8 xl9">
+
+                    <div>
+                        <a class="btn-floating waves-effect waves-light right" style="background: #132d4b"><i class="mdi-content-add activator"></i></a>
+                        <span class="chart-title white-text">Częstotliwość wyjazdów > ostatnie 7 dni</span>
+                    </div>
+                    <div class="trending-line-chart-wrapper">
+                        <canvas id="gateUsagesChart" class="chart chart-line" chart-data="statCtrl.testData.data"
+                                chart-labels="statCtrl.testData.labels" chart-series="statCtrlseries" chart-options="statCtrl.testData.options" height="100"></canvas>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="card-reveal">
+            <span class="card-title grey-text text-darken-4">Wyjazdy - ostatnie 7 dni <i class="mdi-navigation-close right"></i></span>
+            <table class="responsive-table">
+                <thead>
+                <tr>
+                    <th data-field="id">Data</th>
+                    <th data-field="month">Ilość wyjazdów</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in statCtrl.testData.labels">
+                    <td>{{item}}</td>
+                    <td>{{statCtrl.testData.data[0][$index]}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="col s12 m12 l12 xl7">
+    <div class="card">
+        <div class="card-move-up">
+            <div class="row move-up">
+                <div class="col s12 l4 xl3">
+                    <input input-date
+                           type="text"
+                           name="created"
+                           id="inputCreated"
+                           ng-model="statCtrl.currentTime"
+                           container="body"
+                           format="dd/mm/yyyy"
+                           months-full="{{ statCtrl.month }}"
+                           months-short="{{ statCtrl.monthShort }}"
+                           weekdays-full="{{ statCtrl.weekdaysFull }}"
+                           weekdays-short="{{ statCtrl.weekdaysShort }}"
+                           weekdays-letter="{{ statCtrl.weekdaysLetter }}"
+                           disable="disable"
+                           min="{{ statCtrl.minDate }}"
+                           max="{{ statCtrl.maxDate }}"
+                           today="today"
+                           clear="clear"
+                           close="close"
+                           select-years="15"
+                           on-start="statCtrl.onStart()"
+                           on-render="statCtrl.onRender()"
+                           on-open="statCtrl.onOpen()"
+                           on-close="statCtrl.onClose()"
+                           on-set="statCtrl.onSet()"
+                           on-stop="statCtrl.onStop()"/>
+                    <form action="#">
+                        <p>
+                            <input name="group1" type="radio" id="test1" />
+                            <label for="test1">Red</label>
+                        </p>
+                        <p>
+                            <input name="group1" type="radio" id="test2" />
+                            <label for="test2">Yellow</label>
+                        </p>
+                        <p>
+                            <input name="group1" type="radio" id="test3" />
+                            <label for="test3">Green</label>
+                        </p>
+                    </form>
+                </div>
+                <div class="col s12 l8 xl9">
+
+                    <div>
+                        <a class="btn-floating waves-effect waves-light right" style="background: #132d4b"><i class="mdi-content-add activator"></i></a>
+                        <span class="chart-title white-text">Częstotliwość wyjazdów > ostatnie 7 dni</span>
+                    </div>
+                    <div class="trending-line-chart-wrapper">
+                        <canvas id="gateUsagesChart" class="chart chart-line" chart-data="statCtrl.testData.data"
+                                chart-labels="statCtrl.testData.labels" chart-series="statCtrlseries" chart-options="statCtrl.testData.options" height="100"></canvas>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="card-reveal">
+            <span class="card-title grey-text text-darken-4">Wyjazdy - ostatnie 7 dni <i class="mdi-navigation-close right"></i></span>
+            <table class="responsive-table">
+                <thead>
+                    <tr>
+                        <th data-field="id">Data</th>
+                        <th data-field="month">Ilość wyjazdów</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in statCtrl.testData.labels">
+                        <td>{{item}}</td>
+                        <td>{{statCtrl.testData.data[0][$index]}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

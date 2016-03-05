@@ -15,7 +15,9 @@
             ChangeEmail: "Konto/ChangeEmail",
             SendCharges: "Konto/SendCharges",
             ChangeUserInfo: "Konto/ChangeUserInfo",
-            UploadProfilePhoto: "Konto/UploadProfilePhoto"
+            UploadProfilePhoto: "Konto/UploadProfilePhoto",
+            GetChartData: "Statystyki/GetChartData",
+            DeleteProfilePhoto: "Konto/DeleteProfilePhoto"
         }
 
         function get(apiUrl, options) {

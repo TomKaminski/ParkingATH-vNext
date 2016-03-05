@@ -28,7 +28,7 @@ namespace ParkingATHWeb.Models
         {
             get
             {
-                if (FindFirst("photoId") == null)
+                if (FindFirst("photoId") == null || FindFirst("photoId").Value == "")
                 {
                     return null;
                 }

@@ -109,7 +109,7 @@
 }
 
 #message-card {
-    background: #5c6bc0;
+    background: white;
     input{
         border-color: white !important;
     }
@@ -119,13 +119,9 @@
 	.message-card-title {
 		margin: 0;
 		font-weight: 300;
-		color:#fff;
 	}
 	.message-state {
 		padding-bottom: 15px;
-	}
-	.card-content {
-		background: #5c6bc0;
 	}
 	.message-state-wrapper {
 		margin: 0 0 100px 0 !important;
@@ -136,7 +132,7 @@
 }
 
 #weather-card {
-    background: #40c4ff;
+    background: #4b85c5;
 
 	.weather-state {
 		padding-bottom: 15px;

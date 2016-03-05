@@ -9,5 +9,7 @@ namespace ParkingATHWeb.Contracts.Services
     public interface IUserPreferencesService : IEntityService<UserPreferencesDto, int>, IDependencyService
     {
         Task<ServiceResult<Guid>> SetUserAvatarAsync(byte[] sourceImage, int userId, string folderPath);
+        Task<ServiceResult<string>> DeleteProfilePhotoAsync(int userId, string folderPath);
+
     }
 }

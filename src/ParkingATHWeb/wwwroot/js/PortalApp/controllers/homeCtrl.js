@@ -29,7 +29,7 @@
             apiFactory.get(apiFactory.apiEnum.GetUserChargesData, {}).then(function (data) {
                 self.userChargesModel = data;
                 userProfileService.userData.charges = self.userChargesModel.chargesLeft;
-                self.userChargesModel.lineChartData.data = [data.lineChartData.data];
+                self.userChargesModel.lineChartData.data = [data.lineChartData.Data];
                 self.userChargesModel.lineChartData.options = chartJsOptionsFactory.getDefaultLineOptions();
                 loadingContentService.setIsLoading('userChargesLoading', false);
             }, function (e) {

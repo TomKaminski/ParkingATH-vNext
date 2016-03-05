@@ -16,6 +16,7 @@ namespace ParkingATHWeb.Business.Services
         private readonly IUserPreferencesRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IImageProcessorService _imageProcessorService;
+        private const string PlaceholderPhotoName = "avatar-placeholder";
 
         public UserPreferenesService(IUserPreferencesRepository repository, IUnitOfWork unitOfWork, IMapper mapper, IImageProcessorService imageProcessorService) : base(repository, unitOfWork, mapper)
         {
@@ -37,6 +38,18 @@ namespace ParkingATHWeb.Business.Services
             _repository.Edit(userPreference);
             await _unitOfWork.CommitAsync();
             return ServiceResult<Guid>.Success(imageProcessorJob.SecondResult);
+        }
+
+        public async Task<ServiceResult<string>> DeleteProfilePhotoAsync(int userId, string folderPath)
+        {
+            var userPreference = await _repository.SingleOrDefaultAsync(x => x.UserId == userId);
+            _imageProcessorService.DeleteImagesByPath(folderPath + userPreference.ProfilePhotoId);
+
+            userPreference.ProfilePhoto = null;
+            userPreference.ProfilePhotoId = null;
+            _repository.Edit(userPreference);
+            await _unitOfWork.CommitAsync();
+            return ServiceResult<string>.Success(PlaceholderPhotoName);
         }
     }
 }
