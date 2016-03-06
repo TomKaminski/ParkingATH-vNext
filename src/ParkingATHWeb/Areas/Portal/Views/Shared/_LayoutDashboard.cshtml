@@ -82,7 +82,7 @@
                         </li>
                         <li class="hide-on-large-only" style="position: absolute; right:0">
                             <form asp-action="Logout" asp-controller="Account" asp-route-area="Portal" id="logoutForm">
-                                <a href="javascript:document.getElementById('logoutForm').submit()"><i class="mdi-action-input"></i></a>
+                                <a href="javascript:document.getElementById('logoutForm').submit()"><i class="material-icons">directions_run</i></a>
                             </form>
                         </li>
                     </ul>
@@ -92,7 +92,7 @@
                         </li>
                         <li class="hide-on-med-and-down">
                             <form asp-action="Logout" asp-controller="Account" asp-route-area="Portal" id="logoutForm">
-                                <a href="javascript:document.getElementById('logoutForm').submit()"><i class="mdi-action-input"></i></a>
+                                <a href="javascript:document.getElementById('logoutForm').submit()"><i class="material-icons">directions_run</i></a>
                             </form>
                         </li>
                     </ul>
@@ -121,25 +121,25 @@
                         </div>
                     </li>
                     <li class="bold nav-border">
-                        <a ui-sref="dashboard" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'dashboard'}"><i class="mdi-action-view-column"></i> <span>Panel główny</span></a>
+                        <a ui-sref="dashboard" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'dashboard'}"><i class="material-icons">dashboard</i> <span>Panel główny</span></a>
                     </li>
                     <li class="bold nav-border">
-                        <a ui-sref="statistics" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'statistics'}"><i class="mdi-action-trending-up"></i> <span>Statystyki</span></a>
+                        <a ui-sref="statistics" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'statistics'}"><i class="material-icons">trending_up</i> <span>Statystyki</span></a>
                     </li>
                     <li class="bold nav-border">
-                        <a ui-sref="shop" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'shop'}"><i class="mdi-action-shopping-cart"></i> <span>Sklep</span></a>
+                        <a ui-sref="shop" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'shop'}"><i class="material-icons">shopping_cart</i> <span>Sklep</span></a>
                     </li>
                     <li class="bold nav-border">
-                        <a ui-sref="account" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'account'}"><i class="mdi-action-settings"></i> <span>Ustawienia</span></a>
+                        <a ui-sref="account" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'account'}"><i class="material-icons">settings</i> <span>Ustawienia</span></a>
                     </li>
                     <li class="bold nav-border">
-                        <a ui-sref="messages" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'messages'}"><i class="mdi-communication-comment"></i> <span>Wiadomości</span></a>
+                        <a ui-sref="messages" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'messages'}"><i class="material-icons">message</i> <span>Wiadomości</span></a>
                     </li>
                     <li class="bold nav-border" style="margin-bottom: 60px;">
-                        <a class="waves-effect waves-cyan toggle-side-nav-shrinked" ng-click="layoutCtrl.changeSidebarState()"><i class="mdi-action-swap-horiz"></i> <span>Zwiń</span></a>
+                        <a class="waves-effect waves-cyan toggle-side-nav-shrinked" ng-click="layoutCtrl.changeSidebarState()"><i class="material-icons">compare_arrows</i> <span>Zwiń</span></a>
                     </li>
                 </ul>
-                <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only" style="background:#4b85c5"><i class="mdi-navigation-menu"></i></a>
+                <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only" style="background:#4b85c5"><i class="material-icons">menu</i></a>
             </aside>
             <!-- END LEFT SIDEBAR NAV-->
             <!-- START CONTENT -->
@@ -202,6 +202,7 @@
 <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/angular/angular.js"></script>
     <script src="~/lib/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="~/lib/angular-messages/angular-messages.min.js"></script>
 
     <!--materialize js-->
     <script type="text/javascript" src="~/js/Dashboard/materialize.js"></script>
@@ -216,7 +217,6 @@
     <script type="text/javascript" src="~/js/Dashboard/plugins/dropify/js/dropify.min.js"></script>
 
     @*ANGULAR APP*@
-    <script src="~/lib/angular-messages/angular-messages.min.js"></script>
     <script src="~/js/portalapp/portalapp.js"></script>
     <script src="~/js/portalapp/directives/resolveloaderdirective.js"></script>
     <script src="~/js/portalapp/directives/comparetodirective.js"></script>

@@ -13,15 +13,15 @@
 
         var currentTime = new Date();
         self.currentTime = currentTime;
-        self.month = ['Januar', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-        self.monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        self.weekdaysFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        self.weekdaysLetter = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+        self.month = ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
+        self.monthShort = ['Sty', 'Lu', 'Mar', 'Kwi', 'Maj', 'Cze', 'Li', 'Sie', 'Wrz', 'Paź', 'Li', 'Gr'];
+        self.weekdaysFull = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'];
+        self.weekdaysLetter = ['N', 'P', 'W', 'Ś', 'C', 'P', 'S'];
         self.disable = [false, 1, 7];
-        self.today = 'Today';
-        self.clear = 'Clear';
-        self.close = 'Close';
-        var days = 15;
+        self.today = 'Dzisiaj';
+        self.clear = 'Wyczyść';
+        self.close = 'Zamknij';
+        var days = 9999;
         self.minDate = (new Date(self.currentTime.getTime() - (1000 * 60 * 60 * 24 * days))).toISOString();
         self.maxDate = (new Date(self.currentTime.getTime() + (1000 * 60 * 60 * 24 * days))).toISOString();
         self.onStart = function () {

@@ -3,31 +3,42 @@
         <div class="card-move-up">
             <div class="row move-up">
                 <div class="col s12 l4 xl3">
-                    <input input-date
-                           type="text"
-                           name="created"
-                           id="inputCreated"
-                           ng-model="statCtrl.currentTime"
-                           container="body"
-                           format="dd/mm/yyyy"
-                           months-full="{{ statCtrl.month }}"
-                           months-short="{{ statCtrl.monthShort }}"
-                           weekdays-full="{{ statCtrl.weekdaysFull }}"
-                           weekdays-short="{{ statCtrl.weekdaysShort }}"
-                           weekdays-letter="{{ statCtrl.weekdaysLetter }}"
-                           disable="disable"
-                           min="{{ statCtrl.minDate }}"
-                           max="{{ statCtrl.maxDate }}"
-                           today="today"
-                           clear="clear"
-                           close="close"
-                           select-years="15"
-                           on-start="statCtrl.onStart()"
-                           on-render="statCtrl.onRender()"
-                           on-open="statCtrl.onOpen()"
-                           on-close="statCtrl.onClose()"
-                           on-set="statCtrl.onSet()"
-                           on-stop="statCtrl.onStop()"/>
+                    <div class="input-field col s6">
+                        <i class="mdi-action-view-column prefix"></i>
+                        <input input-date
+                               type="text"
+                               name="created1"
+                               id="inputCreated1"
+                               ng-model="statCtrl.currentTime"
+                               container="body"
+                               format="dd/mm/yyyy"
+                               months-full="{{ statCtrl.month }}"
+                               months-short="{{ statCtrl.monthShort }}"
+                               weekdays-full="{{ statCtrl.weekdaysFull }}"
+                               weekdays-short="{{ statCtrl.weekdaysShort }}"
+                               weekdays-letter="{{ statCtrl.weekdaysLetter }}"
+                               min="{{ statCtrl.minDate }}"
+                               max="{{ statCtrl.maxDate }}"
+                               select-years="15"/>
+                    </div>
+                    <div class="input-field col s6">
+                        <i class="mdi-action-view-column prefix"></i>
+                        <input input-date
+                               type="text"
+                               name="created2"
+                               id="inputCreated2"
+                               ng-model="statCtrl.currentTime"
+                               container="body"
+                               format="dd/mm/yyyy"
+                               months-full="{{ statCtrl.month }}"
+                               months-short="{{ statCtrl.monthShort }}"
+                               weekdays-full="{{ statCtrl.weekdaysFull }}"
+                               weekdays-short="{{ statCtrl.weekdaysShort }}"
+                               weekdays-letter="{{ statCtrl.weekdaysLetter }}"
+                               min="{{ statCtrl.minDate }}"
+                               max="{{ statCtrl.maxDate }}"/>
+                    </div>
+                    
                     <form action="#">
                         <p>
                             <input name="group1" type="radio" id="test1" />
@@ -62,16 +73,16 @@
             <span class="card-title grey-text text-darken-4">Wyjazdy - ostatnie 7 dni <i class="mdi-navigation-close right"></i></span>
             <table class="responsive-table">
                 <thead>
-                <tr>
-                    <th data-field="id">Data</th>
-                    <th data-field="month">Ilość wyjazdów</th>
-                </tr>
+                    <tr>
+                        <th data-field="id">Data</th>
+                        <th data-field="month">Ilość wyjazdów</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="item in statCtrl.testData.labels">
-                    <td>{{item}}</td>
-                    <td>{{statCtrl.testData.data[0][$index]}}</td>
-                </tr>
+                    <tr ng-repeat="item in statCtrl.testData.labels">
+                        <td>{{item}}</td>
+                        <td>{{statCtrl.testData.data[0][$index]}}</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -106,7 +117,7 @@
                            on-open="statCtrl.onOpen()"
                            on-close="statCtrl.onClose()"
                            on-set="statCtrl.onSet()"
-                           on-stop="statCtrl.onStop()"/>
+                           on-stop="statCtrl.onStop()" />
                     <form action="#">
                         <p>
                             <input name="group1" type="radio" id="test1" />

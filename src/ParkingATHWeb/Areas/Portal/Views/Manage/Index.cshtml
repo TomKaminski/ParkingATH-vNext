@@ -5,24 +5,26 @@
                 <div class="card" style="margin-top:0">
                     <card-loader style="background: white" loadname="settingsMainLoading"></card-loader>
                     <div class="card-content">
-                        <p class="padding-bottom-20">
+                        <p>
                             <span class="card-title grey-text text-darken-4">{{manageCtrl.model.Name}} {{manageCtrl.model.LastName}}</span>
-                            <span><i class="mdi-action-perm-identity cyan-text text-darken-2"></i>{{manageCtrl.model.Range}}</span>
                         </p>
+                        <p  class="padding-bottom-20"><span><i class="material-icons cyan-text text-darken-2 left" style="margin-right: 5px">perm_identity</i>{{manageCtrl.model.Range}}</span>
+</p>
 
                         <p class="padding-bottom-20">Podstawowe informacje:</p>
 
-                        <p>
-                            <i class="mdi-communication-email cyan-text text-darken-2"></i> Adres email: <b>{{manageCtrl.model.Email}}</b>
+                        <p class="margin-bottom-5">
+                            <i class="material-icons left cyan-text text-darken-2 margin-right-5">email</i> Adres email: <b>{{manageCtrl.model.Email}}</b>
+                            <div class="clearfix"></div>
                         </p>
-                        <p>
-                            <i class="mdi-social-cake cyan-text text-darken-2"></i> Data dołączenia: <b>{{manageCtrl.model.CreateDate}}</b>
+                        <p class="margin-bottom-5">
+                            <i class="material-icons left cyan-text text-darken-2 margin-right-5">cake</i> Data dołączenia: <b>{{manageCtrl.model.CreateDate}}</b><div class="clearfix"></div>
                         </p>
-                        <p>
-                            <i class="mdi-device-airplanemode-on cyan-text text-darken-2"></i> Ilość dostępnych wyjazdów: <b>{{manageCtrl.model.Charges}}</b>
+                        <p class="margin-bottom-5">
+                            <i class="material-icons left cyan-text text-darken-2 margin-right-5">control_point</i> Ilość dostępnych wyjazdów: <b>{{manageCtrl.model.Charges}}</b><div class="clearfix"></div>
                         </p>
-                        <p>
-                            <i class="mdi-device-airplanemode-on cyan-text text-darken-2"></i> Data ostatniego wyjazdu: <b>{{manageCtrl.model.LastGateOpenDate}}</b>
+                        <p class="margin-bottom-5">
+                            <i class="material-icons left cyan-text text-darken-2 margin-right-5">history</i> Data ostatniego wyjazdu: <b>{{manageCtrl.model.LastGateOpenDate}}</b><div class="clearfix"></div>
                         </p>
                     </div>
                 </div>
@@ -32,7 +34,7 @@
                 <div class="card">
                     <div class="card-content">
                         <form id="upload-photo-form" novalidate name="manageCtrl.uploadPhotoForm">
-                            <button class="btn-floating btn-medium waves-effect waves-light floating-button-bottom-right bg-smartpark" ng-click="manageCtrl.uploadFile()" ng-disabled="manageCtrl.uploadPhotoForm.$invalid || manageCtrl.uploadPhotoModel.disableButton == true"><i class="mdi-content-save"></i></button>
+                            <button class="btn-floating btn-medium waves-effect waves-light floating-button-bottom-right bg-smartpark" ng-click="manageCtrl.uploadFile()" ng-disabled="manageCtrl.uploadPhotoForm.$invalid || manageCtrl.uploadPhotoModel.disableButton == true"><i class="material-icons">save</i></button>
                             <div class="row section" style="padding: 0">
                                 <div class="col s12">
                                     <input type="file" id="profile-photo" name="profile-photo" class="dropify-pl" data-max-file-size="1M" data-min-width="300" data-min-height="300"
@@ -58,24 +60,24 @@
     <div id="settings-tabs" class="col s12 m12 l12 xl8">
         <ul class="tabs tab-profile z-depth-1">
             <li class="tab col s4">
-                <a class="white-text waves-effect waves-light" ng-click="manageCtrl.setActiveTab(1)" ng-class="{'active': manageCtrl.activeTab == 1}"><i class="mdi-editor-border-color"></i> Przekaż wyjazdy</a>
+                <a class="white-text waves-effect waves-light flex-align-center-container" ng-click="manageCtrl.setActiveTab(1)" ng-class="{'active': manageCtrl.activeTab == 1}"><i class="material-icons margin-right-5">card_giftcard</i> Przekaż wyjazdy</a>
             </li>
             <li class="tab col s4">
-                <a class="white-text waves-effect waves-light" ng-click="manageCtrl.setActiveTab(2)" ng-class="{'active': manageCtrl.activeTab == 2}"><i class="mdi-image-camera-alt"></i> Zmień hasło</a>
+                <a class="white-text waves-effect waves-light flex-align-center-container" ng-click="manageCtrl.setActiveTab(2)" ng-class="{'active': manageCtrl.activeTab == 2}"><i class="material-icons margin-right-5">security</i> Zmień hasło</a>
             </li>
             <li class="tab col s4 hide-on-med-and-down">
-                <a class="white-text waves-effect waves-light" ng-click="manageCtrl.setActiveTab(3)" ng-class="{'active': manageCtrl.activeTab == 3}"><i class="mdi-image-photo-album"></i> Zmień adres email</a>
+                <a class="white-text waves-effect waves-light flex-align-center-container" ng-click="manageCtrl.setActiveTab(3)" ng-class="{'active': manageCtrl.activeTab == 3}"><i class="material-icons margin-right-5">email</i> Zmień adres email</a>
             </li>
             <li class="tab col s4 hide-on-med-and-down">
-                <a class="white-text waves-effect waves-light" ng-click="manageCtrl.setActiveTab(4)" ng-class="{'active': manageCtrl.activeTab == 4}"><i class="mdi-editor-border-color"></i> Edytuj dane</a>
+                <a class="white-text waves-effect waves-light flex-align-center-container" ng-click="manageCtrl.setActiveTab(4)" ng-class="{'active': manageCtrl.activeTab == 4}"><i class="material-icons margin-right-5">mode_edit</i> Edytuj dane</a>
             </li>
         </ul>
         <ul class="tabs tab-profile z-depth-1  hide-on-large-only">
             <li class="tab col s4">
-                <a class="white-text waves-effect waves-light" ng-click="manageCtrl.setActiveTab(3)" ng-class="{'active': manageCtrl.activeTab == 3}"><i class="mdi-image-photo-album"></i> Zmień adres email</a>
+                <a class="white-text waves-effect waves-light flex-align-center-container" ng-click="manageCtrl.setActiveTab(3)" ng-class="{'active': manageCtrl.activeTab == 3}"><i class="material-icons margin-right-5">email</i> Zmień adres email</a>
             </li>
             <li class="tab col s4">
-                <a class="white-text waves-effect waves-light" ng-click="manageCtrl.setActiveTab(4)" ng-class="{'active': manageCtrl.activeTab == 4}"><i class="mdi-editor-border-color"></i> Edytuj dane</a>
+                <a class="white-text waves-effect waves-light flex-align-center-container" ng-click="manageCtrl.setActiveTab(4)" ng-class="{'active': manageCtrl.activeTab == 4}"><i class="material-icons margin-right-5">mode_edit</i> Edytuj dane</a>
             </li>
         </ul>
         <div class="tab-content col s12 white z-depth-1">
@@ -112,7 +114,7 @@
                     <div class="input-field col s12 margin-bottom-20">
                         <button ng-click="manageCtrl.sendCharges()" class="btn waves-effect waves-light right" type="submit" name="action" ng-disabled="manageCtrl.sendChargesForm.$invalid || manageCtrl.sendChargesModel.disableButton == true">
                             Zatwierdź i przekaż wyjazdy
-                            <i class="mdi-content-send right"></i>
+                            <i class="material-icons right">send</i>
                         </button>
                     </div>
                     <div class="row" style="padding-right: 20px;">
@@ -155,7 +157,7 @@
                     <div class="input-field col s12 margin-bottom-20">
                         <button ng-click="manageCtrl.changePassword()" class="btn waves-effect waves-light right" type="submit" name="action" ng-disabled="manageCtrl.changePasswordForm.$invalid || manageCtrl.changePasswordModel.disableButton == true">
                             Zmień hasło
-                            <i class="mdi-content-send right"></i>
+                            <i class="material-icons right">send</i>
                         </button>
                     </div>
                     <div class="row" style="padding-right: 20px;">
@@ -199,7 +201,7 @@
                     <div class="input-field col s12 margin-bottom-20">
                         <button ng-click="manageCtrl.changeEmail()" class="btn waves-effect waves-light right" type="submit" name="action" ng-disabled="manageCtrl.changeEmailForm.$invalid || manageCtrl.changeEmailModel.disableButton == true">
                             Zmień email
-                            <i class="mdi-content-send right"></i>
+                            <i class="material-icons right">send</i>
                         </button>
                     </div>
                     <div class="row" style="padding-right: 20px;">
@@ -233,7 +235,7 @@
                     <div class="input-field col s12 margin-bottom-20">
                         <button ng-click="manageCtrl.changeInfo()" class="btn waves-effect waves-light right" type="submit" name="action" ng-disabled="manageCtrl.changeInfoForm.$invalid || manageCtrl.changeInfoModel.disableButton == true">
                             Zmień swoje dane kontaktowe
-                            <i class="mdi-content-send right"></i>
+                            <i class="material-icons right">send</i>
                         </button>
                     </div>
                     <div class="row" style="padding-right: 20px;">

@@ -18,6 +18,14 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     margin-bottom: 20px !important;
 }
 
+.margin-bottom-5 {
+    margin-bottom: 5px !important;
+}
+
+.margin-right-5 {
+    margin-right: 5px !important;
+}
+
 .margin-bottom-50 {
     margin-bottom: 50px !important;
 }
@@ -91,6 +99,12 @@ input.little-margin {
     .tab-content {
         padding: 15px 35px;
     }
+}
+
+.flex-align-center-container{
+    display:flex !important;
+    align-items:center;
+    justify-content:center;
 }
 
 
