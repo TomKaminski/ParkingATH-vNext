@@ -8,6 +8,7 @@ using ParkingATHWeb.Contracts.Services;
 using ParkingATHWeb.DataAccess.Common;
 using ParkingATHWeb.DataAccess.Interfaces;
 using ParkingATHWeb.Model.Concrete;
+using ParkingATHWeb.Shared.Enums;
 
 namespace ParkingATHWeb.Business.Services
 {
@@ -16,13 +17,15 @@ namespace ParkingATHWeb.Business.Services
         private readonly IUserPreferencesRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IImageProcessorService _imageProcessorService;
+        private readonly IMapper _mapper;
         private const string PlaceholderPhotoName = "avatar-placeholder";
 
-        public UserPreferenesService(IUserPreferencesRepository repository, IUnitOfWork unitOfWork, IMapper mapper, IImageProcessorService imageProcessorService) : base(repository, unitOfWork, mapper)
+        public UserPreferenesService(IUserPreferencesRepository repository, IUnitOfWork unitOfWork, IMapper mapper, IImageProcessorService imageProcessorService, IMapper mapper1) : base(repository, unitOfWork, mapper)
         {
             _repository = repository;
             _unitOfWork = unitOfWork;
             _imageProcessorService = imageProcessorService;
+            _mapper = mapper1;
         }
 
         public async Task<ServiceResult<Guid>> SetUserAvatarAsync(byte[] sourceImage, int userId, string folderPath)
@@ -50,6 +53,15 @@ namespace ParkingATHWeb.Business.Services
             _repository.Edit(userPreference);
             await _unitOfWork.CommitAsync();
             return ServiceResult<string>.Success(PlaceholderPhotoName);
+        }
+
+        public async Task<ServiceResult<UserPreferencesDto>> SaveChartPreferenceAsync(UserPreferenceChartSettingsDto userPreferenceChartDto)
+        {
+            var userPreference = await _repository.SingleOrDefaultAsync(x => x.UserId == userPreferenceChartDto.UserId);
+            _mapper.Map(userPreferenceChartDto, userPreference);
+            _repository.Edit(userPreference);
+            await _unitOfWork.CommitAsync();
+            return ServiceResult<UserPreferencesDto>.Success(_mapper.Map<UserPreferencesDto>(userPreference));
         }
     }
 }

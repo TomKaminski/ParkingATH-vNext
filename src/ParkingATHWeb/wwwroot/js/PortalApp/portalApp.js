@@ -54,3 +54,8 @@
 
         $locationProvider.html5Mode(false).hashPrefix('!');
     }]);
+
+Date.prototype.addDays = function(days) {
+    this.setDate(this.getDate() + parseInt(days));
+    return this;
+};

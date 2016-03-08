@@ -207,12 +207,33 @@
                         weekdaysFull = (angular.isDefined(scope.weekdaysFull)) ? scope.$eval(scope.weekdaysFull) : undefined,
                         weekdaysLetter = (angular.isDefined(scope.weekdaysLetter)) ? scope.$eval(scope.weekdaysLetter) : undefined;
 
+                    function hasClass(el, className) {
+                        if (el.classList)
+                            return el.classList.contains(className)
+                        else
+                            return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'))
+                    }
+
+                    function removeClass(el, className) {
+                        if (el.classList)
+                            el.classList.remove(className)
+                        else if (hasClass(el, className)) {
+                            var reg = new RegExp('(\\s|^)' + className + '(\\s|$)')
+                            el.className = el.className.replace(reg, ' ')
+                        }
+                    }
+
+                    function addClass(el, className) {
+                        if (el.classList)
+                            el.classList.add(className)
+                        else if (!hasClass(el, className)) el.className += " " + className
+                    }
 
                     $compile(element.contents())(scope);
                     if (!(scope.ngReadonly)) {
                         $timeout(function () {
                             var pickadateInput = element.pickadate({
-                                container : (angular.isDefined(scope.container)) ? scope.container : 'body',
+                                container: (angular.isDefined(scope.container)) ? scope.container : 'body',
                                 format: (angular.isDefined(scope.format)) ? scope.format : undefined,
                                 formatSubmit: (angular.isDefined(scope.formatSubmit)) ? scope.formatSubmit : undefined,
                                 monthsFull: (angular.isDefined(monthsFull)) ? monthsFull : undefined,
@@ -224,27 +245,35 @@
                                 clear: (angular.isDefined(scope.clear)) ? scope.clear : undefined,
                                 close: (angular.isDefined(scope.close)) ? scope.close : undefined,
                                 selectYears: (angular.isDefined(scope.selectYears)) ? scope.selectYears : undefined,
-                                onStart: (angular.isDefined(scope.onStart)) ? function(){ scope.onStart(); } : undefined,
-                                onRender: (angular.isDefined(scope.onRender)) ? function(){ scope.onRender(); } : undefined,
-                                onOpen: (angular.isDefined(scope.onOpen)) ? function(){ scope.onOpen(); } : undefined,
-                                onClose: (angular.isDefined(scope.onClose)) ? function(){ scope.onClose(); } : undefined,
-                                onSet: (angular.isDefined(scope.onSet)) ? function(){ scope.onSet(); } : undefined,
-                                onStop: (angular.isDefined(scope.onStop)) ? function(){ scope.onStop(); } : undefined
+                                onStart: (angular.isDefined(scope.onStart)) ? function() { scope.onStart(); } : undefined,
+                                onRender: (angular.isDefined(scope.onRender)) ? function() { scope.onRender(); } : undefined,
+                                onOpen: (angular.isDefined(scope.onOpen)) ? function() { scope.onOpen(); } : undefined,
+                                onClose: (angular.isDefined(scope.onClose)) ? function() {
+                                    removeClass(element[0], 'ng-touched');
+                                    addClass(element[0], 'ng-untouched');
+                                    removeClass(element.context, 'ng-touched');
+                                    addClass(element.context, 'ng-untouched');
+                                    element[0].blur();
+                                    element.blur();
+                                    element.context.blur();
+                                    scope.onClose();
+                                } : undefined,
+                                onSet: (angular.isDefined(scope.onSet)) ? function() { scope.onSet(); } : undefined,
+                                onStop: (angular.isDefined(scope.onStop)) ? function() { scope.onStop(); } : undefined
                             });
-                            //pickadate API
-                            var picker = pickadateInput.pickadate('picker');
 
+                            var picker = pickadateInput.pickadate('picker').close(false);
                             //watcher of min and max
                             scope.$watch('max', function(newMax) {
-                                if( picker ) {
+                                if (picker) {
                                     var maxDate = new Date(newMax);
-                                    picker.set({max: isValidDate(maxDate) ? maxDate : false});
+                                    picker.set({ max: isValidDate(maxDate) ? maxDate : false });
                                 }
                             });
                             scope.$watch('min', function(newMin) {
-                                if( picker ) {
+                                if (picker) {
                                     var minDate = new Date(newMin);
-                                    picker.set({min: isValidDate(minDate) ? minDate : false});
+                                    picker.set({ min: isValidDate(minDate) ? minDate : false });
                                 }
                             });
                         });

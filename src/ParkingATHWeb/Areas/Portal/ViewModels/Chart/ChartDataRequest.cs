@@ -15,9 +15,9 @@ namespace ParkingATHWeb.Areas.Portal.ViewModels.Chart
         public DateTime EndDate { get; set; }
 
         [Required]
-        public ChartGranuality Granuality { get; set; }
+        public int Granuality { get; set; }
 
         [Required]
-        public ChartType Type { get; set; }
+        public int Type { get; set; }
     }
 }

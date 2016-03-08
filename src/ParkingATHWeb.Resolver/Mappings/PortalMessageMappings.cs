@@ -13,6 +13,7 @@ namespace ParkingATHWeb.Resolver.Mappings
         {
             CreateMap<PortalMessageDto, PortalMessage>()
                 .ForMember(x => x.PortalMessageType, a => a.MapFrom(s => Convert.ToInt32(s.PortalMessageType)))
+                .ForMember(x => x.Title, a => a.UseValue($"Wiadomość do działu pomocy - {DateTime.Today.ToString("dd.MM.yyyy")} - {DateTime.Today.TimeOfDay.Hours}{DateTime.Today.TimeOfDay.Minutes}{DateTime.Today.TimeOfDay.Seconds}{DateTime.Today.TimeOfDay.Milliseconds}"))
                 .IgnoreNotExistingProperties();
 
             CreateMap<PortalMessage, PortalMessageDto>()

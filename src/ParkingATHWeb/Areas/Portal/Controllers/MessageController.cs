@@ -72,7 +72,9 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                 else
                 {
                     model.ReceiverUserId = adminAccountResult.Result;
-                    var createResult = await _portalMessageService.CreateAsync(_mapper.Map<PortalMessageDto>(model));
+                    var serviceRequest = _mapper.Map<PortalMessageDto>(model);
+                    serviceRequest.Starter = true;
+                    var createResult = await _portalMessageService.CreateAsync(serviceRequest);
                     if (createResult.IsValid)
                     {
                         model.AppendNotifications("Wiadomość wysłana, dziękujemy za wsparcie :)");

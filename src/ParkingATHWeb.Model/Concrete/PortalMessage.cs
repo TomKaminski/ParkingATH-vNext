@@ -7,6 +7,8 @@ namespace ParkingATHWeb.Model.Concrete
     public class PortalMessage : Entity<Guid>
     {
         public DateTime CreateDate { get; set; }
+        public bool Starter { get; set; }
+        public string Title { get; set; }
         public string Text { get; set; }
         public bool ToAdmin { get; set; }
         public bool IsNotification { get; set; }

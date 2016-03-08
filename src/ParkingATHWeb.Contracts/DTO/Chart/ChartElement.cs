@@ -17,12 +17,16 @@ namespace ParkingATHWeb.Contracts.DTO.Chart
                 case ChartGranuality.PerWeek:
                     {
                         var endDate = startDate.AddDays(6);
-                        DateLabel = $"{startDate.Day}{startDate.Month}-{endDate.Day}{endDate.Month}";
+                        DateLabel = $"{startDate.ToString("dd.MM")}-{endDate.ToString("dd.MM")}";
                         break;
 
                     }
                 case ChartGranuality.PerMonth:
-                    break;
+                    {
+                        DateLabel = $"{startDate.ToString("MM.yyyy")}";
+                        break;
+                        ;
+                    }
             }
         }
 

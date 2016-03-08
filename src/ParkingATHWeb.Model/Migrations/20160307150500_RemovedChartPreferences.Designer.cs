@@ -8,9 +8,10 @@ using ParkingATHWeb.Model;
 namespace ParkingATHWeb.Model.Migrations
 {
     [DbContext(typeof(ParkingAthContext))]
-    partial class ParkingAthContextModelSnapshot : ModelSnapshot
+    [Migration("20160307150500_RemovedChartPreferences")]
+    partial class RemovedChartPreferences
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
@@ -97,11 +98,7 @@ namespace ParkingATHWeb.Model.Migrations
 
                     b.Property<int>("ReceiverUserId");
 
-                    b.Property<bool>("Starter");
-
                     b.Property<string>("Text");
-
-                    b.Property<string>("Title");
 
                     b.Property<bool>("ToAdmin");
 

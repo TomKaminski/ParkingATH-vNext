@@ -361,3 +361,11 @@ icon-night::after {
 .spinner-white-only {
     border-color: white;
 }
+
+
+.picker__holder, .picker__close {
+  pointer-events: none;
+}
+.picker__wrap, .picker__close{
+  pointer-events: auto;
+}

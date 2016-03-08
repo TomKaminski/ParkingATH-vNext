@@ -21,7 +21,7 @@
                             <i class="material-icons left cyan-text text-darken-2 margin-right-5">cake</i> Data dołączenia: <b>{{manageCtrl.model.CreateDate}}</b><div class="clearfix"></div>
                         </p>
                         <p class="margin-bottom-5">
-                            <i class="material-icons left cyan-text text-darken-2 margin-right-5">control_point</i> Ilość dostępnych wyjazdów: <b>{{manageCtrl.model.Charges}}</b><div class="clearfix"></div>
+                            <i class="material-icons left cyan-text text-darken-2 margin-right-5">control_point</i> Liczba dostępnych wyjazdów: <b>{{manageCtrl.model.Charges}}</b><div class="clearfix"></div>
                         </p>
                         <p class="margin-bottom-5">
                             <i class="material-icons left cyan-text text-darken-2 margin-right-5">history</i> Data ostatniego wyjazdu: <b>{{manageCtrl.model.LastGateOpenDate}}</b><div class="clearfix"></div>
@@ -97,7 +97,7 @@
 
                     <div class="input-field col s12">
                         <input id="amountOfCharges" name="amountOfCharges" type="number" required min="1" ng-model="manageCtrl.sendChargesModel.AmountOfCharges" class="little-margin">
-                        <label for="amountOfCharges">Ilość wyjazdów do przekazania</label>
+                        <label for="amountOfCharges">Liczba wyjazdów do przekazania</label>
                         <div ng-messages="manageCtrl.sendChargesForm.amountOfCharges.$error" ng-show="manageCtrl.sendChargesForm.amountOfCharges.$touched" class="ng-messages-errors">
                             <p ng-message="number">Wartość nie jest liczbą</p>
                         </div>
@@ -105,7 +105,7 @@
 
                     <div class="input-field col s12">
                         <input id="password" name="password" type="password" required ng-model="manageCtrl.sendChargesModel.Password" class="little-margin">
-                        <label for="password">Hasło (pełni rolę zabezpieczającą)</label>
+                        <label for="password">Twoje hasło do konta (pełni rolę zabezpieczającą)</label>
                         <div ng-messages="manageCtrl.sendChargesForm.password.$error" ng-show="manageCtrl.sendChargesForm.password.$touched" class="ng-messages-errors">
                             <p ng-message="required">Hasło jest wymagane</p>
                         </div>

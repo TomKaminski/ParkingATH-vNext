@@ -10,6 +10,7 @@ using ParkingATHWeb.Contracts.DTO;
 using ParkingATHWeb.Contracts.DTO.Chart;
 using ParkingATHWeb.Contracts.DTO.SupportMessage;
 using ParkingATHWeb.Contracts.DTO.User;
+using ParkingATHWeb.Contracts.DTO.UserPreferences;
 using ParkingATHWeb.Contracts.DTO.Weather;
 using ParkingATHWeb.Contracts.DTO.WeatherInfo;
 using ParkingATHWeb.Models;
@@ -45,12 +46,21 @@ namespace ParkingATHWeb.Mappings
                 .ForMember(x => x.PortalMessageType, opt => opt.UseValue(PortalMessageEnum.MessageToAdminFromUser))
                 .IgnoreNotExistingProperties();
 
-            CreateMap<ChartDataRequest,ChartRequestDto>()
-                .ForMember(x=>x.DateRange, opt=>opt.MapFrom(x=> new DateRange(x.StartDate,x.EndDate)))
+            CreateMap<ChartDataRequest, ChartRequestDto>()
+                .ForMember(x => x.DateRange, opt => opt.MapFrom(x => new DateRange(x.StartDate, x.EndDate)))
                 .IgnoreNotExistingProperties();
 
+            CreateMap<ChartDataRequest, UserPreferenceChartSettingsDto>().IgnoreNotExistingProperties();
+
+            CreateMap<ChartRequestDto, ChartPreferencesReturnModel>()
+                .ForMember(x=>x.StartDate, opt=>opt.MapFrom(a=>a.DateRange.StartDate))
+                .ForMember(x => x.EndDate, opt => opt.MapFrom(a => a.DateRange.EndDate))
+                .ForMember(x => x.LabelStartDate, opt => opt.MapFrom(a => a.DateRange.StartDate.ToString("dd-MM-yy")))
+                .ForMember(x => x.LabelEndDate, opt => opt.MapFrom(a => a.DateRange.EndDate.ToString("dd-MM-yy"))).IgnoreNotExistingProperties();
+
+
             CreateMap<ChartListDto, ChartDataReturnModel>()
-                .ForMember(dest => dest.Labels,opt=>opt.MapFrom(x=>x.Elements.Select(el => el.DateLabel).ToArray()))
+                .ForMember(dest => dest.Labels, opt => opt.MapFrom(x => x.Elements.Select(el => el.DateLabel).ToArray()))
                 .ForMember(dest => dest.Data, opt => opt.MapFrom(x => x.Elements.Select(el => el.NodeValue).ToArray()))
                 .IgnoreNotExistingProperties();
         }

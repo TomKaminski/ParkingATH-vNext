@@ -12,6 +12,8 @@ namespace ParkingATHWeb.Contracts.DTO.SupportMessage
         public bool IsNotification { get; set; }
         public PortalMessageEnum PortalMessageType { get; set; }
         public bool IsDisplayed { get; set; }
+        public bool Starter { get; set; }
+        public string Title { get; set; }
 
         public Guid? PreviousMessageId { get; set; }
         public int UserId { get; set; }
