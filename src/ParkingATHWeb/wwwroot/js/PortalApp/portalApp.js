@@ -49,7 +49,7 @@
             url: '/Wiadomosci',
             templateUrl: '/Portal/Wiadomosci',
             controller: 'messagesCtrl',
-            controllerAs: 'messagesCtrl'
+            controllerAs: 'msgCtrl'
         });
 
         $locationProvider.html5Mode(false).hashPrefix('!');

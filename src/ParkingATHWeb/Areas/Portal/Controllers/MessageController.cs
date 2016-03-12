@@ -5,7 +5,8 @@ using Microsoft.AspNet.Mvc;
 using ParkingATHWeb.ApiModels.Base;
 using ParkingATHWeb.Areas.Portal.Controllers.Base;
 using ParkingATHWeb.Areas.Portal.ViewModels.Message;
-using ParkingATHWeb.Contracts.DTO.SupportMessage;
+using ParkingATHWeb.Areas.Portal.ViewModels.PortalMessage;
+using ParkingATHWeb.Contracts.DTO.PortalMessage;
 using ParkingATHWeb.Contracts.Services;
 using ParkingATHWeb.Infrastructure.Attributes;
 using ParkingATHWeb.Infrastructure.Extensions;
@@ -87,6 +88,19 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
             }
             model.AppendErrors(GetModelStateErrors(ModelState));
             return Json(model);
+        }
+
+        [HttpPost]
+        [Route("GetUserMessagesClusters")]
+        public async Task<IActionResult> GetUserMessagesClusters([FromBody] int skipNumber = 0)
+        {
+            var messagesGetResult = await _portalMessageService.GetPortalMessageClusterForCurrentUserAsync(CurrentUser.UserId.Value);
+            if (messagesGetResult.IsValid)
+            {
+                var jsonResult = _mapper.Map<PortalMessageClustersViewModel>(messagesGetResult.Result);
+                return Json(SmartJsonResult<PortalMessageClustersViewModel>.Success(jsonResult));
+            }
+            return Json(SmartJsonResult.Failure(messagesGetResult.ValidationErrors));
         }
     }
 }

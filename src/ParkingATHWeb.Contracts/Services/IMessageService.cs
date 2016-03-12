@@ -15,5 +15,6 @@ namespace ParkingATHWeb.Contracts.Services
             Dictionary<string, string> additionalParameters = null);
         ServiceResult<string> GetMessageBody(MessageDto message);
         Task<ServiceResult<MessageDto>> GetMessageByTokenId(long id);
+
     }
 }

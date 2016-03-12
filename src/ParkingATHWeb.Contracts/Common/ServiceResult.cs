@@ -22,6 +22,13 @@ namespace ParkingATHWeb.Contracts.Common
             return new ServiceResult();
         }
 
+        public static ServiceResult Failure(params string[] validationErrors)
+        {
+            var errors = new List<string>();
+            errors.AddRange(validationErrors);
+            return new ServiceResult(errors);
+        }
+
         public static ServiceResult Failure(List<string> validationErrors)
         {
             return new ServiceResult(validationErrors);

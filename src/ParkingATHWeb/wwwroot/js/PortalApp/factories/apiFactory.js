@@ -18,7 +18,8 @@
             UploadProfilePhoto: "Konto/UploadProfilePhoto",
             GetDefaultChartData: "Statystyki/GetDefaultChartData",
             DeleteProfilePhoto: "Konto/DeleteProfilePhoto",
-            GetChartData: "Statystyki/GetChartData"
+            GetChartData: "Statystyki/GetChartData",
+            GetUserMessagesClusters: "Wiadomosci/GetUserMessagesClusters"
         }
 
         function get(apiUrl, options) {

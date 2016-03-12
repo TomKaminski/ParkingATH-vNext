@@ -1,12 +1,11 @@
 ﻿using System;
-using ParkingATHWeb.Contracts.Common;
 using ParkingATHWeb.Shared.Enums;
 
-namespace ParkingATHWeb.Contracts.DTO.PortalMessage
+namespace ParkingATHWeb.Areas.Portal.ViewModels.PortalMessage
 {
-    public class PortalMessageDto : BaseDto<Guid>
+    public class PortalMessageItemViewModel
     {
-        public DateTime CreateDate { get; set; }
+        public string CreateDate { get; set; }
         public string Text { get; set; }
         public bool ToAdmin { get; set; }
         public bool IsNotification { get; set; }
@@ -21,5 +20,7 @@ namespace ParkingATHWeb.Contracts.DTO.PortalMessage
         public Guid? PreviousMessageId { get; set; }
         public int UserId { get; set; }
         public int ReceiverUserId { get; set; }
+
+        public bool OutMessage { get; set; }
     }
 }

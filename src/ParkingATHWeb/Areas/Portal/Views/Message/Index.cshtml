@@ -15,104 +15,26 @@
             </nav>
         </div>
         <div class="col s12">
-
+            <card-loader style="background: white" loadname="getMessagesLoader"></card-loader>
             <div id="email-list" class="col s12 m5 l5 card-panel z-depth-1">
-                <ul class="collection">
-                    <li class="collection-item avatar email-unread">
-                        <span class="circle blue lighten-1">T</span>
-                        <span class="email-title">Test title</span>
-                        <p class="truncate grey-text ultra-small">Test small text</p>
-                        <a class="secondary-content email-time"><span class="blue-text ultra-small">22.02.2016 12:10</span></a>
-                    </li>
-                    <li class="collection-item avatar email-unread">
-                        <img src="@Url.Content("~/images/user-avatars/8605514b-1b85-4d84-a871-6ea884e7fc68.jpg")" alt="" class="circle">
-                        <span class="email-title">Test title</span>
-                        <p class="truncate grey-text ultra-small">Test small text</p>
-                        <a class="secondary-content email-time"><span class="blue-text ultra-small">22.02.2016 12:10</span></a>
-                    </li>
-                    <li class="collection-item avatar email-unread">
-                        <img src="@Url.Content("~/images/logotyp_standard.png")" alt="" class="circle">
-                        <span class="email-title">Test title</span>
-                        <p class="truncate grey-text ultra-small">Test small text</p>
-                        <a class="secondary-content email-time"><span class="blue-text ultra-small">22.02.2016 12:10</span></a>
-                    </li>
-                    <li class="collection-item avatar email-unread">
-                        <img src="@Url.Content("~/images/user-avatars/8605514b-1b85-4d84-a871-6ea884e7fc68.jpg")" alt="" class="circle">
-                        <span class="email-title">Test title</span>
-                        <p class="truncate grey-text ultra-small">Test small text</p>
-                        <a class="secondary-content email-time"><span class="blue-text ultra-small">22.02.2016 12:10</span></a>
-                    </li>
-                    <li class="collection-item avatar email-unread">
-                        <img src="@Url.Content("~/images/logotyp_standard.png")" alt="" class="circle">
-                        <span class="email-title">Test title</span>
-                        <p class="truncate grey-text ultra-small">Test small text</p>
-                        <a class="secondary-content email-time"><span class="blue-text ultra-small">22.02.2016 12:10</span></a>
-                    </li>
-                    <li class="collection-item avatar email-unread">
-                        <img src="@Url.Content("~/images/user-avatars/8605514b-1b85-4d84-a871-6ea884e7fc68.jpg")" alt="" class="circle">
-                        <span class="email-title">Test title</span>
-                        <p class="truncate grey-text ultra-small">Test small text</p>
-                        <a class="secondary-content email-time"><span class="blue-text ultra-small">22.02.2016 12:10</span></a>
-                    </li>
-                    <li class="collection-item avatar email-unread">
-                        <img src="@Url.Content("~/images/logotyp_standard.png")" alt="" class="circle">
-                        <span class="email-title">Test title</span>
-                        <p class="truncate grey-text ultra-small">Test small text</p>
-                        <a class="secondary-content email-time"><span class="blue-text ultra-small">22.02.2016 12:10</span></a>
-                    </li>
-                    <li class="collection-item avatar email-unread">
-                        <img src="@Url.Content("~/images/user-avatars/8605514b-1b85-4d84-a871-6ea884e7fc68.jpg")" alt="" class="circle">
-                        <span class="email-title">Test title</span>
-                        <p class="truncate grey-text ultra-small">Test small text</p>
-                        <a class="secondary-content email-time"><span class="blue-text ultra-small">22.02.2016 12:10</span></a>
-                    </li>
-                    <li class="collection-item avatar email-unread">
-                        <img src="@Url.Content("~/images/logotyp_standard.png")" alt="" class="circle">
-                        <span class="email-title">Test title</span>
-                        <p class="truncate grey-text ultra-small">Test small text</p>
-                        <a class="secondary-content email-time"><span class="blue-text ultra-small">22.02.2016 12:10</span></a>
-                    </li>
-                    <li class="collection-item avatar email-unread">
-                        <img src="@Url.Content("~/images/user-avatars/8605514b-1b85-4d84-a871-6ea884e7fc68.jpg")" alt="" class="circle">
-                        <span class="email-title">Test title</span>
-                        <p class="truncate grey-text ultra-small">Test small text</p>
-                        <a class="secondary-content email-time"><span class="blue-text ultra-small">22.02.2016 12:10</span></a>
-                    </li>
-                    <li class="collection-item avatar email-unread">
-                        <img src="@Url.Content("~/images/logotyp_standard.png")" alt="" class="circle">
-                        <span class="email-title">Test title</span>
-                        <p class="truncate grey-text ultra-small">Test small text</p>
-                        <a class="secondary-content email-time"><span class="blue-text ultra-small">22.02.2016 12:10</span></a>
-                    </li>
-                    <li class="collection-item avatar email-read">
-                        <img src="@Url.Content("~/images/user-avatars/8605514b-1b85-4d84-a871-6ea884e7fc68.jpg")" alt="" class="circle">
-                        <span class="email-title">Test title</span>
-                        <p class="truncate grey-text ultra-small">Test small text</p>
-                        <a class="secondary-content email-time"><span class="blue-text ultra-small">22.02.2016 12:10</span></a>
-                    </li>
-                    <li class="collection-item avatar email-read">
-                        <img src="@Url.Content("~/images/logotyp_standard.png")" alt="" class="circle">
-                        <span class="email-title">Test title</span>
-                        <p class="truncate grey-text ultra-small">Test small text</p>
-                        <a class="secondary-content email-time"><span class="blue-text ultra-small">22.02.2016 12:10</span></a>
-                    </li>
-                    <li class="collection-item avatar email-read">
-                        <img src="@Url.Content("~/images/user-avatars/8605514b-1b85-4d84-a871-6ea884e7fc68.jpg")" alt="" class="circle">
-                        <span class="email-title">Test title</span>
-                        <p class="truncate grey-text ultra-small">Test small text</p>
-                        <a class="secondary-content email-time"><span class="blue-text ultra-small">22.02.2016 12:10</span></a>
-                    </li>
-                    <li class="collection-item avatar email-read">
-                        <img src="@Url.Content("~/images/logotyp_standard.png")" alt="" class="circle">
-                        <span class="email-title">Test title</span>
-                        <p class="truncate grey-text ultra-small">Test small text</p>
-                        <a class="secondary-content email-time"><span class="blue-text ultra-small">22.02.2016 12:10</span></a>
+                <div ng-if="msgCtrl.lastMessagesListModel.length == 0"  class="scroll-wrapper">
+                    <h4 class="center-align flex-align-center-container" style="height: 100%;margin:0">Nie rozpocząłeś dotychczas żadnej konwersacji.</h4>
+                </div>
+                <ul class="collection" ng-if="msgCtrl.lastMessagesListModel.length != 0">
+                    <li ng-repeat="message in msgCtrl.lastMessagesListModel" class="collection-item avatar email-unread">
+                        <img ng-src="{{message.imgPath}}" alt="avatar" class="circle">
+                        <span class="email-title">{{message.title}}</span>
+                        <p class="truncate grey-text ultra-small">{{message.text}}</p>
+                        <a class="secondary-content email-time"><span class="blue-text ultra-small">{{message.createDate}}</span></a>
                     </li>
                 </ul>
             </div>
             <div id="email-details" class="col s12 m7 l7 card-panel">
-                <div class="scroll-wrapper">
-                    <p class="email-subject truncate">
+                <div ng-if="!msgCtrl.selectedMessageModel.isSelected" class="scroll-wrapper">
+                    <h4 class="center-align flex-align-center-container" style="height: 100%;margin:0">Wybierz wiadomość z listy,<br/> aby zobaczyć przebieg konwersacji.</h4>
+                </div>
+                <div ng-if="msgCtrl.selectedMessageModel.isSelected" class="scroll-wrapper">
+                    @*<p class="email-subject truncate">
                         Wiadomość do działu pomocy - 22.02.2016 - 205212152
                         <span class="email-tag green lighten-3">support</span>
                         <span class="right"><i class="material-icons">delete</i></span>
@@ -171,7 +93,7 @@
                                 </a>
                             </div>
                         </div>
-                    </div>
+                    </div>*@
                 </div>
             </div>
         </div>
@@ -255,7 +177,7 @@
         suppressScrollX: true
     });
 
-    $('#email-details > .scroll-wrapper').height($('#email-list > .collection').height() + 2).perfectScrollbar({
+    $('#email-details > .scroll-wrapper, #email-list > .scroll-wrapper').height(parseInt(leftnavHeight * 0.66) + 2).perfectScrollbar({
         suppressScrollX: true
     });
 </script>

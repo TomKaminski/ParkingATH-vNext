@@ -95,7 +95,6 @@ namespace ParkingATHWeb.Model
                 .WithMany(x => x.UserPortalMessages)
                 .OnDelete(DeleteBehavior.Restrict);
 
-
             base.OnModelCreating(modelBuilder);
 
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.Data.Entity.Metadata.Conventions.Internal;
 using ParkingATHWeb.Model.Common;
 
 namespace ParkingATHWeb.Model.Concrete
@@ -22,6 +23,9 @@ namespace ParkingATHWeb.Model.Concrete
 
         public int UserId { get; set; }
         public virtual User User { get; set; }
+
+        public bool HiddenForReceiver { get; set; }
+        public bool HiddenForSender { get; set; }
 
         public int ReceiverUserId { get; set; }
         public virtual User ReceiverUser { get; set; }

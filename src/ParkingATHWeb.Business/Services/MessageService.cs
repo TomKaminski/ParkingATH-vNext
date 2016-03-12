@@ -86,5 +86,7 @@ namespace ParkingATHWeb.Business.Services
         {
             return ServiceResult<MessageDto>.Success(_mapper.Map<MessageDto>(await _messageRepository.GetMessageByTokenId(id)));
         }
+
+
     }
 }

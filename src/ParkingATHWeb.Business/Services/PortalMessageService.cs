@@ -1,17 +1,146 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.Data.Entity;
 using ParkingATHWeb.Business.Services.Base;
-using ParkingATHWeb.Contracts.DTO.SupportMessage;
+using ParkingATHWeb.Contracts.Common;
+using ParkingATHWeb.Contracts.DTO.PortalMessage;
 using ParkingATHWeb.Contracts.Services;
 using ParkingATHWeb.DataAccess.Common;
+using ParkingATHWeb.DataAccess.Interfaces;
 using ParkingATHWeb.Model.Concrete;
 
 namespace ParkingATHWeb.Business.Services
 {
     public class PortalMessageService : EntityService<PortalMessageDto, PortalMessage, Guid>, IPortalMessageService
     {
-        public PortalMessageService(IGenericRepository<PortalMessage, Guid> repository, IUnitOfWork unitOfWork, IMapper mapper) : base(repository, unitOfWork, mapper)
+        private readonly IPortalMessageRepository _repository;
+        private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUserRepository _userRepository;
+
+        public PortalMessageService(IPortalMessageRepository repository, IUnitOfWork unitOfWork, IMapper mapper, IUserRepository userRepository)
+            : base(repository, unitOfWork, mapper)
         {
+            _repository = repository;
+            _mapper = mapper;
+            _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
+        }
+
+        public async Task<ServiceResult<PortalMessageClustersDto>> GetPortalMessageClusterForCurrentUserAsync(int userId)
+        {
+            var allUserMessages = (await _repository.GetAllAsync(x => x.UserId == userId || x.ReceiverUserId == userId)).ToList();
+            var starterMessages = allUserMessages.Where(x => x.Starter).ToList();
+
+            var currentUser = _mapper.Map<PortalMessageUserDto>(await _userRepository.Include(x => x.UserPreferences).SingleOrDefaultAsync(x => x.Id == userId));
+
+            var result = new PortalMessageClustersDto {User = currentUser, Clusters = new List<PortalMessageClusterDto>()};
+
+            foreach (var starterMessage in starterMessages)
+            {
+                var receiverUserId = starterMessage.UserId == userId
+                    ? starterMessage.ReceiverUserId
+                    : starterMessage.UserId;
+                var receiverUser = await _userRepository.Include(x => x.UserPreferences).SingleOrDefaultAsync(x => x.Id == receiverUserId);
+
+                var mappedReceiverUser = receiverUser != null 
+                    ? _mapper.Map<PortalMessageUserDto>(receiverUser) 
+                    : CreateEmptyPlaceholderForDeletedUser();
+
+                var clusterResult = new PortalMessageClusterDto
+                {
+                    ReceiverUser = mappedReceiverUser
+                };
+
+                var tempStack = new Stack<PortalMessage>();
+                tempStack.Push(starterMessage);
+                PushToCurrentMessageStack(tempStack,allUserMessages);
+
+                clusterResult.Cluster = tempStack.Select(_mapper.Map<PortalMessageDto>).ToArray();
+                result.Clusters.Add(clusterResult);
+            }
+            result.Clusters = result.Clusters.OrderByDescending(x => x.Cluster[0].CreateDate).ToList();
+            return ServiceResult<PortalMessageClustersDto>.Success(result);
+        }
+
+        public async Task<ServiceResult> FakeDelete(Guid messageId, int userId)
+        {
+            var message = await _repository.FindAsync(messageId);
+
+            var hideForReceiverUser = userId == message.ReceiverUserId;
+            var hideForUser = userId == message.UserId;
+            if (hideForReceiverUser)
+            {
+                message.HiddenForReceiver = true;
+            }
+            else if (hideForUser)
+            {
+                message.HiddenForSender = true;
+            }
+
+            if (hideForUser || hideForReceiverUser)
+            {
+                _repository.Edit(message);
+                await _unitOfWork.CommitAsync();
+                return ServiceResult.Success();
+            }
+            return ServiceResult.Failure("Nie ma możliwości usunięcia tej wiadomości.");
+        }
+
+        public async Task<ServiceResult> DeleteSingleByAdmin(int userId, Guid messageId)
+        {
+            var user = await _userRepository.FindAsync(userId);
+            if (!user.IsAdmin)
+            {
+                return ServiceResult.Failure("Wystąpił błąd autoryzacji superużytkownika.");
+            }
+            var nextMessage = await _repository.SingleOrDefaultAsync(x => x.PreviousMessageId == messageId);
+            var message = await _repository.Include(x => x.PreviousMessage).SingleOrDefaultAsync(x => x.Id == messageId);
+            var previousMessage = message.PreviousMessage;
+
+            if (nextMessage != null)
+            {
+                nextMessage.PreviousMessageId = previousMessage.Id;
+                _repository.Edit(nextMessage);
+            }
+            _repository.Delete(message);
+            await _unitOfWork.CommitAsync();
+            return ServiceResult.Success();
+        }
+
+        //TODO
+        public Task<ServiceResult> DeleteClusterByAdmin(int userId, Guid messageId)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void PushToCurrentMessageStack(Stack<PortalMessage> currentStack, List<PortalMessage> allUserMessages)
+        {
+            while (true)
+            {
+                var currentMessage = currentStack.Peek();
+                var nextMessage = allUserMessages.SingleOrDefault(x => x.PreviousMessageId == currentMessage.Id);
+                if (nextMessage != null)
+                {
+                    currentStack.Push(nextMessage);
+                    continue;
+                }
+                break;
+            }
+        }
+
+        private PortalMessageUserDto CreateEmptyPlaceholderForDeletedUser()
+        {
+            return new PortalMessageUserDto
+            {
+                Email = "Konto usunięte",
+                Id = 0,
+                ImgId = "avatar-placeholder",
+                Initials = "Konto usunięte"
+            };
         }
     }
 }
