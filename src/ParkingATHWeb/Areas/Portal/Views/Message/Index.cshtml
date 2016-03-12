@@ -21,7 +21,7 @@
                     <h4 class="center-align flex-align-center-container" style="height: 100%;margin:0">Nie rozpocząłeś dotychczas żadnej konwersacji.</h4>
                 </div>
                 <ul class="collection" ng-if="msgCtrl.lastMessagesListModel.length != 0">
-                    <li ng-repeat="message in msgCtrl.lastMessagesListModel" class="collection-item avatar email-unread">
+                    <li ng-repeat="message in msgCtrl.lastMessagesListModel" class="collection-item avatar email-unread" ng-class="{'selected':msgCtrl.selectedMessageModel.selectedClusterIndex === $index}" ng-click="msgCtrl.toggleMessage($index)">
                         <img ng-src="{{message.imgPath}}" alt="avatar" class="circle">
                         <span class="email-title">{{message.title}}</span>
                         <p class="truncate grey-text ultra-small">{{message.text}}</p>
@@ -34,56 +34,31 @@
                     <h4 class="center-align flex-align-center-container" style="height: 100%;margin:0">Wybierz wiadomość z listy,<br/> aby zobaczyć przebieg konwersacji.</h4>
                 </div>
                 <div ng-if="msgCtrl.selectedMessageModel.isSelected" class="scroll-wrapper">
-                    @*<p class="email-subject truncate">
-                        Wiadomość do działu pomocy - 22.02.2016 - 205212152
+                    <p class="email-subject truncate">
+                        {{msgCtrl.selectedMessageModel.title}}
                         <span class="email-tag green lighten-3">support</span>
                         <span class="right"><i class="material-icons">delete</i></span>
                     </p>
                     <hr class="grey-text text-lighten-2">
-                    <div class="email-content-wrap">
-                        <div class="row">
-                            <div class="col s10 m10 l10">
-                                <ul class="collection">
-                                    <li class="collection-item avatar">
-                                        <img src="@Url.Content("~/images/user-avatars/avatar-placeholder.jpg")" alt="" class="circle">
-                                        <span class="email-title">Tomasz Kamiński</span>
-                                        <p class="grey-text ultra-small">22.02.2016 12:25</p>
-                                    </li>
-                                </ul>
+                    <div ng-repeat="message in msgCtrl.selectedMessageModel.messages">
+                        <div class="email-content-wrap">
+                            <div class="row">
+                                <div class="col s10 m10 l10">
+                                    <ul class="collection">
+                                        <li class="collection-item avatar">
+                                            <img ng-src="{{message.imgPath}}" alt="" class="circle">
+                                            <span class="email-title">{{message.initials}}</span>
+                                            <p class="grey-text ultra-small">{{message.createDate}}</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="email-content">
+                                <p>{{message.text}}</p>
                             </div>
                         </div>
-                        <div class="email-content">
-                            <p>Dzień dobry,</p>
-                            <p>Kasia co chwile zmienia zdanie i bardzo mnie to denerwuje. Nie wiem co o tym myśleć i trochę nie ogarniam :).</p>
-                        </div>
+                        <hr>
                     </div>
-                    <hr>
-                    <div class="email-content-wrap">
-                        <div class="row">
-                            <div class="col s10 m10 l10">
-                                <ul class="collection">
-                                    <li class="collection-item avatar">
-                                        <img src="@Url.Content("~/images/user-avatars/8605514b-1b85-4d84-a871-6ea884e7fc68.jpg")" alt="" class="circle">
-                                        <span class="email-title">Kasia Jasiewicz</span>
-                                        <p class="grey-text ultra-small">22.02.2016 18:00</p>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col s2 m2 l2 email-actions">
-                                <a href="#!"><span><i class="mdi-content-reply"></i></span></a>
-                                <a href="#!"><span><i class="mdi-navigation-more-vert"></i></span></a>
-                            </div>
-                        </div>
-                        <div class="email-content">
-                            <p>Hej Tomaszu,</p>
-                            <p>Haha ha ha ha xD xD xD</p>
-                            <p>
-                                Pozdrawiam,
-                                <br>Katarzyna Jasiewicz
-                            </p>
-                        </div>
-                    </div>
-                    <hr>
                     <div class="email-reply">
                         <div class="row">
                             <div class="col s12">
@@ -93,7 +68,7 @@
                                 </a>
                             </div>
                         </div>
-                    </div>*@
+                    </div>
                 </div>
             </div>
         </div>

@@ -209,8 +209,8 @@
             }
 
             &.selected {
-                background: $color_pattens_blue_approx;
-                border-left: 4px solid $color_picton_blue_approx;
+                background: rgba(75,133,197,0.2);
+                border-left: 4px solid #4b85c5;
             }
         }
     }

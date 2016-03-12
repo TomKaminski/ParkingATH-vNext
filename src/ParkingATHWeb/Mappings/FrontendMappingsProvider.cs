@@ -65,7 +65,7 @@ namespace ParkingATHWeb.Mappings
                 .IgnoreNotExistingProperties();
 
             CreateMap<PortalMessageDto, PortalMessageItemViewModel>()
-                .ForMember(x => x.CreateDate, opt => opt.MapFrom(a => a.CreateDate.ToString("dd.MM.yy hh:mm")))
+                .ForMember(x => x.CreateDate, opt => opt.MapFrom(a => a.CreateDate.ToString("dd.MM.yy HH:mm")))
                 .IgnoreNotExistingProperties();
 
             CreateMap<PortalMessageUserDto, PortalMessageUserViewModel>()

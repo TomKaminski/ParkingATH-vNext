@@ -1326,8 +1326,8 @@ tr.group {
       #email-details .collection .collection-item.avatar img.circle {
         padding: 0; }
     #email-details .collection .collection-item.selected {
-      background: #e1f5fe;
-      border-left: 4px solid #29b6f6; }
+      background: rgba(75, 133, 197, 0.2);
+      border-left: 4px solid #4b85c5; }
   #email-details .email-actions {
     padding-top: 25px; }
     #email-details .email-actions a {

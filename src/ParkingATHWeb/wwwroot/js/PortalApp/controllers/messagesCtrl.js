@@ -8,10 +8,28 @@
 
         self.selectedMessageModel = {
             isSelected: false,
-            Title: null
+            selectedClusterIndex: -1
         }
 
         self.lastMessagesListModel = [];
+
+        self.toggleMessage = function (messageIndex) {
+            if (self.selectedMessageModel.selectedClusterIndex === messageIndex) {
+                self.selectedMessageModel = {
+                    isSelected: false,
+                    selectedClusterIndex: -1,
+                    messages: null,
+                    title: null
+                }
+            } else {
+                self.selectedMessageModel = {
+                    isSelected: true,
+                    selectedClusterIndex: messageIndex,
+                    messages: self.lastMessagesListModel[messageIndex].messages,
+                    title: self.lastMessagesListModel[messageIndex].title
+                }
+            }
+        }
 
         function getMessagesData() {
             loadingContentService.setIsLoading('getMessagesLoader', true);
@@ -42,11 +60,26 @@
                     createDate: lastMessage.CreateDate,
                     text: lastMessage.Text,
                     title: starterMessage.Title,
-                    imgPath: receiverUser.Id === lastMessage.UserId ? "/images/user-avatars/" + receiverUser.ImgId + ".jpg" : "/images/user-avatars/" + user.ImgId + ".jpg"
+                    imgPath: receiverUser.Id === lastMessage.UserId ? "/images/user-avatars/" + receiverUser.ImgId + ".jpg" : "/images/user-avatars/" + user.ImgId + ".jpg",
+                    messages: getMessages(cluster.Messages, receiverUser, user)
                 }
                 self.lastMessagesListModel.push(itemListModel);
             }
             console.log(self.lastMessagesListModel);
+        }
+
+        function getMessages(messages, receiverUser, user) {
+            var messagesData = [];
+            for (var i = 0; i < messages.length; i++) {
+                var message = messages[i];
+                messagesData.push({
+                    imgPath: receiverUser.Id === message.UserId ? "/images/user-avatars/" + receiverUser.ImgId + ".jpg" : "/images/user-avatars/" + user.ImgId + ".jpg",
+                    initials: receiverUser.Id === message.UserId ? receiverUser.Initials : user.Initials,
+                    createDate: message.CreateDate,
+                    text: message.Text
+                });
+            }
+            return messagesData;
         }
 
         function getLastVisibleMessage(messages) {
