@@ -1,4 +1,4 @@
-﻿angular.module('portalApp', ['ui.router', 'chart.js', 'ngMessages','ui.materialize'])
+﻿angular.module('portalApp', ['ui.router', 'chart.js', 'ngMessages','ui.materialize','perfect_scrollbar'])
  .config(['ChartJsProvider', function (ChartJsProvider) {
      // Configure all charts
      ChartJsProvider.setOptions({

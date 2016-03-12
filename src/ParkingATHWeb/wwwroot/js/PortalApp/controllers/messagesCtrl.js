@@ -13,7 +13,31 @@
 
         self.lastMessagesListModel = [];
 
+        self.replyMessageModel = {
+            text: null,
+            previousMessageId: -1,
+            isOpen:false
+        }
+
+        self.replyMessageStart = function() {
+            self.replyMessageModel.previousMessageId = self.lastMessagesListModel[self.selectedMessageModel.selectedClusterIndex].messages[0];
+            self.replyMessageModel.isOpen = true;
+        }
+
+        self.cancelMessageReply = function() {
+            self.replyMessageModel = {
+                text: null,
+                previousMessageId: -1,
+                isOpen: false
+            }
+        }
+
         self.toggleMessage = function (messageIndex) {
+            self.replyMessageModel = {
+                text: null,
+                previousMessageId: -1,
+                isOpen: false
+            }
             if (self.selectedMessageModel.selectedClusterIndex === messageIndex) {
                 self.selectedMessageModel = {
                     isSelected: false,

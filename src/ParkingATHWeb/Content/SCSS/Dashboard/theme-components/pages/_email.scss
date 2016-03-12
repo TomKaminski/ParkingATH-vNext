@@ -74,6 +74,7 @@
     .collection {
         margin: 0;
         overflow: hidden;
+        list-style-type: none;
 
         .collection-item {
             &.avatar {

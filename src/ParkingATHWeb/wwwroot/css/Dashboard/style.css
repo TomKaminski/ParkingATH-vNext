@@ -1232,7 +1232,8 @@ tr.group {
   padding: 0; }
   #email-list .collection {
     margin: 0;
-    overflow: hidden; }
+    overflow: hidden;
+    list-style-type: none; }
     #email-list .collection .collection-item.avatar {
       height: auto;
       padding-left: 72px;

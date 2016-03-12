@@ -20,6 +20,7 @@
     "animate.css": "3.4.0",
     "angular-ui-router": "*",
     "angular-chart.js": "0.8.8",
-    "angular-messages": "1.5.0"
+    "angular-messages": "1.5.0",
+    "angular-perfect-scrollbar": "~0.0.4"
   }
 }

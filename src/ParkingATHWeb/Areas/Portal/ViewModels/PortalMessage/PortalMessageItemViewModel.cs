@@ -5,6 +5,7 @@ namespace ParkingATHWeb.Areas.Portal.ViewModels.PortalMessage
 {
     public class PortalMessageItemViewModel
     {
+        public Guid Id { get; set; }
         public string CreateDate { get; set; }
         public string Text { get; set; }
         public bool ToAdmin { get; set; }
