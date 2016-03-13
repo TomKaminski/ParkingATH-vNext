@@ -87,6 +87,9 @@ namespace ParkingATHWeb.Business.Services
             return ServiceResult<MessageDto>.Success(_mapper.Map<MessageDto>(await _messageRepository.GetMessageByTokenId(id)));
         }
 
-
+        public Task<ServiceResult<bool>> ValidateMessageRecipents(int userId, Guid previousMessageId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

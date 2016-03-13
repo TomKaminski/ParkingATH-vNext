@@ -10,6 +10,7 @@ using ParkingATHWeb.Contracts.DTO.PortalMessage;
 using ParkingATHWeb.Contracts.Services;
 using ParkingATHWeb.Infrastructure.Attributes;
 using ParkingATHWeb.Infrastructure.Extensions;
+using ParkingATHWeb.Shared.Enums;
 
 namespace ParkingATHWeb.Areas.Portal.Controllers
 {
@@ -102,5 +103,46 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
             }
             return Json(SmartJsonResult.Failure(messagesGetResult.ValidationErrors));
         }
+
+
+        [HttpPost]
+        [Route("[action]")]
+        [ValidateAntiForgeryTokenFromHeader]
+        public async Task<IActionResult> ReplyPortalMessage([FromBody] ReplyMessageViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var validateMessageResult = await _portalMessageService.ValidateMessageRecipents(CurrentUser.UserId.Value, model.PreviousMessageId);
+                if (!validateMessageResult.IsValid)
+                {
+                    return Json(SmartJsonResult.Failure(validateMessageResult.ValidationErrors));
+                }
+                PrepareReplyMessageModel(model, validateMessageResult.Result);
+
+                var serviceRequest = _mapper.Map<PortalMessageDto>(model);
+                serviceRequest.Starter = false;
+
+                var createResult = await _portalMessageService.CreateAsync(serviceRequest);
+                if (createResult.IsValid)
+                {
+                    return Json(SmartJsonResult<PortalMessageItemViewModel>.Success(_mapper.Map<PortalMessageItemViewModel>(createResult.Result), "Wiadomość została wysłana"));
+                }
+                return Json(SmartJsonResult.Failure(createResult.ValidationErrors));
+            }
+            return Json(SmartJsonResult.Failure(GetModelStateErrors(ModelState)));
+        }
+
+        private void PrepareReplyMessageModel(ReplyMessageViewModel model, PortalMessageDto lastMessage)
+        {
+            model.UserId = CurrentUser.UserId.Value;
+            model.ToAdmin = !CurrentUser.IsAdmin;
+            model.PortalMessageType = CurrentUser.IsAdmin
+                ? PortalMessageEnum.MessageToUserFromAdmin
+                : PortalMessageEnum.MessageToAdminFromUser;
+            model.ReceiverUserId = CurrentUser.UserId.Value == lastMessage.ReceiverUserId
+                ? lastMessage.UserId
+                : lastMessage.ReceiverUserId;
+        }
+
     }
 }

@@ -46,6 +46,8 @@ namespace ParkingATHWeb.Mappings
                 .ForMember(x => x.PortalMessageType, opt => opt.UseValue(PortalMessageEnum.MessageToAdminFromUser))
                 .IgnoreNotExistingProperties();
 
+            CreateMap<ReplyMessageViewModel, PortalMessageDto>().IgnoreNotExistingProperties();
+
             CreateMap<ChartDataRequest, ChartRequestDto>()
                 .ForMember(x => x.DateRange, opt => opt.MapFrom(x => new DateRange(x.StartDate, x.EndDate)))
                 .IgnoreNotExistingProperties();

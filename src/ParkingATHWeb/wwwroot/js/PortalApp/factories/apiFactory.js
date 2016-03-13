@@ -19,7 +19,8 @@
             GetDefaultChartData: "Statystyki/GetDefaultChartData",
             DeleteProfilePhoto: "Konto/DeleteProfilePhoto",
             GetChartData: "Statystyki/GetChartData",
-            GetUserMessagesClusters: "Wiadomosci/GetUserMessagesClusters"
+            GetUserMessagesClusters: "Wiadomosci/GetUserMessagesClusters",
+            ReplyPortalMessage: "Wiadomosci/ReplyPortalMessage"
         }
 
         function get(apiUrl, options) {

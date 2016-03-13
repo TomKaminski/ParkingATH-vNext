@@ -11,10 +11,8 @@ namespace ParkingATHWeb.Contracts.Services
 {
     public interface IMessageService: IEntityService<MessageDto, Guid>,IDependencyService
     {
-        Task<ServiceResult> SendMessageAsync(EmailType type, UserBaseDto userData, string appBasePath,
-            Dictionary<string, string> additionalParameters = null);
+        Task<ServiceResult> SendMessageAsync(EmailType type, UserBaseDto userData, string appBasePath, Dictionary<string, string> additionalParameters = null);
         ServiceResult<string> GetMessageBody(MessageDto message);
         Task<ServiceResult<MessageDto>> GetMessageByTokenId(long id);
-
     }
 }

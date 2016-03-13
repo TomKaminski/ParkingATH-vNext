@@ -1,20 +1,19 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using ParkingATHWeb.Shared.Enums;
-using ParkingATHWeb.ViewModels.Base;
 
-namespace ParkingATHWeb.Areas.Portal.ViewModels.Message
+namespace ParkingATHWeb.Areas.Portal.ViewModels.PortalMessage
 {
-    public class QuickMessageViewModel : SmartParkBaseViewModel
+    public class ReplyMessageViewModel
     {
         [Required(ErrorMessage = "Treść wiadomości nie może być pusta!")]
-        [MinLength(20, ErrorMessage = "Wiadomość powinna zawierać minimum 20 znaków!")]
         public string Text { get; set; }
-        public bool ToAdmin => true;
+        public bool ToAdmin { get; set; }
         public bool IsNotification => false;
-        public PortalMessageEnum PortalMessageType => PortalMessageEnum.MessageToAdminFromUser;
+        public PortalMessageEnum PortalMessageType { get; set; }
         public bool IsDisplayed => false;
-        public Guid? PreviousMessageId => null;
+        [Required(ErrorMessage = "Nie znaleziono poprzedniej wiadomości")]
+        public Guid PreviousMessageId { get; set; }
         public DateTime CreateDate => DateTime.Now;
         public int UserId { get; set; }
         public int ReceiverUserId { get; set; }

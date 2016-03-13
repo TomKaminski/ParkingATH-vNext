@@ -14,5 +14,7 @@ namespace ParkingATHWeb.Contracts.Services
 
         Task<ServiceResult> DeleteSingleByAdmin(int userId, Guid messageId);
         Task<ServiceResult> DeleteClusterByAdmin(int userId, Guid messageId);
+        Task<ServiceResult<PortalMessageDto>> ValidateMessageRecipents(int userId, Guid previousMessageId);
+
     }
 }

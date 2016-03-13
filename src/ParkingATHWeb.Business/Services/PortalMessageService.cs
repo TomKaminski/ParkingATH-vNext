@@ -117,6 +117,20 @@ namespace ParkingATHWeb.Business.Services
             throw new NotImplementedException();
         }
 
+        public async Task<ServiceResult<PortalMessageDto>> ValidateMessageRecipents(int userId, Guid previousMessageId)
+        {
+            var message = await _repository.FindAsync(previousMessageId);
+            if (message == null)
+            {
+                return ServiceResult<PortalMessageDto>.Failure("Wystąpił błąd podczas tworzenia wiadomości");
+            }
+            if (message.UserId != userId && message.ReceiverUserId != userId)
+            {
+                return ServiceResult<PortalMessageDto>.Failure("Nie oszukuj!");
+            }
+            return ServiceResult<PortalMessageDto>.Success(_mapper.Map<PortalMessageDto>(message));
+        }
+
         private static void PushToCurrentMessageStack(Stack<PortalMessage> currentStack, List<PortalMessage> allUserMessages)
         {
             while (true)

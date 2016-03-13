@@ -51,7 +51,7 @@ namespace ParkingATHWeb.Contracts.Common
 
         }
 
-        public static ServiceResult<T> Failure(params string[] validationErrors)
+        public new static ServiceResult<T> Failure(params string[] validationErrors)
         {
             var errors = new List<string>();
             errors.AddRange(validationErrors);
