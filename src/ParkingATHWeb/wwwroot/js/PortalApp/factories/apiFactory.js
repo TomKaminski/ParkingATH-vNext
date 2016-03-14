@@ -20,7 +20,8 @@
             DeleteProfilePhoto: "Konto/DeleteProfilePhoto",
             GetChartData: "Statystyki/GetChartData",
             GetUserMessagesClusters: "Wiadomosci/GetUserMessagesClusters",
-            ReplyPortalMessage: "Wiadomosci/ReplyPortalMessage"
+            ReplyPortalMessage: "Wiadomosci/ReplyPortalMessage",
+            FakeDeleteCluster: "Wiadomosci/FakeDeleteCluster"
         }
 
         function get(apiUrl, options) {
@@ -55,10 +56,40 @@
             return defered.promise;
         }
 
+        function genericPost(funcBefore, funcAfterValid, funcAfter, funcError, apiEnum, postData, options) {
+            funcBefore();
+            post(apiEnum, postData, options).then(function (data) {
+                if (data.IsValid) {
+                    funcAfterValid(data);
+                }
+                funcAfter(data);
+            }, function (e) {
+                console.log(e);
+                funcError();
+                Materialize.toast("Wystąpił błąd podczas łączenia się z serwerem.", 8000, 'toast-red');
+            });
+        }
+
+        function genericGet(funcBefore, funcAfterValid, funcAfter, funcError, apiEnum, params) {
+            funcBefore();
+            get(apiEnum, params).then(function (data) {
+                if (data.IsValid) {
+                    funcAfterValid(data);
+                }
+                funcAfter(data);
+            }, function (e) {
+                console.log(e);
+                funcError();
+                Materialize.toast("Wystąpił błąd podczas łączenia się z serwerem.", 8000, 'toast-red');
+            });
+        }
+
         return {
             get: get,
             apiEnum: apiEnum,
-            post: post
+            post: post,
+            genericPost: genericPost,
+            genericGet: genericGet
         };
     }
 

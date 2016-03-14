@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
@@ -91,6 +93,36 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
             return Json(model);
         }
 
+        //TODO: refactor send message from message app to prevent downloading all content
+        //[HttpPost]
+        //[Route("[action]")]
+        //[ValidateAntiForgeryTokenFromHeader]
+        //public async Task<IActionResult> SendMessage([FromBody] QuickMessageViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        //Cant be null coz user is logged in
+        //        model.UserId = CurrentUser.UserId.Value;
+
+        //        var adminAccountResult = await _userService.GetAdminAccountIdAsync();
+        //        if (!adminAccountResult.IsValid)
+        //        {
+        //            return Json(SmartJsonResult.Failure(adminAccountResult.ValidationErrors));
+        //        }
+        //        model.ReceiverUserId = adminAccountResult.Result;
+        //        var serviceRequest = _mapper.Map<PortalMessageDto>(model);
+        //        serviceRequest.Starter = true;
+        //        var createResult = await _portalMessageService.CreateAsync(serviceRequest);
+        //        if (createResult.IsValid)
+        //        {
+        //            return Json(SmartJsonResult<PortalMessageItemViewModel>.Success(_mapper.Map<PortalMessageItemViewModel>(createResult.Result), "Wiadomość wysłana, dziękujemy za wsparcie :)"));
+        //        }
+        //        return Json(SmartJsonResult.Failure(createResult.ValidationErrors));
+        //    }
+        //    return Json(SmartJsonResult.Failure(GetModelStateErrors(ModelState)));
+        //}
+
+
         [HttpPost]
         [Route("GetUserMessagesClusters")]
         public async Task<IActionResult> GetUserMessagesClusters([FromBody] int skipNumber = 0)
@@ -128,6 +160,23 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                     return Json(SmartJsonResult<PortalMessageItemViewModel>.Success(_mapper.Map<PortalMessageItemViewModel>(createResult.Result), "Wiadomość została wysłana"));
                 }
                 return Json(SmartJsonResult.Failure(createResult.ValidationErrors));
+            }
+            return Json(SmartJsonResult.Failure(GetModelStateErrors(ModelState)));
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        [ValidateAntiForgeryTokenFromHeader]
+        public async Task<IActionResult> FakeDeleteCluster([FromBody]FakeDeleteClusterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var fakeDeleteClusterResult = await _portalMessageService.FakeDeleteCluster(CurrentUser.UserId.Value, model.StarterMessageId);
+                if (!fakeDeleteClusterResult.IsValid)
+                {
+                    return Json(SmartJsonResult.Failure(fakeDeleteClusterResult.ValidationErrors));
+                }
+                return Json(SmartJsonResult<bool>.Success(true, "Konwersacja została poprawnie usunięta."));
             }
             return Json(SmartJsonResult.Failure(GetModelStateErrors(ModelState)));
         }

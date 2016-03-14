@@ -37,17 +37,23 @@ namespace ParkingATHWeb.Business.Services
 
             var currentUser = _mapper.Map<PortalMessageUserDto>(await _userRepository.Include(x => x.UserPreferences).SingleOrDefaultAsync(x => x.Id == userId));
 
-            var result = new PortalMessageClustersDto {User = currentUser, Clusters = new List<PortalMessageClusterDto>()};
+            var result = new PortalMessageClustersDto { User = currentUser, Clusters = new List<PortalMessageClusterDto>() };
 
             foreach (var starterMessage in starterMessages)
             {
+                if ((starterMessage.HiddenForSender && starterMessage.UserId == userId) ||
+                    (starterMessage.HiddenForReceiver && starterMessage.ReceiverUserId == userId))
+                {
+                    continue;
+                }
+
                 var receiverUserId = starterMessage.UserId == userId
                     ? starterMessage.ReceiverUserId
                     : starterMessage.UserId;
                 var receiverUser = await _userRepository.Include(x => x.UserPreferences).SingleOrDefaultAsync(x => x.Id == receiverUserId);
 
-                var mappedReceiverUser = receiverUser != null 
-                    ? _mapper.Map<PortalMessageUserDto>(receiverUser) 
+                var mappedReceiverUser = receiverUser != null
+                    ? _mapper.Map<PortalMessageUserDto>(receiverUser)
                     : CreateEmptyPlaceholderForDeletedUser();
 
                 var clusterResult = new PortalMessageClusterDto
@@ -57,13 +63,46 @@ namespace ParkingATHWeb.Business.Services
 
                 var tempStack = new Stack<PortalMessage>();
                 tempStack.Push(starterMessage);
-                PushToCurrentMessageStack(tempStack,allUserMessages);
+                PushToCurrentMessageStack(tempStack, allUserMessages);
 
                 clusterResult.Cluster = tempStack.Select(_mapper.Map<PortalMessageDto>).ToArray();
                 result.Clusters.Add(clusterResult);
             }
             result.Clusters = result.Clusters.OrderByDescending(x => x.Cluster[0].CreateDate).ToList();
             return ServiceResult<PortalMessageClustersDto>.Success(result);
+        }
+
+        public async Task<ServiceResult> FakeDeleteCluster(int userId, Guid starterMessageId)
+        {
+            var allUserMessages = (await _repository.GetAllAsync(x => x.UserId == userId || x.ReceiverUserId == userId)).ToList();
+            var starterMessage = allUserMessages.SingleOrDefault(x => x.Starter && x.Id == starterMessageId);
+            if (starterMessage == null)
+            {
+                return ServiceResult.Failure("Wystąpił błąd podczas usuwania konwersacji.");
+            }
+            var tempStack = new Stack<PortalMessage>();
+            tempStack.Push(starterMessage);
+            PushToCurrentMessageStack(tempStack, allUserMessages);
+            var listToEdit = tempStack.ToList();
+
+            foreach (var portalMessage in listToEdit)
+            {
+                if (userId == portalMessage.ReceiverUserId)
+                {
+                    portalMessage.HiddenForReceiver = true;
+                }
+                else if (userId == portalMessage.UserId)
+                {
+                    portalMessage.HiddenForSender = true;
+                }
+                else
+                {
+                    return ServiceResult.Failure("Wystąpił błąd podczas usuwania konwersacji.");
+                }
+                _repository.Edit(portalMessage);
+            }
+            await _unitOfWork.CommitAsync();
+            return ServiceResult.Success();
         }
 
         public async Task<ServiceResult> FakeDelete(Guid messageId, int userId)

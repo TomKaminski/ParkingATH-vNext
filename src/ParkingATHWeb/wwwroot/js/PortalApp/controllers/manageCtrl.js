@@ -23,26 +23,29 @@
         }
 
         function genericForm(loadingName, model, apiEnumName, successFunction, formModel) {
-            loadingContentService.setIsLoading(loadingName, true);
-            model.disableButton = true;
-            apiFactory.post(apiEnumName, model).then(function (data) {
-                if (data.IsValid) {
+            apiFactory.genericPost(
+                function () {
+                    loadingContentService.setIsLoading(loadingName, true);
+                    model.disableButton = true;
+                },
+                function (data) {
                     formModel.$setUntouched();
                     formModel.$setPristine();
                     model = {
                         disableButton: false
                     }
                     successFunction(data);
-                }
-                loadingContentService.setIsLoading(loadingName, false);
-                model.disableButton = false;
-                notificationService.showNotifications(data);
-            }, function (e) {
-                console.log(e);
-                loadingContentService.setIsLoading(loadingName, false);
-                model.disableButton = false;
-                Materialize.toast("Wystąpił błąd podczas łączenia się z serwerem.", 8000, 'toast-red');
-            });
+                },
+                function (data) {
+                    loadingContentService.setIsLoading(loadingName, false);
+                    model.disableButton = false;
+                    notificationService.showNotifications(data);
+                },
+                function () {
+                    loadingContentService.setIsLoading(loadingName, false);
+                    model.disableButton = false;
+                },
+                apiEnumName, model);
         }
 
         self.sendCharges = function () {
@@ -75,47 +78,54 @@
         }
 
         self.uploadFile = function () {
-            self.uploadPhotoModel.oldValue = self.uploadPhotoModel.profileFile;
-            loadingContentService.setIsLoading('uploadPhoto', true);
             var form = document.getElementById('upload-photo-form');
-            self.uploadPhotoModel.disableButton = true;
             var formData = new FormData(form);
-            apiFactory.post(apiFactory.apiEnum.UploadProfilePhoto, formData, {
-                withCredentials: true,
-                headers: { 'Content-Type': undefined },
-                transformRequest: angular.identity
-            }).then(function (data) {
-                if (data.IsValid) {
-                    userProfileService.setProfilePhotoPath(data.Result);
-                }
-                loadingContentService.setIsLoading('uploadPhoto', false);
-                notificationService.showNotifications(data);
-                self.uploadPhotoModel.disableButton = false;
-            }, function (e) {
-                self.uploadPhotoModel.oldValue = null;
-                console.log(e);
-                loadingContentService.setIsLoading('uploadPhoto', false);
-                Materialize.toast("Wystąpił błąd podczas łączenia się z serwerem.", 8000, 'toast-red');
-                self.uploadPhotoModel.disableButton = false;
-            });
+            apiFactory.genericPost(
+              function () {
+                  self.uploadPhotoModel.oldValue = self.uploadPhotoModel.profileFile;
+                  loadingContentService.setIsLoading('uploadPhoto', true);
+                  self.uploadPhotoModel.disableButton = true;
+              },
+              function (data) {
+                  userProfileService.setProfilePhotoPath(data.Result);
+              },
+              function (data) {
+                  loadingContentService.setIsLoading('uploadPhoto', false);
+                  notificationService.showNotifications(data);
+                  self.uploadPhotoModel.disableButton = false;
+              },
+              function () {
+                  self.uploadPhotoModel.oldValue = null;
+                  self.uploadPhotoModel.disableButton = false;
+                  loadingContentService.setIsLoading('uploadPhoto', false);
+              },
+              apiFactory.apiEnum.UploadProfilePhoto, formData, {
+                  withCredentials: true,
+                  headers: { 'Content-Type': undefined },
+                  transformRequest: angular.identity
+              });
         }
 
         self.deleteProfilePhoto = function () {
-            self.deletePhotoModel.disableButton = true;
-            apiFactory.post(apiFactory.apiEnum.DeleteProfilePhoto, {}).then(function (data) {
-                if (data.IsValid) {
-                    userProfileService.setProfilePhotoPath(data.Result);
-                }
-                notificationService.showNotifications(data);
-                self.deletePhotoModel.disableButton = false;
-            }, function (e) {
-                console.log(e);
-                Materialize.toast("Wystąpił błąd podczas łączenia się z serwerem.", 8000, 'toast-red');
-                self.deletePhotoModel.disableButton = false;
-            });
+            apiFactory.genericPost(
+             function () {
+                 self.deletePhotoModel.disableButton = true;
+             },
+             function (data) {
+                 userProfileService.setProfilePhotoPath(data.Result);
+             },
+             function (data) {
+                 notificationService.showNotifications(data);
+                 self.deletePhotoModel.disableButton = false;
+             },
+             function () {
+                 self.deletePhotoModel.disableButton = false;
+
+             },
+             apiFactory.apiEnum.DeleteProfilePhoto, {});
         }
 
-        self.isDefaultPhotoSet = function() {
+        self.isDefaultPhotoSet = function () {
             return userProfileService.userData.profilePhotoPath.endsWith("avatar-placeholder.jpg");
         }
 
@@ -132,25 +142,29 @@
         }
 
         function getSettingsIndexData() {
-            loadingContentService.setIsLoading('settingsMainLoading', true);
-            apiFactory.get(apiFactory.apiEnum.GetSettingsIndexData, {}).then(function (data) {
-                if (data.IsValid) {
-                    self.model = data.Result;
-                    userProfileService.setInitials(data.Result.Name, data.Result.LastName);
-                    userProfileService.setCharges(data.Result.Charges);
-                    self.changeInfoModel = {
-                        Name: data.Result.Name,
-                        LastName: data.Result.LastName,
-                        disableButton: false
-                    }
-                } else {
-                    notificationService.showNotifications(data);
-                }
-                loadingContentService.setIsLoading('settingsMainLoading', false);
-            }, function (e) {
-                console.log(e);
-                loadingContentService.setIsLoading('settingsMainLoading', false);
-            });
+            apiFactory.genericGet(
+             function () {
+                 loadingContentService.setIsLoading('settingsMainLoading', true);
+             },
+             function (data) {
+                 self.model = data.Result;
+                 userProfileService.setInitials(data.Result.Name, data.Result.LastName);
+                 userProfileService.setCharges(data.Result.Charges);
+                 self.changeInfoModel = {
+                     Name: data.Result.Name,
+                     LastName: data.Result.LastName,
+                     disableButton: false
+                 }
+             },
+             function (data) {
+                 notificationService.showNotifications(data);
+                 loadingContentService.setIsLoading('settingsMainLoading', false);
+
+             },
+             function () {
+                 loadingContentService.setIsLoading('settingsMainLoading', false);
+             },
+             apiFactory.apiEnum.GetSettingsIndexData);
         }
     }
 

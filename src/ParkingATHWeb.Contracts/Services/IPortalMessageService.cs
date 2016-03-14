@@ -6,7 +6,7 @@ using ParkingATHWeb.Contracts.Services.Base;
 
 namespace ParkingATHWeb.Contracts.Services
 {
-    public interface IPortalMessageService: IEntityService<PortalMessageDto, Guid>,IDependencyService
+    public interface IPortalMessageService : IEntityService<PortalMessageDto, Guid>, IDependencyService
     {
         Task<ServiceResult<PortalMessageClustersDto>> GetPortalMessageClusterForCurrentUserAsync(int userId);
 
@@ -15,6 +15,7 @@ namespace ParkingATHWeb.Contracts.Services
         Task<ServiceResult> DeleteSingleByAdmin(int userId, Guid messageId);
         Task<ServiceResult> DeleteClusterByAdmin(int userId, Guid messageId);
         Task<ServiceResult<PortalMessageDto>> ValidateMessageRecipents(int userId, Guid previousMessageId);
+        Task<ServiceResult> FakeDeleteCluster(int userId, Guid starterMessageId);
 
     }
 }

@@ -18,4 +18,10 @@ namespace ParkingATHWeb.Areas.Portal.ViewModels.PortalMessage
         public int UserId { get; set; }
         public int ReceiverUserId { get; set; }
     }
+
+    public class FakeDeleteClusterViewModel
+    {
+        [Required]
+        public Guid StarterMessageId { get; set; }
+    }
 }

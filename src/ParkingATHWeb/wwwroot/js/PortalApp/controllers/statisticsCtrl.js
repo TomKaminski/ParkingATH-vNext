@@ -10,64 +10,59 @@
         getDefaultData();
 
         function getDefaultData() {
-            loadingContentService.setIsLoading('statisticsDefaultDataLoader', true);
-            apiFactory.post(apiFactory.apiEnum.GetDefaultChartData, {}).then(function (data) {
-                initModelsWithPreferenceData(data.SecondResult);
-                drawCharts(data.Result);
-                loadingContentService.setIsLoading('statisticsDefaultDataLoader', false);
-                notificationService.showNotifications(data);
+            apiFactory.genericPost(
+              function () {
+                  loadingContentService.setIsLoading('statisticsDefaultDataLoader', true);
+              },
+              function () {
+              },
+              function (data) {
+                  initModelsWithPreferenceData(data.SecondResult);
+                  drawCharts(data.Result);
+                  loadingContentService.setIsLoading('statisticsDefaultDataLoader', false);
+                  notificationService.showNotifications(data);
+              },
+              function () {
+                  loadingContentService.setIsLoading('statisticsDefaultDataLoader', false);
 
-            }, function (e) {
-                console.log(e);
-                loadingContentService.setIsLoading('statisticsDefaultDataLoader', false);
-                Materialize.toast("Wystąpił błąd podczas łączenia się z serwerem.", 8000, 'toast-red');
-
-            });
+              },
+              apiFactory.apiEnum.GetDefaultChartData, {});
         }
 
         self.getGateUsagesChartData = function () {
-            self.gateUsagesModel.disableButton = true;
-            loadingContentService.setIsLoading('gateUsagesChartAjax', true);
-            var model = { StartDate: self.gateUsagesModel.startDate, EndDate: self.gateUsagesModel.endDate, Granuality: self.gateUsagesModel.granuality, Type: 0 };
-            apiFactory.post(apiFactory.apiEnum.GetChartData, model).then(function (data) {
+            apiFactory.genericPost(function () {
+                self.gateUsagesModel.disableButton = true;
+                loadingContentService.setIsLoading('gateUsagesChartAjax', true);
+            }, function () {
+            }, function (data) {
                 drawGateUsagesChart(data.Result);
                 loadingContentService.setIsLoading('gateUsagesChartAjax', false);
                 notificationService.showNotifications(data);
                 self.gateUsagesModel.disableButton = false;
-
-            }, function (e) {
-                console.log(e);
+            }, function () {
                 loadingContentService.setIsLoading('gateUsagesChartAjax', false);
-                Materialize.toast("Wystąpił błąd podczas łączenia się z serwerem.", 8000, 'toast-red');
                 self.gateUsagesModel.disableButton = false;
 
-            });
+            },
+            apiFactory.apiEnum.GetChartData, { StartDate: self.gateUsagesModel.startDate, EndDate: self.gateUsagesModel.endDate, Granuality: self.gateUsagesModel.granuality, Type: 0 });
+
         }
 
         self.getOrdersChartData = function () {
-            self.ordersModel.disableButton = true;
-
-            loadingContentService.setIsLoading('ordersChartAjax', true);
-            var model = { StartDate: self.ordersModel.startDate, EndDate: self.ordersModel.endDate, Granuality: self.ordersModel.granuality, Type: 1 };
-            apiFactory.post(apiFactory.apiEnum.GetChartData, model).then(function (data) {
+            apiFactory.genericPost(function () {
+                self.ordersModel.disableButton = true;
+                loadingContentService.setIsLoading('ordersChartAjax', true);
+            }, function () {
+            }, function (data) {
                 drawOrdersChart(data.Result);
                 loadingContentService.setIsLoading('ordersChartAjax', false);
                 notificationService.showNotifications(data);
                 self.ordersModel.disableButton = false;
-
-            }, function (e) {
-                console.log(e);
+            }, function () {
                 loadingContentService.setIsLoading('ordersChartAjax', false);
-                Materialize.toast("Wystąpił błąd podczas łączenia się z serwerem.", 8000, 'toast-red');
                 self.ordersModel.disableButton = false;
-
-            });
-        }
-
-        self.testData = {
-            labels: [1, 2, 3, 4, 5, 6, 7],
-            data: [[1, 2, 3, 4, 5, 6, 7]],
-            options: chartJsOptionsFactory.getDefaultLineOptions()
+            },
+            apiFactory.apiEnum.GetChartData, { StartDate: self.ordersModel.startDate, EndDate: self.ordersModel.endDate, Granuality: self.ordersModel.granuality, Type: 1 });
         }
 
         function drawGateUsagesChart(data) {
@@ -132,5 +127,5 @@
         }
     }
 
-    angular.module('portalApp').controller('statisticsCtrl', ['breadcrumbService', 'chartJsOptionsFactory', 'apiFactory', 'loadingContentService','notificationService', statisticsCtrl]);
+    angular.module('portalApp').controller('statisticsCtrl', ['breadcrumbService', 'chartJsOptionsFactory', 'apiFactory', 'loadingContentService', 'notificationService', statisticsCtrl]);
 })();
