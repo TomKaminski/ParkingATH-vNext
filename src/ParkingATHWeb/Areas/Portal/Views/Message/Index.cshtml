@@ -7,7 +7,7 @@
                         <li style="width:80%">
                             <div class="header-search-wrapper">
                                 <i class="material-icons">search</i>
-                                <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Wyszukaj.. (np. wpisz datę)" />
+                                <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Wyszukaj.. np. wpisz numer konwersacji, datę (dd.mm.yyyy)" ng-model="messageSearchTest"/>
                             </div>
                         </li>
                     </ul>
@@ -61,9 +61,9 @@
                         </div>
                     </li>
                     <hr style="clear:both" />
-                    <li ng-repeat="message in msgCtrl.messagesModel.list" class="collection-item avatar email-unread" ng-class="{'selected':msgCtrl.selectedMessageModel.selectedClusterIndex === $index}" ng-click="msgCtrl.toggleMessage($index)">
+                    <li ng-repeat="message in msgCtrl.messagesModel.list | filter:messageSearchTest" class="collection-item avatar" ng-class="{'selected':msgCtrl.selectedMessageModel.selectedClusterIndex === $index,'email-unread':!message.isDisplayed}" ng-click="msgCtrl.toggleMessage($index)">
                         <img ng-src="{{message.imgPath}}" alt="avatar" class="circle">
-                        <span class="email-title col s10 m8 l10">{{message.title}}</span>
+                        <span class="email-title col s10 m8 l10" style="padding-left: 0">{{message.title}}</span>
                         <p class="truncate grey-text ultra-small" style="clear: both;">{{message.text}}</p>
                         <a class="secondary-content email-time"><span class="blue-text ultra-small">{{message.createDate}}</span></a>
                     </li>

@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    function messagesCtrl(breadcrumbService, apiFactory, loadingContentService, notificationService) {
+    function messagesCtrl(breadcrumbService, apiFactory, loadingContentService, notificationService, userProfileService) {
         var self = this;
         breadcrumbService.setOuterBreadcrumb('messages');
         getMessagesData();
@@ -39,6 +39,21 @@
             } else {
                 self.newAdminMessageModel.isOpen = true;
             }
+        }
+
+        function setDisplayed(messageId) {
+            apiFactory.genericPost(
+                function () {
+                    self.messagesModel.list[self.selectedMessageModel.selectedClusterIndex].isDisplayed = true;
+                    userProfileService.decrementMessagesCount();
+                },
+                function () {
+                },
+                function () {
+                },
+                function () {
+                },
+                apiFactory.apiEnum.SetDisplayed, { MessageId: messageId });
         }
 
         self.deleteCluster = function () {
@@ -116,6 +131,9 @@
                     messages: self.messagesModel.list[messageIndex].messages,
                     title: self.messagesModel.list[messageIndex].title
                 }
+                if (!self.messagesModel.list[messageIndex].isDisplayed) {
+                    setDisplayed(self.messagesModel.list[messageIndex].id);
+                }
             }
         }
 
@@ -125,6 +143,7 @@
             cluster.text = messageData.Text;
             cluster.imgPath = cluster.receiverUser.Id === messageData.UserId ? basicImgPath + cluster.receiverUser.ImgId + ".jpg" : basicImgPath + self.messagesModel.user.ImgId + ".jpg";
             cluster.id = messageData.Id;
+            cluster.isDisplayed = true;
             cluster.messages.unshift({
                 imgPath: cluster.receiverUser.Id === messageData.UserId ? basicImgPath + cluster.receiverUser.ImgId + ".jpg" : basicImgPath + self.messagesModel.user.ImgId + ".jpg",
                 initials: cluster.receiverUser.Id === messageData.UserId ? cluster.receiverUser.Initials : self.messagesModel.user.Initials,
@@ -160,10 +179,18 @@
                 var lastMessage = cluster.Messages[0];
                 var starterMessage = cluster.Messages[cluster.Messages.length - 1];
                 var receiverUser = cluster.ReceiverUser;
+
+                var isMessageDisplayed = true;
+
+                if (!lastMessage.IsDisplayed && lastMessage.UserId === receiverUser.Id) {
+                    isMessageDisplayed = false;
+                }
+
                 var itemListModel = {
                     createDate: lastMessage.CreateDate,
                     text: lastMessage.Text,
                     title: starterMessage.Title,
+                    isDisplayed: isMessageDisplayed,
                     imgPath: receiverUser.Id === lastMessage.UserId ? basicImgPath + receiverUser.ImgId + ".jpg" : basicImgPath + self.messagesModel.user.ImgId + ".jpg",
                     id: lastMessage.Id,
                     messages: getMessages(cluster.Messages, receiverUser, self.messagesModel.user),
@@ -227,5 +254,6 @@
         }
     }
 
-    angular.module('portalApp').controller('messagesCtrl', ['breadcrumbService', 'apiFactory', 'loadingContentService', 'notificationService', messagesCtrl]);
+    angular.module('portalApp').controller('messagesCtrl', [
+        'breadcrumbService', 'apiFactory', 'loadingContentService', 'notificationService', 'userProfileService', messagesCtrl]);
 })();

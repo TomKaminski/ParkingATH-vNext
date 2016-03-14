@@ -61,6 +61,24 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         [HttpPost]
         [Route("[action]")]
         [ValidateAntiForgeryTokenFromHeader]
+        public async Task<IActionResult> SetDisplayed([FromBody] SetDisplayedMessageViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var message = await _portalMessageService.GetAsync(model.MessageId);
+                if (message != null)
+                {
+                    message.Result.IsDisplayed = true;
+                    await _portalMessageService.EditAsync(message.Result);
+                    return Json(SmartJsonResult.Success());
+                }
+            }
+            return Json(SmartJsonResult.Failure());
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        [ValidateAntiForgeryTokenFromHeader]
         public async Task<IActionResult> SendQuickMessage([FromBody] QuickMessageViewModel model)
         {
             if (ModelState.IsValid)
@@ -126,6 +144,19 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         [HttpPost]
         [Route("GetUserMessagesClusters")]
         public async Task<IActionResult> GetUserMessagesClusters([FromBody] int skipNumber = 0)
+        {
+            var messagesGetResult = await _portalMessageService.GetPortalMessageClusterForCurrentUserAsync(CurrentUser.UserId.Value);
+            if (messagesGetResult.IsValid)
+            {
+                var jsonResult = _mapper.Map<PortalMessageClustersViewModel>(messagesGetResult.Result);
+                return Json(SmartJsonResult<PortalMessageClustersViewModel>.Success(jsonResult));
+            }
+            return Json(SmartJsonResult.Failure(messagesGetResult.ValidationErrors));
+        }
+
+        [HttpPost]
+        [Route("GetUnreadClustersCount")]
+        public async Task<IActionResult> GetUnreadClustersCount()
         {
             var messagesGetResult = await _portalMessageService.GetPortalMessageClusterForCurrentUserAsync(CurrentUser.UserId.Value);
             if (messagesGetResult.IsValid)

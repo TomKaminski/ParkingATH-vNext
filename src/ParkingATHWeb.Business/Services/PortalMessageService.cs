@@ -105,6 +105,47 @@ namespace ParkingATHWeb.Business.Services
             return ServiceResult.Success();
         }
 
+        public async Task<ServiceResult<int>> GetUnreadClustersCountAsync(int userId)
+        {
+            var allUserMessages = (await _repository.GetAllAsync(x => x.UserId == userId || x.ReceiverUserId == userId)).ToList();
+            var starterMessages = allUserMessages.Where(x => x.Starter).ToList();
+
+            var result = new List<PortalMessageClusterDto>();
+
+            foreach (var starterMessage in starterMessages)
+            {
+                if ((starterMessage.HiddenForSender && starterMessage.UserId == userId) ||
+                    (starterMessage.HiddenForReceiver && starterMessage.ReceiverUserId == userId))
+                {
+                    continue;
+                }
+
+                var receiverUserId = starterMessage.UserId == userId
+                    ? starterMessage.ReceiverUserId
+                    : starterMessage.UserId;
+                var receiverUser = await _userRepository.Include(x => x.UserPreferences).SingleOrDefaultAsync(x => x.Id == receiverUserId);
+
+                var mappedReceiverUser = receiverUser != null
+                    ? _mapper.Map<PortalMessageUserDto>(receiverUser)
+                    : CreateEmptyPlaceholderForDeletedUser();
+
+                var clusterResult = new PortalMessageClusterDto
+                {
+                    ReceiverUser = mappedReceiverUser
+                };
+
+                var tempStack = new Stack<PortalMessage>();
+                tempStack.Push(starterMessage);
+                PushToCurrentMessageStack(tempStack, allUserMessages);
+
+                clusterResult.Cluster = tempStack.Select(_mapper.Map<PortalMessageDto>).ToArray();
+                result.Add(clusterResult);
+            }
+
+            var count = result.Count(portalMessageClusterDto => portalMessageClusterDto.Cluster[0].ReceiverUserId == userId && !portalMessageClusterDto.Cluster[0].IsDisplayed);
+            return ServiceResult<int>.Success(count);
+        }
+
         public async Task<ServiceResult> FakeDelete(Guid messageId, int userId)
         {
             var message = await _repository.FindAsync(messageId);

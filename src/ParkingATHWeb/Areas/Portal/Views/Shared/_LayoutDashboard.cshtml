@@ -1,6 +1,7 @@
 ﻿@using System.Threading.Tasks
 @using ParkingATHWeb.Infrastructure.Extensions
 @using ParkingATHWeb.Models
+@model int
 @{
     var userState = (AppUserState)ViewContext.RouteData.Values["appUserState"];
 }
@@ -44,7 +45,7 @@
     <link href="~/lib/angular-chart.js/dist/angular-chart.css" rel="stylesheet" />
     @RenderSection("styles", required: false)
 </head>
-<body ng-controller="layoutCtrl as layoutCtrl" ng-cloak ng-init="layoutCtrl.init('@userState.SidebarShrinked','@userState.Name','@userState.LastName','@userState.PhotoId')" request-verification-token="@Html.RequestVerificationToken()">
+<body ng-controller="layoutCtrl as layoutCtrl" ng-cloak ng-init="layoutCtrl.init('@userState.SidebarShrinked','@userState.Name','@userState.LastName','@userState.PhotoId','@Model')" request-verification-token="@Html.RequestVerificationToken()">
     <!-- Start Page Loading -->
     <div id="loader-wrapper">
         <div id="loader"></div>
@@ -132,8 +133,11 @@
                     <li class="bold nav-border">
                         <a ui-sref="account" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'account'}"><i class="material-icons">settings</i> <span>Ustawienia</span></a>
                     </li>
-                    <li class="bold nav-border">
-                        <a ui-sref="messages" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'messages'}"><i class="material-icons">message</i> <span>Wiadomości</span></a>
+                    <li class="bold nav-border" style="position: relative;">
+                        <a ui-sref="messages" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'messages'}"><i class="material-icons">message</i>Wiadomości
+
+                        </a>
+                        <span class="badge new" ng-if="layoutCtrl.getUnreadMessages() !== 0">{{layoutCtrl.getUnreadMessages()}}</span>
                     </li>
                     <li class="bold nav-border" style="margin-bottom: 60px;">
                         <a class="waves-effect waves-cyan toggle-side-nav-shrinked" ng-click="layoutCtrl.changeSidebarState()"><i class="material-icons">compare_arrows</i> <span>Zwiń</span></a>

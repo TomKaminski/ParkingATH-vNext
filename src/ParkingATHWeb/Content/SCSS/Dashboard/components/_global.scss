@@ -586,25 +586,23 @@ td, th{
 
 // Badges
 span.badge {
-  min-width: 3rem;
-  padding: 0 6px;
+  min-width: 2rem;
+  padding: 0;
+  right:0;
+  bottom:0;
   text-align: center;
   font-size: 1rem;
   line-height: inherit;
-  color: color('grey', 'darken-1');
+  color: white;
   position: absolute;
-  right: 15px;
   @include box-sizing(border-box);
 
   &.new {
     font-weight: 300;
     font-size: 0.8rem;
     color: #fff;
-    background-color: $badge-bg-color;
+    background-color: red;
     border-radius: 2px;
-  }
-  &.new:after {
-    content: " new";
   }
 }
 nav ul a span.badge {

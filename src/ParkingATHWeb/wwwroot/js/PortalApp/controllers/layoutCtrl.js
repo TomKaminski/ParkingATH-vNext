@@ -9,13 +9,14 @@
         self.time = null;
         setDateAndTime();
 
-        self.init = function (sidebarShrinked, name, lastName, photoId) {
+        self.init = function (sidebarShrinked, name, lastName, photoId, unreadMessages) {
             sidebarStateService.setInitialState((sidebarShrinked === "True"));
             userProfileService.userData = {
                 name: name,
                 lastName: lastName,
                 profilePhotoPath: photoId === "" ? userProfileService.setProfilePhotoPath(null) : userProfileService.setProfilePhotoPath(photoId),
-                charges: 0
+                charges: 0,
+                unreadMessages: parseInt(unreadMessages)
             }
         }
 
@@ -27,17 +28,16 @@
             return userProfileService.getInitials();
         }
 
-        //TODO
-        //self.innerBreadcrumb = function () {
-        //    return breadcrumbService.getInnerBreadcrumb();
-        //}
-
         self.outerBreadcrumb = function () {
             return breadcrumbService.getOuterBreadcrumb();
         }
 
         self.changeSidebarState = function () {
             sidebarStateService.changeState();
+        }
+
+        self.getUnreadMessages = function() {
+            return userProfileService.getUnreadMessages();
         }
 
         function setDateAndTime() {

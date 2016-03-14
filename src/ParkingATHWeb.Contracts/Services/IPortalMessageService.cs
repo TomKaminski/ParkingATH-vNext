@@ -16,6 +16,6 @@ namespace ParkingATHWeb.Contracts.Services
         Task<ServiceResult> DeleteClusterByAdmin(int userId, Guid messageId);
         Task<ServiceResult<PortalMessageDto>> ValidateMessageRecipents(int userId, Guid previousMessageId);
         Task<ServiceResult> FakeDeleteCluster(int userId, Guid starterMessageId);
-
+        Task<ServiceResult<int>> GetUnreadClustersCountAsync(int userId);
     }
 }

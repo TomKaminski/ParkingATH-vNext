@@ -6,7 +6,8 @@
             name: "",
             lastName: "",
             profilePhotoPath: "/images/user-avatars/avatar-placeholder.jpg",
-            charges: 0
+            charges: 0,
+            unreadMessages: 0
         }
 
         this.setInitials = function(name, lastName) {
@@ -27,6 +28,14 @@
 
         this.setCharges = function(charges) {
             this.userData.charges = charges;
+        }
+
+        this.decrementMessagesCount = function() {
+            --this.userData.unreadMessages;
+        }
+
+        this.getUnreadMessages = function () {
+            return this.userData.unreadMessages;
         }
     }
 

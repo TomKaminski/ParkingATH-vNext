@@ -25,20 +25,22 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         private readonly IGateUsageService _gateUsageService;
         private readonly IMapper _mapper;
         private readonly IChartService _chartService;
+        private readonly IPortalMessageService _portalMessageService;
 
-        public HomeController(IWeatherService weatherService, IUserService userService, IGateUsageService gateUsageService, IMapper mapper, IChartService chartService)
+        public HomeController(IWeatherService weatherService, IUserService userService, IGateUsageService gateUsageService, IMapper mapper, IChartService chartService, IPortalMessageService portalMessageService)
         {
             _weatherService = weatherService;
             _userService = userService;
             _gateUsageService = gateUsageService;
             _mapper = mapper;
             _chartService = chartService;
+            _portalMessageService = portalMessageService;
         }
 
         [Route("~/[area]")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View((await _portalMessageService.GetUnreadClustersCountAsync(CurrentUser.UserId.Value)).Result);
         }
 
         [Route("~/[area]/Dashboard")]

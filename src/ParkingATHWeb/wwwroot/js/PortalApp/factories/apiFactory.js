@@ -21,7 +21,8 @@
             GetChartData: "Statystyki/GetChartData",
             GetUserMessagesClusters: "Wiadomosci/GetUserMessagesClusters",
             ReplyPortalMessage: "Wiadomosci/ReplyPortalMessage",
-            FakeDeleteCluster: "Wiadomosci/FakeDeleteCluster"
+            FakeDeleteCluster: "Wiadomosci/FakeDeleteCluster",
+            SetDisplayed: "Wiadomosci/SetDisplayed"
         }
 
         function get(apiUrl, options) {
