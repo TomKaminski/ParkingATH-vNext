@@ -7,7 +7,6 @@ namespace ParkingATHWeb.Contracts.DTO.Order
     public class OrderBaseDto : BaseDto<long>
     {
         public decimal Price { get; set; }
-        public decimal TotalPrice { get; set; }
         public decimal PricePerCharge { get; set; }
         public int NumOfCharges { get; set; }
         public Guid ExtOrderId { get; set; }

@@ -22,7 +22,10 @@
             GetUserMessagesClusters: "Wiadomosci/GetUserMessagesClusters",
             ReplyPortalMessage: "Wiadomosci/ReplyPortalMessage",
             FakeDeleteCluster: "Wiadomosci/FakeDeleteCluster",
-            SetDisplayed: "Wiadomosci/SetDisplayed"
+            SetDisplayed: "Wiadomosci/SetDisplayed",
+            GetShopPrices: "Sklep/GetPrices",
+            GetUserOrders: "Sklep/GetUserOrders",
+            ProcessPayment: "Platnosci/ProcessPayment"
         }
 
         function get(apiUrl, options) {

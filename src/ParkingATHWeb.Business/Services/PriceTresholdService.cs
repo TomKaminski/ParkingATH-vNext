@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using AutoMapper;
 using ParkingATHWeb.Business.Services.Base;
 using ParkingATHWeb.Contracts.Common;
@@ -16,13 +17,30 @@ namespace ParkingATHWeb.Business.Services
 {
     public class PriceTresholdService : EntityService<PriceTresholdBaseDto, PriceTreshold, int>, IPriceTresholdService
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IPriceTresholdRepository _repository;
         private readonly IMapper _mapper;
 
         public PriceTresholdService(IUnitOfWork unitOfWork, IPriceTresholdRepository repository, IMapper mapper) : base(repository, unitOfWork, mapper)
         {
+            _unitOfWork = unitOfWork;
             _repository = repository;
             _mapper = mapper;
+        }
+
+        public override async Task<ServiceResult<IEnumerable<PriceTresholdBaseDto>>> GetAllAsync()
+        {
+            var allAsync = await base.GetAllAsync();
+            if (!allAsync.Result.Any())
+            {
+                _repository.Add(new PriceTreshold
+                {
+                    MinCharges = 0,
+                    PricePerCharge = 3
+                });
+                await _unitOfWork.CommitAsync();
+            }
+            return ServiceResult<IEnumerable<PriceTresholdBaseDto>>.Success(_repository.GetAll().OrderBy(x => x.MinCharges).Select(_mapper.Map<PriceTresholdBaseDto>));
         }
 
         public ServiceResult<IEnumerable<PriceTresholdAdminDto>> GetAllAdmin()

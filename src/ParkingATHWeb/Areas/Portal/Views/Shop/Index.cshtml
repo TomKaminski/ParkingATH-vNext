@@ -1,1 +1,138 @@
-﻿SHOP INDEX
+﻿<div class="row padding-bottom-20">
+    <div class="col s12 m12 l7 xl8">
+        <div class="card" style="margin-top: 0">
+            <div class="card-content">
+                <p class="card-title grey-text text-darken-4 ">
+                    Zakup wyjazdy już teraz!
+                </p>
+                <p class="margin-bottom-20">Zakup oraz płatności w SmartPark są obsługiwane przez zewnętrznego dostawcę PayU. Jest to prosty, bezpieczny i szybki sposób na dokonanie zakupu. Wystarczy zaledwie parę kliknięć. Przekonaj się sam już teraz</p>
+                <p class="margin-bottom-20"><b>Wybierz ilość wyjazdów</b></p>
+                <div class="row margin-bottom-20">
+                    <div class="col s12 m9 l8 xl9">
+                        <input id="order-slider" ng-model="shopCtrl.charges" type="number" name="order-slider" value="1" ng-change="shopCtrl.sliderOnChange()"/>
+                    </div>
+                    <div class="col s8 offset-s2 m3 l4 xl3 flex-align-center-container">
+                        <input type="number" ng-model="shopCtrl.charges" max="50" min="1" ng-change="shopCtrl.chargesInputOnChange()" class="charges-input " />
+                        <p>
+                            <b>wyjazdów</b>
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="row margin-bottom-20" style="padding-right: 20px;">
+                    <div class="col s12 m6 margin-bottom-20">
+                        <p>
+                            <b>Aktualna cena za 1 wyjazd: {{shopCtrl.currentComputed.forCharge | number:2}} PLN</b>
+                        </p>
+                        <p><b>Aktualna suma zamówienia: {{shopCtrl.currentComputed.total | number:2}} PLN</b></p>
+                    </div>
+
+                    <button class="btn waves-effect waves-light right" type="submit" name="action" style="background: #4b85c5"
+                            ng-click="shopCtrl.buyCharges()" ng-disabled="shopCtrl.disableButton == true">
+                        KUPUJĘ {{shopCtrl.charges}} wyjazdów
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
+                <div class="row" style="padding-right: 20px;">
+                    <loader loadname="buyChargesLoader"></loader>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col s12 m12 l5 xl4">
+        <div class="card" style="margin-top: 0" id="order-prices-card">
+            <card-loader style="background: white;" loadname="getPricesLoader"></card-loader>
+            <div class="card-content">
+                <p class="card-title grey-text text-darken-4">
+                    Cennik wyjazdów
+                </p>
+                <p>
+                    <b>W SmartPark stawiamy na jakość, dlatego stworzyliśmy dynamiczny cennik wyjazdów. Cena jednego wyjazdu skaluje się z ilością zakupionych wyjazdów, oznacza to, żę im więcej, tym lepiej!</b>
+                </p>
+                <br />
+                <p class="center-align card-title">
+                    Cena bazowa za 1 wyjazd
+                </p>
+                <h5 style="margin-top: 0" class="center-align">{{shopCtrl.defaultPrice.PriceLabel}} PLN</h5>
+                <div ng-if="shopCtrl.prices.length === 0">
+                    <br />
+                    <p>
+                        <b>Niestety, na ten moment dostępna jest jedynie cena bazowa za jeden wyjazd :(, pracujemy nad wprowadzeniem zniżek.</b>
+                    </p>
+
+                </div>
+                <div ng-repeat="price in shopCtrl.prices">
+                    <p class="center-align card-title">
+                        Przy zakupie {{price.MinCharges}} wyjazdów i więcej
+                    </p>
+                    <h4 style="margin-top: 0" class="center-align"><b>{{price.PriceLabel}} PLN (-{{price.PercentDiscount}}%)</b></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="col s12 m12 l7 xl8">
+        <div class="card" style="margin-top:0" id="order-history-card">
+            <div class="card-content">
+                <p class="card-title grey-text text-darken-4">
+                    Historia twoich zamówień
+                </p>
+                <p class="margin-bottom-20">
+                    <b>Poniżej w łatwy i przejrzysty sposób możesz sprawdzić kiedy i ile wyjazdów kupiłeś w naszym serwisie.</b>
+                </p>
+                <perfect-scrollbar suppress-scroll-x="true" class="order-history-container scroll-wrapper">
+                    <card-loader style="background: white;" loadname="getOrdersLoader"></card-loader>
+                    <table class="responsive-table" id="order-history-table">
+                        <thead>
+                            <tr>
+                                <th>Data zakupu</th>
+                                <th>Godzina zakupu</th>
+                                <th>Ilość wyjazdów</th>
+                                <th>Cena za sztukę</th>
+                                <th>Cena całkowita</th>
+                                <th>Miejsce zakupu</th>
+                                <th>Stan zamówienia</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="shopCtrl.userOrders.length===0">
+                                <td colspan="7">
+                                    <p>
+                                        <b>Niestety, nie posiadasz jeszcze żadnego zamówienia w SmartPark.</b>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr ng-repeat="order in shopCtrl.userOrders" ng-class="order.OrderStateStyle">
+                                <td>{{order.Date}}</td>
+                                <td>{{order.Time}}</td>
+                                <td>{{order.NumOfCharges}}</td>
+                                <td>{{order.PricePerCharge}}</td>
+                                <td>{{order.Price}}</td>
+                                <td>{{order.OrderPlace}}</td>
+                                <td>{{order.OrderState}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </perfect-scrollbar>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<script>
+    var leftnav = $(".page-topbar").height();
+    var leftnavHeight = window.innerHeight - leftnav;
+    $(".order-history-container").height(parseInt(leftnavHeight * 0.33));
+    $("#order-slider").ionRangeSlider({
+        grid: true,
+        min: 1,
+        max: 50,
+        from: 1,
+        postfix: " szt"
+    });
+</script>

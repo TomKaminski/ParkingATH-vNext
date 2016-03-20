@@ -51,6 +51,10 @@ input.little-margin {
   .dropify-wrapper p {
     text-align: center !important; }
 
+.scroll-wrapper {
+  overflow: hidden;
+  position: relative; }
+
 .floating-button-bottom-right {
   position: absolute;
   bottom: 10px;
@@ -72,6 +76,12 @@ input.little-margin {
 
 #settings-tabs .tab-content {
   padding: 15px 35px; }
+
+@media (min-width: 600px) {
+  .flex-align-center-container-mid-and-up {
+    display: flex !important;
+    align-items: center;
+    justify-content: center; } }
 
 .flex-align-center-container {
   display: flex !important;
@@ -289,3 +299,23 @@ icon-night::after {
 
 .picker__wrap, .picker__close {
   pointer-events: auto; }
+
+tr.order-success td, tr.order-canceled td, tr.order-rejected td, tr.order-pending td {
+  border-radius: 0; }
+
+tr.order-success {
+  background-color: rgba(0, 255, 0, 0.15); }
+
+tr.order-canceled {
+  background-color: rgba(255, 0, 0, 0.15); }
+
+tr.order-rejected {
+  background-color: rgba(255, 0, 0, 0.15); }
+
+tr.order-pending {
+  background-color: rgba(255, 255, 0, 0.15); }
+
+input.charges-input {
+  text-align: right;
+  font-weight: bold;
+  font-size: 2em; }

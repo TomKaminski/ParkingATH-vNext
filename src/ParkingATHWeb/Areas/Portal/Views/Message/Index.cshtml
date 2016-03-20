@@ -75,7 +75,7 @@
                 <div ng-if="!msgCtrl.selectedMessageModel.isSelected" class="scroll-wrapper">
                     <h4 class="center-align flex-align-center-container" style="height: 100%;margin:0">Wybierz wiadomość z listy,<br /> aby zobaczyć przebieg konwersacji.</h4>
                 </div>
-                <perfect-scrollbar ng-if="msgCtrl.selectedMessageModel.isSelected" class="scroll-wrapper" suppress-scroll-x="true">
+                <perfect-scrollbar ng-if="msgCtrl.selectedMessageModel.isSelected" class="scroll-wrapper">
                     <p class="email-subject truncate">
                         {{msgCtrl.selectedMessageModel.title}}
                         <span class="email-tag green lighten-3">support</span>

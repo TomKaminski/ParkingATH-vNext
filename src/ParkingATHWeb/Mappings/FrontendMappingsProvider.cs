@@ -1,14 +1,23 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
 using ParkingATHWeb.Areas.Admin.ViewModels.User;
 using ParkingATHWeb.Areas.Portal.ViewModels.Chart;
 using ParkingATHWeb.Areas.Portal.ViewModels.Message;
+using ParkingATHWeb.Areas.Portal.ViewModels.Payment;
 using ParkingATHWeb.Areas.Portal.ViewModels.PortalMessage;
+using ParkingATHWeb.Areas.Portal.ViewModels.PriceTreshold;
 using ParkingATHWeb.Areas.Portal.ViewModels.User;
 using ParkingATHWeb.Areas.Portal.ViewModels.Weather;
 using ParkingATHWeb.Contracts.DTO;
 using ParkingATHWeb.Contracts.DTO.Chart;
+using ParkingATHWeb.Contracts.DTO.Order;
+using ParkingATHWeb.Contracts.DTO.Payments;
 using ParkingATHWeb.Contracts.DTO.PortalMessage;
+using ParkingATHWeb.Contracts.DTO.PriceTreshold;
 using ParkingATHWeb.Contracts.DTO.User;
 using ParkingATHWeb.Contracts.DTO.UserPreferences;
 using ParkingATHWeb.Contracts.DTO.Weather;
@@ -83,6 +92,70 @@ namespace ParkingATHWeb.Mappings
                 .ForMember(x => x.User, opt => opt.MapFrom(a => a.User))
                 .ForMember(x => x.Clusters, opt => opt.MapFrom(a => a.Clusters))
                 .IgnoreNotExistingProperties();
+
+            CreateMap<PriceTresholdBaseDto, PriceTresholdShopItemViewModel>()
+                .ForMember(x => x.PriceLabel, a => a.MapFrom(s => s.PricePerCharge.ToString("#.00")))
+                .IgnoreNotExistingProperties();
+
+            CreateMap<OrderBaseDto, ShopOrderItemViewModel>()
+                .ForMember(x => x.Price, a => a.MapFrom(s => s.Price.ToString("#.00")))
+                .ForMember(x => x.PricePerCharge, a => a.MapFrom(s => s.PricePerCharge.ToString("#.00")))
+                .ForMember(x => x.Date, a => a.MapFrom(s => s.Date.ToString("dd.MM.yyyy")))
+                .ForMember(x => x.Time, a => a.MapFrom(s => s.Date.ToString("HH:mm")))
+                .AfterMap((src, dest) =>
+                {
+                    switch (src.OrderState)
+                    {
+                        case OrderStatus.Completed:
+                            dest.OrderState = "Sfinalizowane";
+                            dest.OrderStateStyle = "order-success";
+                            break;
+                        case OrderStatus.Canceled:
+                            dest.OrderState = "Anulowane";
+                            dest.OrderStateStyle = "order-canceled";
+                            break;
+                        case OrderStatus.Rejected:
+                            dest.OrderState = "Odrzucone";
+                            dest.OrderStateStyle = "order-rejected";
+                            break;
+                        case OrderStatus.Pending:
+                            dest.OrderState = "Oczekujące";
+                            dest.OrderStateStyle = "order-pending";
+                            break;
+                    }
+                    switch (src.OrderPlace)
+                    {
+                        case OrderPlace.Panel:
+                            dest.OrderPlace = "Panel zakupowy";
+                            break;
+                        case OrderPlace.Website:
+                            dest.OrderPlace = "Portal";
+                            break;
+                    }
+                }).IgnoreNotExistingProperties();
+
+            CreateMap<PaymentRequestViewModel, PaymentRequest>()
+                .ForMember(x => x.buyer, a => a.MapFrom(s => new Contracts.DTO.Payments.Buyer
+                {
+                    email = s.UserEmail,
+                    firstName = s.UserName,
+                    lastName = s.UserLastName
+                }))
+                .ForMember(x=>x.description, a=>a.MapFrom(s=>$"Zakup wyjazdów w SmartPark - {s.Charges}x"))
+                .ForMember(x => x.products, s => s.MapFrom(a => new List<Contracts.DTO.Payments.Product>
+                {
+                    new Contracts.DTO.Payments.Product
+                    {
+                        name = $"SmartPark - wyjazdy - {a.Charges}x",
+                        quantity = a.Charges.ToString(),
+                    }
+                }))
+                .ForMember(x => x.customerIp, a => a.MapFrom(s => s.CustomerIP)).IgnoreNotExistingProperties();
+
+            CreateMap<PaymentResponse,PaymentResponseViewModel>()
+                .ForMember(x=>x.RedirectUri, a=>a.MapFrom(s=>s.redirectUri)).IgnoreNotExistingProperties();
         }
+
+
     }
 }

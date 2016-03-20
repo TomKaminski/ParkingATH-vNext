@@ -20,6 +20,7 @@ namespace ParkingATHWeb.Resolver.Mappings
                 .IgnoreNotExistingProperties();
 
             CreateMap<Order, OrderBaseDto>()
+                .ForMember(x => x.PricePerCharge, a => a.MapFrom(m => m.Price / m.NumOfCharges))
                 .IgnoreNotExistingProperties();
         }
     }
