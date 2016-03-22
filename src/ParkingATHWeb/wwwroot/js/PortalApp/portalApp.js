@@ -19,40 +19,40 @@
 
     .config(['$stateProvider', '$locationProvider', '$urlRouterProvider', function ($stateProvider, $locationProvider, $urlRouterProvider) {
 
-        $urlRouterProvider.otherwise("/");
+        $urlRouterProvider.otherwise("/Portal");
 
         $stateProvider.state('dashboard', {
-            url: "/",
+            url: "/Portal",
             templateUrl: '/Portal/Dashboard',
             controller: 'homeCtrl',
             controllerAs: 'homeCtrl'
         })
         .state('account', {
-                url: '/Konto',
-                templateUrl: '/Portal/Konto',
+            url: '/Portal/Konto',
+                templateUrl: '/Portal/Account',
                 controller: 'manageCtrl',
                 controllerAs: 'manageCtrl'
             })
         .state('shop', {
-            url: '/Sklep',
-            templateUrl: '/Portal/Sklep',
+            url: '/Portal/Sklep',
+            templateUrl: '/Portal/Shop',
             controller: 'shopCtrl',
             controllerAs: 'shopCtrl'
         })
         .state('statistics', {
-            url: '/Statystyki',
-            templateUrl: '/Portal/Statystyki',
+            url: '/Portal/Statystyki',
+            templateUrl: '/Portal/Statistics',
             controller: 'statisticsCtrl',
             controllerAs: 'statCtrl'
         })
         .state('messages', {
-            url: '/Wiadomosci',
-            templateUrl: '/Portal/Wiadomosci',
+            url: '/Portal/Wiadomosci',
+            templateUrl: '/Portal/Message',
             controller: 'messagesCtrl',
             controllerAs: 'msgCtrl'
         });
 
-        $locationProvider.html5Mode(false).hashPrefix('!');
+        $locationProvider.html5Mode(true);
     }]);
 
 Date.prototype.addDays = function(days) {

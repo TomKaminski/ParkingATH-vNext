@@ -1,4 +1,4 @@
-﻿angular.module('portalApp').directive('cardLoader', function ($timeout, $rootScope) {
+﻿angular.module('portalApp').directive('cardLoader', ['$timeout','$rootScope',function ($timeout, $rootScope) {
 
     return {
         restrict: 'E',
@@ -24,4 +24,4 @@
             });
         }
     };
-});
+}]);

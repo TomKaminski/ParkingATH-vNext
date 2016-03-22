@@ -7,63 +7,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SmartPark</title>
 
-    <environment names="Development">
-        <!-- Compiled and minified CSS -->
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link href="~/css/materialize/materialize.css" rel="stylesheet" />
-        @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">*@
-        <link href="~/css/main.css" rel="stylesheet" />
-        <link href="~/css/mainportal.css" rel="stylesheet" />
-    </environment>
+    <!-- Compiled and minified CSS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="~/css/materialize/materialize.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">*@
+    <link href="~/css/main.css" rel="stylesheet" />
+    <link href="~/css/mainportal.css" rel="stylesheet" />
     @RenderSection("styles", required: false)
 </head>
 <body>
-<div class="header-portal">
-    <div class="row">
-        <div class="col m12 l6 valign-wrapper">
-            <img src="~/images/logo_white.png" class="valign"/>
-            <img src="~/images/logo_reset_black.png" class="valign"/>
-            <img src="~/images/logo_white.png" class="valign"/>
-            <img src="~/images/logo_reset_black.png" class="valign"/>
-        </div>
-        <div class="col m12 l6 valign-wrapper right" style="height: 40px">
-            <p class="valign right-align">WYKUP ABONAMENT - ZAPŁAC ZBLIŻENIOWO<br/>OTWIERAJ BRAMĘ SMARTFONEM
-            </p>
-            <i class="small material-icons valign">input</i>
-        </div>
-    </div>
-</div>
-<div class="inner-header">
-    <div class="avatar-box">
-        <div class="content">
-            <img src="~/images/kasia_400x400.png" />
+    <div class="header-portal">
+        <div class="row">
+            <div class="col m12 l6 valign-wrapper">
+                <img src="~/images/logo_white.png" class="valign" />
+                <img src="~/images/logo_reset_black.png" class="valign" />
+                <img src="~/images/logo_white.png" class="valign" />
+                <img src="~/images/logo_reset_black.png" class="valign" />
+            </div>
+            <div class="col m12 l6 valign-wrapper right" style="height: 40px">
+                <p class="valign right-align">
+                    WYKUP ABONAMENT - ZAPŁAC ZBLIŻENIOWO<br />OTWIERAJ BRAMĘ SMARTFONEM
+                </p>
+                <i class="small material-icons valign">input</i>
+            </div>
         </div>
     </div>
-    <div class="box">
-        <div class="content">
-            <div class="row">
-                <div class="col s6">
-                    <p>Witaj, Kasia! Jak Ci mija dzień?</p></div>
-                <div class="col s6 right-align">
-                    <h3 class="right-align"><b>6 Luty 2016<br />20:46</b></h3>
+    <div class="inner-header">
+        <div class="avatar-box">
+            <div class="content">
+                <img src="~/images/kasia_400x400.png" />
+            </div>
+        </div>
+        <div class="box">
+            <div class="content">
+                <div class="row">
+                    <div class="col s6">
+                        <p>Witaj, Kasia! Jak Ci mija dzień?</p>
+                    </div>
+                    <div class="col s6 right-align">
+                        <h3 class="right-align"><b>6 Luty 2016<br />20:46</b></h3>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
     @RenderBody()
 
-    <environment names="Development">
-        <!-- Compiled and minified JavaScript -->
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"
+            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+            asp-fallback-test="window.jQuery">
 
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
-        <script src="~/lib/angular/angular.js"></script>
-        <script src="~/js/smartajaxforms.js"></script>
-    </environment>
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+    <script src="~/lib/angular/angular.js"></script>
+    <script src="~/js/smartajaxforms.js"></script>
 
     @RenderSection("scripts", required: false)
 </body>

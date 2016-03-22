@@ -23,31 +23,58 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="~/favicon/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
+
+
     <environment names="Development">
-        <!-- Compiled and minified CSS -->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link href="~/css/materialize/materialize.css" rel="stylesheet" />
-        @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">*@
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
         <link href="~/css/main.css" rel="stylesheet" />
+        <link href="~/css/portal/account/loginregisterforgot.css" rel="stylesheet" />
+        <link href="~/css/portal/manage/resetpassword.css" rel="stylesheet" />
     </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+        <link rel="stylesheet" href="~/css/login.min.css" asp-append-version="true" />
+    </environment>
+
     @RenderSection("styles", required: false)
 </head>
 <body class="white valign-wrapper">
     @RenderBody()
 
     <environment names="Development">
-        <!-- Compiled and minified JavaScript -->
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"
                 asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
                 asp-fallback-test="window.jQuery">
+
         </script>
-        <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-        <script src="~/lib/jquery-validation/dist/additional-methods.js"></script>
-        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-        <script src="~/js/jquery.form.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/additional-methods.min.js"></script>
+        <script src="http://ajax.aspnetcdn.com/ajax/mvc/5.2.3/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/js/jquery.form.js"></script>
         <script src="~/js/smartajaxforms.js"></script>
+        <script src="~/js/portal/account/loginregisterforgot.js"></script>
+        <script src="~/js/portal/manage/deleteaccount.js"></script>
+        <script src="~/js/portal/manage/resetpassword.js"></script>
+
     </environment>
+    <environment names="Staging,Production">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery">
+
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/additional-methods.min.js"></script>
+        <script src="http://ajax.aspnetcdn.com/ajax/mvc/5.2.3/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/js/login.min.js" asp-append-version="true"></script>
+    </environment>
+
 
     @RenderSection("scripts", required: false)
 </body>

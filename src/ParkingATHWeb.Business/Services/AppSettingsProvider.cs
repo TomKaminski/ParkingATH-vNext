@@ -4,6 +4,7 @@ using System.Net.Mail;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.PlatformAbstractions;
 using ParkingATHWeb.Contracts.DTO;
+using ParkingATHWeb.Contracts.DTO.Payments;
 using ParkingATHWeb.Contracts.Services;
 using ParkingATHWeb.Shared.Enums;
 
@@ -13,6 +14,7 @@ namespace ParkingATHWeb.Business.Services
     {
         private readonly IApplicationEnvironment _appEnv;
         private const string DefaultSmtpConfigurationKey = "Settings:SmtpConfiguration:";
+        private const string PayuSettingsKey = "PayUSettings:";
 
         public AppSettingsProvider(IApplicationEnvironment appEnv)
         {
@@ -52,6 +54,24 @@ namespace ParkingATHWeb.Business.Services
                 Credentials =
                     new NetworkCredential(configuration[$"{DefaultSmtpConfigurationKey}userName"],
                         configuration[$"{DefaultSmtpConfigurationKey}password"])
+            };
+        }
+
+        public PaymentSettings GetPaymentSettings()
+        {
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(_appEnv.ApplicationBasePath)
+                .AddJsonFile($"{AppSettingsType.DefaultSettings}.json")
+                .Build();
+
+            return new PaymentSettings
+            {
+                AuthorizeEndpoint = configuration[$"{PayuSettingsKey}AuthorizeEndpoint"],
+                ClientSecondKey = configuration[$"{PayuSettingsKey}ClientSecondKey"],
+                HostAddress = configuration[$"{PayuSettingsKey}HostAddress"],
+                OAuthClientSecret = configuration[$"{PayuSettingsKey}OAuthClientSecret"],
+                OrderCreateEndpoint = configuration[$"{PayuSettingsKey}OrderCreateEndpoint"],
+                PosID = configuration[$"{PayuSettingsKey}PosID"]
             };
         }
     }

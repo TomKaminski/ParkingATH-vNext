@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    function layoutController(sidebarStateService, $timeout, breadcrumbService, userProfileService) {
+    function layoutController(sidebarStateService, $timeout, breadcrumbService, userProfileService, $state, payuReturnService) {
         var self = this;
 
         //Date and time
@@ -9,7 +9,7 @@
         self.time = null;
         setDateAndTime();
 
-        self.init = function (sidebarShrinked, name, lastName, photoId, unreadMessages) {
+        self.init = function (sidebarShrinked, name, lastName, photoId, unreadMessages, fromShop, isError) {
             sidebarStateService.setInitialState((sidebarShrinked === "True"));
             userProfileService.userData = {
                 name: name,
@@ -17,6 +17,13 @@
                 profilePhotoPath: photoId === "" ? userProfileService.setProfilePhotoPath(null) : userProfileService.setProfilePhotoPath(photoId),
                 charges: 0,
                 unreadMessages: parseInt(unreadMessages)
+            }
+
+            if ((fromShop === "True")) {
+                payuReturnService.isFromShop = true;
+                if ((isError === "True")) {
+                    payuReturnService.isErrorFromShop = true;
+                }
             }
         }
 
@@ -68,5 +75,5 @@
         }
     }
 
-    angular.module('portalApp').controller('layoutCtrl', ['sidebarStateService', '$timeout', 'breadcrumbService', 'userProfileService', layoutController]);
+    angular.module('portalApp').controller('layoutCtrl', ['sidebarStateService', '$timeout', 'breadcrumbService', 'userProfileService', '$state', 'payuReturnService', layoutController]);
 })();

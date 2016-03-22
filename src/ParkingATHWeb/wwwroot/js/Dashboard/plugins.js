@@ -9,23 +9,11 @@ $(function () {
         }, 200);
     });
 
-    // Materialize Tabs
-    $('.tab-demo').show().tabs();
-    $('.tab-demo-active').show().tabs();
-
-    // Materialize scrollSpy
-    $('.scrollspy').scrollSpy();
-
-    // Materialize tooltip
-    $('.tooltipped').tooltip({
-        delay: 50
-    });
-
     // Materialize sideNav  
 
     //Main Left Sidebar Menu
     $('.sidebar-collapse').sideNav({
-        edge: 'left', // Choose the horizontal origin    
+        edge: 'left' // Choose the horizontal origin    
     });
 
     // Perfect Scrollbar
@@ -37,7 +25,7 @@ $(function () {
     });
 
     // Detect touch screen and enable scrollbar if necessary
-    function is_touch_device() {
+    function isTouchDevice() {
         try {
             document.createEvent("TouchEvent");
             return true;
@@ -46,10 +34,10 @@ $(function () {
             return false;
         }
     }
-    if (is_touch_device()) {
+    if (isTouchDevice()) {
         $('#nav-mobile').css({
             overflow: 'auto'
-        })
+        });
     }
 
 }); // end of document ready

@@ -14,5 +14,5 @@
         }
     }
 
-    angular.module('portalApp').service('loadingContentService', loadingContentService);
+    angular.module('portalApp').service('loadingContentService',['$rootScope', loadingContentService]);
 })();

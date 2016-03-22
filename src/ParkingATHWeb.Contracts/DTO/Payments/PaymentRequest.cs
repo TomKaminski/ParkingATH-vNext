@@ -22,6 +22,7 @@ namespace ParkingATHWeb.Contracts.DTO.Payments
         public string customerIp { get; set; }
         public string merchantPosId { get; set; }
         public string description { get; set; }
+        public string continueUrl { get; set; }
 
         public string currencyCode => "PLN";
 

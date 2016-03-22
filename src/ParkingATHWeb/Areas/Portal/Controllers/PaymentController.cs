@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Http.Features;
 using Microsoft.AspNet.Mvc;
 using ParkingATHWeb.ApiModels.Base;
 using ParkingATHWeb.Areas.Portal.Controllers.Base;
@@ -15,7 +16,7 @@ using ParkingATHWeb.Shared.Enums;
 namespace ParkingATHWeb.Areas.Portal.Controllers
 {
     [Area("Portal")]
-    [Route("[area]/Platnosci")]
+    [Route("[area]/Payment")]
     [Authorize]
     public class PaymentController : BaseController
     {
@@ -36,14 +37,18 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         public async Task<IActionResult> ProcessPayment([FromBody]PaymentRequestViewModel model)
         {
             model.UserId = CurrentUser.UserId.Value;
-            model.CustomerIP = HttpContext.Connection.RemoteIpAddress.ToString();
+
+            //var connection = HttpContext.Features.Get<IHttpConnectionFeature>();
+            //model.CustomerIP = connection?.RemoteIpAddress?.ToString();
+
+            model.CustomerIP = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "127.0.0.1";
             model.UserEmail = CurrentUser.Email;
             model.UserName = CurrentUser.Name;
             model.UserLastName = CurrentUser.LastName;
 
             var request = _mapper.Map<PaymentRequest>(model);
-            request.notifyUrl = Url.Action("Notify", "Payment", null, "https");
-
+            request.notifyUrl = Url.Action("Notify", "Payment" , new { area = "Portal" }, "http");
+            request.continueUrl = Url.Action("ShopContinue", "Home", new { area = "Portal" }, "http");
             var payuServiceResult = await _payuService.ProcessPaymentAsync(request, model.UserId, OrderPlace.Website);
 
             if (payuServiceResult.IsValid)
@@ -57,8 +62,8 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         }
 
         [HttpPost]
-        [Route("[action]")]
         [AllowAnonymous]
+        [Route("[action]")]
         public async Task<IActionResult> Notify([FromBody]PayuNotificationModel model)
         {
             await _orderService.UpdateOrderState(model.order.status, new Guid(model.order.extOrderId));

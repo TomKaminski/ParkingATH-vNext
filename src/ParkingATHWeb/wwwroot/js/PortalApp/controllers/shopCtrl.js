@@ -1,12 +1,21 @@
 ﻿(function () {
     'use strict';
 
-    function shopCtrl(breadcrumbService, apiFactory, loadingContentService, notificationService) {
+    function shopCtrl(breadcrumbService, apiFactory, loadingContentService, notificationService, payuReturnService) {
         var self = this;
         self.charges = 1;
         self.prices = [];
         self.userOrders = [];
 
+        if (payuReturnService.shouldRedirectToShop()) {
+            if (payuReturnService.shouldShowShopError()) {
+                var $toastContent = $('<span>Wystapił błąd podczas autoryzacji płatności, spróbuj ponownie.</span>');
+                Materialize.toast($toastContent, 8000, 'toast-red');
+            } else {
+                var $toastContentSuccess = $('<span>Dziękujemy za złożenie zamówienia, wyjazdy będą dodane do Twojej puli w ciągu najbliższych chwil!</span>');
+                Materialize.toast($toastContentSuccess, 8000, 'toast-green');
+            }
+        }
 
         getPricesData();
         getUserOrdersData();
@@ -64,14 +73,19 @@
                   loadingContentService.setIsLoading('buyChargesLoader', true);
               },
               function (data) {
-                  window.location.replace(data.RedirectUri);
+                  debugger;
+                  console.log(data);
+                  window.location.replace(data.Result.RedirectUri);
               },
               function (data) {
+                  console.log(data);
+                  debugger;
                   self.disableButton = false;
                   loadingContentService.setIsLoading('buyChargesLoader', false);
                   notificationService.showNotifications(data);
               },
               function () {
+                  debugger;
                   self.disableButton = false;
                   loadingContentService.setIsLoading('buyChargesLoader', false);
               },
@@ -128,5 +142,5 @@
         }
     }
 
-    angular.module('portalApp').controller('shopCtrl', ['breadcrumbService', 'apiFactory', 'loadingContentService', 'notificationService', shopCtrl]);
+    angular.module('portalApp').controller('shopCtrl', ['breadcrumbService', 'apiFactory', 'loadingContentService', 'notificationService','payuReturnService', shopCtrl]);
 })();

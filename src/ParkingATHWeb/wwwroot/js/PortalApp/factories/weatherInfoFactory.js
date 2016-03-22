@@ -64,7 +64,7 @@
         }
 
         function getModel(title, icons) {
-            return { title, icons}
+            return { title:title, icons:icons}
         }
 
         function getWeatherModelsFromId(weatherId) {

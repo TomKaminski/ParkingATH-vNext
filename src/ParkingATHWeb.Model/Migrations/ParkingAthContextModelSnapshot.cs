@@ -119,6 +119,8 @@ namespace ParkingATHWeb.Model.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("IsDeleted");
+
                     b.Property<int>("MinCharges");
 
                     b.Property<decimal>("PricePerCharge");

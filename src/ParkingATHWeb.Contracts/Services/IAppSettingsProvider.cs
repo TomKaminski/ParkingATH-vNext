@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using ParkingATHWeb.Contracts.DTO;
+using ParkingATHWeb.Contracts.DTO.Payments;
 using ParkingATHWeb.Contracts.Services.Base;
 using ParkingATHWeb.Shared.Enums;
 
@@ -9,5 +10,6 @@ namespace ParkingATHWeb.Contracts.Services
     {
         IConfigurationRoot GetAppSettings(params AppSettingsType[] settings);
         SmtpSettings GetSmtpSettings();
+        PaymentSettings GetPaymentSettings();
     }
 }

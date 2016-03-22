@@ -22,10 +22,17 @@ namespace ParkingATHWeb.Model
 
         public void ConfigureServices(IServiceCollection services)
         {
+#if DEBUG
+                services.AddEntityFramework()
+                .AddSqlServer()
+                .AddDbContext<ParkingAthContext>(options =>
+                    options.UseSqlServer(Configuration["Data:DefaultConnection:LocalConnectionString"]));
+#else
             services.AddEntityFramework()
                 .AddSqlServer()
                 .AddDbContext<ParkingAthContext>(options =>
-                    options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
+                    options.UseSqlServer(Configuration["Data:DefaultConnection:AzureConnectionString"]));
+#endif
         }
         public void Configure(IApplicationBuilder app)
         {

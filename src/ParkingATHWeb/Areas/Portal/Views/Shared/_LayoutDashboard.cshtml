@@ -1,7 +1,7 @@
 ﻿@using System.Threading.Tasks
 @using ParkingATHWeb.Infrastructure.Extensions
 @using ParkingATHWeb.Models
-@model int
+@model ParkingATHWeb.Areas.Portal.ViewModels.HomeViewModel
 @{
     var userState = (AppUserState)ViewContext.RouteData.Values["appUserState"];
 }
@@ -14,6 +14,7 @@
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="description" content="">
     <meta name="keywords" content="">
+    <base href="/Portal">
     <title>@ViewData["Title"] - SmartPark</title>
     <link rel="apple-touch-icon" sizes="57x57" href="~/favicon/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="~/favicon/apple-icon-60x60.png">
@@ -32,21 +33,28 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="~/favicon/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
-    <!-- For Windows Phone -->
-    <!-- CORE CSS-->
-    <link href="~/css/Dashboard/materialize.css" type="text/css" rel="stylesheet" media="screen,projection">
-    <link href="~/css/Dashboard/style.css" type="text/css" rel="stylesheet" media="screen,projection">
-    <!-- Custome CSS-->
-    <link href="~/css/Dashboard/custom/custom.css" type="text/css" rel="stylesheet" media="screen,projection">
-    <!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
-    <link href="~/js/Dashboard/plugins/perfect-scrollbar/perfect-scrollbar.css" type="text/css" rel="stylesheet" media="screen,projection">
-    <link href="~/js/Dashboard/plugins/dropify/css/dropify.css" type="text/css" rel="stylesheet" media="screen,projection">
-    <link href="~/js/dashboard/plugins/ionrangeslider/css/ion.rangeslider.css" rel="stylesheet" />
-    <link href="~/js/dashboard/plugins/ionrangeslider/css/ion.rangeslider.skinflat.css" rel="stylesheet" />
-    <link href="~/lib/angular-chart.js/dist/angular-chart.css" rel="stylesheet" />
+
+    <environment names="Development">
+        <!-- For Windows Phone -->
+        <!-- CORE CSS-->
+        <link href="~/css/Dashboard/materialize.css" type="text/css" rel="stylesheet" media="screen,projection">
+        <link href="~/css/Dashboard/style.css" type="text/css" rel="stylesheet" media="screen,projection">
+        <!-- Custome CSS-->
+        <link href="~/css/Dashboard/custom/custom.css" type="text/css" rel="stylesheet" media="screen,projection">
+        <!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
+        <link href="~/js/Dashboard/plugins/perfect-scrollbar/perfect-scrollbar.css" type="text/css" rel="stylesheet" media="screen,projection">
+        <link href="~/js/Dashboard/plugins/dropify/css/dropify.css" type="text/css" rel="stylesheet" media="screen,projection">
+        <link href="~/js/dashboard/plugins/ionrangeslider/css/ion.rangeslider.css" rel="stylesheet" />
+        <link href="~/js/dashboard/plugins/ionrangeslider/css/ion.rangeslider.skinflat.css" rel="stylesheet" />
+        <link href="~/lib/angular-chart.js/dist/angular-chart.css" rel="stylesheet" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/css/portal.min.css" asp-append-version="true" />
+    </environment>
+
     @RenderSection("styles", required: false)
 </head>
-<body ng-controller="layoutCtrl as layoutCtrl" ng-cloak ng-init="layoutCtrl.init('@userState.SidebarShrinked','@userState.Name','@userState.LastName','@userState.PhotoId','@Model')" request-verification-token="@Html.RequestVerificationToken()">
+<body ng-controller="layoutCtrl as layoutCtrl" ng-cloak ng-init="layoutCtrl.init('@userState.SidebarShrinked','@userState.Name','@userState.LastName','@userState.PhotoId','@Model.UnreadClustersCount','@Model.FromShop','@Model.IsError')" request-verification-token="@Html.RequestVerificationToken()">
     <!-- Start Page Loading -->
     <div id="loader-wrapper">
         <div id="loader"></div>
@@ -61,28 +69,28 @@
         <div class="navbar-fixed">
             <nav class="navbar-color">
                 <div class="nav-wrapper">
-                    <ul class="left">
+                    <ul class="left flex-align-center-container" style="justify-content: flex-end">
                         <li class="logo-cont">
                             <h1 class="logo-wrapper">
-                                <a href="~/" class="brand-logo darken-1"><img src="~/images/logo_white.png" alt="smartpark logo"></a> <span class="logo-text">SmartPark</span>
+                                <a href="~/" class="brand-logo darken-1" target="_self"><img src="~/images/logo_white.png" alt="smartpark logo"></a> <span class="logo-text">SmartPark</span>
                             </h1>
                         </li>
                         <li class="hide-on-small-only logo-cont">
                             <h1 class="logo-wrapper">
-                                <a href="~/" class="brand-logo darken-1"><img src="~/images/logo_reset_white.png" alt="reset logo" style="max-height: 38px;width:auto"></a> <span class="logo-text">RESET</span>
+                                <a href="~/" class="brand-logo darken-1" target="_self"><img src="~/images/logo_reset_white.png" alt="reset logo" style="max-height: 38px;width:auto"></a> <span class="logo-text">RESET</span>
                             </h1>
                         </li>
                         <li class="hide-on-med-and-down logo-cont">
                             <h1 class="logo-wrapper">
-                                <a href="~/" class="brand-logo darken-1"><img src="~/images/ath-logo-white.png" alt="smartpark logo" style="max-height: 38px;width:auto"></a> <span class="logo-text">SmartPark</span>
+                                <a href="~/" class="brand-logo darken-1" target="_self"><img src="~/images/ath-logo-white.png" alt="smartpark logo" style="max-height: 38px;width:auto"></a> <span class="logo-text">SmartPark</span>
                             </h1>
                         </li>
                         <li class="hide-on-med-and-down logo-cont">
                             <h1 class="logo-wrapper">
-                                <a href="~/" class="brand-logo darken-1"><img src="~/images/wbmii-logo-white.png" alt="smartpark logo" style="max-height: 38px; width: auto"></a> <span class="logo-text">SmartPark</span>
+                                <a href="~/" class="brand-logo darken-1" target="_self"><img src="~/images/wbmii-logo-white.png" alt="smartpark logo" style="max-height: 38px; width: auto"></a> <span class="logo-text">SmartPark</span>
                             </h1>
                         </li>
-                        <li class="hide-on-large-only" style="position: absolute; right:0">
+                        <li class="hide-on-large-only">
                             <form asp-action="Logout" asp-controller="Account" asp-route-area="Portal" id="logoutForm">
                                 <a href="javascript:document.getElementById('logoutForm').submit()"><i class="material-icons">directions_run</i></a>
                             </form>
@@ -135,7 +143,8 @@
                         <a ui-sref="account" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'account'}"><i class="material-icons">settings</i> <span>Ustawienia</span></a>
                     </li>
                     <li class="bold nav-border" style="position: relative;">
-                        <a ui-sref="messages" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'messages'}"><i class="material-icons">message</i>Wiadomości
+                        <a ui-sref="messages" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'messages'}">
+                            <i class="material-icons">message</i>Wiadomości
 
                         </a>
                         <span class="badge new" ng-if="layoutCtrl.getUnreadMessages() !== 0">{{layoutCtrl.getUnreadMessages()}}</span>
@@ -157,7 +166,7 @@
                             <div class="col s12 m6">
                                 <h5 class="breadcrumbs-title"></h5>
                                 <ol class="breadcrumbs">
-                                    <li><a ui-sref="dashboard">Portal</a></li>
+                                    <li><a>Portal</a></li>
                                     <li ng-if="layoutCtrl.outerBreadcrumb().current == true">
                                         <span class="active">{{layoutCtrl.outerBreadcrumb().displayName}}</span>
                                     </li>
@@ -203,57 +212,79 @@
         </div>
     </footer>
     <!-- END FOOTER -->
-    <!-- jQuery Library -->
-<script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/js/dashboard/plugins/ionrangeslider/js/ion.rangeslider.js"></script>
 
-    <script src="~/lib/angular/angular.js"></script>
-    <script src="~/lib/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="~/lib/angular-messages/angular-messages.min.js"></script>
 
-    <!--materialize js-->
-    <script type="text/javascript" src="~/js/Dashboard/materialize.js"></script>
-    <script src="~/js/dashboard/plugins/angular-materialize.js"></script>
-    <!--scrollbar-->
-    <script type="text/javascript" src="~/js/Dashboard/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-    <!-- sparkline -->
-    <script type="text/javascript" src="~/js/Dashboard/plugins/sparkline/jquery.sparkline.min.js"></script>
-    <!-- chartjs -->
-    <script type="text/javascript" src="~/js/Dashboard/plugins/chartjs/chart.min.js"></script>
 
-    <script type="text/javascript" src="~/js/Dashboard/plugins/dropify/js/dropify.min.js"></script>
-    @*ANGULAR APP*@
-    <script src="~/js/portalapp/portalapp.js"></script>
-    <script src="~/lib/angular-perfect-scrollbar/src/angular-perfect-scrollbar.js"></script>
-    <script src="~/js/portalapp/directives/resolveloaderdirective.js"></script>
-    <script src="~/js/portalapp/directives/comparetodirective.js"></script>
-    <script src="~/js/portalapp/directives/requiredfiledirective.js"></script>
-    <script src="~/js/portalapp/directives/notequaltodirective.js"></script>
-    <script src="~/js/portalapp/directives/requestverificationtokendirective.js"></script>
-    <script src="~/js/portalapp/directives/loaderdirective.js"></script>
-    <script src="~/js/portalapp/directives/cardloaderdirective.js"></script>
-    <script src="~/js/portalapp/factories/chartjsoptionsfactory.js"></script>
-    <script src="~/js/portalapp/factories/weatherinfofactory.js"></script>
-    <script src="~/js/portalapp/services/loadingcontentservice.js"></script>
-    <script src="~/js/portalapp/services/notificationservice.js"></script>
-    <script src="~/js/portalapp/services/breadcrumbservice.js"></script>
-    <script src="~/js/portalapp/services/userprofileservice.js"></script>
-    <script src="~/js/portalapp/directives/sparklinechartdirective.js"></script>
-    <script src="~/lib/angular-chart.js/dist/angular-chart.js"></script>
-    <script src="~/js/portalapp/factories/apifactory.js"></script>
-    <script src="~/js/portalapp/services/sidebarstateservice.js"></script>
-    <script src="~/js/portalapp/controllers/layoutctrl.js"></script>
-    <script src="~/js/portalapp/controllers/homectrl.js"></script>
-    <script src="~/js/portalapp/controllers/managectrl.js"></script>
-    <script src="~/js/portalapp/controllers/shopctrl.js"></script>
-    <script src="~/js/portalapp/controllers/statisticsctrl.js"></script>
-    <script src="~/js/portalapp/controllers/messagesctrl.js"></script>
 
-    <!--plugins.js - Some Specific JS codes for Plugin Settings-->
-    <script src="~/js/Dashboard/custom-sidenav-shrink-helper.js"></script>
-    <script type="text/javascript" src="~/js/Dashboard/plugins.js"></script>
+    <environment names="Development">
+        <!-- jQuery Library -->
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery">
+
+
+        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.5.2/angular-messages.js"></script>
+
+        <!--materialize js-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.js"></script>
+        <script src="~/js/dashboard/plugins/angular-materialize.js"></script>
+
+        <script src="~/js/dashboard/plugins/ionrangeslider/js/ion.rangeslider.js"></script>
+        <script type="text/javascript" src="~/js/Dashboard/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+        <script type="text/javascript" src="~/js/Dashboard/plugins/chartjs/chart.min.js"></script>
+        <script type="text/javascript" src="~/js/Dashboard/plugins/dropify/js/dropify.min.js"></script>
+
+        @*ANGULAR APP*@
+        <script src="~/js/portalapp/portalapp.js"></script>
+        <script src="~/lib/angular-perfect-scrollbar/src/angular-perfect-scrollbar.js"></script>
+        <script src="~/js/portalapp/directives/resolveloaderdirective.js"></script>
+        <script src="~/js/portalapp/directives/comparetodirective.js"></script>
+        <script src="~/js/portalapp/directives/requiredfiledirective.js"></script>
+        <script src="~/js/portalapp/directives/notequaltodirective.js"></script>
+        <script src="~/js/portalapp/directives/requestverificationtokendirective.js"></script>
+        <script src="~/js/portalapp/directives/loaderdirective.js"></script>
+        <script src="~/js/portalapp/directives/cardloaderdirective.js"></script>
+        <script src="~/js/portalapp/factories/chartjsoptionsfactory.js"></script>
+        <script src="~/js/portalapp/factories/weatherinfofactory.js"></script>
+        <script src="~/js/portalapp/services/loadingcontentservice.js"></script>
+        <script src="~/js/portalapp/services/notificationservice.js"></script>
+        <script src="~/js/portalapp/services/payureturnservice.js"></script>
+        <script src="~/js/portalapp/services/breadcrumbservice.js"></script>
+        <script src="~/js/portalapp/services/userprofileservice.js"></script>
+        <script src="~/lib/angular-chart.js/dist/angular-chart.js"></script>
+        <script src="~/js/portalapp/factories/apifactory.js"></script>
+        <script src="~/js/portalapp/services/sidebarstateservice.js"></script>
+        <script src="~/js/portalapp/controllers/layoutctrl.js"></script>
+        <script src="~/js/portalapp/controllers/homectrl.js"></script>
+        <script src="~/js/portalapp/controllers/managectrl.js"></script>
+        <script src="~/js/portalapp/controllers/shopctrl.js"></script>
+        <script src="~/js/portalapp/controllers/statisticsctrl.js"></script>
+        <script src="~/js/portalapp/controllers/messagesctrl.js"></script>
+
+        <!--plugins.js - Some Specific JS codes for Plugin Settings-->
+        <script src="~/js/Dashboard/custom-sidenav-shrink-helper.js"></script>
+        <script type="text/javascript" src="~/js/Dashboard/plugins.js"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <!-- jQuery Library -->
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery">
+        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.5.2/angular-messages.min.js"></script>
+
+        <!--materialize js-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+        <script src="~/js/portal.min.js" asp-append-version="true"></script>
+    </environment>
 
     @RenderSection("scripts", required: false)
-   
+
 </body>
 </html>

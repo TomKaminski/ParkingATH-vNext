@@ -94,7 +94,7 @@ a {
 }
 
 .smart-block-title {
-    font-weight: 800;
+    font-weight: 500;
 }
 
 .smart-block-subtitle {
@@ -186,7 +186,7 @@ a {
     text-align: center;
 
     h1 {
-        font-weight: 800;
+        font-weight: 600;
         font-size: 100px;
         margin: 5px 0;
     }
@@ -358,6 +358,11 @@ a {
     background: #222;
 }
 
+
+li > a.portal-link{
+    font-weight: bold;
+    font-size: 20px !important;
+}
 /* ---------------------------------------------- /*
  * Scroll to top
 /* ---------------------------------------------- */
@@ -523,7 +528,7 @@ a {
         }
 
         h2 {
-            font-size: 50px;
+            font-size: 45px;
         }
     }
 
@@ -560,7 +565,7 @@ a {
     #home .text {
         h1 {
             font-weight: 600;
-            font-size: 50px;
+            font-size: 45px;
         }
 
         .start {
@@ -596,3 +601,5 @@ a {
         font-size: 12px;
     }
 }
+
+

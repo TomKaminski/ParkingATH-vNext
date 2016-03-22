@@ -1,20 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using ParkingATHWeb.Contracts.Common;
 using ParkingATHWeb.Contracts.DTO.Payments;
+using ParkingATHWeb.Contracts.Services;
 using ParkingATHWeb.Contracts.Services.Payments;
 
 namespace ParkingATHWeb.Business.Services.Payments
 {
     public class PaymentAuthorizeService : IPaymentAuthorizeService
     {
-        private const string AuthorizeAddress = "https://secure.payu.com/pl/standard/user/oauth/authorize";
-        private const string RequestContentType = "application/x-www-form-urlencoded";
-        private const string POS_ID = "145227";
-        private const string OAuthClientSecret = "12f071174cb7eb79d4aac5bc2f07563f";
+
+        private readonly PaymentSettings _paymentSettings;
+
+        public PaymentAuthorizeService(IAppSettingsProvider appSettingsProvider)
+        {
+            _paymentSettings = appSettingsProvider.GetPaymentSettings();
+        }
 
 
         public async Task<ServiceResult<PaymentAuthorizationResponse>> GetAuthorizeTokenAsync()
@@ -24,11 +28,12 @@ namespace ParkingATHWeb.Business.Services.Payments
                 AllowAutoRedirect = false
             }))
             {
+                client.BaseAddress = new Uri(_paymentSettings.HostAddress);
                 var postData = GetRequestBodyForAuthorization();
 
                 HttpContent requestBody = new FormUrlEncodedContent(postData);
 
-                var response = await client.PostAsync(AuthorizeAddress, requestBody);
+                var response = await client.PostAsync(_paymentSettings.AuthorizeEndpoint, requestBody);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -36,17 +41,17 @@ namespace ParkingATHWeb.Business.Services.Payments
                     var result = JsonConvert.DeserializeObject<PaymentAuthorizationResponse>(stringResult);
                     return ServiceResult<PaymentAuthorizationResponse>.Success(result);
                 }
-                return ServiceResult<PaymentAuthorizationResponse>.Failure("Error");
+                return ServiceResult<PaymentAuthorizationResponse>.Failure(response.ReasonPhrase);
             }
         }
 
-        private static IEnumerable<KeyValuePair<string, string>> GetRequestBodyForAuthorization()
+        private IEnumerable<KeyValuePair<string, string>> GetRequestBodyForAuthorization()
         {
             return new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("grant_type", "client_credentials"),
-                    new KeyValuePair<string, string>("client_id", POS_ID),
-                    new KeyValuePair<string, string>("client_secret", OAuthClientSecret)
+                    new KeyValuePair<string, string>("client_id", _paymentSettings.PosID),
+                    new KeyValuePair<string, string>("client_secret", _paymentSettings.OAuthClientSecret)
                 };
         }
     }

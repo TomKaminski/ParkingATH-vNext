@@ -5,13 +5,13 @@ using AutoMapper;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
 using ParkingATHWeb.Areas.Portal.Controllers.Base;
+using ParkingATHWeb.Areas.Portal.ViewModels;
 using ParkingATHWeb.Areas.Portal.ViewModels.Chart;
 using ParkingATHWeb.Areas.Portal.ViewModels.Weather;
 using ParkingATHWeb.Contracts.DTO.Chart;
 using ParkingATHWeb.Contracts.Services;
 using ParkingATHWeb.Infrastructure.Attributes;
 using ParkingATHWeb.Shared.Enums;
-using ParkingATHWeb.Shared.Helpers;
 
 namespace ParkingATHWeb.Areas.Portal.Controllers
 {
@@ -38,9 +38,23 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         }
 
         [Route("~/[area]")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool fromShop = false, bool isError = false)
         {
-            return View((await _portalMessageService.GetUnreadClustersCountAsync(CurrentUser.UserId.Value)).Result);
+            var unreadClusters =
+                (await _portalMessageService.GetUnreadClustersCountAsync(CurrentUser.UserId.Value)).Result;
+
+            return View(new HomeViewModel
+            {
+                FromShop = fromShop,
+                UnreadClustersCount = unreadClusters,
+                IsError = isError
+            });
+        }
+
+        [Route("~/Thanks")]
+        public IActionResult ShopContinue(string error = null)
+        {
+            return RedirectToActionPermanent("Index", new { fromShop = true, isError = error != null });
         }
 
         [Route("~/[area]/Dashboard")]

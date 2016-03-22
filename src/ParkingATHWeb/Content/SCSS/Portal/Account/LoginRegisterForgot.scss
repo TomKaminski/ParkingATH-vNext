@@ -141,4 +141,39 @@ h2 img {
     html body .main-container img {
         width: 60%;
     }
+
+    .smart-form-btn{
+        margin-top:10px;
+        margin-bottom:10px;
+    }
+}
+
+
+.btn:hover, .btn-large:hover,button:focus{
+    background: #4a86c5;
+}
+
+
+input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]), input[type=email]:focus:not([readonly]), input[type=url]:focus:not([readonly]), input[type=time]:focus:not([readonly]), input[type=date]:focus:not([readonly]), input[type=datetime-local]:focus:not([readonly]), input[type=tel]:focus:not([readonly]), input[type=number]:focus:not([readonly]), input[type=search]:focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #4a86c5;
+    box-shadow: 0 1px 0 0 #4a86c5;
+}
+
+input:not([type]):focus:not([readonly])+label, input[type=text]:focus:not([readonly])+label, input[type=password]:focus:not([readonly])+label, input[type=email]:focus:not([readonly])+label, input[type=url]:focus:not([readonly])+label, input[type=time]:focus:not([readonly])+label, input[type=date]:focus:not([readonly])+label, input[type=datetime-local]:focus:not([readonly])+label, input[type=tel]:focus:not([readonly])+label, input[type=number]:focus:not([readonly])+label, input[type=search]:focus:not([readonly])+label, textarea.materialize-textarea:focus:not([readonly])+label {
+    color: #4a86c5;
+}
+
+[type="checkbox"]:checked+label:before {
+    border-right: 2px solid #4a86c5;
+    border-bottom: 2px solid #4a86c5;
+
+}
+
+[type="checkbox"].filled-in:checked+label:after {
+    border: 2px solid #4a86c5;
+    background-color: #4a86c5;
+}
+
+.toast {
+    background-color: #ea454b;
 }

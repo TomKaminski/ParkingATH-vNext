@@ -33,7 +33,11 @@ namespace ParkingATHWeb.Model
             }
             else
             {
+#if DEBUG
                 optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ParkingATHWeb.Data;Trusted_Connection=True;MultipleActiveResultSets=true");
+#else
+                optionsBuilder.UseSqlServer(@"Server=tcp:smartpark.database.windows.net,1433;Database=SmartPark;User ID=smartpark@smartpark;Password=J5cdmwg6tpm1;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30");
+#endif
             }
         }
 

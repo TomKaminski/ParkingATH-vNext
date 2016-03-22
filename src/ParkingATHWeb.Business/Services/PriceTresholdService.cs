@@ -30,7 +30,7 @@ namespace ParkingATHWeb.Business.Services
 
         public override async Task<ServiceResult<IEnumerable<PriceTresholdBaseDto>>> GetAllAsync()
         {
-            var allAsync = await base.GetAllAsync();
+            var allAsync = await base.GetAllAsync(x=>!x.IsDeleted);
             if (!allAsync.Result.Any())
             {
                 _repository.Add(new PriceTreshold
@@ -40,7 +40,7 @@ namespace ParkingATHWeb.Business.Services
                 });
                 await _unitOfWork.CommitAsync();
             }
-            return ServiceResult<IEnumerable<PriceTresholdBaseDto>>.Success(_repository.GetAll().OrderBy(x => x.MinCharges).Select(_mapper.Map<PriceTresholdBaseDto>));
+            return ServiceResult<IEnumerable<PriceTresholdBaseDto>>.Success(_repository.GetAll(x=>!x.IsDeleted).OrderBy(x => x.MinCharges).Select(_mapper.Map<PriceTresholdBaseDto>));
         }
 
         public ServiceResult<IEnumerable<PriceTresholdAdminDto>> GetAllAdmin()
@@ -58,6 +58,24 @@ namespace ParkingATHWeb.Business.Services
             return ServiceResult<IEnumerable<PriceTresholdAdminDto>>
                 .Success(_repository.Include(x => x.Orders).Where(lambda)
                 .Select(_mapper.Map<PriceTresholdAdminDto>));
+        }
+
+        public override async Task<ServiceResult> DeleteAsync(int id)
+        {
+            var obj = await _repository.FindAsync(id);
+            obj.IsDeleted = true;
+            _repository.Edit(obj);
+            await _unitOfWork.CommitAsync();
+            return ServiceResult.Success();
+        }
+
+        public override ServiceResult Delete(int id)
+        {
+            var obj = _repository.Find(id);
+            obj.IsDeleted = true;
+            _repository.Edit(obj);
+            _unitOfWork.Commit();
+            return ServiceResult.Success();
         }
     }
 }

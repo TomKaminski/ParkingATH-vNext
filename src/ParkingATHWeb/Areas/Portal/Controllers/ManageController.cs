@@ -21,7 +21,7 @@ using ParkingATHWeb.Shared.Enums;
 namespace ParkingATHWeb.Areas.Portal.Controllers
 {
     [Area("Portal")]
-    [Route("[area]/Konto")]
+    [Route("[area]/Account")]
     [Authorize]
     public class ManageController : BaseController
     {
@@ -47,6 +47,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         }
 
         [Route("GetSettingsIndexData")]
+        [ValidateAntiForgeryTokenFromHeader]
         public async Task<IActionResult> GetSettingsIndexData()
         {
             var serviceResult = await _userService.GetUserDataWithLastGateUsage(CurrentUser.UserId.Value);

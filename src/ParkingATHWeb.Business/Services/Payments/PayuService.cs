@@ -24,13 +24,16 @@ namespace ParkingATHWeb.Business.Services.Payments
         private readonly IPaymentAuthorizeService _paymentAuthorizeService;
         private readonly IPriceTresholdRepository _pricesRepository;
         private readonly IOrderService _orderService;
+        private readonly PaymentSettings _paymentSettings;
+
 
         public PayuService(IPaymentAuthorizeService paymentAuthorizeService, IPriceTresholdRepository pricesRepository,
-            IOrderService orderService)
+            IOrderService orderService, IAppSettingsProvider appSettingsProvider)
         {
             _paymentAuthorizeService = paymentAuthorizeService;
             _pricesRepository = pricesRepository;
             _orderService = orderService;
+            _paymentSettings = appSettingsProvider.GetPaymentSettings();
         }
 
         public async Task<ServiceResult<PaymentResponse>> ProcessPaymentAsync(PaymentRequest request, int userId, OrderPlace orderPlace)
@@ -43,16 +46,17 @@ namespace ParkingATHWeb.Business.Services.Payments
                     AllowAutoRedirect = false
                 }))
                 {
+                    client.BaseAddress = new Uri(_paymentSettings.HostAddress);
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
                         authServiceResult.Result.access_token);
 
                     var orderPaymentInfo = await PrepareCompletePayuRequestAsync(request);
                     var requestBody = JsonConvert.SerializeObject(request);
 
-                    var response = await client.PostAsync(HostAddress,
+                    var response = await client.PostAsync(_paymentSettings.OrderCreateEndpoint,
                                 new StringContent(requestBody, Encoding.UTF8, "application/json"));
 
-                    if (response.IsSuccessStatusCode && response.StatusCode == HttpStatusCode.Found)
+                    if (response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.Found)
                     {
                         var responseObj = JsonConvert.DeserializeObject<PaymentResponse>(await response.Content.ReadAsStringAsync());
                         await CreateNewOrderAsync(request, userId, orderPlace, orderPaymentInfo);
@@ -61,10 +65,10 @@ namespace ParkingATHWeb.Business.Services.Payments
                             return ServiceResult<PaymentResponse>.Success(responseObj);
                         }
                     }
-                    return ServiceResult<PaymentResponse>.Failure("Error from payu");
+                    return ServiceResult<PaymentResponse>.Failure(response.ReasonPhrase);
                 }
             }
-            return ServiceResult<PaymentResponse>.Failure("Error from payu");
+            return ServiceResult<PaymentResponse>.Failure(authServiceResult.ValidationErrors);
         }
 
         private async Task<OrderPaymentInfo> PrepareCompletePayuRequestAsync(PaymentRequest request)
@@ -72,14 +76,15 @@ namespace ParkingATHWeb.Business.Services.Payments
             var product = request.products.First();
 
             var priceTreshold =
-                (await _pricesRepository.GetAllAsync(x => x.MinCharges <= Convert.ToInt32(product.quantity)))
+                (await _pricesRepository.GetAllAsync(x => x.MinCharges <= Convert.ToInt32(product.quantity) && !x.IsDeleted))
                     .OrderByDescending(x => x.MinCharges).First();
 
             var totalPrice = (priceTreshold.PricePerCharge * Convert.ToInt32(product.quantity));
 
-            product.unitPrice = (priceTreshold.PricePerCharge * 100).ToString(CultureInfo.InvariantCulture);
+            product.unitPrice = (priceTreshold.PricePerCharge * 100).ToString("####");
             request.extOrderId = (await _orderService.GenerateExternalOrderIdAsync()).Result.ToString();
-            request.totalAmount = (totalPrice * 100).ToString(CultureInfo.InvariantCulture);
+            request.totalAmount = (totalPrice * 100).ToString("####");
+            request.merchantPosId = _paymentSettings.PosID;
 
             return new OrderPaymentInfo
             {

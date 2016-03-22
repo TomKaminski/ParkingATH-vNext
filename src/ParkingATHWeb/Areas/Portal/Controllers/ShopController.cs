@@ -15,7 +15,7 @@ using ParkingATHWeb.Infrastructure.Attributes;
 namespace ParkingATHWeb.Areas.Portal.Controllers
 {
     [Area("Portal")]
-    [Route("[area]/Sklep")]
+    [Route("[area]/Shop")]
     [Authorize]
     public class ShopController : BaseController
     {

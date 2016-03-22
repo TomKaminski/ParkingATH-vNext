@@ -1,7 +1,8 @@
 ﻿{
   "Data": {
     "DefaultConnection": {
-      "ConnectionString": "Server=(localdb)\\mssqllocaldb;Database=ParkingATHWeb.Data;Trusted_Connection=True;MultipleActiveResultSets=true"
+      "ConnectionString": "Server=(localdb)\\mssqllocaldb;Database=ParkingATHWeb.Data;Trusted_Connection=True;MultipleActiveResultSets=true",
+      "AzureConnectionString": "Server=tcp:smartpark.database.windows.net,1433;Database=SmartPark;User ID=smartpark@smartpark;Password=J5cdmwg6tpm1;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30"
     }
   },
   "Settings": {
@@ -28,5 +29,13 @@
   "TokenAuth": {
     "TokenAudience": "SmartParkAudience",
     "TokenIssuer": "SmartParkIssuer"
+  },
+  "PayUSettings": {
+    "HostAddress": "https://secure.payu.com/",
+    "OrderCreateEndpoint": "api/v2_1/orders",
+    "AuthorizeEndpoint": "pl/standard/user/oauth/authorize",
+    "PosID": "145227",
+    "OAuthClientSecret": "12f071174cb7eb79d4aac5bc2f07563f",
+    "ClientSecondKey": "TODO"
   }
 }

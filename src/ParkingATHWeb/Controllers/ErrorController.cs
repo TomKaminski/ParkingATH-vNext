@@ -12,7 +12,7 @@ namespace ParkingATHWeb.Controllers
             switch (statusCode)
             {
                 case (int)HttpStatusCode.NotFound:
-                    return RedirectToAction("NotFound");
+                    return RedirectToAction("Index", "Home", new { area = "Portal" });
 
                 case (int)HttpStatusCode.InternalServerError:
                 default:

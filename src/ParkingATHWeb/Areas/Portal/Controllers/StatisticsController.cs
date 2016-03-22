@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNet.Authorization;
@@ -9,7 +7,6 @@ using ParkingATHWeb.ApiModels.Base;
 using ParkingATHWeb.Areas.Portal.Controllers.Base;
 using ParkingATHWeb.Areas.Portal.ViewModels.Chart;
 using ParkingATHWeb.Contracts.DTO.Chart;
-using ParkingATHWeb.Contracts.DTO.UserPreferences;
 using ParkingATHWeb.Contracts.Services;
 using ParkingATHWeb.Infrastructure.Attributes;
 using ParkingATHWeb.Shared.Enums;
@@ -17,19 +14,17 @@ using ParkingATHWeb.Shared.Enums;
 namespace ParkingATHWeb.Areas.Portal.Controllers
 {
     [Area("Portal")]
-    [Route("[area]/Statystyki")]
+    [Route("[area]/[controller]")]
     [Authorize]
     public class StatisticsController : BaseController
     {
         private readonly IMapper _mapper;
         private readonly IChartService _chartService;
-        private readonly IUserPreferencesService _userPreferencesService;
 
-        public StatisticsController(IChartService chartService, IMapper mapper, IUserPreferencesService userPreferencesService)
+        public StatisticsController(IChartService chartService, IMapper mapper)
         {
             _chartService = chartService;
             _mapper = mapper;
-            _userPreferencesService = userPreferencesService;
         }
 
         [Route("")]

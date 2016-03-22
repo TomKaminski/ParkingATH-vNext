@@ -1,5 +1,4 @@
-﻿@using System
-@{
+﻿@{
     Layout = null;
 }
 
@@ -24,8 +23,6 @@
     <link rel="icon" type="image/png" sizes="16x16" href="~/favicon/favicon-16x16.png">
     <link rel="manifest" href="~/favicon/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="~/favicon/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
@@ -35,12 +32,19 @@
         <link rel="stylesheet" href="~/css/welcomePage.css" />
     </environment>
     <environment names="Staging,Production">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+              integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+              crossorigin="anonymous"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/welcomePage.css" />
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.2.4/css/simple-line-icons.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
+
+        <link rel="stylesheet" href="~/css/wlcm.min.css" asp-append-version="true" />
     </environment>
-    <script src="~/js/modernizr.custom.js"></script>
+
 </head>
 <body>
     <!-- Preloader -->
@@ -86,7 +90,7 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" asp-action="Index" asp-controller="Welcome">
-                        <img src="~/images/logotyp_standard.png" alt="Logotyp smartPark" target="blank"/>
+                        <img src="~/images/logotyp_standard.png" alt="Logotyp smartPark" target="blank" />
                     </a>
                     <a class="navbar-brand" href="http://www.reset.ath.bielsko.pl">
                         <img src="~/images/logo_reset.svg" alt="Logo RESET" />
@@ -97,7 +101,7 @@
                         <li><a href="#about" data-toggle="collapse" data-target="#custom-collapse.in">O SYSTEMIE</a></li>
                         <li><a href="#howitworks" data-target="#custom-collapse.in" data-toggle="collapse">JAK TO DZIAŁA?</a></li>
                         <li><a href="#author" data-toggle="collapse" data-target="#custom-collapse.in">TWÓRCY</a></li>
-                        <li><a asp-action="Index" asp-controller="Home" asp-route-area="Portal"><b>SKORZYSTAJ!</b></a></li>
+                        <li><a asp-action="Index" asp-controller="Home" asp-route-area="Portal" class="portal-link">SKORZYSTAJ!</a></li>
                     </ul>
                 </div>
             </div><!-- .container -->
@@ -245,13 +249,13 @@
                     <img src="~/images/infografika/timeline1.png" class="img-responsive" />
                 </div>
                 <div class="col-xs-3 col-md-2 wow fadeIn" data-wow-delay="2s">
-                    <img src="~/images/infografika/timeline2.png" class="img-responsive"/>
+                    <img src="~/images/infografika/timeline2.png" class="img-responsive" />
                 </div>
                 <div class="col-xs-3 col-md-2 wow fadeIn" data-wow-delay="3s">
                     <img src="~/images/infografika/timeline3.png" class="img-responsive" />
                 </div>
                 <div class="col-xs-3 col-md-2 wow fadeIn" data-wow-delay="4s">
-                    <img src="~/images/infografika/timeline4.png" class="img-responsive"/>
+                    <img src="~/images/infografika/timeline4.png" class="img-responsive" />
                 </div>
             </div>
             <div class="row text-center row-timeline">
@@ -293,7 +297,7 @@
                 </div>
             </div>
             <div class="row text-center">
-                <div class="col-md-4 col-md-offset-0 col-xs-8 col-xs-offset-2 author-box">
+                <div class="col-md-4 col-md-offset-0 col-xs-12 author-box">
                     <img src="~/images/tomek_400x400.png" />
                     <h4>
                         inż. Tomasz Kamiński<br /><br /><b>AUTOR</b><br /><br />twórca smartPARK, odpowiedzialny za działanie całego systemu, jego niezawodność oraz innowacyjność.
@@ -302,7 +306,7 @@
                     <h5 class="smart-grey">kontakt</h5>
                     <h4 class="smart-grey">tkaminski93@gmail.com</h4>
                 </div>
-                <div class="col-md-4 col-md-offset-0 col-xs-8 col-xs-offset-2 author-box">
+                <div class="col-md-4 col-md-offset-0 col-xs-12 author-box">
                     <img src="~/images/kasia_400x400.png" />
                     <h4>
                         inż. Katarzyna Jasiewicz<br /><br /><b>DESIGNER</b><br /><br />twórca logo oraz nazwy systemu, odpowiedzialna za oprawę graficzną oraz wszystko co widzi użytkownik.
@@ -311,7 +315,7 @@
                     <h5 class="smart-grey">kontakt</h5>
                     <h4 class="smart-grey">katarzynajasiewicz.93@gmail.com</h4>
                 </div>
-                <div class="col-md-4 col-md-offset-0 col-xs-8 col-xs-offset-2 author-box">
+                <div class="col-md-4 col-md-offset-0 col-xs-12 author-box">
                     <img src="~/images/szymon_400x400.png" />
                     <h4>
                         dr inż. Szymon Tengler<br /><br /><b>PROMOTOR</b><br /><br />promotor pracy inżynierskiej,<br /> opiekun Koła RESET oraz opiekun systemu.
@@ -352,7 +356,7 @@
                     <ul class="social-links margin-bottom-25">
                         <li><a target="blank" href="https://facebook.com" class="wow fadeInUp"><i class="fa fa-facebook"></i></a></li>
                         <li><a target="blank" href="https://twitter.com" class="wow fadeInUp" data-wow-delay=".1s"><i class="fa fa-twitter"></i></a></li>
-                    </ul> 
+                    </ul>
                     <ul class="list-inline footer-list">
                         <li><a href="">O SYSTEMIE</a></li>
                         <li><a href="">JAK TO DZIAŁA?</a></li>
@@ -361,7 +365,7 @@
                         <li><a href="">FAQ</a></li>
                     </ul>
                     <p class="copyright">
-                        <span>&copy;</span> COPYRIGHT BY smartPARKING @DateTime.Now.Year
+                        <span>&copy;</span> COPYRIGHT BY smartPark @DateTime.Now.Year
                     </p>
                 </div>
             </div><!-- .row -->
@@ -372,7 +376,6 @@
     <div class="scroll-up">
         <a href="#home"><i class="fa fa-angle-up"></i></a>
     </div>
-
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
@@ -384,15 +387,18 @@
         <script src="~/js/welcomePage.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"
+
+        <script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"
                 asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery">
-        </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
-        </script>
-        <script src="~/js/welcomePage.js" asp-append-version="true"></script>
+                asp-fallback-test="window.jQuery"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-parallax/1.1.3/jquery-parallax-min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.sticky/1.0.3/jquery.sticky.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/10.0.0/js/smooth-scroll.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.0/jquery.waypoints.min.js"></script>
+
+        <script src="~/js/wlcm.min.js" asp-append-version="true"></script>
     </environment>
 </body>
 </html>

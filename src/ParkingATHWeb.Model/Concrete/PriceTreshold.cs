@@ -11,6 +11,7 @@ namespace ParkingATHWeb.Model.Concrete
         }
         public int MinCharges { get; set; }
         public decimal PricePerCharge { get; set; }
+        public bool IsDeleted { get; set; }
 
         public virtual HashSet<Order> Orders { get; set; }
     }

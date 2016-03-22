@@ -1,6 +1,4 @@
-﻿(function ($) {
-
-
+﻿
     $(window).load(function () {
         setTimeout(function () {
             $('#status').fadeOut();
@@ -16,7 +14,7 @@
 		 * Smooth scroll / Scroll To Top
 		/* ---------------------------------------------- */
 
-        $('a[href*=#]').bind("click", function (e) {
+        $('a[href*="#"]').bind("click", function (e) {
 
             var anchor = $(this);
             $('html, body').stop().animate({
@@ -75,5 +73,3 @@
         });
         wow.init();
     });
-
-})(jQuery);

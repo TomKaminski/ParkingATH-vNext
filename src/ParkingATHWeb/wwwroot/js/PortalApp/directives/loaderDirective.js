@@ -1,4 +1,4 @@
-﻿angular.module('portalApp').directive('loader', function ($timeout, $rootScope) {
+﻿angular.module('portalApp').directive('loader',['$timeout', '$rootScope', function ($timeout, $rootScope) {
 
     return {
         restrict: 'E',
@@ -23,4 +23,4 @@
             });
         }
     };
-});
+}]);

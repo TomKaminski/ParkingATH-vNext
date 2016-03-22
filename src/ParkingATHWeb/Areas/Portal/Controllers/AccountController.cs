@@ -16,7 +16,7 @@ using ParkingATHWeb.Shared.Enums;
 namespace ParkingATHWeb.Areas.Portal.Controllers
 {
     [Area("Portal")]
-    [Route("[area]/Konto")]
+    [Route("[area]/[controller]")]
     [Authorize]
     public class AccountController : BaseController
     {

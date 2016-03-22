@@ -6,26 +6,26 @@
         var portalPrefix = "Portal/";
 
         var apiEnum = {
-            SaveSidebarState: "Konto/SaveSidebarState",
+            SaveSidebarState: "Account/SaveSidebarState",
             GetUserChargesData: "Home/GetUserChargesData",
             GetWeatherData: "Home/GetWeatherData",
-            SendQuickMessage: "Wiadomosci/SendQuickMessage",
-            GetSettingsIndexData: "Konto/GetSettingsIndexData",
-            ChangePassword: "Konto/ChangePassword",
-            ChangeEmail: "Konto/ChangeEmail",
-            SendCharges: "Konto/SendCharges",
-            ChangeUserInfo: "Konto/ChangeUserInfo",
-            UploadProfilePhoto: "Konto/UploadProfilePhoto",
-            GetDefaultChartData: "Statystyki/GetDefaultChartData",
-            DeleteProfilePhoto: "Konto/DeleteProfilePhoto",
-            GetChartData: "Statystyki/GetChartData",
-            GetUserMessagesClusters: "Wiadomosci/GetUserMessagesClusters",
-            ReplyPortalMessage: "Wiadomosci/ReplyPortalMessage",
-            FakeDeleteCluster: "Wiadomosci/FakeDeleteCluster",
-            SetDisplayed: "Wiadomosci/SetDisplayed",
-            GetShopPrices: "Sklep/GetPrices",
-            GetUserOrders: "Sklep/GetUserOrders",
-            ProcessPayment: "Platnosci/ProcessPayment"
+            SendQuickMessage: "Message/SendQuickMessage",
+            GetSettingsIndexData: "Account/GetSettingsIndexData",
+            ChangePassword: "Account/ChangePassword",
+            ChangeEmail: "Account/ChangeEmail",
+            SendCharges: "Account/SendCharges",
+            ChangeUserInfo: "Account/ChangeUserInfo",
+            UploadProfilePhoto: "Account/UploadProfilePhoto",
+            GetDefaultChartData: "Statistics/GetDefaultChartData",
+            DeleteProfilePhoto: "Account/DeleteProfilePhoto",
+            GetChartData: "Statistics/GetChartData",
+            GetUserMessagesClusters: "Message/GetUserMessagesClusters",
+            ReplyPortalMessage: "Message/ReplyPortalMessage",
+            FakeDeleteCluster: "Message/FakeDeleteCluster",
+            SetDisplayed: "Message/SetDisplayed",
+            GetShopPrices: "Shop/GetPrices",
+            GetUserOrders: "Shop/GetUserOrders",
+            ProcessPayment: "Payment/ProcessPayment"
         }
 
         function get(apiUrl, options) {
