@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Mvc.ModelBinding;
+using ParkingATHWeb.ApiModels.Base;
 using ParkingATHWeb.Contracts.Common;
 using ParkingATHWeb.Contracts.Services.Base;
 using ParkingATHWeb.ViewModels.Base;
@@ -26,58 +26,76 @@ namespace ParkingATHWeb.Areas.Admin.Controllers.Base
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public virtual IActionResult Create()
-        {
-            return View();
-        }
+        //[HttpGet]
+        //public virtual IActionResult Create()
+        //{
+        //    return View();
+        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public virtual async Task<IActionResult> Create(TCreateViewModel model)
         {
-            var serviceResult = await _entityService.CreateAsync(_mapper.Map<TDto>(model));
-            return ReturnWithModelBase(model, serviceResult, ModelState);
+            if (ModelState.IsValid)
+            {
+                var serviceResult = await _entityService.CreateAsync(_mapper.Map<TDto>(model));
+                return Json(serviceResult.IsValid 
+                    ? SmartJsonResult<TListViewModel>.Success(_mapper.Map<TListViewModel>(serviceResult.Result)) 
+                    : SmartJsonResult.Failure(serviceResult.ValidationErrors));
+            }
+            return Json(SmartJsonResult.Failure(GetModelStateErrors(ModelState)));
         }
 
-        [HttpGet]
-        [Route("{id}")]
-        public virtual async Task<IActionResult> Delete(TKeyType id)
-        {
-            return View(_mapper.Map<TListViewModel>(await _entityService.GetAsync(id)));
-        }
+        //[HttpGet]
+        //[Route("{id}")]
+        //public virtual async Task<IActionResult> Delete(TKeyType id)
+        //{
+        //    return View(_mapper.Map<TListViewModel>(await _entityService.GetAsync(id)));
+        //}
 
         [HttpPost]
         [Route("{id}")]
         [ValidateAntiForgeryToken]
         public virtual async Task<IActionResult> Delete(TDeleteViewModel model)
         {
-            var serviceResult = await _entityService.DeleteAsync(model.Id);
-            return ReturnWithModelBase(model, serviceResult, ModelState);
+            if (ModelState.IsValid)
+            {
+                var serviceResult = await _entityService.DeleteAsync(model.Id);
+                return Json(serviceResult.IsValid
+                    ? SmartJsonResult.Success()
+                    : SmartJsonResult.Failure(serviceResult.ValidationErrors));
+            }
+            return Json(SmartJsonResult.Failure(GetModelStateErrors(ModelState)));
         }
 
-        [HttpGet]
-        [Route("{id}")]
-        public virtual async Task<IActionResult> Edit(TKeyType id)
-        {
-            return View(_mapper.Map<TEditViewModel>(await _entityService.GetAsync(id)));
-        }
+        //[HttpGet]
+        //[Route("{id}")]
+        //public virtual async Task<IActionResult> Edit(TKeyType id)
+        //{
+        //    return View(_mapper.Map<TEditViewModel>(await _entityService.GetAsync(id)));
+        //}
 
         [HttpPost]
         [Route("{id}")]
         [ValidateAntiForgeryToken]
         public virtual async Task<IActionResult> Edit(TEditViewModel model)
         {
-            var serviceResult = await _entityService.EditAsync(_mapper.Map<TDto>(model));
-            return ReturnWithModelBase(model, serviceResult, ModelState);
+            if (ModelState.IsValid)
+            {
+                var serviceResult = await _entityService.EditAsync(_mapper.Map<TDto>(model));
+                return Json(serviceResult.IsValid
+                    ? SmartJsonResult<TListViewModel>.Success(_mapper.Map<TListViewModel>(serviceResult.Result))
+                    : SmartJsonResult.Failure(serviceResult.ValidationErrors));
+            }
+            return Json(SmartJsonResult.Failure(GetModelStateErrors(ModelState)));
         }
 
-        protected IActionResult ReturnWithModelBase<TBaseModel>(TBaseModel model, ServiceResult serviceResult, ModelStateDictionary modelstate, string returnActionName = "List")
-            where TBaseModel : SmartParkBaseViewModel
-        {
-            return serviceResult.IsValid
-                ? RedirectToAction(returnActionName)
-                : ReturnModelWithError(model, serviceResult, modelstate);
-        }
+        //protected IActionResult ReturnWithModelBase<TBaseModel>(TBaseModel model, ServiceResult serviceResult, ModelStateDictionary modelstate, string returnActionName = "List")
+        //    where TBaseModel : SmartParkBaseViewModel
+        //{
+        //    return serviceResult.IsValid
+        //        ? RedirectToAction(returnActionName)
+        //        : ReturnModelWithError(model, serviceResult, modelstate);
+        //}
     }
 }

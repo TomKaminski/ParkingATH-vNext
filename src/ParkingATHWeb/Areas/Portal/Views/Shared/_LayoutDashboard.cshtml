@@ -35,13 +35,9 @@
     <meta name="theme-color" content="#ffffff">
 
     <environment names="Development">
-        <!-- For Windows Phone -->
-        <!-- CORE CSS-->
         <link href="~/css/Dashboard/materialize.css" type="text/css" rel="stylesheet" media="screen,projection">
         <link href="~/css/Dashboard/style.css" type="text/css" rel="stylesheet" media="screen,projection">
-        <!-- Custome CSS-->
         <link href="~/css/Dashboard/custom/custom.css" type="text/css" rel="stylesheet" media="screen,projection">
-        <!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
         <link href="~/js/Dashboard/plugins/perfect-scrollbar/perfect-scrollbar.css" type="text/css" rel="stylesheet" media="screen,projection">
         <link href="~/js/Dashboard/plugins/dropify/css/dropify.css" type="text/css" rel="stylesheet" media="screen,projection">
         <link href="~/js/dashboard/plugins/ionrangeslider/css/ion.rangeslider.css" rel="stylesheet" />
@@ -53,6 +49,17 @@
     </environment>
 
     @RenderSection("styles", required: false)
+
+    <script type="text/javascript">
+        var appInsights = window.appInsights || function (config) {
+            function r(config) { t[config] = function () { var i = arguments; t.queue.push(function () { t[config].apply(t, i) }) } } var t = { config: config }, u = document, e = window, o = "script", s = u.createElement(o), i, f; for (s.src = config.url || "//az416426.vo.msecnd.net/scripts/a/ai.0.js", u.getElementsByTagName(o)[0].parentNode.appendChild(s), t.cookie = u.cookie, t.queue = [], i = ["Event", "Exception", "Metric", "PageView", "Trace"]; i.length;) r("track" + i.pop()); return r("setAuthenticatedUserContext"), r("clearAuthenticatedUserContext"), config.disableExceptionTracking || (i = "onerror", r("_" + i), f = e[i], e[i] = function (config, r, u, e, o) { var s = f && f(config, r, u, e, o); return s !== !0 && t["_" + i](config, r, u, e, o), s }), t
+        }({
+            instrumentationKey: "6d0c7782-3256-4917-8443-97985c497126"
+        });
+
+        window.appInsights = appInsights;
+        appInsights.trackPageView();
+    </script>
 </head>
 <body ng-controller="layoutCtrl as layoutCtrl" ng-cloak ng-init="layoutCtrl.init('@userState.SidebarShrinked','@userState.Name','@userState.LastName','@userState.PhotoId','@Model.UnreadClustersCount','@Model.FromShop','@Model.IsError')" request-verification-token="@Html.RequestVerificationToken()">
     <!-- Start Page Loading -->
@@ -149,9 +156,24 @@
                         </a>
                         <span class="badge new" ng-if="layoutCtrl.getUnreadMessages() !== 0">{{layoutCtrl.getUnreadMessages()}}</span>
                     </li>
-                    <li class="bold nav-border" style="margin-bottom: 60px;">
+                    <li class="bold nav-border" style="margin-bottom: @(userState.IsAdmin?"0px":"60px");">
                         <a class="waves-effect waves-cyan toggle-side-nav-shrinked" ng-click="layoutCtrl.changeSidebarState()"><i class="material-icons">compare_arrows</i> <span>Zwiń</span></a>
                     </li>
+                    @if (userState.IsAdmin)
+                    {
+                        <li class="bold nav-border">
+                            <a ui-sref="adminUsers" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'adminUsers'}"><i class="material-icons">group</i> <span>Użytkownicy</span></a>
+                        </li>
+                        <li class="bold nav-border">
+                            <a ui-sref="adminOrders" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'adminOrders'}"><i class="material-icons">credit_card</i> <span>Zamówienia</span></a>
+                        </li>
+                        <li class="bold nav-border">
+                            <a ui-sref="adminPrices" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'admin.Prices'}"><i class="material-icons">assignment</i> <span>Cennik</span></a>
+                        </li>
+                        <li class="bold nav-border" style="margin-bottom: 60px">
+                            <a ui-sref="adminGateusages" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'admineGateusages'}"><i class="material-icons">swap_vert</i> <span>Otwarcia bramy</span></a>
+                        </li>
+                    }
                 </ul>
                 <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only" style="background:#4b85c5"><i class="material-icons">menu</i></a>
             </aside>
@@ -263,6 +285,10 @@
         <script src="~/js/portalapp/controllers/shopctrl.js"></script>
         <script src="~/js/portalapp/controllers/statisticsctrl.js"></script>
         <script src="~/js/portalapp/controllers/messagesctrl.js"></script>
+        <script src="~/js/portalapp/controllers/adminuserctrl.js"></script>
+        <script src="~/js/portalapp/controllers/adminordersctrl.js"></script>
+        <script src="~/js/portalapp/controllers/admingateusagectrl.js"></script>
+        <script src="~/js/portalapp/controllers/adminpricectrl.js"></script>
 
         <!--plugins.js - Some Specific JS codes for Plugin Settings-->
         <script src="~/js/Dashboard/custom-sidenav-shrink-helper.js"></script>

@@ -37,6 +37,11 @@
                         outerBreadcrumb.displayName = 'Wiadomości';
                         break;
                     }
+                    default:
+                    {
+                        outerBreadcrumb.displayName = name;
+                        break;
+                    }
             }
         }
 

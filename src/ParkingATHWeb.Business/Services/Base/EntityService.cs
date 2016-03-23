@@ -165,18 +165,18 @@ namespace ParkingATHWeb.Business.Services.Base
             return ServiceResult.Success();
         }
 
-        public virtual async Task<ServiceResult> EditAsync(TDto entity)
+        public virtual async Task<ServiceResult<TDto>> EditAsync(TDto entity)
         {
             var obj = await _repository.FindAsync(entity.Id);
             if (obj == null)
             {
-                return ServiceResult.Failure(new List<string> { "Nie znaleziono pasującego elementu." });
+                return ServiceResult<TDto>.Failure(new List<string> { "Nie znaleziono pasującego elementu." });
             }
 
             obj = MapperHelper<TDto, TEntity>.MapNoIdToEntityOnEdit(entity, obj);
             _repository.Edit(obj);
             await _unitOfWork.CommitAsync();
-            return ServiceResult.Success();
+            return ServiceResult<TDto>.Success(_mapper.Map<TDto>(obj));
         }
 
         public virtual async Task<ServiceResult> EditManyAsync(IList<TDto> entities)

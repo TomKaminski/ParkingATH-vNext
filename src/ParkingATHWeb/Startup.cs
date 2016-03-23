@@ -76,7 +76,10 @@ namespace ParkingATHWeb
             #endregion
 
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc().AddMvcOptions(options =>
+            {
+                options.Filters.Add(new AiHandleErrorAttribute());
+            });
 
             // Create the Autofac container builder.
             var builder = new ContainerBuilder();

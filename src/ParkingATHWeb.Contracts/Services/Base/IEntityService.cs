@@ -36,7 +36,8 @@ namespace ParkingATHWeb.Contracts.Services.Base
         Task<ServiceResult<TDto>> CreateAsync(TDto entity);
         Task<ServiceResult> CreateManyAsync(IEnumerable<TDto> entities);
 
-        Task<ServiceResult> EditAsync(TDto entity);
+        Task<ServiceResult<TDto>> EditAsync(TDto entity);
+
         Task<ServiceResult> EditManyAsync(IList<TDto> entities);
 
         Task<ServiceResult> DeleteAsync(TDto entity);

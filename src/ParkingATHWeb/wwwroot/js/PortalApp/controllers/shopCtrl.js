@@ -73,19 +73,16 @@
                   loadingContentService.setIsLoading('buyChargesLoader', true);
               },
               function (data) {
-                  debugger;
                   console.log(data);
                   window.location.replace(data.Result.RedirectUri);
               },
               function (data) {
                   console.log(data);
-                  debugger;
                   self.disableButton = false;
                   loadingContentService.setIsLoading('buyChargesLoader', false);
                   notificationService.showNotifications(data);
               },
               function () {
-                  debugger;
                   self.disableButton = false;
                   loadingContentService.setIsLoading('buyChargesLoader', false);
               },

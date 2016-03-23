@@ -93,7 +93,7 @@ gulp.task("min:login:css", function () {
 gulp.task("min:portal:js", function () {
     return gulp.src(paths.portalJsPaths)
         .pipe(concat(paths.concatPortalJsDest))
-        //.pipe(uglify().on('error', gutil.log))
+        .pipe(uglify().on('error', gutil.log))
         .pipe(gulp.dest('.'));
 });
 

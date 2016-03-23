@@ -50,6 +50,30 @@
             templateUrl: '/Portal/Message',
             controller: 'messagesCtrl',
             controllerAs: 'msgCtrl'
+        })
+        .state('adminUsers', {
+            url: '/Admin/Uzytkownicy',
+            templateUrl: '/Admin/AdminUser',
+            controller: 'adminUserCtrl',
+            controllerAs: 'userCtrl'
+        })
+        .state('adminOrders', {
+            url: '/Admin/Zamowienia',
+            templateUrl: '/Admin/AdminOrder',
+            controller: 'adminOrdersCtrl',
+            controllerAs: 'ordersCtrl'
+        })
+        .state('adminPrices', {
+            url: '/Admin/Cennik',
+            templateUrl: '/Admin/AdminPriceTreshold',
+            controller: 'adminPriceCtrl',
+            controllerAs: 'priceCtrl'
+        })
+        .state('adminGateusages', {
+            url: '/Admin/Wyjazdy',
+            templateUrl: '/Admin/AdminGateUsage',
+            controller: 'adminGateUsageCtrl',
+            controllerAs: 'gtCtrl'
         });
 
         $locationProvider.html5Mode(true);

@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNet.Mvc;
+using ParkingATHWeb.ApiModels.Base;
 using ParkingATHWeb.Contracts.Common;
 using ParkingATHWeb.Contracts.Services.Base;
 using ParkingATHWeb.ViewModels.Base;
@@ -23,10 +25,24 @@ namespace ParkingATHWeb.Areas.Admin.Controllers.Base
             _mapper = mapper;
         }
 
+        [Route("~/[area]/[controller]")]
+        public virtual IActionResult Index()
+        {
+            return PartialView();
+        }
+
         [HttpGet]
         public virtual async Task<IActionResult> List()
         {
-            return View((await _entityService.GetAllAsync()).Result.Select(_mapper.Map<TListViewModel>));
+            var serviceResult = await GetAllAsync();
+            return Json(serviceResult.IsValid 
+                ? SmartJsonResult<IEnumerable<TListViewModel>>.Success(serviceResult.Result.Select(_mapper.Map<TListViewModel>)) 
+                : SmartJsonResult<IEnumerable<TListViewModel>>.Failure(serviceResult.ValidationErrors));
+        }
+
+        protected virtual async Task<ServiceResult<IEnumerable<TDto>>> GetAllAsync()
+        {
+            return await _entityService.GetAllAsync();
         }
     }
 }

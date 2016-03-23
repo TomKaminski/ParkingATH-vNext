@@ -13,6 +13,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <SchemaVersion>2.0</SchemaVersion>
+    <ApplicationInsightsResourceId>/subscriptions/c1a3e50d-c3cd-4bd5-8217-529e474a2a05/resourcegroups/SmartPark/providers/microsoft.insights/components/SmartParkATH</ApplicationInsightsResourceId>
   </PropertyGroup>
   <ItemGroup>
     <DnxInvisibleContent Include="bower.json" />
