@@ -53,8 +53,8 @@ namespace ParkingATHWeb.Contracts.Services
 
         Task<ServiceResult<int>> TransferCharges(string senderEmail, string recieverEmail, int numberOfCharges, string password);
 
-        Task<ServiceResult<IEnumerable<UserAdminDto>>> GetAllForAdminAsync();
-        Task<ServiceResult<IEnumerable<UserAdminDto>>> GetAllForAdminAsync(Expression<Func<UserBaseDto, bool>> predicate);
+        Task<ServiceResult<IEnumerable<UserAdminDto>>> GetAllAdminAsync();
+        Task<ServiceResult<IEnumerable<UserAdminDto>>> GetAllAdminAsync(Expression<Func<UserBaseDto, bool>> predicate);
 
         Task<ServiceResult<UserAdminDto>> GetAdminAsync(int id);
         Task<ServiceResult<UserAdminDto>> GetAdminAsync(Expression<Func<UserBaseDto, bool>> predicate);

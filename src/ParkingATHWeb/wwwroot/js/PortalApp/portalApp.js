@@ -55,25 +55,25 @@
             url: '/Admin/Uzytkownicy',
             templateUrl: '/Admin/AdminUser',
             controller: 'adminUserCtrl',
-            controllerAs: 'userCtrl'
+            controllerAs: 'ctrl'
         })
         .state('adminOrders', {
             url: '/Admin/Zamowienia',
             templateUrl: '/Admin/AdminOrder',
             controller: 'adminOrdersCtrl',
-            controllerAs: 'ordersCtrl'
+            controllerAs: 'ctrl'
         })
         .state('adminPrices', {
             url: '/Admin/Cennik',
             templateUrl: '/Admin/AdminPriceTreshold',
             controller: 'adminPriceCtrl',
-            controllerAs: 'priceCtrl'
+            controllerAs: 'ctrl'
         })
         .state('adminGateusages', {
             url: '/Admin/Wyjazdy',
             templateUrl: '/Admin/AdminGateUsage',
             controller: 'adminGateUsageCtrl',
-            controllerAs: 'gtCtrl'
+            controllerAs: 'ctrl'
         });
 
         $locationProvider.html5Mode(true);

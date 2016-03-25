@@ -40,8 +40,6 @@ namespace ParkingATHWeb.Mappings
                 .ForMember(x => x.Range, src => src.MapFrom(y => y.IsAdmin ? "Administrator" : "Użytkownik"))
                 .IgnoreNotExistingProperties();
 
-            CreateMap<UserAdminDto, AdminUserListItemViewModel>().IgnoreNotExistingProperties();
-
             CreateMap<WeatherDto, WeatherDataViewModel>()
                 .ForMember(x => x.DateOfRead, opt => opt.MapFrom(src => src.DateOfRead.ToString("dd MMMM yyyy")))
                 .ForMember(x => x.HourOfRead, opt => opt.MapFrom(src => src.DateOfRead.Hour))

@@ -1,1 +1,58 @@
-﻿ADMIN USER
+﻿<div class="col s12 m12 l12 xl7 margin-bottom-50">
+    <div class="card">
+        <div class="card-content">
+            <p class="card-title grey-text text-darken-4">
+                Użytkownicy
+            </p>
+            <p class="margin-bottom-20"><b>Ta sekcja pozwoli ci na zarządzanie użytkownikami. Zawiera ona listę wszystkich użytkowników, po przejsciu w szczegóły danego użytkownika dostajesz możliwość edycji jego danych oraz wykonania wielu czynności administracyjych (np. zmiana hasła bądź zablokowanie konta).</b></p>
+            <div>
+                <card-loader style="background: white;" loadname="getUserListLoader"></card-loader>
+                <button class="btn waves-effect waves-light margin-bottom-20" type="submit" name="action" style="background: #4b85c5">
+                    Dodaj nowego użytkownika
+                </button>
+                <table class="responsive-table" id="order-history-table">
+                    <thead>
+                        <tr>
+                            <th>Imię i nazwisko</th>
+                            <th>Ilość zamówień</th>
+                            <th>Ilość wyjazdów</th>
+                            <th>Ilość otworzeń bramy</th>
+                            <th>Ranga</th>
+                            <th>Stan konta</th>
+                            <th>Data dołączenia</th>
+                            <th>Akcje</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="ctrl.filteredList.length===0">
+                                <td colspan="7">
+                                    <p>
+                                        <b>Brak użytkowników spełniających to kryterium.</b>
+                                    </p>
+                                </td>
+                            </tr>
+                        <tr ng-repeat="user in ctrl.filteredList">
+                            <td>{{user.Initials}}</td>
+                            <td>{{user.OrdersCount}}</td>
+                            <td>{{user.Charges}}</td>
+                            <td>{{user.GateUsagesCount}}</td>
+                            <td>{{user.IsAdmin === true ? "Administrator" : "Użytkownik"}}</td>
+                            <td>{{user.IsDeleted === true ? "Konto usunięte" : "Konto aktywne"}}</td>
+                            <td>{{user.CreateDateLabel}}</td>
+                            <td class="hoverable-table-buttons">
+                                <button class="btn waves-effect waves-light" type="submit" name="action" style="background: #4b85c5" ng-click="ctrl.editUser(user.Id)">
+                                    Edytuj
+                                </button>
+                                <button class="btn waves-effect waves-light" type="submit" name="action" style="background: #4b85c5" ng-click="ctrl.userDetails(user.Id)">
+                                    Szczegóły
+                                </button>
+                            </td>
+                            </tr>
+                    </tbody>
+                </table>
+
+                @Html.Partial("_PaginationPartial")
+            </div>
+        </div>
+    </div>
+</div>

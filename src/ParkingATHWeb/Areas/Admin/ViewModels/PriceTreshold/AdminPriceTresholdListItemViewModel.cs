@@ -7,5 +7,6 @@ namespace ParkingATHWeb.Areas.Admin.ViewModels.PriceTreshold
         public int Id { get; set; }
         public int MinCharges { get; set; }
         public decimal PricePerCharge { get; set; }
+        public int NumOfOrders { get; set; }
     }
 }

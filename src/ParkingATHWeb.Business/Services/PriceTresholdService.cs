@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.Data.Entity;
 using ParkingATHWeb.Business.Services.Base;
 using ParkingATHWeb.Contracts.Common;
 using ParkingATHWeb.Contracts.DTO.PriceTreshold;
@@ -58,6 +59,22 @@ namespace ParkingATHWeb.Business.Services
             return ServiceResult<IEnumerable<PriceTresholdAdminDto>>
                 .Success(_repository.Include(x => x.Orders).Where(lambda)
                 .Select(_mapper.Map<PriceTresholdAdminDto>));
+        }
+
+        public async Task<ServiceResult<IEnumerable<PriceTresholdAdminDto>>> GetAllAdminAsync()
+        {
+            return ServiceResult<IEnumerable<PriceTresholdAdminDto>>
+                .Success(
+                    (await _repository.Include(x => x.Orders).ToListAsync()).Select(_mapper.Map<PriceTresholdAdminDto>));
+        }
+
+        public async Task<ServiceResult<IEnumerable<PriceTresholdAdminDto>>> GetAllAdminAsync(Expression<Func<PriceTresholdAdminDto, bool>> predicate)
+        {
+            var param = Expression.Parameter(typeof(PriceTreshold));
+            var result = new CustomExpressionVisitor<PriceTreshold>(param).Visit(predicate.Body);
+            var lambda = Expression.Lambda<Func<PriceTreshold, bool>>(result, param);
+            return ServiceResult<IEnumerable<PriceTresholdAdminDto>>
+                .Success((await _repository.Include(x => x.Orders).Where(lambda).ToListAsync()).Select(_mapper.Map<PriceTresholdAdminDto>));
         }
 
         public override async Task<ServiceResult> DeleteAsync(int id)

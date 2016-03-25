@@ -3,34 +3,36 @@
 
     function apiFactory($http, $q) {
 
-        var portalPrefix = "Portal/";
-
         var apiEnum = {
-            SaveSidebarState: "Account/SaveSidebarState",
-            GetUserChargesData: "Home/GetUserChargesData",
-            GetWeatherData: "Home/GetWeatherData",
-            SendQuickMessage: "Message/SendQuickMessage",
-            GetSettingsIndexData: "Account/GetSettingsIndexData",
-            ChangePassword: "Account/ChangePassword",
-            ChangeEmail: "Account/ChangeEmail",
-            SendCharges: "Account/SendCharges",
-            ChangeUserInfo: "Account/ChangeUserInfo",
-            UploadProfilePhoto: "Account/UploadProfilePhoto",
-            GetDefaultChartData: "Statistics/GetDefaultChartData",
-            DeleteProfilePhoto: "Account/DeleteProfilePhoto",
-            GetChartData: "Statistics/GetChartData",
-            GetUserMessagesClusters: "Message/GetUserMessagesClusters",
-            ReplyPortalMessage: "Message/ReplyPortalMessage",
-            FakeDeleteCluster: "Message/FakeDeleteCluster",
-            SetDisplayed: "Message/SetDisplayed",
-            GetShopPrices: "Shop/GetPrices",
-            GetUserOrders: "Shop/GetUserOrders",
-            ProcessPayment: "Payment/ProcessPayment"
+            SaveSidebarState: "Portal/Account/SaveSidebarState",
+            GetUserChargesData: "Portal/Home/GetUserChargesData",
+            GetWeatherData: "Portal/Home/GetWeatherData",
+            SendQuickMessage: "Portal/Message/SendQuickMessage",
+            GetSettingsIndexData: "Portal/Account/GetSettingsIndexData",
+            ChangePassword: "Portal/Account/ChangePassword",
+            ChangeEmail: "Portal/Account/ChangeEmail",
+            SendCharges: "Portal/Account/SendCharges",
+            ChangeUserInfo: "Portal/Account/ChangeUserInfo",
+            UploadProfilePhoto: "Portal/Account/UploadProfilePhoto",
+            GetDefaultChartData: "Portal/Statistics/GetDefaultChartData",
+            DeleteProfilePhoto: "Portal/Account/DeleteProfilePhoto",
+            GetChartData: "Portal/Statistics/GetChartData",
+            GetUserMessagesClusters: "Portal/Message/GetUserMessagesClusters",
+            ReplyPortalMessage: "Portal/Message/ReplyPortalMessage",
+            FakeDeleteCluster: "Portal/Message/FakeDeleteCluster",
+            SetDisplayed: "Portal/Message/SetDisplayed",
+            GetShopPrices: "Portal/Shop/GetPrices",
+            GetUserOrders: "Portal/Shop/GetUserOrders",
+            ProcessPayment: "Portal/Payment/ProcessPayment",
+            GetAdminUserList: "Admin/AdminUser/List",
+            GetAdminOrderList: "Admin/AdminOrder/List",
+            GetAdminGtList: "Admin/AdminGateUsage/List",
+            GetAdminPricesList: "Admin/AdminPriceTreshold/List"
         }
 
         function get(apiUrl, options) {
             var defered = $q.defer();
-            $http.get(portalPrefix + apiUrl, { params: options })
+            $http.get(apiUrl, { params: options })
                 .success(function (data) {
                     defered.resolve(data);
                 }).error(function () {
@@ -42,14 +44,14 @@
         function post(apiUrl, data, options) {
             var defered = $q.defer();
             if (options != undefined) {
-                $http.post(portalPrefix + apiUrl, data, options)
+                $http.post(apiUrl, data, options)
                     .success(function(data) {
                         defered.resolve(data);
                     }).error(function(err) {
                         defered.reject(err);
                     });
             } else {
-                $http.post(portalPrefix + apiUrl, data)
+                $http.post(apiUrl, data)
                .success(function (data) {
                    defered.resolve(data);
                }).error(function (err) {

@@ -41,7 +41,7 @@ namespace ParkingATHWeb.Business.Providers.Chart
             {
                 UserId = request.UserId,
                 Granuality = request.Granuality,
-                Type = ChartType.GateOpenings,
+                Type = request.Type,
                 Elements = resultChartElements
             };
         }

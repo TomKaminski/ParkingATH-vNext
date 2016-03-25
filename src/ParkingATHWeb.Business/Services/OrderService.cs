@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.Data.Entity;
 using ParkingATHWeb.Business.Services.Base;
 using ParkingATHWeb.Contracts.Common;
 using ParkingATHWeb.Contracts.DTO.Order;
@@ -64,6 +65,23 @@ namespace ParkingATHWeb.Business.Services
             return ServiceResult<IEnumerable<OrderAdminDto>>
                 .Success(_repository.Include(x => x.User).Where(lambda)
                 .Select(_mapper.Map<OrderAdminDto>));
+        }
+
+        public async Task<ServiceResult<IEnumerable<OrderAdminDto>>> GetAllAdminAsync()
+        {
+            return ServiceResult<IEnumerable<OrderAdminDto>>
+                .Success((await _repository.GetAllAsync()).Select(_mapper.Map<OrderAdminDto>));
+        }
+
+        public async Task<ServiceResult<IEnumerable<OrderAdminDto>>> GetAllAdminAsync(Expression<Func<OrderAdminDto, bool>> predicate)
+        {
+            var param = Expression.Parameter(typeof(Order));
+            var result = new CustomExpressionVisitor<Order>(param).Visit(predicate.Body);
+            var lambda = Expression.Lambda<Func<Order, bool>>(result, param);
+            return ServiceResult<IEnumerable<OrderAdminDto>>
+                .Success(
+                    (await _repository.Include(x => x.User).Where(lambda).ToListAsync()).Select(
+                        _mapper.Map<OrderAdminDto>));
         }
 
         public async Task<ServiceResult<OrderStatus>> UpdateOrderState(string status, Guid extOrderId)

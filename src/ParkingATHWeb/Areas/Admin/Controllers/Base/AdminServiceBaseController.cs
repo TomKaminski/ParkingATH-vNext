@@ -10,7 +10,6 @@ using ParkingATHWeb.ViewModels.Base;
 
 namespace ParkingATHWeb.Areas.Admin.Controllers.Base
 {
-    [Route("[area]/[controller]/[action]")]
     public class AdminServiceBaseController<TListViewModel, TDto, TKeyType> : AdminBaseController
         where TListViewModel : SmartParkListBaseViewModel
         where TKeyType : struct
@@ -31,7 +30,6 @@ namespace ParkingATHWeb.Areas.Admin.Controllers.Base
             return PartialView();
         }
 
-        [HttpGet]
         public virtual async Task<IActionResult> List()
         {
             var serviceResult = await GetAllAsync();

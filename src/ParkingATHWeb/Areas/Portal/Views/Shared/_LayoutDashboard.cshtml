@@ -35,17 +35,21 @@
     <meta name="theme-color" content="#ffffff">
 
     <environment names="Development">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+              rel="stylesheet">
         <link href="~/css/Dashboard/materialize.css" type="text/css" rel="stylesheet" media="screen,projection">
         <link href="~/css/Dashboard/style.css" type="text/css" rel="stylesheet" media="screen,projection">
         <link href="~/css/Dashboard/custom/custom.css" type="text/css" rel="stylesheet" media="screen,projection">
         <link href="~/js/Dashboard/plugins/perfect-scrollbar/perfect-scrollbar.css" type="text/css" rel="stylesheet" media="screen,projection">
         <link href="~/js/Dashboard/plugins/dropify/css/dropify.css" type="text/css" rel="stylesheet" media="screen,projection">
-        <link href="~/js/dashboard/plugins/ionrangeslider/css/ion.rangeslider.css" rel="stylesheet" />
-        <link href="~/js/dashboard/plugins/ionrangeslider/css/ion.rangeslider.skinflat.css" rel="stylesheet" />
-        <link href="~/lib/angular-chart.js/dist/angular-chart.css" rel="stylesheet" />
+        <link href="~/js/dashboard/plugins/ionrangeslider/css/ion.rangeslider.css" rel="stylesheet"/>
+        <link href="~/js/dashboard/plugins/ionrangeslider/css/ion.rangeslider.skinflat.css" rel="stylesheet"/>
+        <link href="~/lib/angular-chart.js/dist/angular-chart.css" rel="stylesheet"/>
     </environment>
     <environment names="Staging,Production">
-        <link rel="stylesheet" href="~/css/portal.min.css" asp-append-version="true" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+              rel="stylesheet">
+        <link rel="stylesheet" href="~/css/portal.min.css" asp-append-version="true"/>
     </environment>
 
     @RenderSection("styles", required: false)
@@ -168,10 +172,10 @@
                             <a ui-sref="adminOrders" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'adminOrders'}"><i class="material-icons">credit_card</i> <span>Zamówienia</span></a>
                         </li>
                         <li class="bold nav-border">
-                            <a ui-sref="adminPrices" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'admin.Prices'}"><i class="material-icons">assignment</i> <span>Cennik</span></a>
+                            <a ui-sref="adminPrices" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'adminPrices'}"><i class="material-icons">assignment</i> <span>Cennik</span></a>
                         </li>
                         <li class="bold nav-border" style="margin-bottom: 60px">
-                            <a ui-sref="adminGateusages" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'admineGateusages'}"><i class="material-icons">swap_vert</i> <span>Otwarcia bramy</span></a>
+                            <a ui-sref="adminGateusages" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'adminGateusages'}"><i class="material-icons">swap_vert</i> <span>Wyjazdy</span></a>
                         </li>
                     }
                 </ul>
@@ -270,6 +274,7 @@
         <script src="~/js/portalapp/directives/loaderdirective.js"></script>
         <script src="~/js/portalapp/directives/cardloaderdirective.js"></script>
         <script src="~/js/portalapp/factories/chartjsoptionsfactory.js"></script>
+        <script src="~/js/portalapp/factories/adminfilterfactory.js"></script>
         <script src="~/js/portalapp/factories/weatherinfofactory.js"></script>
         <script src="~/js/portalapp/services/loadingcontentservice.js"></script>
         <script src="~/js/portalapp/services/notificationservice.js"></script>
@@ -285,6 +290,7 @@
         <script src="~/js/portalapp/controllers/shopctrl.js"></script>
         <script src="~/js/portalapp/controllers/statisticsctrl.js"></script>
         <script src="~/js/portalapp/controllers/messagesctrl.js"></script>
+        <script src="~/js/portalapp/controllers/baseadmincontroller.js"></script>
         <script src="~/js/portalapp/controllers/adminuserctrl.js"></script>
         <script src="~/js/portalapp/controllers/adminordersctrl.js"></script>
         <script src="~/js/portalapp/controllers/admingateusagectrl.js"></script>

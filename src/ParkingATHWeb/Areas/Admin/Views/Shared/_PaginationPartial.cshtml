@@ -1,0 +1,27 @@
+﻿<ul class="pagination">
+    <li class="waves-effect" ng-click="ctrl.setPage(1)" ng-class="{'disabled':ctrl.currentPage===1}" style="padding:0">
+        <a>
+            <i class="material-icons">first_page</i>
+        </a>
+    </li>
+    <li class="waves-effect" ng-click="ctrl.setPage(ctrl.currentPage-1)" ng-class="{'disabled':ctrl.currentPage===1}" style="padding:0">
+        <a>
+            <i class="material-icons">chevron_left</i>
+        </a>
+    </li>
+
+    <li ng-repeat="page in ctrl.tableOfPages" ng-class="{active: ctrl.currentPage==page}" class="waves-effect" ng-click="ctrl.setPage(page)">
+        <a>{{page}}</a>
+    </li>
+
+    <li class="waves-effect" ng-click="ctrl.setPage(ctrl.currentPage+1)" ng-class="{'disabled':ctrl.totalPages() === ctrl.currentPage}" style="padding:0">
+        <a>
+            <i class="material-icons">chevron_right</i>
+        </a>
+    </li>
+    <li class="waves-effect" ng-click="ctrl.setPage(ctrl.totalPages())" ng-class="{'disabled':ctrl.totalPages() === ctrl.currentPage}" style="padding:0">
+        <a>
+            <i class="material-icons">last_page</i>
+        </a>
+    </li>
+</ul>

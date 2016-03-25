@@ -21,7 +21,7 @@ namespace ParkingATHWeb.Business.Providers.Chart
         protected override async Task<Dictionary<DateTime, int>> GetData(ChartRequestDto request)
         {
             var orders = await _ordersRepository.GetAllAsync(x => x.UserId == request.UserId && x.Date >= request.DateRange.StartDate && x.Date <= request.DateRange.EndDate);
-            return orders.GroupBy(x => x.Date).ToDictionary(x => x.Key, x => x.Count());
+            return orders.GroupBy(x => x.Date.Date).ToDictionary(x => x.Key, x => x.Count());
         }
     }
 }

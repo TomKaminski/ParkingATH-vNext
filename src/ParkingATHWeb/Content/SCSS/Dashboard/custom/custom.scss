@@ -412,3 +412,15 @@ input.charges-input {
     font-weight: bold;
     font-size: 2em;
 }
+
+@media(min-width:601px){
+tr > td.hoverable-table-buttons {
+    opacity: 0;
+}
+
+tr:hover > td.hoverable-table-buttons{
+    opacity: 1
+}
+}
+
+

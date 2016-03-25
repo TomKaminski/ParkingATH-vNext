@@ -15,6 +15,7 @@ namespace ParkingATHWeb.Resolver.Mappings
 
             CreateMap<User, UserAdminDto>()
                 .ForMember(x => x.OrdersCount, opt => opt.MapFrom(x => x.Orders.Count))
+                .ForMember(x => x.GateUsagesCount, opt => opt.MapFrom(x => x.GateUsages.Count))
                 .IgnoreNotExistingProperties();
 
             CreateMap<UserPreferences, UserPreferencesDto>().IgnoreNotExistingProperties();

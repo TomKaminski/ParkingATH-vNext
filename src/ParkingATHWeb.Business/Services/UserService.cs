@@ -391,16 +391,16 @@ namespace ParkingATHWeb.Business.Services
             return ServiceResult<int>.Failure($"Nie można przekazać {numberOfCharges} wyjazdów na konto {recieverEmail}");
         }
 
-        public async Task<ServiceResult<IEnumerable<UserAdminDto>>> GetAllForAdminAsync()
+        public async Task<ServiceResult<IEnumerable<UserAdminDto>>> GetAllAdminAsync()
         {
-            return ServiceResult<IEnumerable<UserAdminDto>>.Success((await _repository.Include(x => x.Orders)
+            return ServiceResult<IEnumerable<UserAdminDto>>.Success((await _repository.Include(x => x.Orders).Include(x=>x.GateUsages).OrderBy(x=>x.LastName)
                 .ToListAsync())
                 .Select(_mapper.Map<UserAdminDto>));
         }
 
-        public async Task<ServiceResult<IEnumerable<UserAdminDto>>> GetAllForAdminAsync(Expression<Func<UserBaseDto, bool>> predicate)
+        public async Task<ServiceResult<IEnumerable<UserAdminDto>>> GetAllAdminAsync(Expression<Func<UserBaseDto, bool>> predicate)
         {
-            return ServiceResult<IEnumerable<UserAdminDto>>.Success((await _repository.Include(x => x.Orders)
+            return ServiceResult<IEnumerable<UserAdminDto>>.Success((await _repository.Include(x => x.Orders).Include(x => x.GateUsages).OrderBy(x => x.LastName)
                 .Where(MapExpressionToEntity(predicate))
                 .ToListAsync())
                 .Select(_mapper.Map<UserAdminDto>));

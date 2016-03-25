@@ -15,15 +15,17 @@ namespace ParkingATHWeb.Areas.Admin.Controllers
     public class AdminGateUsageController : AdminServiceBaseController<AdminGateUsageListItemViewModel, GateUsageBaseDto, Guid>
     {
         private readonly IMapper _mapper;
+        private readonly IGateUsageService _service;
 
         public AdminGateUsageController(IGateUsageService entityService, IMapper mapper) : base(entityService, mapper)
         {
             _mapper = mapper;
+            _service = entityService;
         }
 
         public override async Task<IActionResult> List()
         {
-            var serviceResult = await GetAllAsync();
+            var serviceResult = await _service.GetAllAdminAsync();
             return Json(serviceResult.IsValid
                 ? SmartJsonResult<IEnumerable<AdminGateUsageListItemViewModel>>.Success(serviceResult.Result.Select(_mapper.Map<AdminGateUsageListItemViewModel>))
                 : SmartJsonResult<IEnumerable<AdminGateUsageListItemViewModel>>.Failure(serviceResult.ValidationErrors));

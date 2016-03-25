@@ -4,11 +4,11 @@ using Microsoft.AspNet.Mvc;
 using ParkingATHWeb.ApiModels.Base;
 using ParkingATHWeb.Contracts.Common;
 using ParkingATHWeb.Contracts.Services.Base;
+using ParkingATHWeb.Infrastructure.Attributes;
 using ParkingATHWeb.ViewModels.Base;
 
 namespace ParkingATHWeb.Areas.Admin.Controllers.Base
 {
-    [Route("[area]/[controller]/[action]")]
     public class AdminServiceController<TListViewModel, TCreateViewModel, TEditViewModel, TDeleteViewModel, TDto, TKeyType> : AdminServiceBaseController<TListViewModel, TDto, TKeyType>
         where TListViewModel : SmartParkListBaseViewModel
         where TCreateViewModel : SmartParkCreateBaseViewModel
@@ -33,7 +33,7 @@ namespace ParkingATHWeb.Areas.Admin.Controllers.Base
         //}
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryTokenFromHeader]
         public virtual async Task<IActionResult> Create(TCreateViewModel model)
         {
             if (ModelState.IsValid)
@@ -54,8 +54,7 @@ namespace ParkingATHWeb.Areas.Admin.Controllers.Base
         //}
 
         [HttpPost]
-        [Route("{id}")]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryTokenFromHeader]
         public virtual async Task<IActionResult> Delete(TDeleteViewModel model)
         {
             if (ModelState.IsValid)
@@ -76,8 +75,7 @@ namespace ParkingATHWeb.Areas.Admin.Controllers.Base
         //}
 
         [HttpPost]
-        [Route("{id}")]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryTokenFromHeader]
         public virtual async Task<IActionResult> Edit(TEditViewModel model)
         {
             if (ModelState.IsValid)

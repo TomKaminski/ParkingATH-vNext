@@ -40,6 +40,7 @@ namespace ParkingATHWeb
                 cfg.AddProfile(new TokenBackendMappings());
                 cfg.AddProfile(new PriceTresholdBackendMappings());
                 cfg.AddProfile(new PortalMessageBackendMappings());
+                cfg.AddProfile(new AdminMappingsProfile());
             });
             _mapper = config.CreateMapper();
         }

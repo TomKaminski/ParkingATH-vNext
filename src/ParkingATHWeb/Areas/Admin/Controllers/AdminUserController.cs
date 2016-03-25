@@ -1,12 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNet.Mvc;
 using ParkingATHWeb.ApiModels.Base;
 using ParkingATHWeb.Areas.Admin.Controllers.Base;
 using ParkingATHWeb.Areas.Admin.ViewModels.User;
-using ParkingATHWeb.Business.Services;
 using ParkingATHWeb.Contracts.DTO.User;
 using ParkingATHWeb.Contracts.Services;
+using System.Linq;
 
 namespace ParkingATHWeb.Areas.Admin.Controllers
 {
@@ -31,6 +32,14 @@ namespace ParkingATHWeb.Areas.Admin.Controllers
                     : SmartJsonResult.Failure(serviceResult.ValidationErrors));
             }
             return Json(SmartJsonResult.Failure(GetModelStateErrors(ModelState)));
+        }
+
+        public override async Task<IActionResult> List()
+        {
+            var serviceResult = await _entityService.GetAllAdminAsync();
+            return Json(serviceResult.IsValid
+                ? SmartJsonResult<IEnumerable<AdminUserListItemViewModel>>.Success(serviceResult.Result.Select(_mapper.Map<AdminUserListItemViewModel>))
+                : SmartJsonResult<IEnumerable<AdminUserListItemViewModel>>.Failure(serviceResult.ValidationErrors));
         }
     }
 }

@@ -15,5 +15,6 @@ namespace ParkingATHWeb.Areas.Admin.ViewModels.Order
         public OrderPlace OrderPlace { get; set; }
         public DateTime Date { get; set; }
         public OrderStatus OrderState { get; set; }
+        public string Initials { get; set; }
     }
 }

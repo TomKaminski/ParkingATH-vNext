@@ -6,6 +6,7 @@ namespace ParkingATHWeb.Areas.Admin.Controllers.Base
 {
     [Area("Admin")]
     [Authorize(Policy = "Admin")]
+    [Route("[area]/[controller]/[action]")]
     public class AdminBaseController:BaseController
     {
     }
