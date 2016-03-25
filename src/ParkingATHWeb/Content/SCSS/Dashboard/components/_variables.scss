@@ -1,9 +1,9 @@
 /*** Colors ***/
-$primary-color: color("cyan", "base") !default;
+$primary-color: #132d4b;
 $primary-color-light: lighten($primary-color, 15%) !default;
 $primary-color-dark: darken($primary-color, 15%) !default;
 
-$secondary-color: color("pink", "accent-2") !default;
+$secondary-color: #4b85c5;
 $success-color: color("green", "accent-3") !default;
 $error-color: color("red", "accent-3") !default;
 
@@ -90,10 +90,10 @@ $large-screen: 1200px !default;
 
 $medium-and-up: "only screen and (min-width : #{$small-screen-up})" !default;
 $large-and-up: "only screen and (min-width : #{$medium-screen-up})" !default;
-$extra-large-and-up: "only screen and (min-width : #{$large-screen-up})" !default;
 $small-and-down: "only screen and (max-width : #{$small-screen})" !default;
 $medium-and-down: "only screen and (max-width : #{$medium-screen})" !default;
 $medium-only: "only screen and (min-width : #{$small-screen-up}) and (max-width : #{$medium-screen})" !default;
+$extra-large-and-up: "only screen and (min-width : #{$large-screen-up})" !default;
 
 // Grid Variables
 $num-cols: 12 !default;

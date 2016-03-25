@@ -91,16 +91,6 @@
                                 <a href="~/" class="brand-logo darken-1" target="_self"><img src="~/images/logo_reset_white.png" alt="reset logo" style="max-height: 38px;width:auto"></a> <span class="logo-text">RESET</span>
                             </h1>
                         </li>
-                        <li class="hide-on-med-and-down logo-cont">
-                            <h1 class="logo-wrapper">
-                                <a href="~/" class="brand-logo darken-1" target="_self"><img src="~/images/ath-logo-white.png" alt="smartpark logo" style="max-height: 38px;width:auto"></a> <span class="logo-text">SmartPark</span>
-                            </h1>
-                        </li>
-                        <li class="hide-on-med-and-down logo-cont">
-                            <h1 class="logo-wrapper">
-                                <a href="~/" class="brand-logo darken-1" target="_self"><img src="~/images/wbmii-logo-white.png" alt="smartpark logo" style="max-height: 38px; width: auto"></a> <span class="logo-text">SmartPark</span>
-                            </h1>
-                        </li>
                         <li class="hide-on-large-only">
                             <form asp-action="Logout" asp-controller="Account" asp-route-area="Portal" id="logoutForm">
                                 <a href="javascript:document.getElementById('logoutForm').submit()"><i class="material-icons">directions_run</i></a>
@@ -255,7 +245,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.5.2/angular-messages.js"></script>
 
         <!--materialize js-->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.js"></script>
+        <script src="~/js/dashboard/materialize.js"></script>
         <script src="~/js/dashboard/plugins/angular-materialize.js"></script>
 
         <script src="~/js/dashboard/plugins/ionrangeslider/js/ion.rangeslider.js"></script>
@@ -297,7 +287,7 @@
         <script src="~/js/portalapp/controllers/adminpricectrl.js"></script>
 
         <!--plugins.js - Some Specific JS codes for Plugin Settings-->
-        <script src="~/js/Dashboard/custom-sidenav-shrink-helper.js"></script>
+        <script src="~/js/portalapp/sidebarshrinkhelper.js"></script>
         <script type="text/javascript" src="~/js/Dashboard/plugins.js"></script>
     </environment>
 
@@ -312,7 +302,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.5.2/angular-messages.min.js"></script>
 
         <!--materialize js-->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+        <script src="~/js/dashboard/materialize.min.js"></script>
         <script src="~/js/portal.min.js" asp-append-version="true"></script>
     </environment>
 
