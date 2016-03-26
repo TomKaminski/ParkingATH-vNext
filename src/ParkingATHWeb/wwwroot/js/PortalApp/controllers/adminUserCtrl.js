@@ -12,6 +12,10 @@
         breadcrumbService.setOuterBreadcrumb('Administracja - Użytkownicy');
         getList();
 
+        self.userDetails = function(id) {
+            self.userDetailsModel = $filter('getById')(adminFilterFactory.getFilterData(), id);
+        }
+
         self.deleteUserStart = function (id) {
             self.deleteUserModel = $filter('getById')(adminFilterFactory.getFilterData(), id);
         }

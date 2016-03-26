@@ -4,7 +4,8 @@
             <p class="card-title grey-text text-darken-4">
                 Użytkownicy
             </p>
-            <p class="margin-bottom-20"><b>Ta sekcja pozwoli ci na zarządzanie użytkownikami. Zawiera ona listę wszystkich użytkowników, po przejsciu w szczegóły danego użytkownika dostajesz możliwość edycji jego danych oraz wykonania wielu czynności administracyjych (np. zmiana hasła bądź zablokowanie konta).</b>
+            <p class="margin-bottom-20">
+                <b>Ta sekcja pozwoli ci na zarządzanie użytkownikami. Zawiera ona listę wszystkich użytkowników, po przejsciu w szczegóły danego użytkownika dostajesz możliwość edycji jego danych oraz wykonania wielu czynności administracyjych (np. zmiana hasła bądź zablokowanie konta).</b>
             </p>
             <div>
                 <card-loader style="background: white;" loadname="getUserListLoader"></card-loader>
@@ -12,57 +13,59 @@
                     <ul class="margin-bottom-20 col s12 m7 l9" style="margin-top: 0; margin-left: 0">
                         <li>
                             <div class="header-search-wrapper" style="width: 75%;">
-                                <i class="material-icons white-text">search</i>
-                                <input type="text" name="Search" class="header-search-input z-depth-2 margin-bottom-20  white-text" placeholder="Wyszukaj użytkownika.." ng-model="ctrl.searchText" ng-change="ctrl.onTextChange()" style="background: rgba(75, 133, 193, 0.9)"/>
+                                <i class="material-icons">search</i>
+                                <input type="text" name="Search" class="header-search-input" placeholder="Wyszukaj użytkownika.." ng-model="ctrl.searchText" ng-change="ctrl.onTextChange()" />
                             </div>
                         </li>
                     </ul>
 
                 </div>
-                <table class="responsive-table" id="order-history-table">
+                <table class="responsive-table">
                     <thead>
-                    <tr>
-                        <th>Imię i nazwisko</th>
-                        <th>Ilość zamówień</th>
-                        <th>Ilość wyjazdów</th>
-                        <th>Ilość otworzeń bramy</th>
-                        <th>Ranga</th>
-                        <th>Stan konta</th>
-                        <th>Data dołączenia</th>
-                        <th>Akcje</th>
-                    </tr>
+                        <tr>
+                            <th></th>
+                            <th>Imię i nazwisko</th>
+                            <th>Ilość zamówień</th>
+                            <th>Ilość wyjazdów</th>
+                            <th>Ilość otworzeń bramy</th>
+                            <th>Ranga</th>
+                            <th>Stan konta</th>
+                            <th>Akcje</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr ng-if="ctrl.filteredList.length===0">
-                        <td colspan="7">
-                            <p>
-                                <b>Brak użytkowników spełniających to kryterium.</b>
-                            </p>
-                        </td>
-                    </tr>
-                    <tr ng-repeat="user in ctrl.filteredList">
-                        <td>{{user.Initials}}</td>
-                        <td>{{user.OrdersCount}}</td>
-                        <td>{{user.Charges}}</td>
-                        <td>{{user.GateUsagesCount}}</td>
-                        <td>{{user.IsAdmin === true ? "Administrator" : "Użytkownik"}}</td>
-                        <td>{{user.IsDeleted === true ? "Konto usunięte" : "Konto aktywne"}}</td>
-                        <td>{{user.CreateDateLabel}}</td>
-                        <td class="hoverable-table-buttons">
-                            <a class="btn waves-effect waves-light" style="background: #4b85c5; margin-bottom: 5px" href='#editUserModal' modal ng-click="ctrl.editUser(user.Id)">
-                                Edytuj
-                            </a>
-                            <a class="btn waves-effect waves-light" style="background: #4b85c5; margin-bottom: 5px" href='#userDetailsModal' modal ng-click="ctrl.userDetails(user.Id)">
-                                Szczegóły
-                            </a>
-                            <a class="btn waves-effect waves-light" style="background: #4b85c5; margin-bottom: 5px" href='#deleteModal' modal ng-click="ctrl.deleteUserStart(user.Id)" ng-if="!user.IsDeleted && !user.IsAdmin">
-                                Usuń
-                            </a>
-                            <a class="btn waves-effect waves-light" style="background: #4b85c5; margin-bottom: 5px" href='#recoveryModal' modal ng-click="ctrl.recoverUserStart(user.Id)" ng-if="user.IsDeleted && !user.IsAdmin">
-                                Przywróć
-                            </a>
-                        </td>
-                    </tr>
+                        <tr ng-if="ctrl.filteredList.length===0">
+                            <td colspan="7">
+                                <p>
+                                    <b>Brak użytkowników spełniających to kryterium.</b>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="user in ctrl.filteredList">
+                            <th>
+                                <img style="width: 40px;" ng-src="{{user.ImgId.length == 0 ? '/images/user-avatars/avatar-placeholder.jpg' : '/images/user-avatars/'+ user.ImgId + '.jpg'}}" alt="" class="responsive-img valign profile-image">
+                            </th>
+                            <td>{{user.Initials}}</td>
+                            <td>{{user.OrdersCount}}</td>
+                            <td>{{user.Charges}}</td>
+                            <td>{{user.GateUsagesCount}}</td>
+                            <td>{{user.IsAdmin === true ? "Administrator" : "Użytkownik"}}</td>
+                            <td>{{user.IsDeleted === true ? "Konto usunięte" : "Konto aktywne"}}</td>
+                            <td class="hoverable-table-buttons">
+                                <a class="btn waves-effect waves-light" style="background: #4b85c5; margin-bottom: 5px" href='#editUserModal' modal ng-click="ctrl.editUser(user.Id)">
+                                    Edytuj
+                                </a>
+                                <a class="btn waves-effect waves-light" style="background: #4b85c5; margin-bottom: 5px" href='#userDetailsModal' modal ng-click="ctrl.userDetails(user.Id)">
+                                    Szczegóły
+                                </a>
+                                <a class="btn waves-effect waves-light" style="background: #4b85c5; margin-bottom: 5px" href='#deleteModal' modal ng-click="ctrl.deleteUserStart(user.Id)" ng-if="!user.IsDeleted && !user.IsAdmin">
+                                    Usuń
+                                </a>
+                                <a class="btn waves-effect waves-light" style="background: #4b85c5; margin-bottom: 5px" href='#recoveryModal' modal ng-click="ctrl.recoverUserStart(user.Id)" ng-if="user.IsDeleted && !user.IsAdmin">
+                                    Przywróć
+                                </a>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
 
@@ -75,22 +78,89 @@
 @*EDIT USER MODAL*@
 <div id="editUserModal" class="modal">
     <div class="modal-content">
-        <h4>Modal header</h4>
-        <p>A bunch of text</p>
+        <h4>Edytowanie użytkownika</h4>
+        <p><b>Poniżej znajdziesz formularz umożliwiający edycję podstawowych danych użytkownika.</b></p>
     </div>
     <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+        <a href="#!" class="modal-action modal-close waves-effect btn">Zamknij</a>
     </div>
 </div>
 
 @*USER DETAILS MODAL*@
 <div id="userDetailsModal" class="modal">
     <div class="modal-content">
-        <h4>Modal header</h4>
-        <p>A bunch of text</p>
+        <h4>Szczegóły użytkownika</h4>
+        <p>
+            <b>Poniżej znajdziesz szczegóły wybranego uwcześnie użytkownika.<br /></b>
+        </p>
+        <div class="row">
+            <div class="col s12 m12 l6">
+                <h5>{{ctrl.userDetailsModel.Initials}}</h5>
+                <p>
+                    Data utworzenia: <b>{{ctrl.userDetailsModel.CreateDateLabel}}</b>
+                </p>
+                <p>
+                    Typ konta: <b>{{ctrl.userDetailsModel.IsAdmin === true ? "Administrator" : "Użytkownik"}}</b>
+                </p>
+                <p>
+                    Stan konta: <b>{{ctrl.userDetailsModel.IsDeleted === true ? "Konto usunięte" : "Konto aktywne"}}</b>
+                </p>
+                <p>
+                    Ilość zamówień: <b>{{ctrl.userDetailsModel.OrdersCount}}</b>
+                </p>
+                <p>
+                    Ilość wyjazdów: <b>{{ctrl.userDetailsModel.Charges}}</b>
+                </p>
+                <p>
+                    Ilość otworzeń bramy: <b>{{ctrl.userDetailsModel.GateUsagesCount}}</b>
+                </p>
+            </div>
+            <div class="col s12 m12 l6 flex-align-center-container">
+                <img style="margin: auto" ng-src="{{ctrl.userDetailsModel.ImgId.length == 0 ? '/images/user-avatars/avatar-placeholder.jpg' : '/images/user-avatars/'+ ctrl.userDetailsModel.ImgId + '.jpg'}}" alt="" class="responsive-img valign profile-image">
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <h5>Ostatnie zamówienia</h5>
+
+                <table class="responsive-table">
+                    <thead>
+                        <tr>
+                            <th>Data zakupu</th>
+                            <th>Godzina zakupu</th>
+                            <th>Ilość wyjazdów</th>
+                            <th>Cena za sztukę</th>
+                            <th>Cena całkowita</th>
+                            <th>Miejsce zakupu</th>
+                            <th>Stan zamówienia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="ctrl.userDetailsModel.LastUserOrders.length===0">
+                            <td colspan="7">
+                                <p>
+                                    <b>Brak zamówień.</b>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="order in ctrl.deleteUserModel.LastUserOrders" ng-class="order.OrderStateStyle">
+                            <td>{{order.Date}}</td>
+                            <td>{{order.Time}}</td>
+                            <td>{{order.NumOfCharges}}</td>
+                            <td>{{order.PricePerCharge}}</td>
+                            <td>{{order.Price}}</td>
+                            <td>{{order.OrderPlace}}</td>
+                            <td>{{order.OrderState}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
     <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+        <a href="#!" class="modal-action modal-close waves-effect btn">Zamknij</a>
     </div>
 </div>
 
@@ -102,10 +172,10 @@
             Potwierdź proszę akcję usunięcia użytkownika klikając na przycisk "USUŃ UŻYTKOWNIKA", operacja ta zablokuje dane konto, tym samym blokując możliwość otwierania bramy, zakupu wyjazdów bądź logowania do portalu, aby przywrócić wcześniej usunięte konto, naciśnij przycisk "PRZYWRÓĆ" dostępny na liscie użytkowników w panelu administracyjnym.
         </p>
         <p>
-            <b>Użytkownik do usunięcia:</b><br/>
-            <br/>
-            <b>{{ctrl.deleteUserModel.Initials}}</b><br/>
-            data dołączenia: <b>{{ctrl.deleteUserModel.CreateDateLabel}}</b><br/>
+            <b>Użytkownik do usunięcia:</b><br />
+            <br />
+            <b>{{ctrl.deleteUserModel.Initials}}</b><br />
+            data dołączenia: <b>{{ctrl.deleteUserModel.CreateDateLabel}}</b><br />
             ilość wyjazdów: <b>{{ctrl.deleteUserModel.Charges}}</b>
         </p>
         <div class="row" style="padding-right: 20px;">
