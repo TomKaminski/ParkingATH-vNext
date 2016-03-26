@@ -1,5 +1,5 @@
 (function (angular) {
-    angular.module("ui.materialize", ["ui.materialize.input_date", "ui.materialize.pagination"]);
+    angular.module("ui.materialize", ["ui.materialize.input_date", "ui.materialize.pagination","ui.materialize.modal"]);
 
  
 
@@ -556,4 +556,42 @@
                 }
             };
         });
+
+    /*     example usage:
+   <!-- Modal Trigger -->
+   <a class='btn' href='#demoModal' modal>show Modal</a>
+   <!-- Modal Structure -->
+   <div id="demoModal" class="modal">
+   <div class="modal-content">
+   <h4>Modal Header</h4>
+   <p>A bunch of text</p>
+   </div>
+   <div class="modal-footer">
+   <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+   </div>
+   </div>
+   */
+    angular.module("ui.materialize.modal", [])
+        .directive("modal", ["$compile", "$timeout", function ($compile, $timeout) {
+            return {
+                scope: {
+                    dismissible: "=",
+                    opacity: "@",
+                    inDuration: "@",
+                    outDuration: "@"
+                },
+                link: function (scope, element, attrs) {
+                    $compile(element.contents())(scope);
+                    $timeout(function () {
+                        element.leanModal({
+                            dismissible: (angular.isDefined(scope.dismissible)) ? scope.dismissible : undefined,
+                            opacity: (angular.isDefined(scope.opacity)) ? scope.opacity : undefined,
+                            in_duration: (angular.isDefined(scope.inDuration)) ? scope.inDuration : undefined,
+                            out_duration: (angular.isDefined(scope.outDuration)) ? scope.outDuration : undefined
+                        });
+                    });
+                }
+            };
+        }]);
+
 }(angular));

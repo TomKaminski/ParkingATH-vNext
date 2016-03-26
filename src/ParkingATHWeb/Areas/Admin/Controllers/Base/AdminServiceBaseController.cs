@@ -30,11 +30,19 @@ namespace ParkingATHWeb.Areas.Admin.Controllers.Base
             return PartialView();
         }
 
-        public virtual async Task<IActionResult> List()
+        public virtual async Task<IActionResult> ListAsync()
         {
             var serviceResult = await GetAllAsync();
             return Json(serviceResult.IsValid 
                 ? SmartJsonResult<IEnumerable<TListViewModel>>.Success(serviceResult.Result.Select(_mapper.Map<TListViewModel>)) 
+                : SmartJsonResult<IEnumerable<TListViewModel>>.Failure(serviceResult.ValidationErrors));
+        }
+
+        public virtual IActionResult List()
+        {
+            var serviceResult = _entityService.GetAll();
+            return Json(serviceResult.IsValid
+                ? SmartJsonResult<IEnumerable<TListViewModel>>.Success(serviceResult.Result.Select(_mapper.Map<TListViewModel>))
                 : SmartJsonResult<IEnumerable<TListViewModel>>.Failure(serviceResult.ValidationErrors));
         }
 

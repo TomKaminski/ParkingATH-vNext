@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using ParkingATHWeb.Areas.Portal.ViewModels.User;
 using ParkingATHWeb.ViewModels.Base;
 
 namespace ParkingATHWeb.Areas.Admin.ViewModels.User
@@ -12,7 +14,11 @@ namespace ParkingATHWeb.Areas.Admin.ViewModels.User
         public bool IsAdmin { get; set; }
         public bool IsDeleted { get; set; }
         public int OrdersCount { get; set; }
+        public IEnumerable<ShopOrderItemViewModel> LastUserOrders { get; set; }
         public int Charges { get; set; }
         public int GateUsagesCount { get; set; }
+        public string Name { get; set; }
+        public string LastName { get; set; }
+        public string ImgId { get; set; }
     }
 }

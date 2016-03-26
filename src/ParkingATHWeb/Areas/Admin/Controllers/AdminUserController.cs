@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNet.Mvc;
@@ -8,6 +9,7 @@ using ParkingATHWeb.Areas.Admin.ViewModels.User;
 using ParkingATHWeb.Contracts.DTO.User;
 using ParkingATHWeb.Contracts.Services;
 using System.Linq;
+using ParkingATHWeb.Infrastructure.Attributes;
 
 namespace ParkingATHWeb.Areas.Admin.Controllers
 {
@@ -22,24 +24,31 @@ namespace ParkingATHWeb.Areas.Admin.Controllers
             _mapper = mapper;
         }
 
-        public override async Task<IActionResult> Create(AdminUserCreateViewModel model)
+        public override Task<IActionResult> Create(AdminUserCreateViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var serviceResult = await _entityService.CreateAsync(_mapper.Map<UserBaseDto>(model));
-                return Json(serviceResult.IsValid
-                    ? SmartJsonResult<AdminUserListItemViewModel>.Success(_mapper.Map<AdminUserListItemViewModel>(serviceResult.Result))
-                    : SmartJsonResult.Failure(serviceResult.ValidationErrors));
-            }
-            return Json(SmartJsonResult.Failure(GetModelStateErrors(ModelState)));
+            throw new NotImplementedException();
         }
 
-        public override async Task<IActionResult> List()
+        public override IActionResult List()
         {
-            var serviceResult = await _entityService.GetAllAdminAsync();
+            var serviceResult = _entityService.GetAllAdmin();
             return Json(serviceResult.IsValid
                 ? SmartJsonResult<IEnumerable<AdminUserListItemViewModel>>.Success(serviceResult.Result.Select(_mapper.Map<AdminUserListItemViewModel>))
                 : SmartJsonResult<IEnumerable<AdminUserListItemViewModel>>.Failure(serviceResult.ValidationErrors));
+        }
+
+        [ValidateAntiForgeryTokenFromHeader]
+        [HttpPost]
+        public async Task<IActionResult> RecoverUser([FromBody]AdminUserDeleteViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var recoverUserResult = await _entityService.RecoverUserAsync(model.Id);
+                return Json(recoverUserResult.IsValid
+                    ? SmartJsonResult.Success("Operacja przywrócenia użytkownika zakończona pomyślnie.")
+                    : SmartJsonResult.Failure(recoverUserResult.ValidationErrors));
+            }
+            return Json(SmartJsonResult.Failure(GetModelStateErrors(ModelState)));
         }
     }
 }

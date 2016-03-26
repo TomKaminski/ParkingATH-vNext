@@ -46,6 +46,28 @@ namespace ParkingATHWeb.Business.Services
             _mapper = mapper;
         }
 
+        public override async Task<ServiceResult> DeleteAsync(int id)
+        {
+            var obj = await _repository.FindAsync(id);
+            if (obj.IsAdmin)
+            {
+                return ServiceResult.Failure("Nie można usunąć konta administratora!");
+            }
+            obj.IsDeleted = true;
+            _repository.Edit(obj);
+            await _unitOfWork.CommitAsync();
+            return ServiceResult.Success();
+        }
+
+        public async Task<ServiceResult> RecoverUserAsync(int id)
+        {
+            var obj = await _repository.FindAsync(id);
+            obj.IsDeleted = false;
+            _repository.Edit(obj);
+            await _unitOfWork.CommitAsync();
+            return ServiceResult.Success();
+        }
+
         public async Task<ServiceResult<bool>> CheckHashAsync(string email, string hash)
         {
             var stud = await _repository.FirstOrDefaultAsync(x => x.Email == email);
@@ -391,20 +413,20 @@ namespace ParkingATHWeb.Business.Services
             return ServiceResult<int>.Failure($"Nie można przekazać {numberOfCharges} wyjazdów na konto {recieverEmail}");
         }
 
-        public async Task<ServiceResult<IEnumerable<UserAdminDto>>> GetAllAdminAsync()
+        public ServiceResult<IEnumerable<UserAdminDto>> GetAllAdmin()
         {
-            return ServiceResult<IEnumerable<UserAdminDto>>.Success((await _repository.Include(x => x.Orders).Include(x=>x.GateUsages).OrderBy(x=>x.LastName)
-                .ToListAsync())
-                .Select(_mapper.Map<UserAdminDto>));
+            var query = _repository.Include(x => x.Orders).Include(x => x.GateUsages).Include(x=>x.UserPreferences).OrderBy(x => x.LastName);
+            var result = query.Select(_mapper.Map<UserAdminDto>).ToList();
+
+            return ServiceResult<IEnumerable<UserAdminDto>>.Success(result);
         }
 
-        public async Task<ServiceResult<IEnumerable<UserAdminDto>>> GetAllAdminAsync(Expression<Func<UserBaseDto, bool>> predicate)
+        public ServiceResult<IEnumerable<UserAdminDto>> GetAllAdmin(Expression<Func<UserBaseDto, bool>> predicate)
         {
-            return ServiceResult<IEnumerable<UserAdminDto>>.Success((await _repository.Include(x => x.Orders).Include(x => x.GateUsages).OrderBy(x => x.LastName)
-                .Where(MapExpressionToEntity(predicate))
-                .ToListAsync())
-                .Select(_mapper.Map<UserAdminDto>));
+            var query = _repository.Include(x => x.Orders).Include(x => x.GateUsages).Include(x => x.UserPreferences).OrderBy(x => x.LastName).Where(MapExpressionToEntity(predicate));
+            var result = query.Select(_mapper.Map<UserAdminDto>).ToList();
 
+            return ServiceResult<IEnumerable<UserAdminDto>>.Success(result);
         }
 
         public async Task<ServiceResult<UserAdminDto>> GetAdminAsync(int id)

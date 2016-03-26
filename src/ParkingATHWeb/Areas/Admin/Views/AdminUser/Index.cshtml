@@ -4,55 +4,140 @@
             <p class="card-title grey-text text-darken-4">
                 Użytkownicy
             </p>
-            <p class="margin-bottom-20"><b>Ta sekcja pozwoli ci na zarządzanie użytkownikami. Zawiera ona listę wszystkich użytkowników, po przejsciu w szczegóły danego użytkownika dostajesz możliwość edycji jego danych oraz wykonania wielu czynności administracyjych (np. zmiana hasła bądź zablokowanie konta).</b></p>
+            <p class="margin-bottom-20"><b>Ta sekcja pozwoli ci na zarządzanie użytkownikami. Zawiera ona listę wszystkich użytkowników, po przejsciu w szczegóły danego użytkownika dostajesz możliwość edycji jego danych oraz wykonania wielu czynności administracyjych (np. zmiana hasła bądź zablokowanie konta).</b>
+            </p>
             <div>
                 <card-loader style="background: white;" loadname="getUserListLoader"></card-loader>
-                <button class="btn waves-effect waves-light margin-bottom-20" type="submit" name="action" style="background: #4b85c5">
-                    Dodaj nowego użytkownika
-                </button>
+                <div class="row">
+                    <ul class="margin-bottom-20 col s12 m7 l9" style="margin-top: 0; margin-left: 0">
+                        <li>
+                            <div class="header-search-wrapper" style="width: 75%;">
+                                <i class="material-icons white-text">search</i>
+                                <input type="text" name="Search" class="header-search-input z-depth-2 margin-bottom-20  white-text" placeholder="Wyszukaj użytkownika.." ng-model="ctrl.searchText" ng-change="ctrl.onTextChange()" style="background: rgba(75, 133, 193, 0.9)"/>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
                 <table class="responsive-table" id="order-history-table">
                     <thead>
-                        <tr>
-                            <th>Imię i nazwisko</th>
-                            <th>Ilość zamówień</th>
-                            <th>Ilość wyjazdów</th>
-                            <th>Ilość otworzeń bramy</th>
-                            <th>Ranga</th>
-                            <th>Stan konta</th>
-                            <th>Data dołączenia</th>
-                            <th>Akcje</th>
-                        </tr>
+                    <tr>
+                        <th>Imię i nazwisko</th>
+                        <th>Ilość zamówień</th>
+                        <th>Ilość wyjazdów</th>
+                        <th>Ilość otworzeń bramy</th>
+                        <th>Ranga</th>
+                        <th>Stan konta</th>
+                        <th>Data dołączenia</th>
+                        <th>Akcje</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr ng-if="ctrl.filteredList.length===0">
-                                <td colspan="7">
-                                    <p>
-                                        <b>Brak użytkowników spełniających to kryterium.</b>
-                                    </p>
-                                </td>
-                            </tr>
-                        <tr ng-repeat="user in ctrl.filteredList">
-                            <td>{{user.Initials}}</td>
-                            <td>{{user.OrdersCount}}</td>
-                            <td>{{user.Charges}}</td>
-                            <td>{{user.GateUsagesCount}}</td>
-                            <td>{{user.IsAdmin === true ? "Administrator" : "Użytkownik"}}</td>
-                            <td>{{user.IsDeleted === true ? "Konto usunięte" : "Konto aktywne"}}</td>
-                            <td>{{user.CreateDateLabel}}</td>
-                            <td class="hoverable-table-buttons">
-                                <button class="btn waves-effect waves-light" type="submit" name="action" style="background: #4b85c5" ng-click="ctrl.editUser(user.Id)">
-                                    Edytuj
-                                </button>
-                                <button class="btn waves-effect waves-light" type="submit" name="action" style="background: #4b85c5" ng-click="ctrl.userDetails(user.Id)">
-                                    Szczegóły
-                                </button>
-                            </td>
-                            </tr>
+                    <tr ng-if="ctrl.filteredList.length===0">
+                        <td colspan="7">
+                            <p>
+                                <b>Brak użytkowników spełniających to kryterium.</b>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr ng-repeat="user in ctrl.filteredList">
+                        <td>{{user.Initials}}</td>
+                        <td>{{user.OrdersCount}}</td>
+                        <td>{{user.Charges}}</td>
+                        <td>{{user.GateUsagesCount}}</td>
+                        <td>{{user.IsAdmin === true ? "Administrator" : "Użytkownik"}}</td>
+                        <td>{{user.IsDeleted === true ? "Konto usunięte" : "Konto aktywne"}}</td>
+                        <td>{{user.CreateDateLabel}}</td>
+                        <td class="hoverable-table-buttons">
+                            <a class="btn waves-effect waves-light" style="background: #4b85c5; margin-bottom: 5px" href='#editUserModal' modal ng-click="ctrl.editUser(user.Id)">
+                                Edytuj
+                            </a>
+                            <a class="btn waves-effect waves-light" style="background: #4b85c5; margin-bottom: 5px" href='#userDetailsModal' modal ng-click="ctrl.userDetails(user.Id)">
+                                Szczegóły
+                            </a>
+                            <a class="btn waves-effect waves-light" style="background: #4b85c5; margin-bottom: 5px" href='#deleteModal' modal ng-click="ctrl.deleteUserStart(user.Id)" ng-if="!user.IsDeleted && !user.IsAdmin">
+                                Usuń
+                            </a>
+                            <a class="btn waves-effect waves-light" style="background: #4b85c5; margin-bottom: 5px" href='#recoveryModal' modal ng-click="ctrl.recoverUserStart(user.Id)" ng-if="user.IsDeleted && !user.IsAdmin">
+                                Przywróć
+                            </a>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
 
                 @Html.Partial("_PaginationPartial")
             </div>
         </div>
+    </div>
+</div>
+
+@*EDIT USER MODAL*@
+<div id="editUserModal" class="modal">
+    <div class="modal-content">
+        <h4>Modal header</h4>
+        <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+</div>
+
+@*USER DETAILS MODAL*@
+<div id="userDetailsModal" class="modal">
+    <div class="modal-content">
+        <h4>Modal header</h4>
+        <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+</div>
+
+@*DELETE MODAL*@
+<div id="deleteModal" class="modal">
+    <div class="modal-content white-text" style="background: #4b85c5;">
+        <h1>UWAGA!</h1>
+        <p class="margin-bottom-25">
+            Potwierdź proszę akcję usunięcia użytkownika klikając na przycisk "USUŃ UŻYTKOWNIKA", operacja ta zablokuje dane konto, tym samym blokując możliwość otwierania bramy, zakupu wyjazdów bądź logowania do portalu, aby przywrócić wcześniej usunięte konto, naciśnij przycisk "PRZYWRÓĆ" dostępny na liscie użytkowników w panelu administracyjnym.
+        </p>
+        <p>
+            <b>Użytkownik do usunięcia:</b><br/>
+            <br/>
+            <b>{{ctrl.deleteUserModel.Initials}}</b><br/>
+            data dołączenia: <b>{{ctrl.deleteUserModel.CreateDateLabel}}</b><br/>
+            ilość wyjazdów: <b>{{ctrl.deleteUserModel.Charges}}</b>
+        </p>
+        <div class="row" style="padding-right: 20px;">
+            <loader loadname="deleteUser"></loader>
+        </div>
+    </div>
+    <div class="modal-footer flex-align-center-container" style="background:#132d4b; justify-content: flex-end;">
+        <a href="#" class="waves-effect btn modal-action modal-close" style="margin:0 5px">Anuluj</a>
+        <a href="#" class="waves-effect btn modal-action" style="margin:0 5px" ng-click="ctrl.deleteUser()">Usuń użytkownika</a>
+    </div>
+</div>
+
+@*RECOVER MODAL*@
+<div id="recoveryModal" class="modal">
+    <div class="modal-content white-text" style="background: #4b85c5;">
+        <h1>UWAGA!</h1>
+        <p class="margin-bottom-25">
+            Potwierdź proszę akcję przywrócenia użytkownika klikając na przycisk "PRZYWRÓĆ UŻYTKOWNIKA", operacja ta odblokuje uwcześnie usunięta (zablokowane) konto, tym samym przywracając możliwość otwierania bramy, zakupu wyjazdów bądź logowania do portalu.
+        </p>
+        <p>
+            <b>Użytkownik do przywrócenia:</b><br />
+            <br />
+            <b>{{ctrl.recoverUserModel.Initials}}</b><br />
+            data dołączenia: <b>{{ctrl.recoverUserModel.CreateDateLabel}}</b><br />
+            ilość wyjazdów: <b>{{ctrl.recoverUserModel.Charges}}</b>
+        </p>
+        <div class="row" style="padding-right: 20px;">
+            <loader loadname="recoverUser"></loader>
+        </div>
+    </div>
+    <div class="modal-footer flex-align-center-container" style="background:#132d4b; justify-content: flex-end;">
+        <a href="#" class="waves-effect btn modal-action modal-close" style="margin:0 5px">Anuluj</a>
+        <a href="#" class="waves-effect btn modal-action" style="margin:0 5px" ng-click="ctrl.recoverUser()">Przywróć użytkownika</a>
     </div>
 </div>

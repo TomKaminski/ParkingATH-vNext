@@ -1,4 +1,9 @@
-﻿<ul class="pagination">
+﻿<div class="row">
+    <div class="col s12 flex-align-center-container" style="justify-content: flex-start">
+        <p><b>Rozmiar strony:</b> </p><input type="number" ng-model="ctrl.pageSize" ng-change="ctrl.onPageSizeChange()" style="width: 50px; height: 2rem;margin:0 0 5px 15px" />
+    </div>
+</div>
+<ul class="pagination">
     <li class="waves-effect" ng-click="ctrl.setPage(1)" ng-class="{'disabled':ctrl.currentPage===1}" style="padding:0">
         <a>
             <i class="material-icons">first_page</i>
@@ -19,7 +24,7 @@
             <i class="material-icons">chevron_right</i>
         </a>
     </li>
-    <li class="waves-effect" ng-click="ctrl.setPage(ctrl.totalPages())" ng-class="{'disabled':ctrl.totalPages() === ctrl.currentPage}" style="padding:0">
+    <li class="waves-effect" ng-click="ctrl.setPage(ctrl.totalPages())" ng-class="{'disabled':ctrl.totalPages() === ctrl.currentPage}" style="padding: 0">
         <a>
             <i class="material-icons">last_page</i>
         </a>

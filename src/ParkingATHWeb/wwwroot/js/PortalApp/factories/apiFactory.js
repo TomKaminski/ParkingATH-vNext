@@ -25,6 +25,8 @@
             GetUserOrders: "Portal/Shop/GetUserOrders",
             ProcessPayment: "Portal/Payment/ProcessPayment",
             GetAdminUserList: "Admin/AdminUser/List",
+            DeleteAdminUser: "Admin/AdminUser/Delete",
+            RecoverAdminUser: "Admin/AdminUser/RecoverUser",
             GetAdminOrderList: "Admin/AdminOrder/List",
             GetAdminGtList: "Admin/AdminGateUsage/List",
             GetAdminPricesList: "Admin/AdminPriceTreshold/List"

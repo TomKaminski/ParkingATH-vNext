@@ -38,7 +38,7 @@
             totalPages = Math.ceil(filteredItems.length / pageSize);
             tableOfPages = createPageArray(totalPages, currentPage);
 
-            if (currentPage > tableOfPages.length) {
+            if (currentPage > totalPages) {
                 currentPage = 1;
             }
 
@@ -62,7 +62,7 @@
             getFilteredItems: getFilteredItems,
             setFilterData: setFilterData,
             getFilterData: getFilterData,
-            getTotalPages: getTotalPages
+            getTotalPages: getTotalPages,
         }
     }
 

@@ -34,7 +34,7 @@ namespace ParkingATHWeb.Areas.Admin.Controllers.Base
 
         [HttpPost]
         [ValidateAntiForgeryTokenFromHeader]
-        public virtual async Task<IActionResult> Create(TCreateViewModel model)
+        public virtual async Task<IActionResult> Create([FromBody]TCreateViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -55,13 +55,13 @@ namespace ParkingATHWeb.Areas.Admin.Controllers.Base
 
         [HttpPost]
         [ValidateAntiForgeryTokenFromHeader]
-        public virtual async Task<IActionResult> Delete(TDeleteViewModel model)
+        public virtual async Task<IActionResult> Delete([FromBody]TDeleteViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var serviceResult = await _entityService.DeleteAsync(model.Id);
                 return Json(serviceResult.IsValid
-                    ? SmartJsonResult.Success()
+                    ? SmartJsonResult.Success("Operacja usunięcia zakończona pomyślnie.")
                     : SmartJsonResult.Failure(serviceResult.ValidationErrors));
             }
             return Json(SmartJsonResult.Failure(GetModelStateErrors(ModelState)));
@@ -76,7 +76,7 @@ namespace ParkingATHWeb.Areas.Admin.Controllers.Base
 
         [HttpPost]
         [ValidateAntiForgeryTokenFromHeader]
-        public virtual async Task<IActionResult> Edit(TEditViewModel model)
+        public virtual async Task<IActionResult> Edit([FromBody]TEditViewModel model)
         {
             if (ModelState.IsValid)
             {

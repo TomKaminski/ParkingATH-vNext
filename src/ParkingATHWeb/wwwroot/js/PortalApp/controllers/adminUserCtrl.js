@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    function adminUserCtrl($controller, $scope, breadcrumbService, apiFactory, loadingContentService, notificationService, adminFilterFactory) {
+    function adminUserCtrl($filter, $controller, $scope, breadcrumbService, apiFactory, loadingContentService, notificationService, adminFilterFactory) {
         angular.extend(this, $controller('baseAdminController', { $scope: $scope }));
 
         var self = this;
@@ -12,15 +12,75 @@
         breadcrumbService.setOuterBreadcrumb('Administracja - Użytkownicy');
         getList();
 
-        init();
+        self.deleteUserStart = function (id) {
+            self.deleteUserModel = $filter('getById')(adminFilterFactory.getFilterData(), id);
+        }
 
-        function init() {
+        self.deleteUser = function () {
+            apiFactory.genericPost(
+             function () {
+                 loadingContentService.setIsLoading('deleteUser', true);
+             },
+             function () {
+                 var item = $filter('getById')(adminFilterFactory.getFilterData(), self.deleteUserModel.Id);
+                 item.IsDeleted = true;
+                 $('#deleteModal').closeModal();
+             },
+             function (data) {
+                 loadingContentService.setIsLoading('deleteUser', false);
+                 notificationService.showNotifications(data);
+             },
+             function () {
+                 loadingContentService.setIsLoading('deleteUser', false);
+             },
+             apiFactory.apiEnum.DeleteAdminUser, { Id: self.deleteUserModel.Id });
+        }
+
+        self.recoverUserStart = function (id) {
+            self.recoverUserModel = $filter('getById')(adminFilterFactory.getFilterData(), id);
+            loadingContentService.setIsLoading('recoverUser', false);
+        }
+
+        self.recoverUser = function () {
+            apiFactory.genericPost(
+             function () {
+                 loadingContentService.setIsLoading('recoverUser', true);
+             },
+             function () {
+                 var item = $filter('getById')(adminFilterFactory.getFilterData(), self.recoverUserModel.Id);
+                 item.IsDeleted = false;
+                 $('#recoveryModal').closeModal();
+             },
+             function (data) {
+                 loadingContentService.setIsLoading('recoverUser', false);
+                 notificationService.showNotifications(data);
+             },
+             function () {
+                 loadingContentService.setIsLoading('recoverUser', false);
+             },
+             apiFactory.apiEnum.RecoverAdminUser, { Id: self.recoverUserModel.Id });
+        }
+
+        self.onPageSizeChange = function () {
+            if (isNaN(self.pageSize) || self.pageSize < 1) {
+                self.pageSize = 10;
+            }
+            self.currentPage = 1;
+            self.setPageSize(self.pageSize);
+        }
+
+        self.onTextChange = function () {
+            self.currentPage = 1;
+            self.filterList();
+        }
+
+        function init(data) {
             self.shouldFilter = false;
             self.searchText = "";
             self.pageSize = 8;
             self.currentPage = 1;
 
-            adminFilterFactory.setFilterData(getTestUserData());
+            adminFilterFactory.setFilterData(data);
             self.filteredList = adminFilterFactory.getFilteredItems(self.shouldFilter, self.searchText, self.pageSize, self.currentPage);
             self.tableOfPages = adminFilterFactory.getPages();
         }
@@ -31,6 +91,7 @@
                    loadingContentService.setIsLoading('getUserListLoader', true);
                },
                function (data) {
+                   init(data.Result);
                },
                function (data) {
                    console.log(data);
@@ -42,25 +103,7 @@
                },
                apiFactory.apiEnum.GetAdminUserList);
         }
-
-
-        function getTestUserData() {
-            var testArray = [];
-            for (var i = 0; i < 100; i++) {
-                testArray.push({
-                    Id: i + 1,
-                    Initials: "Tomasz Kamiński" + i,
-                    CreateDateLabel: "25.06.1993 15:05",
-                    IsAdmin: i % 2 === 0 ? true : false,
-                    IsDeleted: i % 5 === 0 ? true : false,
-                    OrdersCount: 50 + i,
-                    Charges: 100 + i,
-                    GateUsagesCount: 100 + 1
-                });
-            }
-            return testArray;
-        }
     }
 
-    angular.module('portalApp').controller('adminUserCtrl', ['$controller', '$scope', 'breadcrumbService', 'apiFactory', 'loadingContentService', 'notificationService','adminFilterFactory', adminUserCtrl]);
+    angular.module('portalApp').controller('adminUserCtrl', ['$filter', '$controller', '$scope', 'breadcrumbService', 'apiFactory', 'loadingContentService', 'notificationService', 'adminFilterFactory', adminUserCtrl]);
 })();

@@ -22,7 +22,7 @@ namespace ParkingATHWeb.Areas.Admin.Controllers
             _mapper = mapper;
         }
 
-        public override async Task<IActionResult> List()
+        public override async Task<IActionResult> ListAsync()
         {
             var serviceResult = await _entityService.GetAllAdminAsync();
             return Json(serviceResult.IsValid

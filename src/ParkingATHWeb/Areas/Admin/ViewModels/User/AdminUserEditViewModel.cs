@@ -16,6 +16,5 @@ namespace ParkingATHWeb.Areas.Admin.ViewModels.User
 
         public int Charges { get; set; }
         public bool IsAdmin { get; set; }
-        public bool IsDeleted { get; set; }
     }
 }

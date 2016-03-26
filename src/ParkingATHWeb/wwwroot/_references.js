@@ -67,6 +67,8 @@
 /// <reference path="js/portalapp/factories/apifactory.js" />
 /// <reference path="js/portalapp/factories/chartjsoptionsfactory.js" />
 /// <reference path="js/PortalApp/factories/weatherInfoFactory.js" />
+/// <reference path="js/portalapp/filters/getbyidfilter - copy.js" />
+/// <reference path="js/portalapp/filters/getbyidfilter.js" />
 /// <reference path="js/portalapp/portalapp.js" />
 /// <reference path="js/PortalApp/services/breadcrumbService.js" />
 /// <reference path="js/portalapp/services/loadingcontentservice.js" />
