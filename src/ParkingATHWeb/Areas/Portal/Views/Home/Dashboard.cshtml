@@ -1,0 +1,170 @@
+﻿<div id="card-stats" class="ng-scope">
+    <div class="row">
+        <div class="col s12 m6 l6 xl3">
+            <div class="card" style="border-radius:0">
+                <card-loader style="background: white;" loadname="userChargesLoading"></card-loader>
+                <div class="card-content grey-text text-darken-4">
+                    <h4 class="right-align bold">POSIADASZ <b class="big-text">{{homeCtrl.userChargesModel.chargesLeft}}</b><br> WYJAZDÓW</h4>
+                </div>
+                <a class="card-action white-text" ui-sref="statistics" style="display: block;">
+                    WIĘCEJ INFORMACJI<i class="material-icons right">arrow_forward</i>
+                </a>
+            </div>
+        </div>
+        <div class="col s12 m6 l6 xl3">
+            <div class="card">
+                <card-loader style="background: white;" loadname="userChargesLoading"></card-loader>
+                <div class="card-content grey-text text-darken-4" style="background: white">
+                    <h4 class="right-align bold">ZUŻYTO <b class="big-text">{{homeCtrl.userChargesModel.chargesUsed}}</b><br> WYJAZDÓW</h4>
+
+                </div>
+                <a class="card-action white-text" ui-sref="statistics" style="display: block">
+                    WIĘCEJ INFORMACJI<i class="material-icons right">arrow_forward</i>
+                </a>
+            </div>
+        </div>
+        <div class="col s12 m12 l12 xl6">
+            <div class="card">
+                <div class="card-content grey-text text-darken-4" style="background: white;">
+                    <h4 class="right-align bold"><b class="big-text">KUP WYJAZDY!</b><br> W ŁATWY SPOSÓB DOKONASZ PŁATNOŚCI</h4>
+                </div>
+                <a class="card-action white-text" ui-sref="shop" style="display: block">
+                    PRZEJDŹ DO SKLEPU<i class="material-icons right">arrow_forward</i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="chart-dashboard" class="ng-scope">
+    <div class="row">
+        <div class="col s12 m12 l12 xl7">
+            <div class="card">
+                <card-loader style="background: white;" loadname="userChargesLoading"></card-loader>
+                <div class="card-move-up">
+                    <div class="move-up">
+                        <div>
+                            <a class="btn-floating waves-effect waves-light right" style="background:#2e6cb2"><i class="material-icons activator">expand_less</i></a>
+                            <span class="chart-title grey-text text-darken-4">Częstotliwość wyjazdów &gt; ostatnie 7 dni</span>
+                        </div>
+                        <div class="trending-line-chart-wrapper">
+                            <div class="chart-container"><canvas id="line" class="chart chart-line" height="100" chart-data="homeCtrl.userChargesModel.lineChartData.data" chart-labels="homeCtrl.userChargesModel.lineChartData.Labels" chart-series="homeCtrl.userChargesModel.lineChartData.series" chart-options="homeCtrl.userChargesModel.lineChartData.options"></canvas></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">Wyjazdy - ostatnie 7 dni <i class="material-icons right">close</i></span>
+                    <table class="responsive-table">
+                        <thead>
+                            <tr>
+                                <th data-field="id">Data</th>
+                                <th data-field="month">Ilość wyjazdów</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in homeCtrl.userChargesModel.lineChartData.Labels">
+                                <td>{{item}}</td>
+                                <td>{{homeCtrl.userChargesModel.lineChartData.Data[$index]}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a class="card-action white-text" ui-sref="statistics" style="display: block;">
+                    PRZEJDŹ DO WSZYSTKICH STATYSTYK <i class="material-icons right">arrow_forward</i>
+
+                </a>
+            </div>
+        </div>
+        <div class="col s12 m6 l6 xl5">
+            <div id="weather-card" class="card">
+                <card-loader style="background: white;" loadname="weatherLoading"></card-loader>
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="row white-text">
+                            <div class="col s12 center-align">
+                                <h5 style="margin: 0; padding: 10px 20px; background: #2e6cb2">Dziś, {{homeCtrl.weatherModel.DateOfRead}}</h5>
+                            </div>
+                            <div class="col s12 center-align">
+                                <h5>BIELSKO-BIAŁA</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content-bg white-text">
+                    <div class="card-content" style="padding: 20px">
+                        <div ng-repeat="weatherInfo in homeCtrl.weatherModel.weatherInfo" class="row" style="display: flex; align-items: center">
+                            <div class="col s6 m4 l6">
+                                <ul style="display: flex; align-items: center; position: relative">
+                                    <li ng-repeat="item in weatherInfo.icons" class="{{item}} center-align" style="height: 6rem"></li>
+                                </ul>
+                            </div>
+                            <div class="col s6 m8 l6">
+                                <h5 class="white-text">{{weatherInfo.title}}</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m12 l12 right-align">
+                                <h5><span class="white-text">Temperatura: {{homeCtrl.weatherModel.Temperature}} &#8451;</span></h5>
+                                <p>
+                                    <span class="white-text">Wilgotność: {{homeCtrl.weatherModel.Humidity}}%</span>
+                                </p>
+                                <p>
+                                    <span class="white-text">Ciśnienie: {{homeCtrl.weatherModel.Pressure}} hPa</span>
+                                </p>
+                                <p>
+                                    <span class="white-text">Zachmurzenie: {{homeCtrl.weatherModel.Clouds}}%</span>
+                                </p>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m6 l6 xl6">
+            <div id="message-card" class="card">
+                <div class="card-header">
+                    <div class="card-title grey-text text-darken-4">
+                        <h4 class="message-card-title">SZYBKA WIADOMOŚĆ</h4>
+                    </div>
+                </div>
+                <div class="card-content" ng-form="" name="quickMessageForm">
+                    <div class="input-field col s12 grey-text text-darken-4">
+                        <textarea class="materialize-textarea" id="quickMessageText" ng-model="homeCtrl.sendMessageModel.text" required="" ng-minlength="20" name="quickMessageText"></textarea>
+                        <label for="quickMessageText" class="grey-text text-darken-4">Napisz wiadomość...</label>
+                        <div ng-messages="quickMessageForm.quickMessageText.$error" ng-show="quickMessageForm.quickMessageText.$touched" class="padding-bottom-20 ng-messages-errors">
+                        </div>
+                    </div>
+                    <div class="row margin-bottom-20" style="padding-right: 20px;">
+                        <button class="btn waves-effect waves-light right" type="submit" name="action" style="background: #4b85c5" ng-click="homeCtrl.SendQuickMessage()" ng-disabled="quickMessageForm.$invalid || homeCtrl.sendMessageModel.disableButton == true" disabled="disabled">
+                            WYŚLIJ
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </div>
+                    <div class="row" style="padding-right: 20px;">
+                        <loader loadname="sendQuickMessage"></loader>
+                    </div>
+
+
+                    <br>
+                    <div class="card-content">
+                        <p class="grey-text text-darken-4 right-align">
+                            <b>
+                                DLA TWOJEJ WYGODY, MOŻESZ WYSŁAC Z TEGO PANELU SZYBKA WIADOMOSC DO NASZEGO DZIAŁU SERWISU. CZEKAMY NA TWOJE UWAGI, PYTANIA ORAZ INNE INFORMACJE
+                                ZWIAZANE z TWOIM KONTEM, KTÓRE POZWOLA NAM USPRAWNIC SMARTPARK!
+                            </b>
+                        </p>
+
+                    </div>
+
+                </div>
+                <a class="card-action white-text" ui-sref="messages" style="display: block">
+                    ZOBACZ WSZYSTKIE WIADOMOSCI<i class="material-icons right">arrow_forward</i>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
