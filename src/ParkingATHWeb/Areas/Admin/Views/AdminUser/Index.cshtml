@@ -14,7 +14,7 @@
                         <li>
                             <div class="header-search-wrapper" style="width: 75%;">
                                 <i class="material-icons">search</i>
-                                <input type="text" name="Search" class="header-search-input" placeholder="Wyszukaj użytkownika.." ng-model="ctrl.searchText" ng-change="ctrl.onTextChange()" />
+                                <input type="text" name="Search" class="header-search-input" placeholder="Wyszukaj użytkownika.." ng-model="ctrl.searchText" ng-change="ctrl.onTextChange()" style="border-bottom: 3px solid #4b85c5 !important; border-radius: 0"/>
                             </div>
                         </li>
                     </ul>
@@ -52,7 +52,7 @@
                             <td>{{user.IsAdmin === true ? "Administrator" : "Użytkownik"}}</td>
                             <td>{{user.IsDeleted === true ? "Konto usunięte" : "Konto aktywne"}}</td>
                             <td class="hoverable-table-buttons">
-                                <a class="btn waves-effect waves-light" style="background: #4b85c5; margin-bottom: 5px" href='#editUserModal' modal ng-click="ctrl.editUser(user.Id)">
+                                <a class="btn waves-effect waves-light" style="background: #4b85c5; margin-bottom: 5px" href='#editUserModal' modal ng-click="ctrl.userEditStart(user.Id)">
                                     Edytuj
                                 </a>
                                 <a class="btn waves-effect waves-light" style="background: #4b85c5; margin-bottom: 5px" href='#userDetailsModal' modal ng-click="ctrl.userDetails(user.Id)">
@@ -79,11 +79,61 @@
 <div id="editUserModal" class="modal">
     <div class="modal-content">
         <h4>Edytowanie użytkownika</h4>
-        <p><b>Poniżej znajdziesz formularz umożliwiający edycję podstawowych danych użytkownika.</b></p>
+        <p>
+            <b>Poniżej znajdziesz formularz umożliwiający edycję podstawowych danych użytkownika.</b>
+        </p>
+
+        <div name="ctrl.editUserForm" class="col s12" ng-form>
+            <div class="row">
+                <div class="input-field col s12 m8 l6">
+                    <input id="userName" name="userName" type="text" required ng-model="ctrl.userEditModel.Name" class="little-margin">
+                    <label for="userName" ng-class="{'active': ctrl.userEditModel.Name.length > 0}">Imię użytkownika</label>
+                    <div ng-messages="ctrl.editUserForm.Name.$error" ng-show="ctrl.editUserForm.Name.$touched" class="ng-messages-errors">
+                        <p ng-message="required">Imię użytkownika jest wymagane</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m8 l6">
+                    <input id="userLastName" name="userLastName" type="text" required ng-model="ctrl.userEditModel.LastName" class="little-margin">
+                    <label for="userLastName" ng-class="{'active': ctrl.userEditModel.LastName.length > 0}">Nazwisko użytkownika</label>
+                    <div ng-messages="ctrl.editUserForm.LastName.$error" ng-show="ctrl.editUserForm.LastName.$touched" class="ng-messages-errors">
+                        <p ng-message="required">Nazwisko użytkownika jest wymagane</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m8 l6">
+                    <input id="userCharges" name="userCharges" type="number" required ng-model="ctrl.userEditModel.Charges" class="little-margin">
+                    <label for="userCharges" ng-class="{'active': ctrl.userEditModel.Charges != null}">Ilość wyjazdów</label>
+                    <div ng-messages="ctrl.editUserForm.userCharges.$error" ng-show="ctrl.editUserForm.userCharges.$touched" class="ng-messages-errors">
+                        <p ng-message="number">Wartość nie jest liczbą</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m8 l6">
+                    <input id="newEmail" name="newEmail" type="email" required ng-model="ctrl.userEditModel.Email" class="little-margin">
+                    <label for="newEmail" ng-class="{'active': ctrl.userEditModel.Email != null}">Adres email</label>
+                    <div ng-messages="ctrl.editUserForm.newEmail.$error" ng-show="ctrl.editUserForm.newEmail.$touched" class="padding-bottom-20 ng-messages-errors">
+                        <p ng-message="required">Adres email nie może być pusty</p>
+                        <p ng-message="email">To nie jest adres email</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row" style="padding-right: 20px;">
+                <loader loadname="editUserAdmin"></loader>
+            </div>
+        </div>
     </div>
-    <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect btn">Zamknij</a>
-    </div>
+
+<div class="modal-footer">
+    <a href="#!" class="modal-action modal-close waves-effect btn" style="margin:0 5px">Anuluj</a>
+    <button ng-disabled="ctrl.editUserForm.$invalid || ctrl.userEditModel.disableButton == true" type="submit" name="action" class="modal-action waves-effect btn" style="margin:0 5px" ng-click="ctrl.editUser()">
+        Zapisz zmiany
+    </button>
+</div>
 </div>
 
 @*USER DETAILS MODAL*@
@@ -96,6 +146,9 @@
         <div class="row">
             <div class="col s12 m12 l6">
                 <h5>{{ctrl.userDetailsModel.Initials}}</h5>
+                <p>
+                    Adres email: <b>{{ctrl.userDetailsModel.Email}}</b>
+                </p>
                 <p>
                     Data utworzenia: <b>{{ctrl.userDetailsModel.CreateDateLabel}}</b>
                 </p>
@@ -144,7 +197,7 @@
                                 </p>
                             </td>
                         </tr>
-                        <tr ng-repeat="order in ctrl.deleteUserModel.LastUserOrders" ng-class="order.OrderStateStyle">
+                        <tr ng-repeat="order in ctrl.userDetailsModel.LastUserOrders" ng-class="order.OrderStateStyle">
                             <td>{{order.Date}}</td>
                             <td>{{order.Time}}</td>
                             <td>{{order.NumOfCharges}}</td>

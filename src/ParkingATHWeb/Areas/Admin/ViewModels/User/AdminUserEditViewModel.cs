@@ -4,7 +4,7 @@ using ParkingATHWeb.ViewModels.Base;
 
 namespace ParkingATHWeb.Areas.Admin.ViewModels.User
 {
-    public class AdminUserEditViewModel:SmartParkEditBaseViewModel<int>
+    public class AdminUserEditViewModel : SmartParkEditBaseViewModel<int>
     {
         [Required(ErrorMessageResourceType = typeof(ViewModelResources), ErrorMessageResourceName = "Common_RequiredError")]
         [DisplayName("Imię")]
@@ -14,7 +14,14 @@ namespace ParkingATHWeb.Areas.Admin.ViewModels.User
         [DisplayName("Nazwisko")]
         public string LastName { get; set; }
 
+        [Required]
         public int Charges { get; set; }
-        public bool IsAdmin { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Required]
+        public string OldEmail { get; set; }
     }
 }

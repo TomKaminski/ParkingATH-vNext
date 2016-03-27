@@ -26,6 +26,7 @@
             ProcessPayment: "Portal/Payment/ProcessPayment",
             GetAdminUserList: "Admin/AdminUser/List",
             DeleteAdminUser: "Admin/AdminUser/Delete",
+            EditAdminUser: "Admin/AdminUser/Edit",
             RecoverAdminUser: "Admin/AdminUser/RecoverUser",
             GetAdminOrderList: "Admin/AdminOrder/List",
             GetAdminGtList: "Admin/AdminGateUsage/List",

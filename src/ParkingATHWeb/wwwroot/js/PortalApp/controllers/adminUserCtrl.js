@@ -12,6 +12,43 @@
         breadcrumbService.setOuterBreadcrumb('Administracja - Użytkownicy');
         getList();
 
+        self.userEditStart = function (id) {
+            var user = $filter('getById')(adminFilterFactory.getFilterData(), id);
+            self.userEditModel = {
+                Name: user.Name,
+                Id: user.Id,
+                disableButton: false,
+                LastName: user.LastName,
+                Charges: user.Charges,
+                Email: user.Email,
+                OldEmail: user.Email
+            }
+        }
+
+        self.editUser = function () {
+            apiFactory.genericPost(
+             function () {
+                 loadingContentService.setIsLoading('editUserAdmin', true);
+             },
+             function () {
+                 var item = $filter('getById')(adminFilterFactory.getFilterData(), self.userEditModel.Id);
+                 item.Name = self.userEditModel.Name;
+                 item.LastName = self.userEditModel.LastName;
+                 item.Charges = self.userEditModel.Charges;
+                 item.Email = self.userEditModel.Email;
+                 item.Initials = item.Name + " " + item.LastName;
+                 $('#editUserModal').closeModal();
+             },
+             function (data) {
+                 loadingContentService.setIsLoading('editUserAdmin', false);
+                 notificationService.showNotifications(data);
+             },
+             function () {
+                 loadingContentService.setIsLoading('editUserAdmin', false);
+             },
+             apiFactory.apiEnum.EditAdminUser, self.userEditModel);
+        }
+
         self.userDetails = function(id) {
             self.userDetailsModel = $filter('getById')(adminFilterFactory.getFilterData(), id);
         }

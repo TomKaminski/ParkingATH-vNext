@@ -50,5 +50,19 @@ namespace ParkingATHWeb.Areas.Admin.Controllers
             }
             return Json(SmartJsonResult.Failure(GetModelStateErrors(ModelState)));
         }
+
+        [ValidateAntiForgeryTokenFromHeader]
+        [HttpPost]
+        public override async Task<IActionResult> Edit([FromBody]AdminUserEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var serviceResult = await _entityService.AdminEditAsync(_mapper.Map<UserBaseDto>(model), model.OldEmail);
+                return Json(serviceResult.IsValid
+                    ? SmartJsonResult.Success("Edycja użytkownika zakończona pomyślnie")
+                    : SmartJsonResult.Failure(serviceResult.ValidationErrors));
+            }
+            return Json(SmartJsonResult.Failure(GetModelStateErrors(ModelState)));
+        }
     }
 }

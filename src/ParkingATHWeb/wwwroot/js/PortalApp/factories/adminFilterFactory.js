@@ -66,5 +66,5 @@
         }
     }
 
-    angular.module('portalApp').factory('adminFilterFactory', adminFilterFactory);
+    angular.module('portalApp').factory('adminFilterFactory',['$filter',adminFilterFactory]);
 })();

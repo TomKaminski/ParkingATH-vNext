@@ -63,5 +63,6 @@ namespace ParkingATHWeb.Contracts.Services
 
         Task<ServiceResult> RecoverUserAsync(int id);
 
+        Task<ServiceResult> AdminEditAsync(UserBaseDto user, string oldEmail);
     }
 }

@@ -68,6 +68,20 @@ namespace ParkingATHWeb.Business.Services
             return ServiceResult.Success();
         }
 
+        public async Task<ServiceResult> AdminEditAsync(UserBaseDto user, string oldEmail)
+        {
+            if (oldEmail == user.Email || await _repository.FirstOrDefaultAsync(x => x.Email == user.Email) == null)
+            {
+                var entity = await _repository.FirstOrDefaultAsync(x => x.Email == oldEmail);
+                _mapper.Map(user, entity);
+
+                _repository.Edit(entity);
+                await _unitOfWork.CommitAsync();
+                return ServiceResult.Success();
+            }
+            return ServiceResult<UserBaseDto, UserPreferencesDto>.Failure("Podany adres email jest już zajęty");
+        }
+
         public async Task<ServiceResult<bool>> CheckHashAsync(string email, string hash)
         {
             var stud = await _repository.FirstOrDefaultAsync(x => x.Email == email);
@@ -187,7 +201,7 @@ namespace ParkingATHWeb.Business.Services
         {
             if ((await _repository.FirstOrDefaultAsync(x => x.Email == newEmail)) == null)
             {
-                var entity = await _repository.Include(x=>x.UserPreferences).FirstOrDefaultAsync(x => x.Email == email);
+                var entity = await _repository.Include(x => x.UserPreferences).FirstOrDefaultAsync(x => x.Email == email);
                 if (entity != null && _passwordHasher.ValidatePassword(password, entity.PasswordHash, entity.PasswordSalt))
                 {
                     entity.Email = newEmail;
@@ -307,7 +321,7 @@ namespace ParkingATHWeb.Business.Services
             }
             return ServiceResult<UserBaseDto, GateUsageBaseDto>.Success(
                 _mapper.Map<UserBaseDto>(stud),
-                _mapper.Map<GateUsageBaseDto>(stud.GateUsages.OrderByDescending(x=>x.DateOfUse).First()));
+                _mapper.Map<GateUsageBaseDto>(stud.GateUsages.OrderByDescending(x => x.DateOfUse).First()));
         }
 
         public async Task<ServiceResult<UserBaseDto>> CheckLoginAsync(string email, string hash)
@@ -415,7 +429,7 @@ namespace ParkingATHWeb.Business.Services
 
         public ServiceResult<IEnumerable<UserAdminDto>> GetAllAdmin()
         {
-            var query = _repository.Include(x => x.Orders).Include(x => x.GateUsages).Include(x=>x.UserPreferences).OrderBy(x => x.LastName);
+            var query = _repository.Include(x => x.Orders).Include(x => x.GateUsages).Include(x => x.UserPreferences).OrderBy(x => x.LastName);
             var result = query.Select(_mapper.Map<UserAdminDto>).ToList();
 
             return ServiceResult<IEnumerable<UserAdminDto>>.Success(result);

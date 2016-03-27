@@ -20,5 +20,6 @@ namespace ParkingATHWeb.Areas.Admin.ViewModels.User
         public string Name { get; set; }
         public string LastName { get; set; }
         public string ImgId { get; set; }
+        public string Email { get; set; }
     }
 }

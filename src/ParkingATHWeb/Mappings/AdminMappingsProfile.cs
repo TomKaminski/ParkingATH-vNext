@@ -23,6 +23,12 @@ namespace ParkingATHWeb.Mappings
                 .ForMember(x=>x.CreateDateLabel, a=>a.MapFrom(s=>s.CreateDate.ToString("dd-MM-yyyy hh:mm")))
                 .ForMember(x => x.LastUserOrders, a => a.MapFrom(s=>s.Orders))
                 .IgnoreNotExistingProperties();
+
+
+            CreateMap<AdminUserEditViewModel,UserBaseDto>().IgnoreNotExistingProperties();
+            CreateMap<AdminPriceTresholdCreateViewModel, PriceTresholdBaseDto>().IgnoreNotExistingProperties();
+            CreateMap<AdminPriceTresholdEditViewModel, PriceTresholdBaseDto>().IgnoreNotExistingProperties();
+
         }
     }
 }
