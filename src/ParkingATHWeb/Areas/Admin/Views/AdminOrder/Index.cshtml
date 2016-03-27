@@ -4,7 +4,104 @@
             <p class="card-title grey-text text-darken-4">
                 Historia zamówień
             </p>
-            <p class="margin-bottom-20"><b>Ta sekcja pozwoli ci na kontrolowanie zamówień, zawiera ona dokładne informacje o każdym zamówieniu.</b></p>
+            <p class="margin-bottom-20"><b>Ta sekcja pozwoli ci na kontrolowanie zamówień, zawiera ona dokładne informacje o każdym zamówieniu.</b>
+            </p>
+            <div>
+                <card-loader style="background: white;" loadname="getOrderListLoader"></card-loader>
+                <div class="row">
+                    <div class="col s12 m10 l10 xl8">
+                        <div class="row flex-align-center-container-mid-and-up">
+                            <div class="input-field flex-align-center-container col s12 m4">
+                                <i class="material-icons prefix" id="orderIconStart">date_range</i>
+                                <input input-date
+                                       type="text"
+                                       name="created2"
+                                       id="orderDateFrom"
+                                       ng-model="ctrl.orderDateRangeModel.DateFrom"
+                                       container="body"
+                                       format="mm/dd/yyyy"
+                                       months-full="{{ ctrl.month }}"
+                                       months-short="{{ ctrl.monthShort }}"
+                                       weekdays-full="{{ ctrl.weekdaysFull }}"
+                                       weekdays-short="{{ ctrl.weekdaysShort }}"
+                                       weekdays-letter="{{ ctrl.weekdaysLetter }}"
+                                       today="ctrl.today"
+                                       close="ctrl.close"
+                                       clear="ctrl.clear"
+                                       on-close="ctrl.onClose('orderIconStart')"/>
+                                <label for="orderDateFrom" class="active">Data początkowa (mm/dd/yyyy)</label>
+                            </div>
+                            <div class="input-field flex-align-center-container col s12 m4">
+                                <i class="material-icons prefix" id="orderIconEnd">date_range</i>
+                                <input input-date
+                                       type="text"
+                                       name="created2"
+                                       id="orderDateTo"
+                                       ng-model="ctrl.orderDateRangeModel.DateTo"
+                                       container="body"
+                                       format="mm/dd/yyyy"
+                                       months-full="{{ ctrl.month }}"
+                                       months-short="{{ ctrl.monthShort }}"
+                                       weekdays-full="{{ ctrl.weekdaysFull }}"
+                                       weekdays-short="{{ ctrl.weekdaysShort }}"
+                                       weekdays-letter="{{ ctrl.weekdaysLetter }}"
+                                       today="ctrl.today"
+                                       on-close="ctrl.onClose('orderIconEnd')"/>
+                                <label for="orderDateTo" class="active">Data końcowa (mm/dd/yyyy)</label>
+                            </div>
+                            <button class="col s12 m4 xl3 btn waves-effect waves-light margin-bottom-20" type="submit" name="action" style="margin-top: 40px" ng-click="ctrl.refreshList()">Odświerz listę<i class="material-icons right">send</i></button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <ul class="margin-bottom-20 col s12 m7 l9" style="margin-top: 0; margin-left: 0">
+                        <li>
+                            <div class="header-search-wrapper" style="width: 75%;">
+                                <i class="material-icons">search</i>
+                                <input type="text" name="Search" class="header-search-input" placeholder="Wyszukaj zamówienie.." ng-model="ctrl.searchText" ng-change="ctrl.onTextChange()" style="border-bottom: 3px solid #4b85c5 !important; border-radius: 0"/>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <table class="responsive-table margin-bottom-20">
+                    <thead>
+                    <tr>
+                        <th>Imię i nazwisko</th>
+                        <th>Data zakupu</th>
+                        <th>Godzina zakupu</th>
+                        <th>Ilość wyjazdów</th>
+                        <th>Cena za sztukę</th>
+                        <th>Cena całkowita</th>
+                        <th>Miejsce zakupu</th>
+                        <th>Stan zamówienia</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="ctrl.filteredList.length===0">
+                            <td colspan="7">
+                                <p>
+                                    <b>Brak zamówień.</b>
+                                </p>
+                            </td>
+                        </tr>
+                    <tr ng-repeat="order in ctrl.filteredList" ng-class="order.OrderStateStyle">
+                        <td>{{order.Initials}}</td>
+                        <td>{{order.Date}}</td>
+                        <td>{{order.Time}}</td>
+                        <td>{{order.NumOfCharges}}</td>
+                        <td>{{order.PricePerCharge}}</td>
+                        <td>{{order.Price}}</td>
+                        <td>{{order.OrderPlace}}</td>
+                        <td>{{order.OrderState}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                @Html.Partial("_PaginationPartial")
+            </div>
+            
         </div>
     </div>
 </div>

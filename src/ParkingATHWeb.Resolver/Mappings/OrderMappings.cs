@@ -17,6 +17,7 @@ namespace ParkingATHWeb.Resolver.Mappings
             CreateMap<Order, OrderAdminDto>()
                 .ForMember(x => x.LastName, opt => opt.MapFrom(k => k.User.LastName))
                 .ForMember(x => x.Name, opt => opt.MapFrom(k => k.User.Name))
+                .ForMember(x => x.PricePerCharge, a => a.MapFrom(m => m.Price / m.NumOfCharges))
                 .IgnoreNotExistingProperties();
 
             CreateMap<Order, OrderBaseDto>()

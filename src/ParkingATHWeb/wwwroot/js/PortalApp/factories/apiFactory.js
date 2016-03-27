@@ -28,7 +28,7 @@
             DeleteAdminUser: "Admin/AdminUser/Delete",
             EditAdminUser: "Admin/AdminUser/Edit",
             RecoverAdminUser: "Admin/AdminUser/RecoverUser",
-            GetAdminOrderList: "Admin/AdminOrder/List",
+            GetAdminOrderList: "Admin/AdminOrder/DateRangeList",
             GetAdminGtList: "Admin/AdminGateUsage/List",
             GetAdminPricesList: "Admin/AdminPriceTreshold/List"
         }

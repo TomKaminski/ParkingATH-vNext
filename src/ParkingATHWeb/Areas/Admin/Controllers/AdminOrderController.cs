@@ -36,15 +36,21 @@ namespace ParkingATHWeb.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryTokenFromHeader]
-        public async Task<IActionResult> DateRangeListAsync(SmartParkListDateRangeRequestViewModel model)
+        public async Task<IActionResult> DateRangeList([FromBody]SmartParkListDateRangeRequestViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                model.DateFrom = DateTime.Today.AddDays(-6);
-                model.DateTo = DateTime.Now;
+                model = new SmartParkListDateRangeRequestViewModel
+                {
+                    DateFrom = DateTime.Today.AddDays(-6),
+                    DateTo = DateTime.Now
+                };
             }
 
-            var serviceResult = await _entityService.GetAllAdminAsync(x => x.Date >= model.DateFrom && x.Date <= model.DateTo);
+            var dateFrom = model.DateFrom;
+            var dateTo = model.DateTo;
+
+            var serviceResult = await _entityService.GetAllAdminAsync(x => x.Date >= dateFrom && x.Date <= dateTo);
             return Json(serviceResult.IsValid
                 ? SmartJsonResult<SmartParkListWithDateRangeViewModel<AdminOrderListItemViewModel>>
                 .Success(new SmartParkListWithDateRangeViewModel<AdminOrderListItemViewModel>

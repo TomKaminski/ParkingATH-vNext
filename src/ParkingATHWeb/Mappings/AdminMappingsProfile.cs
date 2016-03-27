@@ -7,6 +7,7 @@ using ParkingATHWeb.Contracts.DTO.GateUsage;
 using ParkingATHWeb.Contracts.DTO.Order;
 using ParkingATHWeb.Contracts.DTO.PriceTreshold;
 using ParkingATHWeb.Contracts.DTO.User;
+using ParkingATHWeb.Shared.Enums;
 using ParkingATHWeb.Shared.Helpers;
 
 namespace ParkingATHWeb.Mappings
@@ -16,7 +17,6 @@ namespace ParkingATHWeb.Mappings
         protected override void Configure()
         {
             CreateMap<GateUsageAdminDto, AdminGateUsageListItemViewModel>().IgnoreNotExistingProperties();
-            CreateMap<OrderAdminDto, AdminOrderListItemViewModel>().IgnoreNotExistingProperties();
             CreateMap<PriceTresholdAdminDto, AdminPriceTresholdListItemViewModel>().IgnoreNotExistingProperties();
             CreateMap<UserAdminDto, AdminUserListItemViewModel>()
                 .ForMember(x=>x.Initials, a=>a.MapFrom(s=>$"{s.Name} {s.LastName}"))
@@ -29,6 +29,44 @@ namespace ParkingATHWeb.Mappings
             CreateMap<AdminPriceTresholdCreateViewModel, PriceTresholdBaseDto>().IgnoreNotExistingProperties();
             CreateMap<AdminPriceTresholdEditViewModel, PriceTresholdBaseDto>().IgnoreNotExistingProperties();
 
+
+            CreateMap<OrderAdminDto, AdminOrderListItemViewModel>()
+               .ForMember(x => x.Price, a => a.MapFrom(s => s.Price.ToString("#.00")))
+               .ForMember(x => x.PricePerCharge, a => a.MapFrom(s => s.PricePerCharge.ToString("#.00")))
+               .ForMember(x => x.Date, a => a.MapFrom(s => s.Date.ToString("dd.MM.yyyy")))
+               .ForMember(x => x.Time, a => a.MapFrom(s => s.Date.ToString("HH:mm")))
+               .ForMember(x=>x.Initials, a=>a.MapFrom(s=>$"{s.Name} {s.LastName}"))
+               .AfterMap((src, dest) =>
+               {
+                   switch (src.OrderState)
+                   {
+                       case OrderStatus.Completed:
+                           dest.OrderState = "Sfinalizowane";
+                           dest.OrderStateStyle = "order-success";
+                           break;
+                       case OrderStatus.Canceled:
+                           dest.OrderState = "Anulowane";
+                           dest.OrderStateStyle = "order-canceled";
+                           break;
+                       case OrderStatus.Rejected:
+                           dest.OrderState = "Odrzucone";
+                           dest.OrderStateStyle = "order-rejected";
+                           break;
+                       case OrderStatus.Pending:
+                           dest.OrderState = "Oczekujące";
+                           dest.OrderStateStyle = "order-pending";
+                           break;
+                   }
+                   switch (src.OrderPlace)
+                   {
+                       case OrderPlace.Panel:
+                           dest.OrderPlace = "Panel zakupowy";
+                           break;
+                       case OrderPlace.Website:
+                           dest.OrderPlace = "Portal";
+                           break;
+                   }
+               }).IgnoreNotExistingProperties();
         }
     }
 }

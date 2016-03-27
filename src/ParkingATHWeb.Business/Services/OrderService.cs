@@ -80,7 +80,7 @@ namespace ParkingATHWeb.Business.Services
             var lambda = Expression.Lambda<Func<Order, bool>>(result, param);
             return ServiceResult<IEnumerable<OrderAdminDto>>
                 .Success(
-                    (await _repository.Include(x => x.User).Where(lambda).ToListAsync()).Select(
+                    (await _repository.Include(x => x.User).Where(lambda).OrderByDescending(x => x.Date).ToListAsync()).Select(
                         _mapper.Map<OrderAdminDto>));
         }
 
