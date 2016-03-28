@@ -26,12 +26,6 @@ namespace ParkingATHWeb.Areas.Admin.Controllers.Base
             _mapper = mapper;
         }
 
-        //[HttpGet]
-        //public virtual IActionResult Create()
-        //{
-        //    return View();
-        //}
-
         [HttpPost]
         [ValidateAntiForgeryTokenFromHeader]
         public virtual async Task<IActionResult> Create([FromBody]TCreateViewModel model)
@@ -46,12 +40,6 @@ namespace ParkingATHWeb.Areas.Admin.Controllers.Base
             return Json(SmartJsonResult.Failure(GetModelStateErrors(ModelState)));
         }
 
-        //[HttpGet]
-        //[Route("{id}")]
-        //public virtual async Task<IActionResult> Delete(TKeyType id)
-        //{
-        //    return View(_mapper.Map<TListViewModel>(await _entityService.GetAsync(id)));
-        //}
 
         [HttpPost]
         [ValidateAntiForgeryTokenFromHeader]
@@ -66,13 +54,6 @@ namespace ParkingATHWeb.Areas.Admin.Controllers.Base
             }
             return Json(SmartJsonResult.Failure(GetModelStateErrors(ModelState)));
         }
-
-        //[HttpGet]
-        //[Route("{id}")]
-        //public virtual async Task<IActionResult> Edit(TKeyType id)
-        //{
-        //    return View(_mapper.Map<TEditViewModel>(await _entityService.GetAsync(id)));
-        //}
 
         [HttpPost]
         [ValidateAntiForgeryTokenFromHeader]

@@ -31,7 +31,7 @@ namespace ParkingATHWeb.Business.Services
 
         public override async Task<ServiceResult<IEnumerable<PriceTresholdBaseDto>>> GetAllAsync()
         {
-            var count = Count(x => !x.IsDeleted);
+            var count = Count();
             if (count.Result == 0)
             {
                 _repository.Add(new PriceTreshold
@@ -42,6 +42,83 @@ namespace ParkingATHWeb.Business.Services
                 await _unitOfWork.CommitAsync();
             }
             return ServiceResult<IEnumerable<PriceTresholdBaseDto>>.Success(_repository.GetAll(x => !x.IsDeleted).OrderBy(x => x.MinCharges).Select(_mapper.Map<PriceTresholdBaseDto>));
+        }
+
+        public new async Task<ServiceResult<PriceTresholdBaseDto, PrcAdminCreateInfo>> CreateAsync(PriceTresholdBaseDto entity)
+        {
+            var createInfo = new PrcAdminCreateInfo();
+
+            var recoverItem = await _repository.FirstOrDefaultAsync(x => x.IsDeleted && x.MinCharges == entity.MinCharges && x.PricePerCharge == entity.PricePerCharge);
+
+            if (recoverItem != null)
+            {
+                recoverItem.IsDeleted = false;
+                _repository.Edit(recoverItem);
+                await _unitOfWork.CommitAsync();
+                createInfo.Recovered = true;
+                return ServiceResult<PriceTresholdBaseDto, PrcAdminCreateInfo>.Success(_mapper.Map<PriceTresholdBaseDto>(recoverItem), createInfo);
+            }
+
+            var conflictingItem = await _repository.FirstOrDefaultAsync(x => x.IsDeleted != true && (x.MinCharges == entity.MinCharges || x.PricePerCharge == entity.PricePerCharge));
+
+            if (conflictingItem != null)
+            {
+                if (entity.MinCharges == 0)
+                {
+                    var currentDefault = await _repository.FirstOrDefaultAsync(x => !x.IsDeleted && x.MinCharges == 0);
+
+                    currentDefault.IsDeleted = true;
+                    _repository.Edit(currentDefault);
+                    createInfo.ReplacedDefault = true;
+                }
+                else
+                {
+                    return ServiceResult<PriceTresholdBaseDto, PrcAdminCreateInfo>
+                        .Failure($"Podane wartości kolidują z już istniejącym przedziałem (min. wyjazdy: {conflictingItem.MinCharges}, cena za szt.: {conflictingItem.PricePerCharge.ToString("##.00")})");
+                }
+            }
+
+            var newPrc = _repository.Add(_mapper.Map<PriceTreshold>(entity));
+            await _unitOfWork.CommitAsync();
+            return ServiceResult<PriceTresholdBaseDto, PrcAdminCreateInfo>.Success(_mapper.Map<PriceTresholdBaseDto>(newPrc), createInfo);
+        }
+
+        public new ServiceResult<PriceTresholdBaseDto, PrcAdminCreateInfo> Create(PriceTresholdBaseDto entity)
+        {
+            var createInfo = new PrcAdminCreateInfo();
+
+            var recoverItem = _repository.FirstOrDefault(x => x.IsDeleted && x.MinCharges == entity.MinCharges && x.PricePerCharge == entity.PricePerCharge);
+
+            if (recoverItem != null)
+            {
+                recoverItem.IsDeleted = false;
+                _repository.Edit(recoverItem);
+                _unitOfWork.Commit();
+                createInfo.Recovered = true;
+                return ServiceResult<PriceTresholdBaseDto, PrcAdminCreateInfo>.Success(_mapper.Map<PriceTresholdBaseDto>(recoverItem), createInfo);
+            }
+
+            var conflictingItem =_repository.FirstOrDefault(x => x.IsDeleted != true && (x.MinCharges == entity.MinCharges || x.PricePerCharge == entity.PricePerCharge));
+
+            if (conflictingItem != null)
+            {
+                if (entity.MinCharges == 0)
+                {
+                    var currentDefault = _repository.FirstOrDefault(x => !x.IsDeleted && x.MinCharges == 0);
+
+                    currentDefault.IsDeleted = true;
+                    _repository.Edit(currentDefault);
+                    createInfo.ReplacedDefault = true;
+                }
+                else
+                {
+                    return ServiceResult<PriceTresholdBaseDto, PrcAdminCreateInfo>
+                        .Failure($"Podane wartości kolidują z już istniejącym przedziałem (min. wyjazdy: {conflictingItem.MinCharges}, cena za szt.: {conflictingItem.PricePerCharge.ToString("##.00")})");
+                }
+            }
+            var newPrc = _repository.Add(_mapper.Map<PriceTreshold>(entity));
+            _unitOfWork.Commit();
+            return ServiceResult<PriceTresholdBaseDto, PrcAdminCreateInfo>.Success(_mapper.Map<PriceTresholdBaseDto>(newPrc), createInfo);
         }
 
         public ServiceResult<IEnumerable<PriceTresholdAdminDto>> GetAllAdmin()
@@ -74,7 +151,7 @@ namespace ParkingATHWeb.Business.Services
             var result = new CustomExpressionVisitor<PriceTreshold>(param).Visit(predicate.Body);
             var lambda = Expression.Lambda<Func<PriceTreshold, bool>>(result, param);
 
-            var count = Count(x => !x.IsDeleted);
+            var count = Count();
             if (count.Result == 0)
             {
                 _repository.Add(new PriceTreshold
@@ -87,6 +164,33 @@ namespace ParkingATHWeb.Business.Services
 
             return ServiceResult<IEnumerable<PriceTresholdAdminDto>>
                 .Success((await _repository.Include(x => x.Orders).Where(lambda).ToListAsync()).Select(_mapper.Map<PriceTresholdAdminDto>));
+        }
+
+        public async Task<ServiceResult> RecoverPriceTresholdAsync(int id)
+        {
+            var obj = await _repository.FindAsync(id);
+
+            var conflictingItem = _repository.FirstOrDefault(x => x.IsDeleted != true && (x.MinCharges == obj.MinCharges || x.PricePerCharge == obj.PricePerCharge));
+
+            if (conflictingItem != null)
+            {
+                if (conflictingItem.MinCharges == 0 && obj.MinCharges == 0)
+                {
+                    conflictingItem.IsDeleted = true;
+                    _repository.Edit(conflictingItem);
+
+                    obj.IsDeleted = false;
+                    _repository.Edit(obj);
+                    await _unitOfWork.CommitAsync();
+                    return ServiceResult.Success("Przywrócono przedział cenowy, oraz podmieniono już z isntiejącym - kolidującym");
+                }
+                return ServiceResult<PriceTresholdBaseDto, PrcAdminCreateInfo>
+                        .Failure($"Nie można przywrócić przedziału, koliduje z przedziałem o wartościach: (min. wyjazdy: {conflictingItem.MinCharges}, cena za szt.: {conflictingItem.PricePerCharge.ToString("##.00")})");
+            }
+            obj.IsDeleted = false;
+            _repository.Edit(obj);
+            await _unitOfWork.CommitAsync();
+            return ServiceResult.Success("Przywrócono przedział cenowy.");
         }
 
         public override async Task<ServiceResult> DeleteAsync(int id)
@@ -114,52 +218,5 @@ namespace ParkingATHWeb.Business.Services
             _unitOfWork.Commit();
             return ServiceResult.Success();
         }
-
-        public override async Task<ServiceResult<PriceTresholdBaseDto>> EditAsync(PriceTresholdBaseDto entity)
-        {
-            var conflictingItem =
-                await _repository.FirstOrDefaultAsync(
-                    x =>
-                        x.IsDeleted != true && x.Id != entity.Id &&
-                        (x.MinCharges == entity.MinCharges || x.PricePerCharge == entity.PricePerCharge));
-
-            if (conflictingItem != null)
-            {
-                return
-                    ServiceResult<PriceTresholdBaseDto>.Failure(
-                        $"Podane wartości kolidują z już istniejącym przedziałem (min. wyjazdy: {conflictingItem.MinCharges}, cena za szt.: {conflictingItem.PricePerCharge.ToString("##.00")})");
-            }
-
-            var defaultPrc = await _repository.FirstOrDefaultAsync(x => x.MinCharges == 0);
-            if (defaultPrc.Id == entity.Id && entity.MinCharges != 0)
-            {
-                return ServiceResult<PriceTresholdBaseDto>.Failure("Nie można edytować minimalnej ilości wyjazdów dla bazowego przedziału!");
-            }
-            return await base.EditAsync(entity);
-        }
-
-        public override ServiceResult Edit(PriceTresholdBaseDto entity)
-        {
-            var conflictingItem =
-                 _repository.FirstOrDefault(
-                    x =>
-                        x.IsDeleted != true && x.Id != entity.Id &&
-                        (x.MinCharges == entity.MinCharges || x.PricePerCharge == entity.PricePerCharge));
-
-            if (conflictingItem != null)
-            {
-                return
-                    ServiceResult<PriceTresholdBaseDto>.Failure(
-                        $"Podane wartości kolidują z już istniejącym przedziałem (min. wyjazdy: {conflictingItem.MinCharges}, cena za szt.: {conflictingItem.PricePerCharge.ToString("##.00")})");
-            }
-            var defaultPrc = _repository.FirstOrDefault(x => x.MinCharges == 0);
-            if (defaultPrc.Id == entity.Id && entity.MinCharges != 0)
-            {
-                return ServiceResult<PriceTresholdBaseDto>.Failure("Nie można edytować minimalnej ilości wyjazdów dla bazowego przedziału!");
-            }
-            return base.Edit(entity);
-        }
-
-   
     }
 }

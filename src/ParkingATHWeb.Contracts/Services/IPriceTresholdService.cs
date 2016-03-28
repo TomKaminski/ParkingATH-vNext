@@ -15,5 +15,11 @@ namespace ParkingATHWeb.Contracts.Services
 
         Task<ServiceResult<IEnumerable<PriceTresholdAdminDto>>> GetAllAdminAsync();
         Task<ServiceResult<IEnumerable<PriceTresholdAdminDto>>> GetAllAdminAsync(Expression<Func<PriceTresholdAdminDto, bool>> predicate);
+
+        Task<ServiceResult> RecoverPriceTresholdAsync(int id);
+
+        new Task<ServiceResult<PriceTresholdBaseDto, PrcAdminCreateInfo>> CreateAsync(PriceTresholdBaseDto entity);
+        new ServiceResult<PriceTresholdBaseDto, PrcAdminCreateInfo> Create(PriceTresholdBaseDto entity);
+
     }
 }

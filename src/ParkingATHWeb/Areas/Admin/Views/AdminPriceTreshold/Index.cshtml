@@ -10,15 +10,21 @@
 
             <div>
                 <card-loader style="background: white;" loadname="getPricesListLoader"></card-loader>
-                <button class="btn waves-effect waves-light" style="background: #4b85c5; margin-bottom: 5px" href='#createPrcModal' modal ng-click="ctrl.createPrcStart()">
+                <button class="btn waves-effect waves-light margin-bottom-20" style="background: #4b85c5" href='#createPrcModal' modal ng-click="ctrl.createPrcStart()">
                     Dodaj nowy przedział cenowy
                 </button>
+                <p>
+                    <input type="checkbox" id="filterCheckbox" ng-model="ctrl.shouldFilter" ng-change="ctrl.toggleFilter()">
+                    <label for="filterCheckbox">Pokazuj nieaktywne</label>
+                </p>
+
                 <table class="responsive-table">
                     <thead>
                         <tr>
                             <th>Minimalna ilość wyjazdów</th>
                             <th>Cena za sztukę</th>
                             <th>Ilość zamówień</th>
+                            <th>Status</th>
                             <th>Akcje</th>
                         </tr>
                     </thead>
@@ -30,16 +36,17 @@
                                 </p>
                             </td>
                         </tr>
-                        <tr ng-repeat="prc in ctrl.prcList">
+                        <tr ng-repeat="prc in ctrl.prcList | orderBy: 'MinCharges'">
                             <td>{{prc.MinCharges}}</td>
                             <td>{{prc.PricePerCharge | number:2}} PLN</td>
                             <td>{{prc.NumOfOrders}}</td>
+                            <td>{{prc.IsDeleted === true ? "Zablokowany" : "Aktywny"}}</td>
                             <td class="hoverable-table-buttons">
-                                <a class="btn waves-effect waves-light" style="background: #4b85c5; margin-bottom: 5px" href='#deletePrcModal' modal ng-click="ctrl.deletePrcStart(prc.Id)">
+                                <a class="btn waves-effect waves-light" style="background: #4b85c5; margin-bottom: 5px" href='#deletePrcModal' modal ng-click="ctrl.deletePrcStart(prc.Id)" ng-if="!prc.IsDeleted">
                                     Usuń
                                 </a>
-                                <a class="btn waves-effect waves-light" style="background: #4b85c5; margin-bottom: 5px" href='#editPrcModal' modal ng-click="ctrl.prcEditStart(prc.Id)">
-                                    Edytuj
+                                <a class="btn waves-effect waves-light" style="background: #4b85c5; margin-bottom: 5px" href='#recoverPrcModal' modal ng-click="ctrl.recoverPrcStart(prc.Id)" ng-if="prc.IsDeleted">
+                                    Przywróć
                                 </a>
                             </td>
                         </tr>
@@ -51,41 +58,29 @@
 </div>
 
 
-@*EDIT PRC MODAL*@
-<div id="editPrcModal" class="modal">
-    <div class="modal-content">
-        <h4>Edytowanie przedziału cenowego</h4>
 
-        <div name="ctrl.editPrcForm" class="col s12" ng-form>
-            <div class="row">
-                <div class="input-field col s12 m8 l6">
-                    <input id="minCharges" name="minCharges" type="number" required ng-model="ctrl.prcEditModel.MinCharges" class="little-margin">
-                    <label for="minCharges" ng-class="{'active': ctrl.prcEditModel.MinCharges != null}">Minimalna ilość wyjazdów</label>
-                    <div ng-messages="ctrl.editPrcForm.minCharges.$error" ng-show="ctrl.editPrcForm.minCharges.$touched" class="ng-messages-errors">
-                        <p ng-message="required">Podaj minimalną ilość wyjazdów dla danego przedziału cenowego</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s12 m8 l6">
-                    <input id="pricePerCharge" name="pricePerCharge" type="text" required ng-model="ctrl.prcEditModel.PricePerCharge" class="little-margin">
-                    <label for="pricePerCharge" ng-class="{'active': ctrl.prcEditModel.PricePerCharge != null}">Cena za 1 wyjazd</label>
-                    <div ng-messages="ctrl.editPrcForm.pricePerCharge.$error" ng-show="ctrl.editPrcForm.pricePerCharge.$touched" class="ng-messages-errors">
-                        <p ng-message="required">Podaj cenę za jeden wyjazd</p>
-                    </div>
-                </div>
-            </div>
 
-            <div class="row" style="padding-right: 20px;">
-                <loader loadname="editPrcAdmin"></loader>
-            </div>
+@*RECOVER MODAL*@
+<div id="recoverPrcModal" class="modal">
+    <div class="modal-content white-text" style="background: #4b85c5;">
+        <h1>UWAGA!</h1>
+        <p class="margin-bottom-25">
+            Potwierdź proszę akcję aktywowania przedziału cenowego.
+        </p>
+        <p>
+            <b>Przedział do ponownego aktywowania:</b><br/>
+            <br/>
+            minimalna ilość wyjazdów: <b>{{ctrl.recoverPrcModel.MinCharges}}</b><br/>
+            cena za sztukę: <b>{{ctrl.recoverPrcModel.PricePerCharge | number:2}} PLN</b>
+        </p>
+        <div class="row" style="padding-right: 20px;">
+            <loader loadname="recoverPrc"></loader>
         </div>
     </div>
-
-    <div class="modal-footer">
-        <button class="modal-action modal-close waves-effect btn" style="margin: 0 5px">Anuluj</button>
-        <button ng-disabled="ctrl.editPrcForm.$invalid || ctrl.prcEditModel.disableButton == true" type="submit" name="action" class="modal-action waves-effect btn" style="margin: 0 5px" ng-click="ctrl.editPrc()">
-            Zapisz zmiany
+    <div class="modal-footer flex-align-center-container" style="background: #132d4b; justify-content: flex-end;">
+        <button class="waves-effect btn modal-action modal-close" style="margin: 0 5px">Anuluj</button>
+        <button ng-disabled="ctrl.recoverPrcProgress == true" class="waves-effect btn modal-action" style="margin: 0 5px" ng-click="ctrl.recoverPrc()">
+            Aktywuj przedział
         </button>
     </div>
 </div>
@@ -153,3 +148,53 @@
         </button>
     </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+@*EDIT PRC MODAL
+    <div id="editPrcModal" class="modal">
+        <div class="modal-content">
+            <h4>Edytowanie przedziału cenowego</h4>
+
+            <div name="ctrl.editPrcForm" class="col s12" ng-form>
+                <div class="row">
+                    <div class="input-field col s12 m8 l6">
+                        <input id="minCharges" name="minCharges" type="number" required ng-model="ctrl.prcEditModel.MinCharges" class="little-margin">
+                        <label for="minCharges" ng-class="{'active': ctrl.prcEditModel.MinCharges != null}">Minimalna ilość wyjazdów</label>
+                        <div ng-messages="ctrl.editPrcForm.minCharges.$error" ng-show="ctrl.editPrcForm.minCharges.$touched" class="ng-messages-errors">
+                            <p ng-message="required">Podaj minimalną ilość wyjazdów dla danego przedziału cenowego</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12 m8 l6">
+                        <input id="pricePerCharge" name="pricePerCharge" type="text" required ng-model="ctrl.prcEditModel.PricePerCharge" class="little-margin">
+                        <label for="pricePerCharge" ng-class="{'active': ctrl.prcEditModel.PricePerCharge != null}">Cena za 1 wyjazd</label>
+                        <div ng-messages="ctrl.editPrcForm.pricePerCharge.$error" ng-show="ctrl.editPrcForm.pricePerCharge.$touched" class="ng-messages-errors">
+                            <p ng-message="required">Podaj cenę za jeden wyjazd</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-right: 20px;">
+                    <loader loadname="editPrcAdmin"></loader>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="modal-action modal-close waves-effect btn" style="margin: 0 5px">Anuluj</button>
+            <button ng-disabled="ctrl.editPrcForm.$invalid || ctrl.prcEditModel.disableButton == true" type="submit" name="action" class="modal-action waves-effect btn" style="margin: 0 5px" ng-click="ctrl.editPrc()">
+                Zapisz zmiany
+            </button>
+        </div>
+    </div>*@

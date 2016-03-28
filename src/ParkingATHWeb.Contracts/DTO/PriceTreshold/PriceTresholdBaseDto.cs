@@ -8,4 +8,10 @@ namespace ParkingATHWeb.Contracts.DTO.PriceTreshold
         public decimal PricePerCharge { get; set; }
         public bool IsDeleted { get; set; }
     }
+
+    public class PrcAdminCreateInfo
+    {
+        public bool Recovered { get; set; }
+        public bool ReplacedDefault { get; set; }
+    }
 }
