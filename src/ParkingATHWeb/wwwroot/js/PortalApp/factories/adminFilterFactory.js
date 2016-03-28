@@ -28,6 +28,27 @@
             return totalPages;
         }
 
+        function filterInstant(data, filterModel) {
+            var filteredItems = data;
+            if (filterModel.searchText !== "") {
+                filteredItems = $filter('filter')(filteredItems, filterModel.searchText);
+            }
+
+            var tempTotalPages = Math.ceil(filteredItems.length / filterModel.pageSize);
+            var tempTableOfPages = createPageArray(tempTotalPages, filterModel.currentPage);
+
+            if (filterModel.currentPage > tempTotalPages) {
+                filterModel.currentPage = 1;
+            }
+
+            var items = filteredItems.slice(filterModel.currentPage * filterModel.pageSize - filterModel.pageSize, filterModel.currentPage * filterModel.pageSize);
+            return {
+                items,
+                tableOfPages: tempTableOfPages,
+                totalPages: tempTotalPages
+            }
+        }
+
         function getFilteredItems(shouldFilter, searchText, pageSize, currentPage) {
             var filteredItems = !shouldFilter ? $filter('filter')(filterData, filterBy) : filterData;
 
@@ -45,10 +66,10 @@
             return filteredItems.slice(currentPage * pageSize - pageSize, currentPage * pageSize);
         }
 
-        function createPageArray(totalPages, currentPage) {
+        function createPageArray(totalPgs, currentPage) {
             var arrayOfPages = [];
             var start = currentPage - 3 < 1 ? 1 : currentPage - 3;
-            var end = currentPage + 3 > totalPages ? totalPages : currentPage + 3;
+            var end = currentPage + 3 > totalPgs ? totalPgs : currentPage + 3;
             for (var i = start; i <= end; i++) {
                 arrayOfPages.push(i);
             }
@@ -63,8 +84,9 @@
             setFilterData: setFilterData,
             getFilterData: getFilterData,
             getTotalPages: getTotalPages,
+            filterInstant: filterInstant
         }
     }
 
-    angular.module('portalApp').factory('adminFilterFactory',['$filter',adminFilterFactory]);
+    angular.module('portalApp').factory('adminFilterFactory', ['$filter', adminFilterFactory]);
 })();

@@ -6,6 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
 using ParkingATHWeb.Areas.Admin.ViewModels.User;
 using ParkingATHWeb.Areas.Portal.ViewModels.Chart;
+using ParkingATHWeb.Areas.Portal.ViewModels.GateUsage;
 using ParkingATHWeb.Areas.Portal.ViewModels.Message;
 using ParkingATHWeb.Areas.Portal.ViewModels.Payment;
 using ParkingATHWeb.Areas.Portal.ViewModels.PortalMessage;
@@ -14,6 +15,7 @@ using ParkingATHWeb.Areas.Portal.ViewModels.User;
 using ParkingATHWeb.Areas.Portal.ViewModels.Weather;
 using ParkingATHWeb.Contracts.DTO;
 using ParkingATHWeb.Contracts.DTO.Chart;
+using ParkingATHWeb.Contracts.DTO.GateUsage;
 using ParkingATHWeb.Contracts.DTO.Order;
 using ParkingATHWeb.Contracts.DTO.Payments;
 using ParkingATHWeb.Contracts.DTO.PortalMessage;
@@ -152,6 +154,11 @@ namespace ParkingATHWeb.Mappings
 
             CreateMap<PaymentResponse,PaymentResponseViewModel>()
                 .ForMember(x=>x.RedirectUri, a=>a.MapFrom(s=>s.redirectUri)).IgnoreNotExistingProperties();
+
+            CreateMap<GateUsageBaseDto,GateOpeningViewModel>()
+                .ForMember(x=>x.Date, s=>s.MapFrom(a=>a.DateOfUse.ToString("dd MMMM yyyy")))
+                .ForMember(x => x.Date, s => s.MapFrom(a => a.DateOfUse.ToString("HH:mm")))
+                .IgnoreNotExistingProperties();
         }
 
 

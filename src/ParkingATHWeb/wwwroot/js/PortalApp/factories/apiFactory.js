@@ -33,7 +33,9 @@
             GetAdminPricesList: "Admin/AdminPriceTreshold/ListAsync",
             DeleteAdminPrc: "Admin/AdminPriceTreshold/Delete",
             RecoverAdminPrc: "Admin/AdminPriceTreshold/RecoverPrc",
-            CreateAdminPrc: "Admin/AdminPriceTreshold/Create"
+            CreateAdminPrc: "Admin/AdminPriceTreshold/Create",
+            OrderDateRangeList: "Portal/Statistics/OrderDateRangeList",
+            GtDateRangeList: "Portal/Statistics/GtDateRangeList"
             //EditAdminprc: "Admin/AdminPriceTreshold/Edit"
         }
 

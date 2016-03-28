@@ -1,13 +1,155 @@
 ﻿(function () {
     'use strict';
 
-    function statisticsCtrl(breadcrumbService, chartJsOptionsFactory, apiFactory, loadingContentService, notificationService) {
+    function statisticsCtrl(breadcrumbService, chartJsOptionsFactory, apiFactory, loadingContentService, notificationService, adminFilterFactory) {
         var self = this;
         initDatePicker();
         breadcrumbService.setOuterBreadcrumb('statistics');
 
+        self.totalGtList = {};
+        self.totalOrderList = {};
+
+        self.orderListFilterModel = {
+            currentPage:1,
+            pageSize: 10,
+            searchText: ""
+        }
+
+        self.gtListFilterModel = {
+            currentPage:1,
+            pageSize: 10,
+            searchText: ""
+        }
+
         loadingContentService.setIsLoading('statisticsDefaultDataLoader', true);
         getDefaultData();
+        getOrderList();
+        getGtList();
+
+        self.refreshOrderList = function () {
+            getOrderList(self.orderDateRangeModel);
+        }
+
+        function getOrderList(requestModel) {
+            apiFactory.genericPost(
+               function () {
+                   loadingContentService.setIsLoading('getOrderListLoader', true);
+               },
+               function (data) {
+                   self.orderDateRangeModel = {
+                       DateFrom: data.Result.DateFrom,
+                       DateTo: data.Result.DateTo
+                   }
+                   self.totalOrderList = data.Result.ListItems;
+                   self.orderListViewModel = adminFilterFactory.filterInstant(self.totalOrderList, self.orderListFilterModel);
+               },
+               function (data) {
+                   console.log(data);
+                   loadingContentService.setIsLoading('getOrderListLoader', false);
+                   notificationService.showNotifications(data);
+               },
+               function () {
+                   loadingContentService.setIsLoading('getOrderListLoader', false);
+               },
+               apiFactory.apiEnum.OrderDateRangeList, requestModel);
+        }
+
+        self.onOrderPageSizeChange = function () {
+            if (isNaN(self.orderListFilterModel.pageSize) || self.orderListFilterModel.pageSize < 1) {
+                self.orderListFilterModel.pageSize = 10;
+            }
+            self.orderListFilterModel.currentPage = 1;
+            self.setOrderPageSize(self.orderListFilterModel.pageSize);
+        }
+
+        self.onOrderTextChange = function () {
+            self.orderListFilterModel.currentPage = 1;
+            self.orderListViewModel = adminFilterFactory.filterInstant(self.totalOrderList, self.orderListFilterModel);
+        }
+
+        self.setOrderPage = function (page) {
+            if (page <= 0)
+                page = 1;
+            if (page > self.orderListViewModel.totalPages)
+                page = self.orderListViewModel.totalPages;
+
+            self.orderListFilterModel.currentPage = page;
+
+            self.orderListViewModel = adminFilterFactory.filterInstant(self.totalOrderList, self.orderListFilterModel);
+        }
+
+        self.setOrderPageSize = function (size) {
+            self.orderListFilterModel.pageSize = parseInt(size);
+
+            if (self.orderListFilterModel.pageSize == undefined || self.orderListFilterModel.pageSize === 0) {
+                self.orderListFilterModel.pageSize = 10;
+            }
+
+            self.orderListViewModel = adminFilterFactory.filterInstant(self.totalOrderList, self.orderListFilterModel);
+        }
+
+
+        self.refreshGtList = function () {
+            getGtList(self.orderDateRangeModel);
+        }
+
+        function getGtList(requestModel) {
+            apiFactory.genericPost(
+               function () {
+                   loadingContentService.setIsLoading('getGtListLoader', true);
+               },
+               function (data) {
+                   self.gtDateRangeModel = {
+                       DateFrom: data.Result.DateFrom,
+                       DateTo: data.Result.DateTo
+                   }
+                   self.totalGtList = data.Result.ListItems;
+                   self.gtListViewModel = adminFilterFactory.filterInstant(self.totalGtList, self.gtListFilterModel);
+               },
+               function (data) {
+                   console.log(data);
+                   loadingContentService.setIsLoading('getGtListLoader', false);
+                   notificationService.showNotifications(data);
+               },
+               function () {
+                   loadingContentService.setIsLoading('getGtListLoader', false);
+               },
+               apiFactory.apiEnum.GtDateRangeList, requestModel);
+        }
+
+        self.onGtPageSizeChange = function () {
+            if (isNaN(self.gtListFilterModel.pageSize) || self.gtListFilterModel.pageSize < 1) {
+                self.gtListFilterModel.pageSize = 10;
+            }
+            self.gtListFilterModel.currentPage = 1;
+            self.setGtPageSize(self.gtListFilterModel.pageSize);
+        }
+
+        self.onGtTextChange = function () {
+            self.gtListFilterModel.currentPage = 1;
+            self.gtListViewModel = adminFilterFactory.filterInstant(self.totalGtList, self.gtListFilterModel);
+        }
+
+        self.setGtPage = function (page) {
+            if (page <= 0)
+                page = 1;
+            if (page > self.gtListViewModel.totalPages)
+                page = self.gtListViewModel.totalPages;
+
+            self.gtListFilterModel.currentPage = page;
+
+            self.gtListViewModel = adminFilterFactory.filterInstant(self.totalGtList, self.gtListFilterModel);
+        }
+
+        self.setGtPageSize = function (size) {
+            self.gtListFilterModel.pageSize = parseInt(size);
+
+            if (self.gtListFilterModel.pageSize == undefined || self.gtListFilterModel.pageSize === 0) {
+                self.gtListFilterModel.pageSize = 10;
+            }
+
+            self.gtListViewModel = adminFilterFactory.filterInstant(self.totalGtList, self.gtListFilterModel);
+        }
 
         function getDefaultData() {
             apiFactory.genericPost(
@@ -103,6 +245,9 @@
             }
         }
 
+
+
+
         function initDatePicker() {
             self.month = ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
             self.monthShort = ['Sty', 'Lu', 'Mar', 'Kwi', 'Maj', 'Cze', 'Li', 'Sie', 'Wrz', 'Paź', 'Li', 'Gr'];
@@ -128,5 +273,5 @@
         }
     }
 
-    angular.module('portalApp').controller('statisticsCtrl', ['breadcrumbService', 'chartJsOptionsFactory', 'apiFactory', 'loadingContentService', 'notificationService', statisticsCtrl]);
+    angular.module('portalApp').controller('statisticsCtrl', ['breadcrumbService', 'chartJsOptionsFactory', 'apiFactory', 'loadingContentService', 'notificationService', 'adminFilterFactory', statisticsCtrl]);
 })();

@@ -1,6 +1,8 @@
-﻿namespace ParkingATHWeb.Areas.Portal.ViewModels.User
+﻿using ParkingATHWeb.ViewModels.Base;
+
+namespace ParkingATHWeb.Areas.Portal.ViewModels.User
 {
-    public class ShopOrderItemViewModel
+    public class ShopOrderItemViewModel : SmartParkListBaseViewModel
     {
         public string Date { get; set; }
         public string Time { get; set; }
