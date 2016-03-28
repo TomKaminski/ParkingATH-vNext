@@ -30,7 +30,10 @@
             RecoverAdminUser: "Admin/AdminUser/RecoverUser",
             GetAdminOrderList: "Admin/AdminOrder/DateRangeList",
             GetAdminGtList: "Admin/AdminGateUsage/DateRangeList",
-            GetAdminPricesList: "Admin/AdminPriceTreshold/List"
+            GetAdminPricesList: "Admin/AdminPriceTreshold/ListAsync",
+            DeleteAdminPrc: "Admin/AdminPriceTreshold/Delete",
+            CreateAdminPrc: "Admin/AdminPriceTreshold/Create",
+            EditAdminprc: "Admin/AdminPriceTreshold/Edit"
         }
 
         function get(apiUrl, options) {

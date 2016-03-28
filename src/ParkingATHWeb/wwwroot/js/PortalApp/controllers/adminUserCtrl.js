@@ -29,6 +29,7 @@
             apiFactory.genericPost(
              function () {
                  loadingContentService.setIsLoading('editUserAdmin', true);
+                 self.userEditModel.disableButton = true;
              },
              function () {
                  var item = $filter('getById')(adminFilterFactory.getFilterData(), self.userEditModel.Id);
@@ -42,6 +43,7 @@
              function (data) {
                  loadingContentService.setIsLoading('editUserAdmin', false);
                  notificationService.showNotifications(data);
+                 self.userEditModel.disableButton = true;
              },
              function () {
                  loadingContentService.setIsLoading('editUserAdmin', false);

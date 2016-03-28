@@ -28,6 +28,16 @@ namespace ParkingATHWeb.Business.Services.Base
             _mapper = mapper;
         }
 
+        public ServiceResult<int> Count()
+        {
+            return ServiceResult<int>.Success(_repository.Count());
+        }
+
+        public ServiceResult<int> Count(Expression<Func<TDto, bool>> predicate)
+        {
+            return ServiceResult<int>.Success(_repository.Count(MapExpressionToEntity(predicate)));
+        }
+
         public virtual ServiceResult<TDto> Get(T id)
         {
             var result = _mapper.Map<TDto>(_repository.Find(id));
@@ -39,6 +49,8 @@ namespace ParkingATHWeb.Business.Services.Base
             var result = _mapper.Map<TDto>(_repository.FirstOrDefault(MapExpressionToEntity(predicate)));
             return ServiceResult<TDto>.Success(result);
         }
+
+
 
         public virtual ServiceResult<TDto> Create(TDto entity)
         {

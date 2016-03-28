@@ -82,7 +82,7 @@ namespace ParkingATHWeb.Areas.Admin.Controllers.Base
             {
                 var serviceResult = await _entityService.EditAsync(_mapper.Map<TDto>(model));
                 return Json(serviceResult.IsValid
-                    ? SmartJsonResult<TListViewModel>.Success(_mapper.Map<TListViewModel>(serviceResult.Result))
+                    ? SmartJsonResult<TListViewModel>.Success(_mapper.Map<TListViewModel>(serviceResult.Result),"Edycja zakończona pomyślnie")
                     : SmartJsonResult.Failure(serviceResult.ValidationErrors));
             }
             return Json(SmartJsonResult.Failure(GetModelStateErrors(ModelState)));

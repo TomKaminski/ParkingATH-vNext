@@ -29,7 +29,7 @@ namespace ParkingATHWeb.Areas.Admin.Controllers
 
         public override async Task<IActionResult> ListAsync()
         {
-            var serviceResult = await _entityService.GetAllAdminAsync();
+            var serviceResult = await _entityService.GetAllAdminAsync(x=>x.IsDeleted != true);
             return Json(serviceResult.IsValid
                 ? SmartJsonResult<IEnumerable<AdminPriceTresholdListItemViewModel>>.Success(serviceResult.Result.Select(_mapper.Map<AdminPriceTresholdListItemViewModel>))
                 : SmartJsonResult<IEnumerable<AdminPriceTresholdListItemViewModel>>.Failure(serviceResult.ValidationErrors));

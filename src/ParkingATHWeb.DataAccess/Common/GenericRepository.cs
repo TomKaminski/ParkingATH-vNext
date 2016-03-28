@@ -38,6 +38,16 @@ namespace ParkingATHWeb.DataAccess.Common
             _entities.Entry(entity).State = EntityState.Modified;
         }
 
+        public int Count()
+        {
+            return _dbset.Count();
+        }
+
+        public int Count(Expression<Func<T, bool>> expression)
+        {
+            return _dbset.Count(expression);
+        }
+
         public IQueryable<T> Include(Expression<Func<T, object>> include)
         {
             return _dbset.Include(include);

@@ -16,6 +16,9 @@ namespace ParkingATHWeb.DataAccess.Common
         void Delete(T entity);
         void Edit(T entity);
 
+        int Count();
+        int Count(Expression<Func<T, bool>> expression);
+
         IQueryable<T> Include(Expression<Func<T, object>> include);
 
         //Sync

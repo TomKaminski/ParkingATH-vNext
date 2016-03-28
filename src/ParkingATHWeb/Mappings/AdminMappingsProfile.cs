@@ -34,6 +34,7 @@ namespace ParkingATHWeb.Mappings
             CreateMap<AdminPriceTresholdCreateViewModel, PriceTresholdBaseDto>().IgnoreNotExistingProperties();
             CreateMap<AdminPriceTresholdEditViewModel, PriceTresholdBaseDto>().IgnoreNotExistingProperties();
 
+            CreateMap<PriceTresholdBaseDto, AdminPriceTresholdListItemViewModel>().IgnoreNotExistingProperties();
 
             CreateMap<OrderAdminDto, AdminOrderListItemViewModel>()
                .ForMember(x => x.Price, a => a.MapFrom(s => s.Price.ToString("#.00")))

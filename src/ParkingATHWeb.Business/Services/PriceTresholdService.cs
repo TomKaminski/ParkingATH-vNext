@@ -31,8 +31,8 @@ namespace ParkingATHWeb.Business.Services
 
         public override async Task<ServiceResult<IEnumerable<PriceTresholdBaseDto>>> GetAllAsync()
         {
-            var allAsync = await base.GetAllAsync(x=>!x.IsDeleted);
-            if (!allAsync.Result.Any())
+            var count = Count(x => !x.IsDeleted);
+            if (count.Result == 0)
             {
                 _repository.Add(new PriceTreshold
                 {
@@ -41,7 +41,7 @@ namespace ParkingATHWeb.Business.Services
                 });
                 await _unitOfWork.CommitAsync();
             }
-            return ServiceResult<IEnumerable<PriceTresholdBaseDto>>.Success(_repository.GetAll(x=>!x.IsDeleted).OrderBy(x => x.MinCharges).Select(_mapper.Map<PriceTresholdBaseDto>));
+            return ServiceResult<IEnumerable<PriceTresholdBaseDto>>.Success(_repository.GetAll(x => !x.IsDeleted).OrderBy(x => x.MinCharges).Select(_mapper.Map<PriceTresholdBaseDto>));
         }
 
         public ServiceResult<IEnumerable<PriceTresholdAdminDto>> GetAllAdmin()
@@ -73,6 +73,18 @@ namespace ParkingATHWeb.Business.Services
             var param = Expression.Parameter(typeof(PriceTreshold));
             var result = new CustomExpressionVisitor<PriceTreshold>(param).Visit(predicate.Body);
             var lambda = Expression.Lambda<Func<PriceTreshold, bool>>(result, param);
+
+            var count = Count(x => !x.IsDeleted);
+            if (count.Result == 0)
+            {
+                _repository.Add(new PriceTreshold
+                {
+                    MinCharges = 0,
+                    PricePerCharge = 3
+                });
+                await _unitOfWork.CommitAsync();
+            }
+
             return ServiceResult<IEnumerable<PriceTresholdAdminDto>>
                 .Success((await _repository.Include(x => x.Orders).Where(lambda).ToListAsync()).Select(_mapper.Map<PriceTresholdAdminDto>));
         }
@@ -80,6 +92,10 @@ namespace ParkingATHWeb.Business.Services
         public override async Task<ServiceResult> DeleteAsync(int id)
         {
             var obj = await _repository.FindAsync(id);
+            if (obj.MinCharges == 0)
+            {
+                return ServiceResult.Failure("Nie można usunąć bazowego przedziału!");
+            }
             obj.IsDeleted = true;
             _repository.Edit(obj);
             await _unitOfWork.CommitAsync();
@@ -89,10 +105,61 @@ namespace ParkingATHWeb.Business.Services
         public override ServiceResult Delete(int id)
         {
             var obj = _repository.Find(id);
+            if (obj.MinCharges == 0)
+            {
+                return ServiceResult.Failure("Nie można usunąć bazowego przedziału!");
+            }
             obj.IsDeleted = true;
             _repository.Edit(obj);
             _unitOfWork.Commit();
             return ServiceResult.Success();
         }
+
+        public override async Task<ServiceResult<PriceTresholdBaseDto>> EditAsync(PriceTresholdBaseDto entity)
+        {
+            var conflictingItem =
+                await _repository.FirstOrDefaultAsync(
+                    x =>
+                        x.IsDeleted != true && x.Id != entity.Id &&
+                        (x.MinCharges == entity.MinCharges || x.PricePerCharge == entity.PricePerCharge));
+
+            if (conflictingItem != null)
+            {
+                return
+                    ServiceResult<PriceTresholdBaseDto>.Failure(
+                        $"Podane wartości kolidują z już istniejącym przedziałem (min. wyjazdy: {conflictingItem.MinCharges}, cena za szt.: {conflictingItem.PricePerCharge.ToString("##.00")})");
+            }
+
+            var defaultPrc = await _repository.FirstOrDefaultAsync(x => x.MinCharges == 0);
+            if (defaultPrc.Id == entity.Id && entity.MinCharges != 0)
+            {
+                return ServiceResult<PriceTresholdBaseDto>.Failure("Nie można edytować minimalnej ilości wyjazdów dla bazowego przedziału!");
+            }
+            return await base.EditAsync(entity);
+        }
+
+        public override ServiceResult Edit(PriceTresholdBaseDto entity)
+        {
+            var conflictingItem =
+                 _repository.FirstOrDefault(
+                    x =>
+                        x.IsDeleted != true && x.Id != entity.Id &&
+                        (x.MinCharges == entity.MinCharges || x.PricePerCharge == entity.PricePerCharge));
+
+            if (conflictingItem != null)
+            {
+                return
+                    ServiceResult<PriceTresholdBaseDto>.Failure(
+                        $"Podane wartości kolidują z już istniejącym przedziałem (min. wyjazdy: {conflictingItem.MinCharges}, cena za szt.: {conflictingItem.PricePerCharge.ToString("##.00")})");
+            }
+            var defaultPrc = _repository.FirstOrDefault(x => x.MinCharges == 0);
+            if (defaultPrc.Id == entity.Id && entity.MinCharges != 0)
+            {
+                return ServiceResult<PriceTresholdBaseDto>.Failure("Nie można edytować minimalnej ilości wyjazdów dla bazowego przedziału!");
+            }
+            return base.Edit(entity);
+        }
+
+   
     }
 }

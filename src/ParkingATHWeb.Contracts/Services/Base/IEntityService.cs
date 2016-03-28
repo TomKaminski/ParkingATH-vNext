@@ -11,6 +11,9 @@ namespace ParkingATHWeb.Contracts.Services.Base
         where T : struct
     {
         //sync methods
+        ServiceResult<int> Count();
+        ServiceResult<int> Count(Expression<Func<TDto, bool>> predicate);
+
         ServiceResult<TDto> Get(T id);
         ServiceResult<TDto> Get(Expression<Func<TDto, bool>> predicate);
 
