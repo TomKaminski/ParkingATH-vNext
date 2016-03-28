@@ -15,6 +15,19 @@
             this.tableOfPages = adminFilterFactory.getPages();
         }
 
+        this.onPageSizeChange = function () {
+            if (isNaN(this.pageSize) || this.pageSize < 1) {
+                this.pageSize = 10;
+            }
+            this.currentPage = 1;
+            this.setPageSize(this.pageSize);
+        }
+
+        this.onTextChange = function () {
+            this.currentPage = 1;
+            this.filterList();
+        }
+
         this.setPage = function (page) {
             if (page <= 0)
                 page = 1;
@@ -34,6 +47,19 @@
                 this.pageSize = 10;
             }
 
+            this.filteredList = adminFilterFactory.getFilteredItems(this.shouldFilter, this.searchText, this.pageSize, this.currentPage);
+            this.tableOfPages = adminFilterFactory.getPages();
+        }
+
+        this.initCtrl = function(data, custom) {
+            this.shouldFilter = false;
+            this.searchText = "";
+            this.pageSize = 8;
+            this.currentPage = 1;
+
+            custom();
+
+            adminFilterFactory.setFilterData(data);
             this.filteredList = adminFilterFactory.getFilteredItems(this.shouldFilter, this.searchText, this.pageSize, this.currentPage);
             this.tableOfPages = adminFilterFactory.getPages();
         }

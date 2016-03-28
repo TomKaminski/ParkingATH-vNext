@@ -102,29 +102,6 @@
              apiFactory.apiEnum.RecoverAdminUser, { Id: self.recoverUserModel.Id });
         }
 
-        self.onPageSizeChange = function () {
-            if (isNaN(self.pageSize) || self.pageSize < 1) {
-                self.pageSize = 10;
-            }
-            self.currentPage = 1;
-            self.setPageSize(self.pageSize);
-        }
-
-        self.onTextChange = function () {
-            self.currentPage = 1;
-            self.filterList();
-        }
-
-        function init(data) {
-            self.shouldFilter = false;
-            self.searchText = "";
-            self.pageSize = 8;
-            self.currentPage = 1;
-
-            adminFilterFactory.setFilterData(data);
-            self.filteredList = adminFilterFactory.getFilteredItems(self.shouldFilter, self.searchText, self.pageSize, self.currentPage);
-            self.tableOfPages = adminFilterFactory.getPages();
-        }
 
         function getList() {
             apiFactory.genericGet(
@@ -132,7 +109,7 @@
                    loadingContentService.setIsLoading('getUserListLoader', true);
                },
                function (data) {
-                   init(data.Result);
+                   self.initCtrl(data.Result, function() {});
                },
                function (data) {
                    console.log(data);

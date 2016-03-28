@@ -16,16 +16,21 @@ namespace ParkingATHWeb.Mappings
     {
         protected override void Configure()
         {
-            CreateMap<GateUsageAdminDto, AdminGateUsageListItemViewModel>().IgnoreNotExistingProperties();
+            CreateMap<GateUsageAdminDto, AdminGateUsageListItemViewModel>()
+                .ForMember(x => x.Initials, s => s.MapFrom(a => a.Initials))
+                .ForMember(x => x.Date, m => m.MapFrom(s => s.DateOfUse.ToString("dd MMMM yyyy")))
+                .ForMember(x => x.Time, m => m.MapFrom(s => s.DateOfUse.ToString("HH:mm")))
+                .IgnoreNotExistingProperties();
+
             CreateMap<PriceTresholdAdminDto, AdminPriceTresholdListItemViewModel>().IgnoreNotExistingProperties();
             CreateMap<UserAdminDto, AdminUserListItemViewModel>()
-                .ForMember(x=>x.Initials, a=>a.MapFrom(s=>$"{s.Name} {s.LastName}"))
-                .ForMember(x=>x.CreateDateLabel, a=>a.MapFrom(s=>s.CreateDate.ToString("dd-MM-yyyy hh:mm")))
-                .ForMember(x => x.LastUserOrders, a => a.MapFrom(s=>s.Orders))
+                .ForMember(x => x.Initials, a => a.MapFrom(s => $"{s.Name} {s.LastName}"))
+                .ForMember(x => x.CreateDateLabel, a => a.MapFrom(s => s.CreateDate.ToString("dd-MM-yyyy hh:mm")))
+                .ForMember(x => x.LastUserOrders, a => a.MapFrom(s => s.Orders))
                 .IgnoreNotExistingProperties();
 
 
-            CreateMap<AdminUserEditViewModel,UserBaseDto>().IgnoreNotExistingProperties();
+            CreateMap<AdminUserEditViewModel, UserBaseDto>().IgnoreNotExistingProperties();
             CreateMap<AdminPriceTresholdCreateViewModel, PriceTresholdBaseDto>().IgnoreNotExistingProperties();
             CreateMap<AdminPriceTresholdEditViewModel, PriceTresholdBaseDto>().IgnoreNotExistingProperties();
 
@@ -35,7 +40,7 @@ namespace ParkingATHWeb.Mappings
                .ForMember(x => x.PricePerCharge, a => a.MapFrom(s => s.PricePerCharge.ToString("#.00")))
                .ForMember(x => x.Date, a => a.MapFrom(s => s.Date.ToString("dd.MM.yyyy")))
                .ForMember(x => x.Time, a => a.MapFrom(s => s.Date.ToString("HH:mm")))
-               .ForMember(x=>x.Initials, a=>a.MapFrom(s=>$"{s.Name} {s.LastName}"))
+               .ForMember(x => x.Initials, a => a.MapFrom(s => $"{s.Name} {s.LastName}"))
                .AfterMap((src, dest) =>
                {
                    switch (src.OrderState)

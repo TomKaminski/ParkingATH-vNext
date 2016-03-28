@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    function adminOrdersCtrl($filter, $controller, $scope, breadcrumbService, apiFactory, loadingContentService, notificationService, adminFilterFactory) {
+    function adminOrdersCtrl($controller, $scope, breadcrumbService, apiFactory, loadingContentService, notificationService) {
         angular.extend(this, $controller('baseAdminController', { $scope: $scope }));
         var self = this;
 
@@ -22,7 +22,12 @@
                    loadingContentService.setIsLoading('getOrderListLoader', true);
                },
                function (data) {
-                   init(data.Result);
+                   self.initCtrl(data.Result.ListItems, function () {
+                       self.orderDateRangeModel = {
+                           DateFrom: data.Result.DateFrom,
+                           DateTo: data.Result.DateTo
+                       }
+                   });
                },
                function (data) {
                    console.log(data);
@@ -33,35 +38,6 @@
                    loadingContentService.setIsLoading('getOrderListLoader', false);
                },
                apiFactory.apiEnum.GetAdminOrderList, requestModel);
-        }
-
-        self.onPageSizeChange = function () {
-            if (isNaN(self.pageSize) || self.pageSize < 1) {
-                self.pageSize = 10;
-            }
-            self.currentPage = 1;
-            self.setPageSize(self.pageSize);
-        }
-
-        self.onTextChange = function () {
-            self.currentPage = 1;
-            self.filterList();
-        }
-
-        function init(data) {
-            self.shouldFilter = false;
-            self.searchText = "";
-            self.pageSize = 8;
-            self.currentPage = 1;
-
-            self.orderDateRangeModel = {
-                DateFrom: data.DateFrom,
-                DateTo: data.DateTo
-            }
-            
-            adminFilterFactory.setFilterData(data.ListItems);
-            self.filteredList = adminFilterFactory.getFilteredItems(self.shouldFilter, self.searchText, self.pageSize, self.currentPage);
-            self.tableOfPages = adminFilterFactory.getPages();
         }
 
         function initDatePicker() {
@@ -89,5 +65,5 @@
         }
     }
 
-    angular.module('portalApp').controller('adminOrdersCtrl', ['$filter', '$controller', '$scope', 'breadcrumbService', 'apiFactory', 'loadingContentService', 'notificationService', 'adminFilterFactory', adminOrdersCtrl]);
+    angular.module('portalApp').controller('adminOrdersCtrl', ['$controller', '$scope', 'breadcrumbService', 'apiFactory', 'loadingContentService', 'notificationService', adminOrdersCtrl]);
 })();

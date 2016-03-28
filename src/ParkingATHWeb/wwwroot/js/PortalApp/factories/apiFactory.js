@@ -29,7 +29,7 @@
             EditAdminUser: "Admin/AdminUser/Edit",
             RecoverAdminUser: "Admin/AdminUser/RecoverUser",
             GetAdminOrderList: "Admin/AdminOrder/DateRangeList",
-            GetAdminGtList: "Admin/AdminGateUsage/List",
+            GetAdminGtList: "Admin/AdminGateUsage/DateRangeList",
             GetAdminPricesList: "Admin/AdminPriceTreshold/List"
         }
 
