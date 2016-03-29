@@ -325,3 +325,17 @@ input.charges-input {
     opacity: 0; }
   tr:hover > td.hoverable-table-buttons {
     opacity: 1; } }
+
+.picker__footer {
+  display: block;
+  padding: 0;
+  text-align: center; }
+  .picker__footer .btn-flat {
+    display: block;
+    margin: auto; }
+
+@media (max-width: 600px) {
+  .header-search-wrapper input.header-search-input {
+    padding: 8px 8px 8px 8px;
+    margin: auto;
+    width: 80%; } }

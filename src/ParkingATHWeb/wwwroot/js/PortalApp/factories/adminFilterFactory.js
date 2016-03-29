@@ -43,7 +43,7 @@
 
             var items = filteredItems.slice(filterModel.currentPage * filterModel.pageSize - filterModel.pageSize, filterModel.currentPage * filterModel.pageSize);
             return {
-                items,
+                items: items,
                 tableOfPages: tempTableOfPages,
                 totalPages: tempTotalPages
             }

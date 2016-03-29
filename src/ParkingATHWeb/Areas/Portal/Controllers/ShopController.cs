@@ -68,7 +68,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
             var userOrdersResult = await _orderService.GetAllAsync(x => x.UserId == userId);
             if (userOrdersResult.IsValid)
             {
-                var viewModel = userOrdersResult.Result.Select(_mapper.Map<ShopOrderItemViewModel>);
+                var viewModel = userOrdersResult.Result.Take(5).Select(_mapper.Map<ShopOrderItemViewModel>);
                 return Json(SmartJsonResult<IEnumerable<ShopOrderItemViewModel>>.Success(viewModel));
             }
             return Json(SmartJsonResult<IEnumerable<ShopOrderItemViewModel>>.Failure(userOrdersResult.ValidationErrors));

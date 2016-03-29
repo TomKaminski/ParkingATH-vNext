@@ -31,9 +31,7 @@
                 function (data) {
                     formModel.$setUntouched();
                     formModel.$setPristine();
-                    model = {
-                        disableButton: false
-                    }
+
                     successFunction(data);
                 },
                 function (data) {
@@ -52,6 +50,12 @@
             genericForm('sendCharges', self.sendChargesModel, apiFactory.apiEnum.SendCharges, function (data) {
                 self.model.Charges = data.Result;
                 userProfileService.setCharges(data.Result);
+                self.sendChargesModel = {
+                    disableButton: false,
+                    ReceiverEmail: "",
+                    AmountOfCharges: "",
+                    Password: ""
+                }
             }, self.sendChargesForm);
         }
 
@@ -70,11 +74,24 @@
         }
 
         self.changeEmail = function () {
-            genericForm('changeEmail', self.changeEmailModel, apiFactory.apiEnum.ChangeEmail, function (data) { self.model.Email = data.Result.Email; }, self.changeEmailForm);
+            genericForm('changeEmail', self.changeEmailModel, apiFactory.apiEnum.ChangeEmail, function(data) {
+                self.model.Email = data.Result.Email;
+                self.changeEmailModel = {
+                    disableButton: false,
+                    NewEmail: "",
+                    NewEmailRepeat: "",
+                    Password: ""
+                }
+            }, self.changeEmailForm);
         }
 
         self.changePassword = function () {
-            genericForm('changePassword', self.changePasswordModel, apiFactory.apiEnum.ChangePassword, function () { }, self.changePasswordForm);
+            genericForm('changePassword', self.changePasswordModel, apiFactory.apiEnum.ChangePassword, function () { self.changePasswordModel = {
+                disableButton: false,
+                RepeatPassword: "",
+                Password: "",
+                OldPassword: ""
+            }}, self.changePasswordForm);
         }
 
         self.uploadFile = function () {

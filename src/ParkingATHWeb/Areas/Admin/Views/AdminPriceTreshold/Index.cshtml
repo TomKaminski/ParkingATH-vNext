@@ -43,10 +43,10 @@
                             <td>{{prc.IsDeleted === true ? "Zablokowany" : "Aktywny"}}</td>
                             <td class="hoverable-table-buttons">
                                 <a class="btn waves-effect waves-light" style="background: #4b85c5; margin-bottom: 5px" href='#deletePrcModal' modal ng-click="ctrl.deletePrcStart(prc.Id)" ng-if="!prc.IsDeleted">
-                                    Usuń
+                                    Dezaktywuj
                                 </a>
                                 <a class="btn waves-effect waves-light" style="background: #4b85c5; margin-bottom: 5px" href='#recoverPrcModal' modal ng-click="ctrl.recoverPrcStart(prc.Id)" ng-if="prc.IsDeleted">
-                                    Przywróć
+                                    Aktywuj
                                 </a>
                             </td>
                         </tr>

@@ -413,14 +413,32 @@ input.charges-input {
     font-size: 2em;
 }
 
-@media(min-width:601px){
-tr > td.hoverable-table-buttons {
-    opacity: 0;
+@media(min-width:601px) {
+    tr > td.hoverable-table-buttons {
+        opacity: 0;
+    }
+
+    tr:hover > td.hoverable-table-buttons {
+        opacity: 1;
+    }
 }
 
-tr:hover > td.hoverable-table-buttons{
-    opacity: 1
-}
+.picker__footer {
+    display: block;
+    padding: 0;
+    text-align: center;
+
+    .btn-flat {
+        display: block;
+        margin: auto;
+    }
 }
 
 
+@media(max-width:600px) {
+    .header-search-wrapper input.header-search-input {
+        padding: 8px 8px 8px 8px;
+        margin:auto;
+        width: 80%;
+    }
+}

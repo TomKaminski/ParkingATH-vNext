@@ -81,7 +81,7 @@
                 <div class="col s12 l8 xl9">
 
                     <div>
-                        <a class="btn-floating waves-effect waves-light right" style="background: #132d4b"><i class="material-icons activator">expand_less</i></a>
+                        <a class="btn-floating waves-effect waves-light right" style="background: #132d4b"><i class="material-icons activator">list</i></a>
                         <span class="chart-title white-text">Częstotliwość wyjazdów > ostatnie 7 dni</span>
                     </div>
                     <div class="trending-line-chart-wrapper">
@@ -163,6 +163,8 @@
                                        weekdays-short="{{ statCtrl.weekdaysShort }}"
                                        weekdays-letter="{{ statCtrl.weekdaysLetter }}"
                                        today="statCtrl.today"
+                                       close="statCtrl.close"
+                                       clear="statCtrl.clear"
                                        on-close="statCtrl.onClose('orderIconEnd')" />
                                 <label for="orderDateTo" class="active">Data końcowa (mm/dd/yyyy)</label>
                             </div>
@@ -185,69 +187,70 @@
 
                 <table class="responsive-table margin-bottom-20">
                     <thead>
-                        <tr>
-                            <th>Data zakupu</th>
-                            <th>Godzina zakupu</th>
-                            <th>Ilość wyjazdów</th>
-                            <th>Cena za sztukę</th>
-                            <th>Cena całkowita</th>
-                            <th>Miejsce zakupu</th>
-                            <th>Stan zamówienia</th>
-                        </tr>
+                    <tr>
+                        <th>Data zakupu</th>
+                        <th>Godzina zakupu</th>
+                        <th>Ilość wyjazdów</th>
+                        <th>Cena za sztukę</th>
+                        <th>Cena całkowita</th>
+                        <th>Miejsce zakupu</th>
+                        <th>Stan zamówienia</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr ng-if="statCtrl.orderListViewModel.items.length===0">
-                            <td colspan="7">
-                                <p>
-                                    <b>Brak zamówień dla danego przedziału czasowego.</b>
-                                </p>
-                            </td>
-                        </tr>
-                        <tr ng-repeat="order in statCtrl.orderListViewModel.items" ng-class="order.OrderStateStyle">
-                            <td>{{order.Date}}</td>
-                            <td>{{order.Time}}</td>
-                            <td>{{order.NumOfCharges}}</td>
-                            <td>{{order.PricePerCharge}}</td>
-                            <td>{{order.Price}}</td>
-                            <td>{{order.OrderPlace}}</td>
-                            <td>{{order.OrderState}}</td>
-                        </tr>
+                    <tr ng-if="statCtrl.orderListViewModel.items.length===0">
+                        <td colspan="7">
+                            <p>
+                                <b>Brak zamówień dla danego przedziału czasowego.</b>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr ng-repeat="order in statCtrl.orderListViewModel.items" ng-class="order.OrderStateStyle">
+                        <td>{{order.Date}}</td>
+                        <td>{{order.Time}}</td>
+                        <td>{{order.NumOfCharges}}</td>
+                        <td>{{order.PricePerCharge}}</td>
+                        <td>{{order.Price}}</td>
+                        <td>{{order.OrderPlace}}</td>
+                        <td>{{order.OrderState}}</td>
+                    </tr>
                     </tbody>
                 </table>
-                <div class="row">
-                    <div class="col s12 flex-align-center-container" style="justify-content: flex-start">
-                        <p><b>Rozmiar strony:</b> </p><input type="number" ng-model="statCtrl.orderListFilterModel.pageSize" ng-change="statCtrl.onOrderPageSizeChange()" style="width: 50px; height: 2rem;margin:0 0 5px 15px" />
+                <div ng-if="statCtrl.orderListViewModel.items.length!==0">
+                    <div class="row">
+                        <div class="col s12 flex-align-center-container" style="justify-content: flex-start">
+                            <p><b>Rozmiar strony:</b> </p><input type="number" ng-model="statCtrl.orderListFilterModel.pageSize" ng-change="statCtrl.onOrderPageSizeChange()" style="width: 50px; height: 2rem;margin:0 0 5px 15px" />
+                        </div>
                     </div>
+                    <ul class="pagination">
+                        <li class="waves-effect" ng-click="statCtrl.setOrderPage(1)" ng-class="{'disabled':self.orderListFilterModel.currentPage===1}" style="padding:0">
+                            <a>
+                                <i class="material-icons">first_page</i>
+                            </a>
+                        </li>
+                        <li class="waves-effect" ng-click="statCtrl.setOrderPage(self.orderListFilterModel.currentPage-1)" ng-class="{'disabled':self.orderListFilterModel.currentPage===1}" style="padding:0">
+                            <a>
+                                <i class="material-icons">chevron_left</i>
+                            </a>
+                        </li>
+
+                        <li ng-repeat="page in statCtrl.orderListViewModel.tableOfPages" ng-class="{active: statCtrl.orderListFilterModel.currentPage==page}" class="waves-effect" ng-click="statCtrl.setOrderPage(page)">
+                            <a>{{page}}</a>
+                        </li>
+
+                        <li class="waves-effect" ng-click="statCtrl.setOrderPage(self.orderListFilterModel.currentPage+1)" ng-class="{'disabled':statCtrl.orderListViewModel.totalPages === self.orderListFilterModel.currentPage}" style="padding:0">
+                            <a>
+                                <i class="material-icons">chevron_right</i>
+                            </a>
+                        </li>
+                        <li class="waves-effect" ng-click="statCtrl.setOrderPage(statCtrl.orderListViewModel.totalPages)" ng-class="{'disabled':statCtrl.orderListViewModel.totalPages === self.orderListFilterModel.currentPage}" style="padding: 0">
+                            <a>
+                                <i class="material-icons">last_page</i>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-                <ul class="pagination">
-                    <li class="waves-effect" ng-click="statCtrl.setOrderPage(1)" ng-class="{'disabled':self.orderListFilterModel.currentPage===1}" style="padding:0">
-                        <a>
-                            <i class="material-icons">first_page</i>
-                        </a>
-                    </li>
-                    <li class="waves-effect" ng-click="statCtrl.setOrderPage(self.orderListFilterModel.currentPage-1)" ng-class="{'disabled':self.orderListFilterModel.currentPage===1}" style="padding:0">
-                        <a>
-                            <i class="material-icons">chevron_left</i>
-                        </a>
-                    </li>
-
-                    <li ng-repeat="page in self.orderListViewModel.tableOfPages" ng-class="{active: elf.orderListFilterModel.currentPage==page}" class="waves-effect" ng-click="statCtrl.setOrderPage(page)">
-                        <a>{{page}}</a>
-                    </li>
-
-                    <li class="waves-effect" ng-click="statCtrl.setOrderPage(self.orderListFilterModel.currentPage+1)" ng-class="{'disabled':statCtrl.orderListViewModel.totalPages === self.orderListFilterModel.currentPage}" style="padding:0">
-                        <a>
-                            <i class="material-icons">chevron_right</i>
-                        </a>
-                    </li>
-                    <li class="waves-effect" ng-click="statCtrl.setOrderPage(statCtrl.orderListViewModel.totalPages)" ng-class="{'disabled':statCtrl.orderListViewModel.totalPages === self.orderListFilterModel.currentPage}" style="padding: 0">
-                        <a>
-                            <i class="material-icons">last_page</i>
-                        </a>
-                    </li>
-                </ul>
             </div>
-
         </div>
     </div>
 </div>
@@ -337,7 +340,7 @@
                 </div>
                 <div class="col s12 l8 xl9">
                     <div>
-                        <a class="btn-floating waves-effect waves-light right" style="background: #132d4b"><i class="material-icons activator">expand_less</i></a>
+                        <a class="btn-floating waves-effect waves-light right" style="background: #132d4b"><i class="material-icons activator">list</i></a>
                         <span class="chart-title white-text">Częstotliwość wyjazdów > ostatnie 7 dni</span>
                     </div>
                     <div class="trending-line-chart-wrapper">
@@ -421,6 +424,8 @@
                                        weekdays-short="{{ statCtrl.weekdaysShort }}"
                                        weekdays-letter="{{ statCtrl.weekdaysLetter }}"
                                        today="statCtrl.today"
+                                       close="statCtrl.close"
+                                       clear="statCtrl.clear"
                                        on-close="statCtrl.onClose('gtIconListEnd')" />
                                 <label for="gtDateTo" class="active">Data końcowa (mm/dd/yyyy)</label>
                             </div>
@@ -443,57 +448,59 @@
 
                 <table class="responsive-table margin-bottom-20">
                     <thead>
-                        <tr>
-                            <th>Data wyjazdu</th>
-                            <th>Godzina wyjazdu</th>
-                        </tr>
+                    <tr>
+                        <th>Data wyjazdu</th>
+                        <th>Godzina wyjazdu</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr ng-if="statCtrl.filteredList.length===0">
-                            <td colspan="7">
-                                <p>
-                                    <b>Brak zamówień dla danego przedziału czasowego.</b>
-                                </p>
-                            </td>
-                        </tr>
-                        <tr ng-repeat="gt in statCtrl.gtListViewModel.items" ng-class="gt.GtStateStyle">
-                            <td>{{gt.Date}}</td>
-                            <td>{{gt.Time}}</td>
-                        </tr>
+                    <tr ng-if="statCtrl.gtListViewModel.items.length===0">
+                        <td colspan="7">
+                            <p>
+                                <b>Brak wyjazdów dla danego przedziału czasowego.</b>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr ng-repeat="gt in statCtrl.gtListViewModel.items" ng-class="gt.GtStateStyle">
+                        <td>{{gt.Date}}</td>
+                        <td>{{gt.Time}}</td>
+                    </tr>
                     </tbody>
                 </table>
-                <div class="row">
-                    <div class="col s12 flex-align-center-container" style="justify-content: flex-start">
-                        <p><b>Rozmiar strony:</b> </p><input type="number" ng-model="statCtrl.gtListFilterModel.pageSize" ng-change="statCtrl.onGtPageSizeChange()" style="width: 50px; height: 2rem;margin:0 0 5px 15px" />
+                <div ng-if="statCtrl.gtListViewModel.items.length!==0">
+                    <div class="row">
+                        <div class="col s12 flex-align-center-container" style="justify-content: flex-start">
+                            <p><b>Rozmiar strony:</b> </p><input type="number" ng-model="statCtrl.gtListFilterModel.pageSize" ng-change="statCtrl.onGtPageSizeChange()" style="width: 50px; height: 2rem;margin:0 0 5px 15px" />
+                        </div>
                     </div>
+                    <ul class="pagination">
+                        <li class="waves-effect" ng-click="statCtrl.setGtPage(1)" ng-class="{'disabled':self.gtListFilterModel.currentPage===1}" style="padding:0">
+                            <a>
+                                <i class="material-icons">first_page</i>
+                            </a>
+                        </li>
+                        <li class="waves-effect" ng-click="statCtrl.setGtPage(self.gtListFilterModel.currentPage-1)" ng-class="{'disabled':self.gtListFilterModel.currentPage===1}" style="padding:0">
+                            <a>
+                                <i class="material-icons">chevron_left</i>
+                            </a>
+                        </li>
+
+                        <li ng-repeat="page in statCtrl.gtListViewModel.tableOfPages" ng-class="{active: statCtrl.gtListFilterModel.currentPage==page}" class="waves-effect" ng-click="statCtrl.setGtPage(page)">
+                            <a>{{page}}</a>
+                        </li>
+
+                        <li class="waves-effect" ng-click="statCtrl.setGtPage(self.gtListFilterModel.currentPage+1)" ng-class="{'disabled':statCtrl.gtListViewModel.totalPages === self.gtListFilterModel.currentPage}" style="padding:0">
+                            <a>
+                                <i class="material-icons">chevron_right</i>
+                            </a>
+                        </li>
+                        <li class="waves-effect" ng-click="statCtrl.setGtPage(statCtrl.gtListViewModel.totalPages)" ng-class="{'disabled':statCtrl.gtListViewModel.totalPages === self.gtListFilterModel.currentPage}" style="padding: 0">
+                            <a>
+                                <i class="material-icons">last_page</i>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-                <ul class="pagination">
-                    <li class="waves-effect" ng-click="statCtrl.setGtPage(1)" ng-class="{'disabled':self.gtListFilterModel.currentPage===1}" style="padding:0">
-                        <a>
-                            <i class="material-icons">first_page</i>
-                        </a>
-                    </li>
-                    <li class="waves-effect" ng-click="statCtrl.setGtPage(self.gtListFilterModel.currentPage-1)" ng-class="{'disabled':self.gtListFilterModel.currentPage===1}" style="padding:0">
-                        <a>
-                            <i class="material-icons">chevron_left</i>
-                        </a>
-                    </li>
-
-                    <li ng-repeat="page in self.gtListViewModel.tableOfPages" ng-class="{active: elf.gtListFilterModel.currentPage==page}" class="waves-effect" ng-click="statCtrl.setGtPage(page)">
-                        <a>{{page}}</a>
-                    </li>
-
-                    <li class="waves-effect" ng-click="statCtrl.setGtPage(self.gtListFilterModel.currentPage+1)" ng-class="{'disabled':statCtrl.gtListViewModel.totalPages === self.gtListFilterModel.currentPage}" style="padding:0">
-                        <a>
-                            <i class="material-icons">chevron_right</i>
-                        </a>
-                    </li>
-                    <li class="waves-effect" ng-click="statCtrl.setGtPage(statCtrl.gtListViewModel.totalPages)" ng-class="{'disabled':statCtrl.gtListViewModel.totalPages === self.gtListFilterModel.currentPage}" style="padding: 0">
-                        <a>
-                            <i class="material-icons">last_page</i>
-                        </a>
-                    </li>
-                </ul>
             </div>
 
         </div>

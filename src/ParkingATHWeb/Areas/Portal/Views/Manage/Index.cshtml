@@ -217,7 +217,7 @@
                 </p>
                 <div name="manageCtrl.changeInfoForm" class="col s12" ng-form>
                     <div class="input-field col s12">
-                        <input id="firstName" name="firstName" type="text" required ng-model="manageCtrl.changeInfoModel.Name" class="little-margin" not-equal-to="manageCtrl.model.Name">
+                        <input id="firstName" name="firstName" type="text" required ng-model="manageCtrl.changeInfoModel.Name" class="little-margin">
                         <label for="firstName" ng-class="{'active': manageCtrl.changeInfoModel.Name !== ''}">Imię</label>
                         <div ng-messages="manageCtrl.changeInfoForm.firstName.$error" ng-show="manageCtrl.changeInfoForm.firstName.$touched" class="padding-bottom-20 ng-messages-errors">
                             <p ng-message="required">Imię jest wymagane</p>
@@ -225,7 +225,7 @@
                     </div>
 
                     <div class="input-field col s12">
-                        <input id="lastName" name="lastName" type="text" required ng-model="manageCtrl.changeInfoModel.LastName" class="little-margin" not-equal-to="manageCtrl.model.LastName">
+                        <input id="lastName" name="lastName" type="text" required ng-model="manageCtrl.changeInfoModel.LastName" class="little-margin">
                         <label for="lastName" ng-class="{'active': manageCtrl.changeInfoModel.LastName !== ''}">Nazwisko</label>
                         <div ng-messages="manageCtrl.changeInfoForm.lastName.$error" ng-show="manageCtrl.changeInfoForm.lastName.$touched" class="padding-bottom-20 ng-messages-errors">
                             <p ng-message="required">Nazwisko jest wymagane</p>
@@ -233,7 +233,7 @@
                     </div>
 
                     <div class="input-field col s12 margin-bottom-20">
-                        <button ng-click="manageCtrl.changeInfo()" class="btn waves-effect waves-light right" type="submit" name="action" ng-disabled="manageCtrl.changeInfoForm.$invalid || manageCtrl.changeInfoModel.disableButton == true">
+                        <button ng-click="manageCtrl.changeInfo()" class="btn waves-effect waves-light right" type="submit" name="action" ng-disabled="manageCtrl.changeInfoForm.$invalid || manageCtrl.changeInfoModel.disableButton == true || (manageCtrl.model.Name === manageCtrl.changeInfoModel.Name && manageCtrl.model.LastName === manageCtrl.changeInfoModel.LastName)" >
                             Zmień swoje dane kontaktowe
                             <i class="material-icons right">send</i>
                         </button>
