@@ -17,19 +17,19 @@
 
 	    $rootScope.$on('$stateChangeStart', function (event, nextState, currentState) {
 	        if (nextState.name === 'dashboard') {
-	            event.preventDefault();
+	            if (redirectService.redirectTo().length > 0 || payuReturnService.shouldRedirectToShop()) {
+	                event.preventDefault();
+	            }
 	            if (redirectService.redirectTo().length > 0) {
 	                var to = redirectService.redirectTo();
 	                redirectService.setRedirect("");
-	                $location.search($location.path());
 	                $state.go(to);
 	                return;
-	            }
-
-	            if (payuReturnService.shouldRedirectToShop()) {
-	                $location.search($location.path());
+	            } else if (payuReturnService.shouldRedirectToShop()) {
 	                $state.go('sklep');
 	                return;
+	            } else {
+	                $location.search('');
 	            }
 	        }
 	    });
