@@ -1,4 +1,4 @@
-﻿angular.module('portalApp', ['ui.router', 'chart.js', 'ngMessages','ui.materialize','perfect_scrollbar'])
+﻿angular.module('portalApp', ['ui.router', 'chart.js', 'ngMessages', 'ui.materialize', 'perfect_scrollbar'])
  .config(['ChartJsProvider', function (ChartJsProvider) {
      // Configure all charts
      ChartJsProvider.setOptions({
@@ -10,16 +10,33 @@
          datasetFill: false
      });
  }])
-.run(['$rootScope', '$state', '$stateParams',
-	function ($rootScope, $state, $stateParams) {
+.run(['$rootScope', '$state', '$stateParams', 'payuReturnService', 'redirectService','$location',
+	function ($rootScope, $state, $stateParams, payuReturnService, redirectService, $location) {
 	    $rootScope.$state = $state;
 	    $rootScope.$stateParams = $stateParams;
+
+	    $rootScope.$on('$stateChangeStart', function (event, nextState, currentState) {
+	        if (nextState.name === 'dashboard') {
+	            event.preventDefault();
+	            if (redirectService.redirectTo().length > 0) {
+	                var to = redirectService.redirectTo();
+	                redirectService.setRedirect("");
+	                $location.search($location.path());
+	                $state.go(to);
+	                return;
+	            }
+
+	            if (payuReturnService.shouldRedirectToShop()) {
+	                $location.search($location.path());
+	                $state.go('sklep');
+	                return;
+	            }
+	        }
+	    });
 	}
 ])
 
-    .config(['$stateProvider', '$locationProvider', '$urlRouterProvider', function ($stateProvider, $locationProvider, $urlRouterProvider) {
-
-        $urlRouterProvider.otherwise("/Portal");
+    .config(['$stateProvider', '$locationProvider', function ($stateProvider, $locationProvider) {
 
         $stateProvider.state('dashboard', {
             url: "/Portal",
@@ -33,7 +50,7 @@
                 controller: 'manageCtrl',
                 controllerAs: 'manageCtrl'
             })
-        .state('shop', {
+        .state('sklep', {
             url: '/Portal/Sklep',
             templateUrl: '/Portal/Shop',
             controller: 'shopCtrl',

@@ -1,18 +1,14 @@
 ﻿(function () {
     'use strict';
 
-    function homepageController(chartJsOptionsFactory, breadcrumbService, apiFactory, weatherInfoFactory, loadingContentService, notificationService, userProfileService, payuReturnService, $state, $location) {
+    function homepageController(chartJsOptionsFactory, breadcrumbService, apiFactory, weatherInfoFactory, loadingContentService, notificationService, userProfileService, payuReturnService, $state, $location, redirectService) {
         var self = this;
 
-        if (payuReturnService.shouldRedirectToShop()) {
-            $location.search($location.path());
-            $state.go('shop');
-        }
         breadcrumbService.setOuterBreadcrumb('dashboard');
 
         self.weatherModel = {}
         self.sendMessageModel = {};
-        self.userChargesModel = {}
+        self.userChargesModel = {};
 
         getWeatherData();
         getUserChargesData();
@@ -80,5 +76,5 @@
         }
     }
 
-    angular.module('portalApp').controller('homeCtrl', ['chartJsOptionsFactory', 'breadcrumbService', 'apiFactory', 'weatherInfoFactory', 'loadingContentService', 'notificationService', 'userProfileService', 'payuReturnService','$state','$location', homepageController]);
+    angular.module('portalApp').controller('homeCtrl', ['chartJsOptionsFactory', 'breadcrumbService', 'apiFactory', 'weatherInfoFactory', 'loadingContentService', 'notificationService', 'userProfileService', 'payuReturnService', '$state', '$location', 'redirectService', homepageController]);
 })();

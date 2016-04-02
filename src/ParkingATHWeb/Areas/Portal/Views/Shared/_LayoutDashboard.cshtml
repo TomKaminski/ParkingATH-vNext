@@ -14,7 +14,7 @@
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <base href="/Portal">
+    <base href="/">
     <title>@ViewData["Title"] - SmartPark</title>
     <link rel="apple-touch-icon" sizes="57x57" href="~/favicon/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="~/favicon/apple-icon-60x60.png">
@@ -65,7 +65,7 @@
         appInsights.trackPageView();
     </script>
 </head>
-<body ng-controller="layoutCtrl as layoutCtrl" ng-cloak ng-init="layoutCtrl.init('@userState.SidebarShrinked','@userState.Name','@userState.LastName','@userState.PhotoId','@Model.UnreadClustersCount','@Model.FromShop','@Model.IsError')" request-verification-token="@Html.RequestVerificationToken()">
+<body ng-controller="layoutCtrl as layoutCtrl" ng-cloak ng-init="layoutCtrl.init('@userState.SidebarShrinked','@userState.Name','@userState.LastName','@userState.PhotoId','@Model.UnreadClustersCount','@Model.FromShop','@Model.IsError','@Model.PathBase')" request-verification-token="@Html.RequestVerificationToken()">
     <!-- Start Page Loading -->
     <div id="loader-wrapper">
         <div id="loader"></div>
@@ -132,19 +132,19 @@
                         </div>
                     </li>
                     <li class="bold nav-border">
-                        <a ui-sref="dashboard" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'dashboard'}"><i class="material-icons">home</i> <span>Panel główny</span></a>
+                        <a ui-sref="dashboard" class="waves-effect waves-cyan" ui-sref-active="active"><i class="material-icons">home</i> <span>Panel główny</span></a>
                     </li>
                     <li class="bold nav-border">
-                        <a ui-sref="statistics" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'statistics'}"><i class="material-icons">trending_up</i> <span>Statystyki</span></a>
+                        <a ui-sref="statistics" class="waves-effect waves-cyan" ui-sref-active="active"><i class="material-icons">trending_up</i> <span>Statystyki</span></a>
                     </li>
                     <li class="bold nav-border">
-                        <a ui-sref="shop" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'shop'}"><i class="material-icons">shopping_cart</i> <span>Sklep</span></a>
+                        <a ui-sref="sklep" class="waves-effect waves-cyan" ui-sref-active="active"><i class="material-icons">shopping_cart</i> <span>Sklep</span></a>
                     </li>
                     <li class="bold nav-border">
-                        <a ui-sref="account" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'account'}"><i class="material-icons">settings</i> <span>Ustawienia</span></a>
+                        <a ui-sref="account" class="waves-effect waves-cyan" ui-sref-active="active"><i class="material-icons">settings</i> <span>Ustawienia</span></a>
                     </li>
                     <li class="bold nav-border" style="position: relative;">
-                        <a ui-sref="messages" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'messages'}">
+                        <a ui-sref="messages" class="waves-effect waves-cyan" ui-sref-active="active">
                             <i class="material-icons">message</i>Wiadomości
 
                         </a>
@@ -156,16 +156,16 @@
                     @if (userState.IsAdmin)
                     {
                         <li class="bold nav-border">
-                            <a ui-sref="adminUsers" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'adminUsers'}"><i class="material-icons">group</i> <span>Użytkownicy</span></a>
+                            <a ui-sref="adminUsers" class="waves-effect waves-cyan" ui-sref-active="active"><i class="material-icons">group</i> <span>Użytkownicy</span></a>
                         </li>
                         <li class="bold nav-border">
-                            <a ui-sref="adminOrders" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'adminOrders'}"><i class="material-icons">credit_card</i> <span>Zamówienia</span></a>
+                            <a ui-sref="adminOrders" class="waves-effect waves-cyan" ui-sref-active="active"><i class="material-icons">credit_card</i> <span>Zamówienia</span></a>
                         </li>
                         <li class="bold nav-border">
-                            <a ui-sref="adminPrices" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'adminPrices'}"><i class="material-icons">assignment</i> <span>Cennik</span></a>
+                            <a ui-sref="adminPrices" class="waves-effect waves-cyan" ui-sref-active="active"><i class="material-icons">assignment</i> <span>Cennik</span></a>
                         </li>
                         <li class="bold nav-border" style="margin-bottom: 60px">
-                            <a ui-sref="adminGateusages" class="waves-effect waves-cyan" ng-class="{'active': $state.current.name == 'adminGateusages'}"><i class="material-icons">swap_vert</i> <span>Wyjazdy</span></a>
+                            <a ui-sref="adminGateusages" class="waves-effect waves-cyan" ui-sref-active="active"><i class="material-icons">swap_vert</i> <span>Wyjazdy</span></a>
                         </li>
                     }
                 </ul>
@@ -269,6 +269,7 @@
         <script src="~/js/portalapp/factories/adminfilterfactory.js"></script>
         <script src="~/js/portalapp/factories/weatherinfofactory.js"></script>
         <script src="~/js/portalapp/services/loadingcontentservice.js"></script>
+        <script src="~/js/portalapp/services/redirectservice.js"></script>
         <script src="~/js/portalapp/services/notificationservice.js"></script>
         <script src="~/js/portalapp/services/payureturnservice.js"></script>
         <script src="~/js/portalapp/services/breadcrumbservice.js"></script>

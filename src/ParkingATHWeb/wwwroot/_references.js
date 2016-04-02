@@ -67,13 +67,14 @@
 /// <reference path="js/portalapp/factories/apifactory.js" />
 /// <reference path="js/portalapp/factories/chartjsoptionsfactory.js" />
 /// <reference path="js/PortalApp/factories/weatherInfoFactory.js" />
-/// <reference path="js/portalapp/filters/getbyidfilter - copy.js" />
+/// <reference path="js/PortalApp/filters/getByEmailFilter.js" />
 /// <reference path="js/portalapp/filters/getbyidfilter.js" />
 /// <reference path="js/portalapp/portalapp.js" />
 /// <reference path="js/PortalApp/services/breadcrumbService.js" />
 /// <reference path="js/portalapp/services/loadingcontentservice.js" />
 /// <reference path="js/portalapp/services/notificationservice.js" />
 /// <reference path="js/portalapp/services/payureturnservice.js" />
+/// <reference path="js/portalapp/services/redirectservice.js" />
 /// <reference path="js/portalapp/services/sidebarstateservice.js" />
 /// <reference path="js/portalapp/services/userprofileservice.js" />
 /// <reference path="js/portalapp/sidebarshrinkhelper.js" />

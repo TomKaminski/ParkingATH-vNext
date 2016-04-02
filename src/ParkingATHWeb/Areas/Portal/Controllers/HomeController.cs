@@ -38,7 +38,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         }
 
         [Route("~/[area]")]
-        public async Task<IActionResult> Index(bool fromShop = false, bool isError = false)
+        public async Task<IActionResult> Index(bool fromShop = false, bool isError = false, string pathBase = null)
         {
             var unreadClusters =
                 (await _portalMessageService.GetUnreadClustersCountAsync(CurrentUser.UserId.Value)).Result;
@@ -47,7 +47,8 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
             {
                 FromShop = fromShop,
                 UnreadClustersCount = unreadClusters,
-                IsError = isError
+                IsError = isError,
+                PathBase = GetPathBaseRedirect(pathBase)
             });
         }
 
@@ -89,6 +90,33 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
                 chargesLeft = user.Charges,
                 lineChartData = _mapper.Map<ChartDataReturnModel>(lineChartData.Result)
             });
+        }
+
+        private string GetPathBaseRedirect(string pathBase = null)
+        {
+            switch (pathBase)
+            {
+                case "Dashboard":
+                    return string.Empty;
+                case "Konto":
+                    return "account";
+                case "Sklep":
+                    return "sklep";
+                case "Statystyki":
+                    return "statistics";
+                case "Wiadomosci":
+                    return "messages";
+                case "Uzytkownicy":
+                    return "adminUsers";
+                case "Zamowienia":
+                    return "adminOrders";
+                case "Cennik":
+                    return "adminPrices";
+                case "Wyjazdy":
+                    return "adminGateusages";
+                default:
+                    return string.Empty;
+            }
         }
     }
 }

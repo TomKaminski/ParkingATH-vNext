@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
@@ -186,7 +188,17 @@ namespace ParkingATHWeb
                 app.UseExceptionHandler("/Error");
             }
 
-            app.UseStatusCodePagesWithReExecute("/Error/Status/{0}");
+            app.UseStatusCodePages(context =>
+            {
+                const string errorUrl = "/Error/Status/{0}/{1}";
+                var pathBase =
+                    context.HttpContext.Request.Path.ToString()
+                        .Substring(context.HttpContext.Request.Path.ToString().LastIndexOf('/')+1);
+                var location = string.Format(CultureInfo.InvariantCulture, errorUrl, context.HttpContext.Response.StatusCode,pathBase );
+                context.HttpContext.Response.Redirect(context.HttpContext.Request.PathBase + location);
+                return Task.FromResult(0);
+
+            });
 
             app.UseIISPlatformHandler();
 

@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    function layoutController(sidebarStateService, $timeout, breadcrumbService, userProfileService, $state, payuReturnService) {
+    function layoutController(sidebarStateService, $timeout, breadcrumbService, userProfileService, $state, payuReturnService, redirectService) {
         var self = this;
 
         //Date and time
@@ -9,7 +9,7 @@
         self.time = null;
         setDateAndTime();
 
-        self.init = function (sidebarShrinked, name, lastName, photoId, unreadMessages, fromShop, isError) {
+        self.init = function (sidebarShrinked, name, lastName, photoId, unreadMessages, fromShop, isError, pathBase) {
             sidebarStateService.setInitialState((sidebarShrinked === "True"));
             userProfileService.userData = {
                 name: name,
@@ -17,6 +17,10 @@
                 profilePhotoPath: photoId === "" ? userProfileService.setProfilePhotoPath(null) : userProfileService.setProfilePhotoPath(photoId),
                 charges: 0,
                 unreadMessages: parseInt(unreadMessages)
+            }
+
+            if (pathBase.length > 0) {
+                redirectService.setRedirect(pathBase);
             }
 
             if ((fromShop === "True")) {
@@ -43,7 +47,7 @@
             sidebarStateService.changeState();
         }
 
-        self.getUnreadMessages = function() {
+        self.getUnreadMessages = function () {
             return userProfileService.getUnreadMessages();
         }
 
@@ -75,5 +79,5 @@
         }
     }
 
-    angular.module('portalApp').controller('layoutCtrl', ['sidebarStateService', '$timeout', 'breadcrumbService', 'userProfileService', '$state', 'payuReturnService', layoutController]);
+    angular.module('portalApp').controller('layoutCtrl', ['sidebarStateService', '$timeout', 'breadcrumbService', 'userProfileService', '$state', 'payuReturnService', 'redirectService', layoutController]);
 })();

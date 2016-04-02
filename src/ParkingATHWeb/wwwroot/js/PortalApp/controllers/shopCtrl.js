@@ -15,6 +15,9 @@
                 var $toastContentSuccess = $('<span>Dziękujemy za złożenie zamówienia, wyjazdy będą dodane do Twojej puli w ciągu najbliższych chwil!</span>');
                 Materialize.toast($toastContentSuccess, 8000, 'toast-green');
             }
+
+            payuReturnService.isFromShop = false;
+            payuReturnService.isErrorFromShop = false;
         }
 
         getPricesData();
@@ -37,7 +40,7 @@
             computePrices();
         }
 
-        self.sliderOnChange = function() {
+        self.sliderOnChange = function () {
             computePrices();
         }
 
@@ -139,5 +142,5 @@
         }
     }
 
-    angular.module('portalApp').controller('shopCtrl', ['breadcrumbService', 'apiFactory', 'loadingContentService', 'notificationService','payuReturnService', shopCtrl]);
+    angular.module('portalApp').controller('shopCtrl', ['breadcrumbService', 'apiFactory', 'loadingContentService', 'notificationService', 'payuReturnService', shopCtrl]);
 })();

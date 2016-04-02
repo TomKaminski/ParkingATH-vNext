@@ -13,7 +13,7 @@
     "ParkingATHWeb.Shared": "1.0.0-*",
     "Moq": "4.2.1510.2205",
     "Newtonsoft.Json": "8.0.2",
-    "System.Linq": "4.0.1-rc2-23623"
+    "System.Linq": "4.0.1-beta-23409"
   },
   "frameworks": {
     "dnx451": {

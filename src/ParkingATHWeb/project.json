@@ -5,7 +5,6 @@
   },
 
   "dependencies": {
-    "ParkingATHWeb.Contracts": "1.0.0-*",
     "ParkingATHWeb.Resolver": "1.0.0-*",
     "Autofac.Extensions.DependencyInjection": "4.0.0-rc1-177",
     "AutoMapper": "4.2.0",

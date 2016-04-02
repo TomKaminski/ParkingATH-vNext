@@ -17,7 +17,7 @@
     "ParkingATHWeb.Business": "1.0.0-*",
     "ParkingATHWeb.Resolver": "1.0.0-*",
     "Moq": "4.2.1510.2205",
-    "System.Linq": "4.0.1-rc2-23623"
+    "System.Linq": "4.0.1-beta-23409"
   },
   "commands": {
     "test": "xunit.runner.dnx"
