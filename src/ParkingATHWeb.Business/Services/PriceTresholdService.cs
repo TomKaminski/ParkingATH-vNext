@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.Internal;
 using Microsoft.Data.Entity;
 using ParkingATHWeb.Business.Services.Base;
 using ParkingATHWeb.Contracts.Common;
@@ -59,22 +60,26 @@ namespace ParkingATHWeb.Business.Services
                 return ServiceResult<PriceTresholdBaseDto, PrcAdminCreateInfo>.Success(_mapper.Map<PriceTresholdBaseDto>(recoverItem), createInfo);
             }
 
-            var conflictingItem = await _repository.FirstOrDefaultAsync(x => x.IsDeleted != true && (x.MinCharges == entity.MinCharges || x.PricePerCharge == entity.PricePerCharge));
+            var conflictingItems = await _repository.GetAllAsync(x => !x.IsDeleted && (x.MinCharges == entity.MinCharges || x.PricePerCharge == entity.PricePerCharge));
 
-            if (conflictingItem != null)
+            if (conflictingItems.Any())
             {
                 if (entity.MinCharges == 0)
                 {
                     var currentDefault = await _repository.FirstOrDefaultAsync(x => !x.IsDeleted && x.MinCharges == 0);
-
                     currentDefault.IsDeleted = true;
-                    _repository.Edit(currentDefault);
+
+                    conflictingItems.Each(x =>
+                    {
+                        x.IsDeleted = true;
+                        _repository.Edit(x);
+                    });
                     createInfo.ReplacedDefault = true;
                 }
                 else
                 {
                     return ServiceResult<PriceTresholdBaseDto, PrcAdminCreateInfo>
-                        .Failure($"Podane wartości kolidują z już istniejącym przedziałem (min. wyjazdy: {conflictingItem.MinCharges}, cena za szt.: {conflictingItem.PricePerCharge.ToString("##.00")})");
+                        .Failure($"Podane wartości kolidują z już istniejącym przedziałem (min. wyjazdy: {conflictingItems.First().MinCharges}, cena za szt.: {conflictingItems.First().PricePerCharge.ToString("##.00")})");
                 }
             }
 
@@ -98,24 +103,29 @@ namespace ParkingATHWeb.Business.Services
                 return ServiceResult<PriceTresholdBaseDto, PrcAdminCreateInfo>.Success(_mapper.Map<PriceTresholdBaseDto>(recoverItem), createInfo);
             }
 
-            var conflictingItem =_repository.FirstOrDefault(x => x.IsDeleted != true && (x.MinCharges == entity.MinCharges || x.PricePerCharge == entity.PricePerCharge));
+            var conflictingItems = _repository.GetAll(x => !x.IsDeleted && (x.MinCharges == entity.MinCharges || x.PricePerCharge == entity.PricePerCharge));
 
-            if (conflictingItem != null)
+            if (conflictingItems.Any())
             {
                 if (entity.MinCharges == 0)
                 {
                     var currentDefault = _repository.FirstOrDefault(x => !x.IsDeleted && x.MinCharges == 0);
-
                     currentDefault.IsDeleted = true;
-                    _repository.Edit(currentDefault);
+
+                    conflictingItems.Each(x =>
+                    {
+                        x.IsDeleted = true;
+                        _repository.Edit(x);
+                    });
                     createInfo.ReplacedDefault = true;
                 }
                 else
                 {
                     return ServiceResult<PriceTresholdBaseDto, PrcAdminCreateInfo>
-                        .Failure($"Podane wartości kolidują z już istniejącym przedziałem (min. wyjazdy: {conflictingItem.MinCharges}, cena za szt.: {conflictingItem.PricePerCharge.ToString("##.00")})");
+                        .Failure($"Podane wartości kolidują z już istniejącym przedziałem (min. wyjazdy: {conflictingItems.First().MinCharges}, cena za szt.: {conflictingItems.First().PricePerCharge.ToString("##.00")})");
                 }
             }
+
             var newPrc = _repository.Add(_mapper.Map<PriceTreshold>(entity));
             _unitOfWork.Commit();
             return ServiceResult<PriceTresholdBaseDto, PrcAdminCreateInfo>.Success(_mapper.Map<PriceTresholdBaseDto>(newPrc), createInfo);

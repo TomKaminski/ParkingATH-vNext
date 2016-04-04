@@ -8,7 +8,7 @@
 
         getList();
 
-        self.prcList = {};
+        self.prcList = [];
         self.shouldFilter = false;
 
         self.createPrcStart = function () {
@@ -33,7 +33,7 @@
                      var totalData = adminFilterFactory.getFilterData();
 
                      for (var i = 0; i < totalData.length; i++) {
-                         if (totalData[i].MinCharges === 0 && !totalData[i].IsDeleted) {
+                         if ((totalData[i].PricePerCharge === data.Result.PricePerCharge || totalData[i].MinCharges === 0) && !totalData[i].IsDeleted) {
                              totalData[i].IsDeleted = true;
                          }
                      }
@@ -85,7 +85,6 @@
                  loadingContentService.setIsLoading('deletePrc', false);
                  notificationService.showNotifications(data);
                  self.deletePrcProgress = false;
-
              },
              function () {
                  self.deletePrcProgress = false;

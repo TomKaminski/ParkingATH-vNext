@@ -157,7 +157,7 @@ namespace ParkingATHWeb.Mappings
 
             CreateMap<GateUsageBaseDto,GateOpeningViewModel>()
                 .ForMember(x=>x.Date, s=>s.MapFrom(a=>a.DateOfUse.ToString("dd MMMM yyyy")))
-                .ForMember(x => x.Date, s => s.MapFrom(a => a.DateOfUse.ToString("HH:mm")))
+                .ForMember(x => x.Time, s => s.MapFrom(a => a.DateOfUse.ToString("HH:mm")))
                 .IgnoreNotExistingProperties();
         }
 

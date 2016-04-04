@@ -47,15 +47,13 @@ namespace ParkingATHWeb.Shared.Helpers
 
         public List<DateRange> GetMonthGroups()
         {
-            var result = new List<DateRange>();
-            var numberOfMonths = EndDate.Subtract(StartDate).Days/(365.25/12);
-            
+            var result = new List<DateRange>();            
 
             var tempStartDate = StartDate;
-            for (var i = 0; i < numberOfMonths; i++)
+            while(tempStartDate.Month <= EndDate.Month)
             {
                 result.Add(new DateRange(tempStartDate, tempStartDate.LastDayOfMonth()));
-                tempStartDate = tempStartDate.AddMonths(1);
+                tempStartDate = tempStartDate.LastDayOfMonth().AddDays(1);
             }
             return result;
         }

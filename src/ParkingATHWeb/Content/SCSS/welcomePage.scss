@@ -151,18 +151,18 @@ a {
         padding: 0 15px;
 
         h1 {
-            font-size: 70px;
+            font-size: 50px;
         }
     }
 }
 
 #system .text {
     h1 {
-        font-size: 80px;
+        font-size: 60px;
     }
 
     h2 {
-        font-size: 65px;
+        font-size: 40px;
     }
 }
 
@@ -187,12 +187,12 @@ a {
 
     h1 {
         font-weight: 600;
-        font-size: 100px;
+        font-size: 60px;
         margin: 5px 0;
     }
 
     .start {
-        font-size: 40px;
+        font-size: 30px;
         font-style: normal;
         text-transform: none;
         margin: 5px 0;
@@ -494,11 +494,15 @@ li > a.portal-link{
  * Media
 /* ---------------------------------------------- */
 
-
+#banner3 .text {
+    h2{
+        font-size:22px;
+    }
+}
 
 @media(max-width: 968px) {
     #author {
-        padding-bottom: 70px;
+        padding-bottom: 50px;
     }
 
     .author-box {
@@ -507,28 +511,28 @@ li > a.portal-link{
 
     #home, #system, #banner3 {
         .text h1 {
-            font-size: 56px;
+            font-size: 30px;
         }
     }
 
     #home .text {
         h1 {
             font-weight: 600;
-            font-size: 70px;
+            font-size: 40px;
         }
 
         .start {
-            font-size: 35px;
+            font-size: 20px;
         }
     }
 
-    #system .text {
+    #system .text, #banner3 .text {
         h1 {
-            font-size: 65px;
+            font-size: 30px;
         }
 
         h2 {
-            font-size: 45px;
+            font-size: 18px;
         }
     }
 
@@ -536,8 +540,8 @@ li > a.portal-link{
         text-align: center !important;
 
         h1 {
-            font-size: 22px;
-            margin-bottom: 25px;
+            font-size: 20px;
+            margin-bottom: 22px;
         }
     }
 
@@ -558,28 +562,38 @@ li > a.portal-link{
 
     #home, #system, #banner3 {
         .text h1 {
-            font-size: 24px;
+            font-size: 22px;
         }
     }
 
     #home .text {
         h1 {
             font-weight: 600;
-            font-size: 45px;
+            font-size: 36px;
         }
 
         .start {
-            font-size: 28px;
+            font-size: 24px;
         }
     }
 
     #system .text {
         h1 {
-            font-size: 42px;
+            font-size: 30px;
         }
 
         h2 {
-            font-size: 34px;
+            font-size: 24px;
+        }
+    }
+
+    #banner3 .text {
+        h1 {
+            font-size: 18px;
+        }
+
+        h2 {
+            font-size: 14px;
         }
     }
 
