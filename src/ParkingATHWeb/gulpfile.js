@@ -14,7 +14,7 @@ var paths = {
         "./wwwroot/js/welcomePage.js"
     ],
     wlcmCssPaths: [
-        "./wwwroot/css/main.css",
+            "./wwwroot/css/main.css",
         "./wwwroot/css/welcomePage.css"
     ],
     loginJsPaths: [

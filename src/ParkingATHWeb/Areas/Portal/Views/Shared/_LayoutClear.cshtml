@@ -26,16 +26,18 @@
 
 
     <environment names="Development">
+        <link rel="stylesheet" href="~/css/reset.css" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
-        <link href="~/css/main.css" rel="stylesheet" />
-        <link href="~/css/portal/account/loginregisterforgot.css" rel="stylesheet" />
-        <link href="~/css/portal/manage/resetpassword.css" rel="stylesheet" />
+        <link href="~/css/main.css" rel="stylesheet"/>
+        <link href="~/css/portal/account/loginregisterforgot.css" rel="stylesheet"/>
+        <link href="~/css/portal/manage/resetpassword.css" rel="stylesheet"/>
     </environment>
     <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/css/reset.css" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
-        <link rel="stylesheet" href="~/css/login.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/login.min.css" asp-append-version="true"/>
     </environment>
 
     @RenderSection("styles", required: false)
