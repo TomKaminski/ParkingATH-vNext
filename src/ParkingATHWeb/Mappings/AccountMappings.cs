@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ParkingATHWeb.ApiModels.Account;
 using ParkingATHWeb.Areas.Portal.ViewModels.Account;
 using ParkingATHWeb.Areas.Portal.ViewModels.Manage;
 using ParkingATHWeb.Contracts.DTO.User;
@@ -24,6 +25,8 @@ namespace ParkingATHWeb.Mappings
 
             CreateMap<ChangeUserInfoViewModel, UserBaseDto>().IgnoreNotExistingProperties();
             CreateMap<UserBaseDto, ChangeUserInfoViewModel>().IgnoreNotExistingProperties();
+            CreateMap<UserBaseDto, GetUserApiModel>().IgnoreNotExistingProperties();
+
         }
     }
 }

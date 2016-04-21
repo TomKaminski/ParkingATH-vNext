@@ -376,7 +376,7 @@ namespace ParkingATHWeb.Business.Services
         {
             var stud = await _repository.FirstOrDefaultAsync(x => x.Email == email);
             return stud == null
-                ? ServiceResult<UserBaseDto>.Failure("Użytkownik nie istnieje")
+                ? ServiceResult<UserBaseDto>.Failure("Użytkownik o podanym emailu nie istnieje!")
                 : ServiceResult<UserBaseDto>.Success(_mapper.Map<UserBaseDto>(stud));
         }
 

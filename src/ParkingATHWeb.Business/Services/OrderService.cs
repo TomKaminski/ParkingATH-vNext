@@ -8,6 +8,7 @@ using Microsoft.Data.Entity;
 using ParkingATHWeb.Business.Services.Base;
 using ParkingATHWeb.Contracts.Common;
 using ParkingATHWeb.Contracts.DTO.Order;
+using ParkingATHWeb.Contracts.DTO.Payments;
 using ParkingATHWeb.Contracts.Services;
 using ParkingATHWeb.DataAccess.Common;
 using ParkingATHWeb.DataAccess.Interfaces;
@@ -84,11 +85,12 @@ namespace ParkingATHWeb.Business.Services
                         _mapper.Map<OrderAdminDto>));
         }
 
-        public async Task<ServiceResult<OrderStatus>> UpdateOrderState(string status, Guid extOrderId)
+        public async Task<ServiceResult<OrderStatus>> UpdateOrderState(PaymentNotification model)
         {
-            var order = await _repository.FirstOrDefaultAsync(x => x.ExtOrderId == extOrderId);
-            if (order != null && order.OrderState != OrderStatus.Canceled && order.OrderState != OrderStatus.Completed)
-                switch (status)
+            var order = await _repository.FirstOrDefaultAsync(x => x.ExtOrderId == new Guid(model.order.extOrderId));
+            if (order!= null && order.OrderState != OrderStatus.Canceled && order.OrderState != OrderStatus.Completed)
+            {
+                switch (model.order.status)
                 {
                     case "COMPLETED":
                         {
@@ -115,8 +117,9 @@ namespace ParkingATHWeb.Business.Services
                             await _unitOfWork.CommitAsync();
                             return ServiceResult<OrderStatus>.Success(OrderStatus.Rejected);
                         }
-
                 }
+            }
+               
             return ServiceResult<OrderStatus>.Success(OrderStatus.Pending);
         }
     }

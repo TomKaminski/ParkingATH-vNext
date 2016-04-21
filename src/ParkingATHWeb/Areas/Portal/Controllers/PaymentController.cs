@@ -66,7 +66,7 @@ namespace ParkingATHWeb.Areas.Portal.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Notify([FromBody]PayuNotificationModel model)
         {
-            await _orderService.UpdateOrderState(model.order.status, new Guid(model.order.extOrderId));
+            await _orderService.UpdateOrderState(_mapper.Map<PaymentNotification>(model));
             return new EmptyResult();
         }
     }

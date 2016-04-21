@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using ParkingATHWeb.Contracts.Common;
 using ParkingATHWeb.Contracts.DTO.Order;
+using ParkingATHWeb.Contracts.DTO.Payments;
 using ParkingATHWeb.Contracts.Services.Base;
 using ParkingATHWeb.Shared.Enums;
 
@@ -20,6 +21,6 @@ namespace ParkingATHWeb.Contracts.Services
         Task<ServiceResult<IEnumerable<OrderAdminDto>>> GetAllAdminAsync();
         Task<ServiceResult<IEnumerable<OrderAdminDto>>> GetAllAdminAsync(Expression<Func<OrderAdminDto, bool>> predicate);
 
-        Task<ServiceResult<OrderStatus>> UpdateOrderState(string status, Guid extOrderId);
+        Task<ServiceResult<OrderStatus>> UpdateOrderState(PaymentNotification model);
     }
 }

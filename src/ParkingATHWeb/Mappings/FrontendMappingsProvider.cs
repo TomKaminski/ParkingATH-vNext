@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
+using ParkingATHWeb.ApiModels.Panel;
 using ParkingATHWeb.Areas.Admin.ViewModels.User;
 using ParkingATHWeb.Areas.Portal.ViewModels.Chart;
 using ParkingATHWeb.Areas.Portal.ViewModels.GateUsage;
@@ -27,6 +28,7 @@ using ParkingATHWeb.Contracts.DTO.WeatherInfo;
 using ParkingATHWeb.Models;
 using ParkingATHWeb.Shared.Enums;
 using ParkingATHWeb.Shared.Helpers;
+using PayMethod = ParkingATHWeb.Contracts.DTO.Payments.PayMethod;
 
 namespace ParkingATHWeb.Mappings
 {
@@ -152,8 +154,39 @@ namespace ParkingATHWeb.Mappings
                 }))
                 .ForMember(x => x.customerIp, a => a.MapFrom(s => s.CustomerIP)).IgnoreNotExistingProperties();
 
+
+            CreateMap<PaymentRequestApiModel, PaymentCardRequest>()
+               .ForMember(x => x.buyer, a => a.MapFrom(s => new Contracts.DTO.Payments.Buyer
+               {
+                   email = s.UserEmail,
+                   firstName = s.UserName,
+                   lastName = s.UserLastName
+               }))
+               .ForMember(x=>x.payMethods, s=>s.MapFrom(a=> new PayMethods
+               {
+                   payMethod = new PayMethod
+                   {
+                       type = "CARD_TOKEN",
+                       value = a.CardTokenValue
+                   }
+               }))
+               .ForMember(x=>x.deviceFingerprint, a=>a.MapFrom(s=>s.DeviceFingerPrint))
+               .ForMember(x => x.description, a => a.MapFrom(s => $"Zakup wyjazdów w SmartPark - {s.Charges}x"))
+               .ForMember(x => x.products, s => s.MapFrom(a => new List<Contracts.DTO.Payments.Product>
+               {
+                    new Contracts.DTO.Payments.Product
+                    {
+                        name = $"SmartPark - wyjazdy - {a.Charges}x",
+                        quantity = a.Charges.ToString(),
+                    }
+               }))
+               .ForMember(x => x.customerIp, a => a.MapFrom(s => s.CustomerIP)).IgnoreNotExistingProperties();
+
             CreateMap<PaymentResponse,PaymentResponseViewModel>()
                 .ForMember(x=>x.RedirectUri, a=>a.MapFrom(s=>s.redirectUri)).IgnoreNotExistingProperties();
+
+
+            CreateMap<PayuNotificationModel, PaymentNotification>().IgnoreNotExistingProperties();
 
             CreateMap<GateUsageBaseDto,GateOpeningViewModel>()
                 .ForMember(x=>x.Date, s=>s.MapFrom(a=>a.DateOfUse.ToString("dd MMMM yyyy")))

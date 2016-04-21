@@ -13,7 +13,7 @@ namespace ParkingATHWeb.Controllers
     {
         private readonly IUserService _userService;
 
-        public ParkingApiController(IUserService userService) : base(userService)
+        public ParkingApiController(IUserService userService)
         {
             _userService = userService;
         }

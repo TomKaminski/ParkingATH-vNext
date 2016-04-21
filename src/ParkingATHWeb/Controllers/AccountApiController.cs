@@ -1,10 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNet.Mvc;
 using ParkingATHWeb.ApiModels.Account;
 using ParkingATHWeb.ApiModels.Base;
+using ParkingATHWeb.ApiModels.Panel;
+using ParkingATHWeb.Areas.Portal.ViewModels.Payment;
+using ParkingATHWeb.Areas.Portal.ViewModels.PriceTreshold;
+using ParkingATHWeb.Contracts.DTO.Payments;
 using ParkingATHWeb.Contracts.DTO.User;
 using ParkingATHWeb.Contracts.Services;
+using ParkingATHWeb.Contracts.Services.Payments;
 using ParkingATHWeb.Shared.Enums;
 
 namespace ParkingATHWeb.Controllers
@@ -14,11 +22,17 @@ namespace ParkingATHWeb.Controllers
     {
         private readonly IUserService _userService;
         private readonly IMessageService _messageService;
+        private readonly IMapper _mapper;
+        private readonly IPriceTresholdService _priceTresholdService;
+        private readonly IPayuService _payuService;
 
-        public AccountApiController(IUserService userService, IMessageService messageService) : base(userService)
+        public AccountApiController(IUserService userService, IMessageService messageService, IMapper mapper, IPriceTresholdService priceTresholdService, IPayuService payuService)
         {
             _userService = userService;
             _messageService = messageService;
+            _mapper = mapper;
+            _priceTresholdService = priceTresholdService;
+            _payuService = payuService;
         }
 
         [HttpPost]
@@ -52,7 +66,42 @@ namespace ParkingATHWeb.Controllers
                 : SmartJsonResult<bool>.Failure(changePasswordTokenResult.ValidationErrors);
         }
 
+        [HttpPost]
+        [Route("CheckAccount")]
+        public async Task<SmartJsonResult<GetUserApiModel>> CheckAccount([FromBody] CheckAccountApiModel model)
+        {
+            if (!ModelState.IsValid)
+                return SmartJsonResult<GetUserApiModel>.Failure(GetModelStateErrors(ModelState));
 
+            var checkAccountExistResult = await _userService.GetByEmailAsync(model.Email);
+
+            return checkAccountExistResult.IsValid
+                ? SmartJsonResult<GetUserApiModel>.Success(_mapper.Map<GetUserApiModel>(checkAccountExistResult.Result))
+                : SmartJsonResult<GetUserApiModel>.Failure(checkAccountExistResult.ValidationErrors);
+        }
+
+
+        [HttpPost]
+        [Route("GetPrices")]
+        public async Task<IActionResult> GetPrices()
+        {
+            var currentPricesResult = await _priceTresholdService.GetAllAsync();
+            if (currentPricesResult.IsValid)
+            {
+                var pricesViewModels = currentPricesResult.Result.Select(_mapper.Map<PriceTresholdShopItemViewModel>).ToList();
+                var defaultPrice = pricesViewModels.First();
+                defaultPrice.IsDeafult = true;
+
+                for (var i = 1; i < pricesViewModels.Count; i++)
+                {
+                    var price = pricesViewModels[i];
+                    price.PercentDiscount = 100 - Convert.ToInt32((price.PricePerCharge * 100) / defaultPrice.PricePerCharge);
+                }
+
+                return Json(SmartJsonResult<IEnumerable<PriceTresholdShopItemViewModel>>.Success(pricesViewModels));
+            }
+            return Json(SmartJsonResult<IEnumerable<PriceTresholdShopItemViewModel>>.Failure(currentPricesResult.ValidationErrors));
+        }
 
         #region TokenAuth - OBSOLETE
         ///// <summary>
