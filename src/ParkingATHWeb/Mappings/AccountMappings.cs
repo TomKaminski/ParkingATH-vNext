@@ -27,6 +27,8 @@ namespace ParkingATHWeb.Mappings
             CreateMap<UserBaseDto, ChangeUserInfoViewModel>().IgnoreNotExistingProperties();
             CreateMap<UserBaseDto, GetUserApiModel>().IgnoreNotExistingProperties();
 
+            CreateMap<UserBaseDto, LoginReturnApiModel>().IgnoreNotExistingProperties();
+
         }
     }
 }

@@ -7,10 +7,7 @@ using Microsoft.AspNet.Mvc;
 using ParkingATHWeb.ApiModels.Account;
 using ParkingATHWeb.ApiModels.Base;
 using ParkingATHWeb.ApiModels.Panel;
-using ParkingATHWeb.Areas.Portal.ViewModels.Payment;
 using ParkingATHWeb.Areas.Portal.ViewModels.PriceTreshold;
-using ParkingATHWeb.Contracts.DTO.Payments;
-using ParkingATHWeb.Contracts.DTO.User;
 using ParkingATHWeb.Contracts.Services;
 using ParkingATHWeb.Contracts.Services.Payments;
 using ParkingATHWeb.Shared.Enums;
@@ -24,7 +21,6 @@ namespace ParkingATHWeb.Controllers
         private readonly IMessageService _messageService;
         private readonly IMapper _mapper;
         private readonly IPriceTresholdService _priceTresholdService;
-        private readonly IPayuService _payuService;
 
         public AccountApiController(IUserService userService, IMessageService messageService, IMapper mapper, IPriceTresholdService priceTresholdService, IPayuService payuService)
         {
@@ -32,21 +28,25 @@ namespace ParkingATHWeb.Controllers
             _messageService = messageService;
             _mapper = mapper;
             _priceTresholdService = priceTresholdService;
-            _payuService = payuService;
         }
 
         [HttpPost]
         [Route("Login")]
-        public async Task<SmartJsonResult<UserBaseDto>> Login([FromBody] LoginApiModel model)
+        public async Task<SmartJsonResult<LoginReturnApiModel>> Login([FromBody] LoginApiModel model)
         {
             if (!ModelState.IsValid)
-                return SmartJsonResult<UserBaseDto>.Failure(GetModelStateErrors(ModelState));
+                return SmartJsonResult<LoginReturnApiModel>.Failure(GetModelStateErrors(ModelState));
 
             var loginApiResult = await _userService.LoginAsync(model.Username, model.Password);
 
+            var mappedResult = _mapper.Map<LoginReturnApiModel>(loginApiResult.Result);
+            mappedResult.ImageId = loginApiResult.SecondResult.ProfilePhotoId == null
+                ? "avatar-placeholder.jpg"
+                : loginApiResult.SecondResult.ProfilePhotoId + ".jpg";
+
             return loginApiResult.IsValid
-                ? SmartJsonResult<UserBaseDto>.Success(loginApiResult.Result)
-                : SmartJsonResult<UserBaseDto>.Failure(loginApiResult.ValidationErrors);
+                ? SmartJsonResult<LoginReturnApiModel>.Success(mappedResult)
+                : SmartJsonResult<LoginReturnApiModel>.Failure(loginApiResult.ValidationErrors);
         }
 
         [HttpPost]
