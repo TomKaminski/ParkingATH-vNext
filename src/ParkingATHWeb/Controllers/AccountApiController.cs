@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Mvc;
 using ParkingATHWeb.ApiModels.Account;
 using ParkingATHWeb.ApiModels.Base;
@@ -21,13 +22,16 @@ namespace ParkingATHWeb.Controllers
         private readonly IMessageService _messageService;
         private readonly IMapper _mapper;
         private readonly IPriceTresholdService _priceTresholdService;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public AccountApiController(IUserService userService, IMessageService messageService, IMapper mapper, IPriceTresholdService priceTresholdService, IPayuService payuService)
+
+        public AccountApiController(IUserService userService, IMessageService messageService, IMapper mapper, IPriceTresholdService priceTresholdService, IPayuService payuService, IHostingEnvironment hostingEnvironment)
         {
             _userService = userService;
             _messageService = messageService;
             _mapper = mapper;
             _priceTresholdService = priceTresholdService;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         [HttpPost]
@@ -39,14 +43,22 @@ namespace ParkingATHWeb.Controllers
 
             var loginApiResult = await _userService.LoginAsync(model.Username, model.Password);
 
-            var mappedResult = _mapper.Map<LoginReturnApiModel>(loginApiResult.Result);
-            mappedResult.ImageId = loginApiResult.SecondResult.ProfilePhotoId == null
-                ? "avatar-placeholder.jpg"
-                : loginApiResult.SecondResult.ProfilePhotoId + ".jpg";
+            if (loginApiResult.IsValid)
+            {
+                var mappedResult = _mapper.Map<LoginReturnApiModel>(loginApiResult.Result);
 
-            return loginApiResult.IsValid
-                ? SmartJsonResult<LoginReturnApiModel>.Success(mappedResult)
-                : SmartJsonResult<LoginReturnApiModel>.Failure(loginApiResult.ValidationErrors);
+
+                mappedResult.ImageBase64 = loginApiResult.SecondResult.ProfilePhotoId == null
+                    ? Convert.ToBase64String(
+                        System.IO.File.ReadAllBytes(_hostingEnvironment.WebRootPath + "\\images\\user-avatars\\" +
+                                                    "avatar-placeholder.jpg"))
+                    : Convert.ToBase64String(
+                        System.IO.File.ReadAllBytes(_hostingEnvironment.WebRootPath + "\\images\\user-avatars\\" +
+                                                    loginApiResult.SecondResult.ProfilePhotoId + ".jpg"));
+                return SmartJsonResult<LoginReturnApiModel>.Success(mappedResult);
+            }
+
+           return SmartJsonResult<LoginReturnApiModel>.Failure(loginApiResult.ValidationErrors);
         }
 
         [HttpPost]

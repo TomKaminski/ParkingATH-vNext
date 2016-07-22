@@ -3502,7 +3502,7 @@ nav {
     border-top: 3px solid #132d4b;
     padding: 10px 20px;
     background: #2e6cb2; }
-    .card .card-action a:not(.btn):not(.btn-large):not(.btn-floating) {
+    .card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating) {
       color: #ffab40;
       margin-right: 20px;
       -webkit-transition: color 0.3s ease;
@@ -3511,7 +3511,7 @@ nav {
       -ms-transition: color 0.3s ease;
       transition: color 0.3s ease;
       text-transform: uppercase; }
-      .card .card-action a:not(.btn):not(.btn-large):not(.btn-floating):hover {
+      .card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating):hover {
         color: #ffd8a6; }
   .card .card-reveal {
     padding: 20px;
